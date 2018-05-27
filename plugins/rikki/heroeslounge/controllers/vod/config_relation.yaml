@@ -1,0 +1,24 @@
+games:
+    label: Games
+    view: 
+        list:
+            columns:
+                map_id:
+                    label: Map
+                    relation: map
+                    select: title
+                    enabnled: false
+                winner_id:
+                    label: Winner
+                    relation: winner
+                    select: title
+                yt_link:
+                    label: YouTube Url
+                    type: text
+        toolbarPartial: games_toolbar
+    manage:
+        form:
+            fields:
+                yt_link:
+                    label: YouTube Url
+                    type: text

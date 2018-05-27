@@ -1,0 +1,20 @@
+# ===================================
+#  Rest Behavior Config
+# ===================================
+
+# Allowed Rest Actions
+allowedActions:
+  index:
+      pageSize: 20
+  indexAll:
+  show:
+  sloths:
+  sloth:
+  slothTimelines:
+  timelines:
+  logo:
+  logos:
+  matches:
+  
+# Model Class name
+modelClass: Rikki\Heroeslounge\Models\Team

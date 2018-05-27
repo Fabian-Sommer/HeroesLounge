@@ -1,0 +1,11 @@
+name: Map
+modelClass: Rikki\Heroeslounge\Models\Map
+form: $/rikki/heroeslounge/models/map/fields.yaml
+defaultRedirect: rikki/heroeslounge/map
+create:
+    redirect: 'rikki/heroeslounge/map/update/:id'
+    redirectClose: rikki/heroeslounge/map
+update:
+    redirect: rikki/heroeslounge/map
+    redirectClose: rikki/heroeslounge/map
+preview: {  }

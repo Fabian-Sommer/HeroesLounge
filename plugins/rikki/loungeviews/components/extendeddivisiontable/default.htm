@@ -1,0 +1,70 @@
+
+<table class="table table-striped table-hover wow zoomIn">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                </th>
+                <th>
+                    Team
+                </th>
+                <th>
+                    Wins
+                </th>
+                <th>
+                    Matches
+                </th>
+                <th>
+                    Free Win Count
+                </th>
+                <th>
+                    MMR Mean
+                </th>
+                <th>
+                    MMR Median
+                </th>
+                <th>
+                    Highest MMR
+                </th>
+                <th>
+                    Lowest MMR
+                </th>
+                <th>
+                    Diff. High and Low
+                </th>
+                <th>
+                    Num of Players
+                </th>
+                <th>
+                    Num of Unranked
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key,team in __SELF__.teams %}
+            <tr>
+                <th scope="row">{{key+1}}</th>
+                <td>
+                    {% if team.disbanded == true %}
+                        <img src="/plugins/rikki/heroeslounge/assets/img/active.png" style="width:8px" alt="Active" title="Active"/>
+                    {% else %}
+                        <img src="/plugins/rikki/heroeslounge/assets/img/inactive.png" style="width:8px" alt="Inactive" title="Inactive"/>
+                    {% endif %}
+                </td>
+                <td><a href="{{ 'team/view'|page({ slug: team.slug }) }}" style="color:#34495e;text-decoration:underline">{{team.title}}</a></td>
+                <td>{{team.pivot.win_count}}</td>
+                <td>{{team.pivot.match_count}}</td>
+                <td>{{team.pivot.free_win_count}}</td>
+                <td>{{team.sloth_rating}}</td>
+                <td>{{team.sloth_rating_median}}</td>
+                <td>{{team.highestMMR}}</td>
+                <td>{{team.lowestMMR}}</td>
+                <td>{{team.diffHighAndLow}}</td>
+                <td>{{team.numOfPlayers}}</td>
+                <td>{{team.numOfUnranked}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>

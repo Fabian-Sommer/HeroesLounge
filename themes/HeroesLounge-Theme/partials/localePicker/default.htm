@@ -1,0 +1,11 @@
+<ul class="locale-menu">
+    {% for code, name in locales %}
+    {% if activeLocale != code %}
+    <li>
+        <a href="#" class="lang" data-request="onSwitchLocale" data-request-data="locale: '{{ code }}'">
+            <img src="{{ ('assets/images/flags/' ~ code ~ '.png') | theme }}" alt="{{ code }}" title="{{ name }}">
+        </a>
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>

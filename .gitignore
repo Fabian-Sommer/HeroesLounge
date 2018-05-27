@@ -1,0 +1,14 @@
+/*
+/*/
+!/plugins/
+/plugins/*/
+!/plugins/rikki/
+!/themes/
+/themes/*/
+!/themes/HeroesLounge-Theme/
+*.gitignore
+
+/plugins/rikki/.idea/*
+/plugins/rikki/heroeslounge/assets/partials/*
+/plugins/rikki/heroeslounge/assets/scss/*
+/themes/HeroesLounge-Theme/pages/test.htm

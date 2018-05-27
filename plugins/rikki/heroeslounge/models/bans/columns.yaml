@@ -1,0 +1,37 @@
+columns:
+    season_:
+        label: Season
+        type: text
+        searchable: true
+        sortable: true
+        relation: season
+        select: title
+    hero:
+        label: Hero
+        type: text
+        searchable: true
+        sortable: true
+        select: title
+        relation: hero
+    talent:
+        label: Talent
+        type: text
+        searchable: true
+        sortable: true
+        relation: talent
+        select: title
+    round_start:
+        label: 'Round Start'
+        type: number
+        searchable: true
+        sortable: true
+    round_length:
+        label: 'Round Length'
+        type: number
+        searchable: true
+        sortable: true
+    literal:
+        label: 'Plain Text'
+        type: text
+        searchable: false
+

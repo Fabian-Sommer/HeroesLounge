@@ -1,0 +1,188 @@
+[viewBag]
+==
+<div class="jumbotron image-banner banner-custom-header" style="background:url('{{ post.image |media }}') no-repeat 0 0 #ffffff;background-size:cover;background-position:center center">
+    <h1 class="block-title wow zoomIn">{{post.title}}</h1>
+    {% component 'ssbuttonsnb' %}
+</div>
+
+
+<span class="badge badge-secondary">
+    <i class="fa fa-calendar" aria-hidden="true"></i> {{ post.published_at|date('M d, Y') }}
+</span>
+<span class="badge badge-secondary">
+    {{ post.findAuthor.login }} 
+</span>
+{% for category in post.categories %}
+    <a href="{{ category.url }}" title="Category {{category.name}}">
+        <span class="badge badge-secondary">
+            <i class="fa fa-tag" aria-hidden="true"></i> {{ category.name }}
+        </span>
+    </a>
+{% endfor %}
+
+
+
+
+
+<div class="row">
+    <div class="col-12">
+        {{ post.content|raw }}
+        {% if post.images %}
+        <div class="row my-2">
+            <div class="col-12">
+                <div class="carousel slide" data-ride="carousel"  id="postImgCarousel">
+                    <ol class="carousel-indicators">                
+                    {% for item in post.images %}
+                        <li data-target="#postImgCarousel" data-slide-to="loop.index0" {% if loop.first %} class="active" {% endif %}></li>     
+                    {% endfor %}
+                    </ol>
+                    <div class="carousel-inner text-center" style="background-color:rgba(0,0,0,0.2)">
+                        {% for item in post.images %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                <img src="{{ item.img_path|media }}"  alt="{{ item.img_name }}" style="height:50vh;max-height:50vh;max-width:100%">
+                                <div class="carousel-caption d-none d-md-block" style="background-color:rgba(0,0,0,0.5);left:0;bottom:0;right:0">
+                                    <h3>{{item.img_name}}</h3>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#postImgCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#postImgCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        {% endif %}
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% if related_portfolio %} <!-- not implemented because not needed?
+<div class="related-portfolio">
+    Related portfolio:<br>
+    {% for item in related_portfolio %}
+        <a href="{{ 'portfolio'|page }}/{{ item.slug }}">{{ item.title }}</a>{% if not loop.last %}<br>{% endif %}
+    {% endfor %}
+</div><br> -->
+{% endif %}
+
+
+
+
+<div class="row my-2">
+    <div class="col-12">
+        {% component 'ssbuttonsssb' %}
+    </div>
+</div>
+
+{% partial 'blog/pagination' %}
+
+
+<hr class="separator">
+
+{% if post.files |length > 0%}
+<h4 class="text-center">Attached Files</h4>
+<div class="row">
+    {% for item in post.files %}
+    <div class="col-1">
+        <a class="btn btn-primary" href="{{ item.file_path|media }}"><i class="fa fa-file" aria-hidden="true"></i> {{ item.file_name }}</a>
+    </div>
+    {% endfor %}
+</div>
+<hr class="separator">
+{% endif %}
+
+{% if related_news|length > 0%}
+<h4 class="text-center">Related News</h4>
+<div class="row">
+    {% for news in related_news %}
+    <div class="col-md-6 col-sm-12">
+        <a href="{{ 'news'|page }}/{{ item.slug }}">
+            <div class="blogPostWrapper">
+                <h4 class="text-truncate">
+                    {{ news.title }}
+                </h4>
+                <div class="blogImage" style="background-image:url({{news.image |media}});height:10vh">   
+                </div>
+            </div>
+        </a>
+        <span class="badge badge-secondary">
+            <i class="fa fa-calendar" aria-hidden="true"></i> {{ news.published_at|date('M d, Y') }}
+        </span>
+        <span class="badge badge-secondary">
+            <i class="fa fa-user" aria-hidden="true"></i> {{ news.findAuthor.login }} 
+        </span>
+        {% for category in news.categories %}
+        <a href="{{ category.url }}">
+            <span class="badge badge-secondary">
+                <i class="fa fa-tag" aria-hidden="true"></i> {{ category.name }}
+            </span>
+        </a>
+        {% endfor %}
+        <div>
+            {{ news.summary |striptags|slice(0, 140)}}
+            {% if news.summary |length > 140 %}
+            ...
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<hr class="separator">
+{% endif %}
+
+{% if related_blog|length > 0 %}
+<h4 class="text-center">Related Posts</h4>
+<div class="row">
+    {% for rel_post in related_blog %}
+    {{rel_post.url}}
+    <div class="col-md-6 col-sm-12">
+        <a href="{{ 'blog/post' |page({slug: rel_post.slug})}}">
+            <div class="blogPostWrapper">
+                <h4 class="text-truncate">
+                    {{ rel_post.title }}
+                </h4>
+                <div class="blogImage" style="background-image:url({{rel_post.image |media}});height:10vh">   
+                </div>
+            </div>
+        </a>
+        <span class="badge badge-secondary">
+            <i class="fa fa-calendar" aria-hidden="true"></i> {{ rel_post.published_at|date('M d, Y') }}
+        </span>
+        <span class="badge badge-secondary">
+            <i class="fa fa-user" aria-hidden="true"></i> {{ rel_post.findAuthor.login }} 
+        </span>
+        {% for category in rel_post.categories %}
+        <a href="{{ category.url }}">
+            <span class="badge badge-secondary">
+                <i class="fa fa-tag" aria-hidden="true"></i> {{ category.name }}
+            </span>
+        </a>
+        {% endfor %}
+        <div>
+            {{ rel_post.summary |striptags|slice(0, 140)}}
+            {% if rel_post.summary |length > 140 %}
+            ...
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}

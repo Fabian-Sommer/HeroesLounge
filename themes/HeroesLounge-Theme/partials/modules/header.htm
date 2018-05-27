@@ -1,0 +1,53 @@
+[viewBag]
+
+[localePicker]
+forceUrl = 0
+==
+<div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 header-left">
+                <ul id="menu-top-left" class="top-menu">
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="mailto:{{ this.theme.header_email }}">{{ this.theme.header_email }}</a>
+                    </li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="tel:{{ this.theme.header_phone }}">{{ this.theme.header_phone }}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-sm-6 header-right">
+                {% component 'localePicker' %}
+                <ul id="menu-top-right" class="social-menu top-menu">
+                    {% if this.theme.social_facebook %}
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="{{ this.theme.social_facebook }}" target="_blank">Facebook</a>
+                    </li>
+                    {% endif %}
+                    {% if this.theme.social_google %}
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="{{ this.theme.social_google }}" target="_blank">Google</a>
+                    </li>
+                    {% endif %}
+                    {% if this.theme.social_twitter %}
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="{{ this.theme.social_twitter }}" target="_blank">Twitter</a>
+                    </li>
+                    {% endif %}
+                    {% if this.theme.social_instagram %}
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="{{ this.theme.social_instagram }}" target="_blank">Instagram</a>
+                    </li>
+                    {% endif %}
+                    {% if this.theme.social_linkedin %}
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="{{ this.theme.social_linkedin }}" target="_blank">LinkedIn</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="header-toggle"><i class="fa fa-angle-down"></i></div>

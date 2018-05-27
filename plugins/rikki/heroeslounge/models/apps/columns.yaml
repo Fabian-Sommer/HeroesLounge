@@ -1,0 +1,16 @@
+columns:
+    user:
+        label: Username
+        type: text
+        searchable: true
+        select: title
+        relation: sloth
+    team:
+        label: Team
+        type: text
+        searchable: true
+        select: title
+        relation: team
+    approved:
+        label: Approved
+        type: switch

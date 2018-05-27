@@ -1,0 +1,111 @@
+<div class="col-12 flip-scroll">
+	{% if user and can('cast_matches') %} {% if __SELF__.season != null %}
+	<table class="table table-bordered table-condensed">
+		<thead>
+			{% for casterName, row in __SELF__.casterRoundData %} {% if loop.first %}
+			<tr>
+				{% for entry in row %}
+
+				<th class="no-border-bottom {% if entry != 'Round' %}text-right{% endif %}">
+					{% if entry == 'Round' %} Caster {% elseif entry == 'Total' %} Total {% elseif entry == 'Playoffs' %} Playoffs {% else %} Round {{entry}} {% endif %}
+				</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			{% else %}
+			<tr>
+				{% for entry in row %} {% if loop.first %}
+				<td class="bg-light">
+					<a href="{{'user/view'|page({id: entry})}}">{{casterName}}</a>
+				</td>
+				{% else %}
+				<td class="text-right">
+					{{entry}}
+				</td>
+				{% endif %} {% endfor %}
+			</tr>
+			{% endif %} {% endfor %}
+		</tbody>
+	</table>
+</div>
+
+
+<nav class="navbar navbar-expand-md navbar-light col-12">
+	<a class="navbar-brand d-md-none">Division</a>
+	<button type="button" class="navbar-toggler navbar-toggler-right collapsed" data-toggle="collapse" data-target="#divNav"
+	 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		        <span class="navbar-toggler-icon"></span>
+		</button>
+	<div class="collapse navbar-collapse" id="divNav">
+		<ul class="nav nav-tabs mr-auto">
+			{% for key,div in __SELF__.season.divisions %}
+			<li class="nav-item">
+				<a class="nav-link{% if key==0 %} active{% endif %}" data-toggle="tab" href="#{{div.slug}}">
+                    {{div.title}}{% if key==0 %}<span class="sr-only">(current)</span>{% endif %}
+                </a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</nav>
+
+<div class="tab-content col-12">
+	{% for key, divisionData in __SELF__.teamCastData %}
+	<div class="tab-pane{% if loop.first %} active{% endif %} flip-scroll" id="{{__SELF__.season.divisions[loop.index0].slug}}"
+	 role="tabpanel">
+		<table class="table table-bordered table-condensed">
+			<thead>
+				{% for teamname, teamData in divisionData %} {% if loop.first %}
+				<tr>
+					{% for roundData in teamData %}
+					<th class="no-border-bottom">
+
+						{% if loop.first and teamname is not same as(0) %}
+						<a href="{{ 'team/view'|page({ slug: roundData }) }}">
+							{{teamname}}
+						</a> 
+						{% elseif loop.first and teamname is same as(0) %} Team {% else %} {{roundData}} {% endif %}
+					</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% else %}
+				<tr {%if teamData|last==0 %}class="bg-danger" {%endif%}>
+					{% for roundData in teamData %}
+					<td {%if loop.first%}class="bg-light" {%endif%}>
+
+						{% if loop.first and teamname is not same as(0) %}
+						<a href="{{ 'team/view'|page({ slug: roundData }) }}">
+							    {{teamname}}
+							</a> {% elseif loop.first and teamname is same as(0) %} Team {% elseif loop.last and roundData is same as(0) %} {{roundData}}
+						{% else %} {% if roundData == '' %}
+						<p class="invisible">hidden</p>
+						{% else %} {{roundData}} {% endif %} {% endif %}
+					</td>
+					{% endfor %}
+				</tr>
+				{% endif %} {% endfor %}
+			</tbody>
+		</table>
+		<ul class="list-unstyled">
+			<li>Games cast: {{__SELF__.divisionGamesCast[key]}}</li>
+			<li>Games played: {{__SELF__.divisionGamesPlayed[key]}}</li>
+			<li>Percentage: {{__SELF__.divisionGamesPercentage[key]}}%</li>
+	</div>
+	{% endfor %}
+</div>
+<div class="col-12">
+	<ul class="list-unstyled">
+		<li>Total:</li>
+		<li> Games cast: {{__SELF__.totalGamesCast}} </li>
+		<li> Games played: {{__SELF__.totalGamesPlayed}} </li>
+		<li> Percentage: {{__SELF__.totalGamesPercentage}}% </li>
+		{% else %}
+		<p>No season could be found, so this page is empty.</p>
+		{% endif %}
+</div>
+{% else %}
+<p>This page is meant for casters only.</p>
+{% endif %}

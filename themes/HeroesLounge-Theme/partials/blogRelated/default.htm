@@ -1,0 +1,5 @@
+[viewBag]
+==
+{% for Post in __SELF__.posts %}
+        <a href="{{Post.url}}">{{ Post.title }}</a>
+    {% endfor %}

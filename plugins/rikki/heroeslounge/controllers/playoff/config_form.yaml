@@ -1,0 +1,11 @@
+name: Playoff
+modelClass: Rikki\Heroeslounge\Models\Playoff
+form: $/rikki/heroeslounge/models/playoff/fields.yaml
+defaultRedirect: rikki/heroeslounge/playoff
+create:
+    redirect: 'rikki/heroeslounge/playoff/update/:id'
+    redirectClose: rikki/heroeslounge/playoff
+update:
+    redirect: rikki/heroeslounge/playoff
+    redirectClose: rikki/heroeslounge/playoff
+preview: {  }

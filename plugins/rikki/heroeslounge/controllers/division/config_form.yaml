@@ -1,0 +1,17 @@
+name: Division
+modelClass: Rikki\Heroeslounge\Models\Division
+form: $/rikki/heroeslounge/models/division/fields.yaml
+defaultRedirect: rikki/heroeslounge/division
+create:
+    title: 'Create Division'
+    redirect: 'rikki/heroeslounge/division/update/:id'
+    redirectClose: rikki/heroeslounge/division
+    flashSave: 'Division successfully saved!'
+update:
+    title: 'Update Division'
+    redirect: rikki/heroeslounge/division
+    redirectClose: rikki/heroeslounge/division
+    flashSave: 'Division successfully saved!'
+    flashDelete: 'Division successfully deleted!'
+preview:
+    title: 'Preview Division'

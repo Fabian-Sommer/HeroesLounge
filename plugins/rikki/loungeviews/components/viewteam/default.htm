@@ -1,0 +1,213 @@
+{% if __SELF__.team %} {% set banner %} {% if __SELF__.team.banner %} {{__SELF__.team.banner.path}} {% else %} {{'plugins/rikki/heroeslounge/assets/img/bg_CCC.png'
+| app}} {% endif %} {% endset %} {% set avatar %} {% if __SELF__.team.logo %} {{__SELF__.team.logo.path}} {% else %} {{'plugins/rikki/heroeslounge/assets/img/bg_75.png'
+| app}} {% endif %} {% endset %}
+<div class="jumbotron image-banner banner-custom-header mb-3" style="background:url({{banner}}) no-repeat 0 0 #ffffff;background-size:cover;background-position:center center">
+    <div style="background-color:rgba(33,33,33,0.5)" class="wow fadeIn">
+        <div class=" d-flex justify-content-center mr-5">
+            <div style="height:110px;width:110px;position:relative; display:inline-block;overflow:hidden;" class="wow zoomIn mr-3">
+                <img class="img-fluid rounded" style="position:absolute;top:50%;min-height:100%;display:block;left:50%;-webkit-transform: translate(-50%, -50%);
+                                min-width:100%;" src="{{avatar}}" alt="Logo" title="Logo">
+            </div>
+            <div class="mr-5">
+                <h1 class="block-title wow zoomIn">{{__SELF__.team.title}}</h1>
+                <div class="text-center d-xs-none wow zoomIn description" style="visibility: visible; animation-name: zoomIn;">
+                    <div class="SocialSharingButtons">
+                        {% if __SELF__.team.twitter_url %}
+                        <a href="{{__SELF__.team.twitter_url}}" target="_blank" title="View Twitter Profile" class="share-btn twitter">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a> {% endif %} {% if __SELF__.team.facebook_url %}
+                        <a href="{{__SELF__.team.facebook_url}}" target="_blank" title="View Facebook Profile" class="share-btn facebook">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a> {% endif %} {% if __SELF__.team.twitch_url %}
+                        <a href="{{__SELF__.team.twitch_url}}" class="share-btn twitch">
+                            <i class="fa fa-twitch" aria-hidden="true"></i>
+                        </a> {% endif %} {% if __SELF__.team.youtube_url %}
+                        <a href="{{__SELF__.team.youtube_url}}" class="share-btn youtube">
+                            <i class="fa fa-youtube" aria-hidden="true"></i>
+                        </a> {% endif %} {% if __SELF__.team.website_url %}
+                        <a href="{{__SELF__.team.website_url}}" class="share-btn website">
+                            <i class="fa fa-globe" aria-hidden="true"></i>
+                        </a> {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="row">
+                <nav class="navbar navbar-expand-lg navbar-light col-12">
+                        <div class="navbar-header">
+                            <a class="navbar-brand d-lg-none">View Team</a>
+                            <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#divNav"
+                                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+            
+                        <div class="collapse navbar-collapse" id="divNav">
+                            <ul class="nav nav-tabs mr-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#general">
+                                        &nbsp;Roster&nbsp;
+                                        <span class="sr-only">(current)</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#timeline">
+                                        &nbsp;Timeline&nbsp;
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#activeSeasonMatches">
+                                        &nbsp;Matches&nbsp;
+                                    </a>
+                                </li>
+            
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#teamStatistics">
+                                        &nbsp;Statistics&nbsp;
+                                    </a>
+                                </li>
+            
+                            </ul>
+                        </div>
+                    </nav>
+                    <div class="tab-content col-12">
+                            <!-- START GENERAL TAB -->
+                            <div class="tab-pane active" id="general" role="tabpanel">
+                                <!-- START ROSTER -->
+                                {% if __SELF__.team.disbanded %}
+                                <div class="row">
+                                    <div class="col-12 text-center mt-5">
+                                        <img src="{{ 'assets/img/icons/disbanded.png' |theme }}" class="img-fluid" alt="Team disbanded" />
+                                    </div>
+                                </div>
+                                {% else %} 
+                                <div class="row">
+                                    {% for sloth in __SELF__.team.sloths %}
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-2">
+                                        <div class="blogPostWrapper">
+                                            <a href="{{ 'user/view' |page({'id':sloth.user.id})}}" class="text-white">
+                                                <div class="blogImage" style="background-image:url({{sloth.user.avatar| resize(0,600)}});height:25vh;min-height:300px">
+                                                    {% if sloth.short_description %}
+                                                    <div style="position:absolute;top:0;bottom:0;left:0;right:0;height:100%;width:100%;transition:.5s easy;background-color:#333;z-index:9999" class="hover-fadein">
+                                                        <div style="color:#FFF;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
+                                                                {{sloth.short_description |striptags|slice(0, 70) }} 
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                <h3 class="text-truncate">
+                                                    {% if sloth.is_captain %}
+                                                    <i class="fa fa-star" title="Captain" style="color:gold"></i>
+                                                    {% endif %} 
+                                                    {% if sloth.role %} 
+                                                    {% set path = 'assets/img/roles/' ~sloth.role.title|replace({' ':'-'})|lower ~ '.svg' %}
+                                                    <img src="{{path | theme}}" class="mr-2 rounded" title="{{sloth.role.title}}" alt="{{sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:rgba(0,0,0,0.5)"/> 
+                                                    {% endif %} 
+                                                    {{sloth.title}}
+                                                </h3>
+                                            </a>
+                                            {% if user %}
+                                            <div style="position:absolute;top:0;right:0;" class="p-3">
+                                                <div class="btn-group-vertical">
+                                                    {% if sloth.facebook_url %}
+                                                    <a href="{{sloth.facebook_url}}"  target="_blank" title="{{sloth.facebook_url}}">
+                                                        <i class="fa fa-facebook facebook-white" aria-hidden="true"></i>
+                                                    </a> 
+                                                    {% endif %} 
+                                                    {% if sloth.twitch_url %}
+                                                    <a href="{{sloth.twitch_url}}" target="_blank" title="{{sloth.twitch_url}}">
+                                                        <i class="fa fa-twitch twitch-white" aria-hidden="true"></i>
+                                                    </a>
+                                                    {% endif %}
+                                                    {% if sloth.twitter_url %}
+                                                    <a href="{{sloth.twitter_url}}" target="_blank" title="{{sloth.twitter_url}}">
+                                                        <i class="fa fa-twitter twitter-white" aria-hidden="true"></i>
+                                                    </a> 
+                                                    {% endif %} 
+                                                    {% if sloth.youtube_url %}
+                                                    <a href="{{sloth.youtube_url}}" title="{{sloth.youtube_url}}">
+                                                        <i class="fa fa-youtube youtube-white" aria-hidden="true" target="_blank"></i>
+                                                    </a> 
+                                                    {% endif %} 
+                                                    {% if sloth.website_url %}
+                                                    <a href="{{sloth.website_url}}" target="_blank" title="{{sloth.website_url}}">
+                                                        <i class="fa fa-globe website-white" aria-hidden="true"></i>
+                                                    </a> 
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="blogFPSummary">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <img src="{{'assets/img/btns/battlenet.svg' | theme}}" class="mr-2 rounded" title="Battle Tag" alt="Battle Tag" style="max-height:30px;max-width:30px;"/> 
+                                                        {% if sloth.hotslogs_id %}
+                                                        <a href="https://www.hotslogs.com/Player/Profile?PlayerID={{sloth.hotslogs_id}}" alt="HotSLogs ID" class="text-white" target="_blank" title="View HotsLogs Profile">
+                                                            {{sloth.battle_tag}}
+                                                        </a>
+                                                        {% else %} 
+                                                        <span class="text-white">
+                                                            {{sloth.battle_tag}} 
+                                                        </span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <img src="{{'assets/img/btns/discord.svg' | theme}}" class="mr-2 rounded" title="Discord Tag" alt="Discord Tag" style="max-height:30px;max-width:30px;" />
+                                                        <span class="text-white">
+                                                            {{sloth.discord_tag}}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                
+                
+                                <!-- END ROSTER -->
+                            </div>
+                            <div class="tab-pane" id="timeline" role="tabpanel">
+                                <!--START TIMELINE -->
+                                {% component 'timeLine' id=__SELF__.team.id %}
+                                <!-- END TIMELINE-->
+                            </div>
+                            <div class="tab-pane" id="teamStatistics" role="tabpanel">
+                                <!-- START Teamstatics -->
+                                {% component 'teamStatistics' %}
+                                <!-- END Teamstatics -->
+                            </div>
+                            <div class="tab-pane" id="activeSeasonMatches" role="tabpanel">
+                                <!-- START ROUND MATCHES -->
+                                {% component 'roundMatches' %}
+                                <!-- END ROUND MATCHES -->
+                            </div>
+                        </div>
+            
+        </div>
+      
+
+    </div>
+    <!-- START SIDEBAR -->
+    <div class="col-md-3 sidebar">
+        {% if __SELF__.team.short_description %}
+        <h3 class="widget-title">Team Description</h3>
+        {{ __SELF__.team.short_description | raw}} {% endif %} {% for div in __SELF__.team.active_divisions %}
+        <h3 class="widget-title">Standings
+            <a href="{{ 'season/division' |page({'slug':div.season.slug,'divslug':div.slug})}}">{{div.title}}</a>
+        </h3>
+        {% component 'divisionTable' id = div.id teamId = __SELF__.team.id %} {% endfor %}
+        <h3 class="widget-title">Recent Results</h3>
+        {% component 'recentResults' %}
+        <h3 class="widget-title">Upcoming Matches</h3>
+        {% component 'upcomingMatches' %}
+    </div>
+    <!-- END SIDEBAR -->
+</div>
+{% else %} {% endif %}

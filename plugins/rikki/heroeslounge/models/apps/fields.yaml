@@ -1,0 +1,26 @@
+fields:
+    sloth:
+        label: Username
+        select: title
+        descriptionFrom: description
+        span: auto
+        type: relation
+        comment: 'Select a username'
+    team:
+        label: Team
+        select: title
+        descriptionFrom: description
+        span: auto
+        type: relation
+        comment: 'Select a team'
+    message:
+        label: Message
+        size: large
+        oc.commentPosition: ''
+        span: auto
+        type: textarea
+        comment: 'A message for the team receiving the application to review'
+    approved:
+        label: Approved
+        span: auto
+        type: switch

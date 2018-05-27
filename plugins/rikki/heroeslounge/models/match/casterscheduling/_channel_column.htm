@@ -1,0 +1,15 @@
+<form>
+  <select name="channel_id" style="color: #333333;" data-request="onChannelAssignment" data-request-data="match_id: <?= $record->id ?>">
+  	<option value="0" style="color:#333333;">None</option>
+  	<?php
+  	$channels = $this->getChannels(); 
+  	foreach ($channels as $channel) {
+  		if ($record->channel != null AND $record->channel->id == $channel->id) {
+  			echo "<option value=\"$channel->id\" style=\" color: #333333;\" selected=\"selected\">$channel->title</option>";
+  		} else {
+  			echo "<option value=\"$channel->id\" style=\" color: #333333;\">$channel->title</option>";
+  		}
+  	}
+  	?>
+  </select>
+</form>

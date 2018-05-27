@@ -1,0 +1,68 @@
+[viewBag]
+snippetCode = "posts"
+snippetName = "Posts section"
+
+[blogList]
+pageNumber = "{{ :page }}"
+postsPerPage = 3
+noPostsMessage = "No post found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+==
+<div class="section frontpage-recent-posts bg-white" id="latest">
+    <div class="container">
+
+        <h2 class="block-title wow bounceIn">{{ 'section.posts.headline' | _ }}</h2>
+
+        <div class="row">
+
+            {% set posts = blogList.posts %}
+
+            {% for post in posts %}
+            <div class="col-4">
+                <a href="{{post.url}}">
+                    <div class="blogPostWrapper">
+                        <h4 class="text-truncate">
+                            {{ post.title }}
+                        </h4>
+                        <div class="blogImage" style="background-image:url({{post.image |media}});height:10vh">   
+                        </div>
+                    </div>
+                </a>
+                <span class="badge badge-secondary">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> {{ post.published_at|date('M d, Y') }}
+                </span>
+                <span class="badge badge-secondary">
+                    <i class="fa fa-user" aria-hidden="true"></i> {{ post.findAuthor.login }} 
+                </span>
+                {% for category in post.categories %}
+                <a href="{{ category.url }}">
+                    <span class="badge badge-secondary">
+                        <i class="fa fa-tag" aria-hidden="true"></i> {{ category.name }}
+                    </span>
+                </a>
+                {% endfor %}
+                <div class="text-truncate">
+                    {{ post.summary |striptags|slice(0, 140)}}
+                </div>
+            </div>
+            {% else %}
+            <p class="text-center">{{ noPostsMessage }}</p>
+            {% endfor %}
+
+            {% if posts %}
+            <div class="col-md-12">
+                <p class="text-center">
+                    <a
+                        class="btn btn-primary-custom btn-margin-top"
+                        href="{{ 'blog/list' | page }}">
+                        {{ 'section.posts.more' | _ }}
+                    </a>
+                </p>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>

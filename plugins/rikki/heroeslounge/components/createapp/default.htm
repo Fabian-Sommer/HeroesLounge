@@ -1,0 +1,34 @@
+<blockquote>Here you can write an application to any team currently accepting applications.</blockquote>
+<hr>
+
+{% if __SELF__.sloth.team_id <= 0 %}
+	{% if __SELF__.teams is not empty %}
+
+	    {{form_open({request: 'onApplicationSend'})}}
+
+		<div class="input-group col-lg-3 mb-3 col-md-4">
+		    <label for="team_id" class="sr-only">Team</label>
+		    <div class="input-group-addon"><i class="fa fa-group" aria-hidden="true"></i></div>
+		        <select class="form-control" name="team_id" id="applicationTeam">
+		    		{% for team in __SELF__.teams %}
+		            	<option value="{{ team.id }}">{{ team.title }}</option>
+		    		{% endfor %}
+		        </select>      
+		</div>
+
+	    <div>
+	        <textarea class="form-control" placeholder="Write something to the team you're applying for" name="message" style="height:125px;"></textarea>
+	    </div>
+
+	    <br>
+
+	    <button type="submit" class="btn btn-primary form-control">Send Application</button>
+
+	    {{ form_close() }}
+
+	{% else %}
+		<p>There are no teams accepting applications right now that you haven't applied to yet.</p>
+	{% endif %}
+{% else %}
+	<p>You're currently in a team so you can't create an application.</p>
+{% endif %}

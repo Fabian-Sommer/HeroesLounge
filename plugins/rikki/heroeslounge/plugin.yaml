@@ -1,0 +1,166 @@
+plugin:
+    name: 'rikki.heroeslounge::lang.plugin.name'
+    description: 'rikki.heroeslounge::lang.plugin.description'
+    author: rikki
+    icon: oc-icon-angellist
+    homepage: ''
+navigation:
+    manage-seasons:
+        label: 'Manage Seasons'
+        url: rikki/heroeslounge/season
+        icon: icon-tag
+        permissions:
+            - rikki.heroeslounge.league
+        order: '4'
+        sideMenu:
+            manage-seasons:
+                label: 'Manage Seasons'
+                url: rikki/heroeslounge/season
+                icon: icon-tag
+                permissions:
+                    - rikki.heroeslounge.season
+            manage-playoffs:
+                label: 'Manage Playoffs'
+                url: rikki/heroeslounge/playoff
+                icon: icon-tag
+                permissions:
+                    - rikki.heroeslounge.season
+            manage-divisions:
+                label: 'Manage Divisions'
+                url: rikki/heroeslounge/division
+                icon: icon-tags
+                permissions:
+                    - rikki.heroeslounge.division
+    manage-teams:
+        label: 'Manage Teams'
+        url: rikki/heroeslounge/team
+        icon: icon-users
+        permissions:
+            - rikki.heroeslounge.teams
+        order: '2'
+        sideMenu:
+            manage-teams:
+                label: 'Manage Teams'
+                url: rikki/heroeslounge/team
+                icon: icon-users
+                permissions:
+                    - rikki.heroeslounge.team
+            team-apps:
+                label: 'Manage Apps'
+                url: rikki/heroeslounge/applications
+                icon: icon-group
+                permissions:
+                    - rikki.heroeslounge.applications
+    manage-general:
+        label: 'Heroes Lounge General'
+        url: rikki/heroeslounge/casterscheduling
+        icon: icon-angellist
+        permissions:
+            - rikki.heroeslounge.general
+        order: '1'
+        sideMenu:
+            manage-schedules:
+                label: 'Caster Scheduling'
+                url: rikki/heroeslounge/casterscheduling
+                icon: icon-users
+                permissions:
+                    - rikki.heroeslounge.casterscheduling
+            manage-twitchchannels:
+                label: 'Twitch Channels'
+                url: rikki/heroeslounge/twitchchannel
+                icon: icon-twitch
+                permissions:
+                    - rikki.heroeslounge.twitchchannel
+            maps-selection:
+                label: Maps
+                url: rikki/heroeslounge/map
+                icon: icon-map-marker
+                permissions:
+                    - rikki.heroeslounge.map
+            manage-bans:
+                label: Bans
+                url: rikki/heroeslounge/bans
+                icon: icon-lock
+                permissions:
+                    - rikki.heroeslounge.bans
+            group-assignment:
+                label: Groups
+                url: rikki/heroeslounge/groupassignment
+                icon: icon-users
+                permissions:
+                    - rikki.heroeslounge.groupassignment
+            manage-timeline:
+                label: 'Manage Timeline'
+                url: rikki/heroeslounge/timeline
+                icon: icon-clock-o
+                permissions:
+                    - rikki.heroeslounge.timeline
+    manage-matches:
+        label: 'Manage Matches'
+        url: rikki/heroeslounge/vod
+        icon: icon-futbol-o
+        permissions:
+            - rikki.heroeslounge.matches
+        order: '3'
+        sideMenu:
+            manage-vods:
+                label: 'Manage Vods'
+                url: rikki/heroeslounge/vod
+                icon: icon-youtube-square
+                permissions:
+                    - rikki.heroeslounge.vod
+            manage-matches:
+                label: 'Manage Matches'
+                url: rikki/heroeslounge/match
+                icon: icon-futbol-o
+                permissions:
+                    - rikki.heroeslounge.match
+permissions:
+    rikki.heroeslounge.vod:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage Vods'
+    rikki.heroeslounge.match:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage Matches'
+    rikki.heroeslounge.applications:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage Applications'
+    rikki.heroeslounge.bans:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage Bans'
+    rikki.heroeslounge.casterscheduling:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Appove casters, assign channels'
+    rikki.heroeslounge.division:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage Divisions'
+    rikki.heroeslounge.map:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage Maps'
+    rikki.heroeslounge.season:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage Seasons'
+    rikki.heroeslounge.team:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage Teams'
+    rikki.heroeslounge.timeline:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage timeline entries'
+    rikki.heroeslounge.twitchchannel:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage twitch channels'
+    rikki.heroeslounge.groupassignment:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Assign groups to users (casters)'
+    rikki.heroeslounge.general:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'General Tab'
+    rikki.heroeslounge.league:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Season Tab'
+    rikki.heroeslounge.teams:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Teams Tab'
+    rikki.heroeslounge.matches:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Matches Tab'

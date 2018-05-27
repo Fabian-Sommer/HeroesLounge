@@ -1,0 +1,42 @@
+<div data-control="toolbar">
+
+    <button
+        class="btn btn-sm btn-secondary oc-icon-check"
+        onclick="$(this).data('request-data', {
+            checked: $('#Casterscheduling-update-RelationController-casters-view .control-list').listWidget('getChecked'),
+            model_id: '<?= $this->formGetModel()->id ?>'
+        })"
+        disabled="disabled"
+        data-request="onRelationButtonApprove"
+        data-trigger-action="enable"
+        data-trigger="#Casterscheduling-update-RelationController-casters-view .control-list input[type=checkbox]"
+        data-trigger-condition="checked"
+        data-stripe-load-indicator>
+        Approve   
+    </button>
+
+
+
+    <button
+        class="btn btn-sm btn-secondary oc-icon-times"
+        onclick="$(this).data('request-data', {
+            checked: $('#Casterscheduling-update-RelationController-casters-view .control-list').listWidget('getChecked'),
+            model_id: '<?= $this->formGetModel()->id ?>'
+        })"
+        disabled="disabled"
+        data-request="onRelationButtonDeny"
+        data-trigger-action="enable"
+        data-trigger="#Casterscheduling-update-RelationController-casters-view .control-list input[type=checkbox]"
+        data-trigger-condition="checked"
+        data-stripe-load-indicator>
+        Deny  
+    </button>
+
+    <a
+    data-control="popup"
+    data-size="huge"
+    data-handler="onRelationButtonAdd"
+    href="javascript:;"
+    class="btn btn-sm btn-secondary oc-icon-plus">
+    Add Casters</a>
+</div>

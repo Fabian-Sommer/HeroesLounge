@@ -1,0 +1,55 @@
+secondaryTabs:
+    fields:
+        title:
+            label: Title
+            oc.commentPosition: ''
+            span: auto
+            required: 1
+            type: text
+            tab: General
+        slug:
+            label: Slug
+            oc.commentPosition: ''
+            span: auto
+            preset:
+                field: title
+                type: slug
+            type: text
+            tab: General
+        logo:
+            label: Logo
+            oc.commentPosition: ''
+            mode: file
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: fileupload
+            tab: General
+        season:
+            label: 'Belongs to Season'
+            oc.commentPosition: ''
+            nameFrom: title
+            descriptionFrom: description
+            placeholder: 'null'
+            span: auto
+            type: relation
+            tab: General
+        playoff:
+            label: 'Belongs to Tournament'
+            oc.commentPosition: ''
+            nameFrom: title
+            descriptionFrom: description
+            placeholder: 'null'
+            span: auto
+            type: relation
+            tab: General
+        teams:
+            label: 'Assigned Teams'
+            oc.commentPosition: ''
+            nameFrom: title
+            span: auto
+            descriptionFrom: description
+            type: relation
+            tab: Teams

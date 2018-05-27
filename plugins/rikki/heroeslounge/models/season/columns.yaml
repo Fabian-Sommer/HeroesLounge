@@ -1,0 +1,33 @@
+columns:
+    title:
+        label: Title
+        type: text
+        searchable: true
+        sortable: true
+    round_length:
+        label: 'Round Length'
+        type: number
+        searchable: false
+    current_round:
+        label: 'Current Round'
+        type: number
+    is_active:
+        label: 'Is Active'
+        type: switch
+        sortable: true
+    reg_open:
+        label: 'Registration Open'
+        type: switch
+        sortable: true
+    teams:
+        label: '# of Teams'
+        type: number
+        sortable: true
+        relation: teams_count
+        valueFrom: count
+    fa:
+        label: '# of FA'
+        type: number
+        sortable: true
+        relation: free_agents_count
+        valueFrom: count

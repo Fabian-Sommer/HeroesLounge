@@ -1,0 +1,11 @@
+title: Season
+modelClass: Rikki\Heroeslounge\Models\Season
+list: $/rikki/heroeslounge/models/season/columns.yaml
+recordUrl: 'rikki/heroeslounge/season/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

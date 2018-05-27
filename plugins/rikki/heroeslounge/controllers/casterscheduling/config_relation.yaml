@@ -1,0 +1,62 @@
+teams:
+    label: Team
+    view:
+        list:
+            columns:
+                title:
+                    label: Team
+
+        toolbarButtons: remove
+        showSearch: false
+        showCheckboxes: false
+    manage:
+        list:
+            columns:
+                title:
+                    label: Name
+    pivot:
+        form:
+            fields:
+                pivot[team_score]:
+                    label: Team Score
+casters:
+    label: Casters
+    view:
+        list:
+            columns:
+                title:
+                    label: Caster
+                    type: text
+                approval:
+                    label: Status
+                    select: case approved when 0 then 'Pending' when 1 then 'Approved' when 2 then 'Denied' end
+        toolbarPartial: casters_toolbar
+        showSearch: false
+        showCheckboxes: true
+    manage:
+        list:
+            columns:
+                title:
+                    label: Name
+                pivot[approved]:
+                    label: Status
+        scope: IsCaster
+    pivot:
+        form:
+            fields:
+                pivot[approved]:
+                    label: Status
+                    type: radio
+                    options:
+                        0: Pending
+                        1: Approved
+                        2: Denied
+    emptyMessage: This match has no casters yet.
+channel:
+    label: Twitch channel
+    view:
+        form: $/rikki/heroeslounge/models/twitchchannel/fields.yaml
+        toolbarPartial: twitch_toolbar
+    manage:
+        form: $/rikki/heroeslounge/models/twitchchannel/fields.yaml
+        list: $/rikki/heroeslounge/models/twitchchannel/columns.yaml

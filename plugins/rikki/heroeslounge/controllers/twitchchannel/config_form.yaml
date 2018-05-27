@@ -1,0 +1,10 @@
+name: Twitchchannel
+form: $/rikki/heroeslounge/models/twitchchannel/fields.yaml
+modelClass: Rikki\Heroeslounge\Models\Twitchchannel
+defaultRedirect: rikki/heroeslounge/twitchchannel
+create:
+    redirect: 'rikki/heroeslounge/twitchchannel/update/:id'
+    redirectClose: rikki/heroeslounge/twitchchannel
+update:
+    redirect: rikki/heroeslounge/twitchchannel
+    redirectClose: rikki/heroeslounge/twitchchannel

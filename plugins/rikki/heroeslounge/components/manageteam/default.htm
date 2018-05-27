@@ -1,0 +1,494 @@
+{% if __SELF__.user.sloth.is_captain == 1 and __SELF__.user.sloth.team_id == __SELF__.team.id %}
+<nav class="navbar navbar-expand-lg navbar-light col-12">
+    <div class="navbar-header">
+        <a class="navbar-brand d-lg-none">Manage Team</a>
+        <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#divNav"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" id="divNav">
+        <ul class="nav nav-tabs mr-auto">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#general">
+                    &nbsp;General&nbsp;<span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#media">
+                    &nbsp;Media&nbsp;
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#social">
+                    &nbsp;Social&nbsp;
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#timeline">
+                     &nbsp;Timeline&nbsp;
+                 </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#apps">
+                    &nbsp;Applications [<span class="text-primary font-weight-bold">{{__SELF__.appsCount}}</span>]&nbsp;
+                </a>
+            </li>
+            {% if this.session.get('notifications') %}
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#notifications">
+                    &nbsp;Notifications [<span class="text-primary font-weight-bold">{{this.session.get('notifications') | length}}</span>]&nbsp;
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+
+<div class="tab-content col-12">
+    <!-- START GENERAL TAB -->
+    <div class="tab-pane active" id="general" role="tabpanel">
+        <!-- START PARTICIPATION -->
+        <h3>Participation</h3>
+        <form>
+            {% set checked = '0' %} 
+                {% for season in __SELF__.seasons %} 
+                    {% for team in season.teams %} 
+                        {% if team.id == __SELF__.team.id %} 
+                            {% set checked = '1' %} 
+                        {% endif %} 
+                    {% endfor %}
+            <div class="form-check{% if season.reg_open == 0 or user.sloth.team.sloths | length == 1%} disabled has-danger{% endif %}">
+                <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" {% if season.reg_open == 0 or user.sloth.team.sloths | length  == 1%}disabled{% endif %} name="part_seas_{{season.id}}"  {% if checked == '1' %}checked{% endif %} >
+                {{season.title}}
+                </label> 
+                {% if season.reg_open == 0 or user.sloth.team.sloths | length == 1  %}
+                <small class="form-control-feedback">
+                {% if user.sloth.team.sloths | length == 1 %}
+                    You need more than 1 member to be eligible to sign up for {{season.title}}!
+                {% else %}
+                Registration for {{season.title}} is closed!
+                {% endif %}
+            </small> {% endif %}
+            </div>
+            {% set checked = '0' %} {% endfor %}
+            <button type="submit" class="btn btn-primary mt-2" data-request="{{__SELF__}}::onParticipationSave">Update Participation</button>
+        </form>
+
+        <hr class="separator">
+        <!-- END PARTICIPATION -->
+
+        <!-- START ROSTER -->
+        <h3>Roster</h3>
+        <form>
+            {% if __SELF__.rosterLocked %}
+            <label class="text-warning">Your roster is locked, due to participation in a active league! Contact a Moderator or Admin if you want to make changes.</label>
+            <fieldset disabled>
+                {% endif %}
+
+                <div class="form-check">
+                    <label class="form-check-label">
+                <input type="checkbox" name="accepting_apps" id="accepting_apps" class="form-check-input" {% if __SELF__.team.accepting_apps == 1 %}checked{% endif %}>
+                We are accepting applications on the website
+            </label>
+                </div>
+                <small class="text-muted">
+                You are able to search for username, battletag or discordtag. Autocomplete will suggest usernames based of your search entry (minimum of 3 characters).
+            </small>
+                <div class="row mb-3">
+                    <div class="input-group col-4">
+                        <label for="captain" class="sr-only">Captain</label>
+                        <div class="input-group-addon">
+                            {% if __SELF__.user.sloth.role %} {% set path = 'assets/img/roles/' ~__SELF__.user.sloth.role.title|replace({' ':'-'})|lower
+                            ~ '.svg' %}
+                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.user.sloth.role.title}}" alt="{{__SELF__.user.sloth.role.title}}"
+                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                            %} 1 {% endif %}
+                        </div>
+                        <input class="form-control" placeholder="Captain" type="text" value="{{__SELF__.user.username}}" disabled>
+                    </div>
+                    <div class="input-group col-4">
+                        <label for="captain" class="sr-only">Sloth 2</label>
+                        <div class="input-group-addon">
+                            {% if __SELF__.players[0].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[0].role.title|replace({' ':'-'})|lower
+                            ~ '.svg' %}
+                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[0].role.title}}" alt="{{__SELF__.players[0].role.title}}"
+                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                            %} 2 {% endif %}
+                        </div>
+                        <input class="form-control autocomplete" placeholder="Sloth 2" name="sl2" type="text" value="{{__SELF__.players[0].user.username}}"
+                        {% if __SELF__.players[0].user and not  __SELF__.rosterLocked %} disabled>
+                        <div class="input-group-btn">
+                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                  data-request="{{__SELF__}}::onMemberRemove"
+                                  data-request-confirm="Do you want to remove {{__SELF__.players[0].user.username}} from your roster?"
+                                  data-request-data="remove: '{{__SELF__.players[0].user.username}}'"
+                                  title="Remove Player" class="close" type="button">
+                            <span aria-hidden="true">
+                              &times;</span>
+                          </button>
+                        </div>
+                        {% else %}>
+                        {% endif %}
+                    </div>
+                    <div class="input-group col-4">
+                        <label for="captain" class="sr-only">Sloth 3</label>
+                        <div class="input-group-addon">
+                            {% if __SELF__.players[1].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[1].role.title|replace({' ':'-'})|lower
+                            ~ '.svg' %}
+                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[1].role.title}}" alt="{{__SELF__.players[1].role.title}}"
+                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                            %} 3 {% endif %}
+                        </div>
+                        <input class="form-control autocomplete" placeholder="Sloth 3" name="sl3" type="text" value="{{__SELF__.players[1].user.username}}"
+                        {% if __SELF__.players[1].user and not  __SELF__.rosterLocked %} disabled>
+                        <div class="input-group-btn">
+                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                  data-request="{{__SELF__}}::onMemberRemove"
+                                  data-request-confirm="Do you want to remove {{__SELF__.players[1].user.username}} from your roster?"
+                                  data-request-data="remove: '{{__SELF__.players[1].user.username}}'"
+                                  title="Remove Player" class="close" type="button">
+                            <span aria-hidden="true">
+                              &times;</span>
+                          </button>
+                        </div>
+                        {% else %}>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="input-group col-4">
+                        <label for="captain" class="sr-only">Sloth 4</label>
+                        <div class="input-group-addon">
+                            {% if __SELF__.players[2].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[2].role.title|replace({' ':'-'})|lower
+                            ~ '.svg' %}
+                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[2].role.title}}" alt="{{__SELF__.players[2].role.title}}"
+                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                            %} 4 {% endif %}
+                        </div>
+                        <input class="form-control autocomplete" placeholder="Sloth 4" name="sl4" type="text" value="{{__SELF__.players[2].user.username}}"
+                        {% if __SELF__.players[2].user and not  __SELF__.rosterLocked %} disabled>
+                        <div class="input-group-btn">
+                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                  data-request="{{__SELF__}}::onMemberRemove"
+                                  data-request-confirm="Do you want to remove {{__SELF__.players[2].user.username}} from your roster?"
+                                  data-request-data="remove: '{{__SELF__.players[2].user.username}}'"
+                                  title="Remove Player" class="close" type="button">
+                            <span aria-hidden="true">
+                              &times;</span>
+                          </button>
+                        </div>
+                        {% else %}>
+                        {% endif %}
+                    </div>
+                    <div class="input-group col-4">
+                        <label for="captain" class="sr-only">Sloth 5</label>
+                        <div class="input-group-addon">
+                            {% if __SELF__.players[3].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[3].role.title|replace({' ':'-'})|lower
+                            ~ '.svg' %}
+                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[3].role.title}}" alt="{{__SELF__.players[3].role.title}}"
+                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                            %} 5 {% endif %}
+                        </div>
+                        <input class="form-control autocomplete" placeholder="Sloth 5" name="sl5" type="text" value="{{__SELF__.players[3].user.username}}"
+                        {% if __SELF__.players[3].user and not  __SELF__.rosterLocked %} disabled>
+                        <div class="input-group-btn">
+                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                  data-request="{{__SELF__}}::onMemberRemove"
+                                  data-request-confirm="Do you want to remove {{__SELF__.players[3].user.username}} from your roster?"
+                                  data-request-data="remove: '{{__SELF__.players[3].user.username}}'"
+                                  title="Remove Player" class="close" type="button">
+                            <span aria-hidden="true">
+                              &times;</span>
+                          </button>
+                        </div>
+                        {% else %}>
+                        {% endif %}
+                    </div>
+                    <div class="input-group col-4">
+                        <label for="captain" class="sr-only">Sloth 6</label>
+                        <div class="input-group-addon">
+                            {% if __SELF__.players[4].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[4].role.title|replace({' ':'-'})|lower
+                            ~ '.svg' %}
+                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[4].role.title}}" alt="{{__SELF__.players[4].role.title}}"
+                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                            %} 6 {% endif %}
+                        </div>
+                        <input class="form-control autocomplete" placeholder="Sloth 6" name="sl6" type="text" value="{{__SELF__.players[4].user.username}}"
+                        {% if __SELF__.players[4].user and not  __SELF__.rosterLocked %} disabled>
+                        <div class="input-group-btn">
+                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                  data-request="{{__SELF__}}::onMemberRemove"
+                                  data-request-confirm="Do you want to remove {{__SELF__.players[4].user.username}} from your roster?"
+                                  data-request-data="remove: '{{__SELF__.players[4].user.username}}'"
+                                  title="Remove Player" class="close" type="button">
+                            <span aria-hidden="true">
+                              &times;</span>
+                          </button>
+                        </div>
+                        {% else %}>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="input-group col-4">
+                        <label for="captain" class="sr-only">Sloth 7</label>
+                        <div class="input-group-addon">
+                            {% if __SELF__.players[5].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[5].role.title|replace({' ':'-'})|lower
+                            ~ '.svg' %}
+                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[5].role.title}}" alt="{{__SELF__.players[5].role.title}}"
+                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                            %} 7 {% endif %}
+                        </div>
+                        <input class="form-control autocomplete" placeholder="Sloth 7" name="sl7" type="text" value="{{__SELF__.players[5].user.username}}"
+                        {% if __SELF__.players[5].user and not  __SELF__.rosterLocked %} disabled>
+                        <div class="input-group-btn">
+                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                  data-request="{{__SELF__}}::onMemberRemove"
+                                  data-request-confirm="Do you want to remove {{__SELF__.players[5].user.username}} from your roster?"
+                                  data-request-data="remove: '{{__SELF__.players[5].user.username}}'"
+                                  title="Remove Player" class="close" type="button">
+                            <span aria-hidden="true">
+                              &times;</span>
+                          </button>
+                        </div>
+                        {% else %}>
+                        {% endif %}
+                    </div>
+                    <div class="input-group col-4">
+                        <label for="captain" class="sr-only">Sloth 8</label>
+                        <div class="input-group-addon">
+                            {% if __SELF__.players[6].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[6].role.title|replace({' ':'-'})|lower
+                            ~ '.svg' %}
+                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[6].role.title}}" alt="{{__SELF__.players[6].role.title}}"
+                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                            %} 8 {% endif %}
+                        </div>
+                        <input class="form-control autocomplete" placeholder="Sloth 8" name="sl8" type="text" value="{{__SELF__.players[6].user.username}}"
+                        {% if __SELF__.players[6].user and not  __SELF__.rosterLocked %} disabled>
+                        <div class="input-group-btn">
+                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                  data-request="{{__SELF__}}::onMemberRemove"
+                                  data-request-confirm="Do you want to remove {{__SELF__.players[6].user.username}} from your roster?"
+                                  data-request-data="remove: '{{__SELF__.players[6].user.username}}'"
+                                  title="Remove Player" class="close" type="button">
+                            <span aria-hidden="true">
+                              &times;</span>
+                          </button>
+                        </div>
+                        {% else %}>
+                        {% endif %}
+                    </div>
+                    <div class="input-group col-4">
+                        <label for="captain" class="sr-only">Sloth 9</label>
+                        <div class="input-group-addon">
+                            {% if __SELF__.players[7].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[7].role.title|replace({' ':'-'})|lower
+                            ~ '.svg' %}
+                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[7].role.title}}" alt="{{__SELF__.players[7].role.title}}"
+                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                            %} 9 {% endif %}
+                        </div>
+                        <input class="form-control autocomplete" placeholder="Sloth 9" name="sl9" type="text" value="{{__SELF__.players[7].user.username}}"
+                        {% if __SELF__.players[7].user and not  __SELF__.rosterLocked %} disabled>
+                        <div class="input-group-btn">
+                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                  data-request="{{__SELF__}}::onMemberRemove"
+                                  data-request-confirm="Do you want to remove {{__SELF__.players[7].user.username}} from your roster?"
+                                  data-request-data="remove: '{{__SELF__.players[7].user.username}}'"
+                                  title="Remove Player" class="close" type="button">
+                            <span aria-hidden="true">
+                              &times;</span>
+                          </button>
+                        </div>
+                        {% else %}>
+                        {% endif %}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" data-request="{{__SELF__}}::onRosterSave">Update Roster</button>                {% if __SELF__.rosterLocked %}
+            </fieldset>
+            {% endif %}
+        </form>
+        <!-- END ROSTER -->
+
+    </div>
+    <!-- END GENERAL TAB -->
+
+    <!-- START MEDIA TAB -->
+    <div class="tab-pane" id="media" role="tabpanel">
+        <!-- START LOGO -->
+        <h3>Logo</h3>
+        <div class="row">
+            <div class="form-group has-warning col-5">
+                {{form_open({request: 'onLogoSave', files:true})}}
+                <div class="fileselect">
+                    <label class="input-group-btn form-control-label" style="height:40px;display:grid">
+                        <span class="btn btn-primary" type="button">
+                            Browse..
+                            <input type="file" class="form-control" name="logo" style="display:none">
+                        </span>
+                    </label>
+                    <input type="text" class="form-control form-control-warning" readonly="true" aria-describedby="shortLogoBlock">
+                    <small class="text-muted">Uploading a new logo will replace your current logo.</small>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Submit Logo</button> {{form_close()}}
+            </div>
+
+
+            <div class="col-7 text-center">
+                {% if __SELF__.team.logo %}
+                <img src="{{__SELF__.team.logo.path}}" class="img-fluid" alt="Logo" title="Logo" />
+                <small id="shortLogoBlock" class="text-muted">
+                The Logo will be used to recognize your team even if no team name is shown.<br />
+                We suggest to take a square image e.g. 128x128 Pixel.
+                </small> {% endif %}
+            </div>
+        </div>
+
+        <hr class="separator">
+        <!-- END LOGO-->
+
+        <!-- START BANNER -->
+        <h3>Banner</h3>
+        <div class="row">
+            <div class="form-group has-warning col-5">
+                {{form_open({request: 'onBannerSave', files:true})}}
+                <div class="fileselect">
+                    <label class="input-group-btn form-control-label" style="height:40px;display:grid">
+                        <span class="btn btn-primary" type="button">
+                            Browse..
+                            <input type="file" class="form-control" name="banner" style="display:none">
+                        </span>
+                    </label>
+                    <input type="text" class="form-control form-control-warning" readonly="true" aria-describedby="shortBannerBlock">
+                    <small class="text-muted">Uploading a new banner will replace your current banner.</small>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Submit Banner</button> {{form_close()}}
+            </div>
+
+            <div class="col-7 text-center">
+                {% if __SELF__.team.banner %}
+                <img src="{{__SELF__.team.banner.path}}" class="img-fluid" alt="Banner" title="Banner" />
+                <small id="shortBannerBlock" class="text-muted">
+                The Banner will be used to spice up your Teams Profile Page.<br />
+                We suggest to take a rectangular image e.g. 1000x250 Pixel.
+                </small> {% endif %}
+            </div>
+        </div>
+
+        <!-- END BANNER-->
+    </div>
+    <!-- END MEDIA TAB -->
+    <!-- START SOCIAL TAB -->
+    <div class="tab-pane" id="social" role="tabpanel">
+        <!-- START DESCRIPTION -->
+        <h3>Description</h3>
+        <form>
+            <div>
+                <textarea class="form-control" placeholder="Say something about your team!" name="short_description" maxlength="255" style="height:75px"
+                    aria-describedby="shortDescBlock">{{__SELF__.team.short_description}}</textarea>
+                <small id="shortDescBlock" class="text-muted">
+                Can be 255 characters long.
+            </small>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2" data-request="{{__SELF__}}::onDescriptionSave">Update Description</button>
+        </form>
+
+        <hr class="separator">
+        <!-- END DESCRIPTION -->
+
+        <!-- START SOCIAL LINKS -->
+        <h3>Social Links</h3>
+        <form class="form-inline">
+            <div class="row">
+                <div class="input-group col-lg-3 mb-3 col-md-4">
+                    <label for="facebook_url" class="sr-only">Facebook URL</label>
+                    <div class="input-group-addon"><i class="fa fa-facebook" aria-hidden="true"></i></div>
+                    <input class="form-control" placeholder="Facebook URL" type="url" name="facebook_url" value="{{__SELF__.team.facebook_url}}"
+                        pattern="[a-zA-Z]*">
+                </div>
+                <div class="input-group col-lg-3 mb-3 col-md-4">
+                    <label for="twitter_url" class="sr-only">Twitter URL</label>
+                    <div class="input-group-addon"><i class="fa fa-twitter" aria-hidden="true"></i></div>
+                    <input class="form-control" placeholder="Twitter URL" type="url" name="twitter_url" value="{{__SELF__.team.twitter_url}}">
+                </div>
+                <div class="input-group col-lg-3 mb-3 col-md-4">
+                    <label for="twitch_url" class="sr-only">Twitch URL</label>
+                    <div class="input-group-addon"><i class="fa fa-twitch" aria-hidden="true"></i></div>
+                    <input class="form-control" placeholder="Twitch URL" type="url" name="twitch_url" value="{{__SELF__.team.twitch_url}}">
+                </div>
+                <div class="input-group col-lg-3 mb-3 col-md-4">
+                    <label for="youtube_url" class="sr-only">YouTube URL</label>
+                    <div class="input-group-addon"><i class="fa fa-youtube" aria-hidden="true"></i></div>
+                    <input class="form-control" placeholder="YouTube URL" type="url" name="youtube_url" value="{{__SELF__.team.youtube_url}}">
+                </div>
+                <div class="input-group col-lg-3 mb-3 col-md-4">
+                    <label for="website_url" class="sr-only">Website URL</label>
+                    <div class="input-group-addon"><i class="fa fa-globe" aria-hidden="true"></i></div>
+                    <input class="form-control" placeholder="Website URL" type="url" name="website_url" value="{{__SELF__.team.website_url}}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" name="submit" data-request="{{__SELF__}}::onSocialSave">Update Social Links</button>
+        </form>
+        <!-- END SOCIAL LINKS -->
+    </div>
+    <!-- END SOCIAL TAB -->
+    <!-- START TIMELINE PANE -->
+    <div class="tab-pane" id="timeline" role="tabpanel">
+        <h3>Add a message to your timeline.</h3>
+        <div class="row">
+            <div class="form-group col-5">
+                {{form_open({request: 'onTimelineEntrySave'})}}
+                <div>
+                    <textarea class="form-control" placeholder="Short message with news." name="message" maxlength="255" style="height:75px"
+                        aria-describedby="shortTimeBlock"></textarea>
+                    <small id="shortTimeBlock" class="text-muted">
+                         Can be 255 characters long.
+                     </small>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Save message</button> {{ form_close() }}
+            </div>
+        </div>
+    </div>
+    <!-- END TIMELINE PANE -->
+    <!-- START APPLICATIONS TAB -->
+    <div class="tab-pane" id="apps" role="tabpanel">
+        {% component 'ViewApps' %}
+    </div>
+    <!-- END APPLICATIONS TAB -->
+    <!-- START NOTIFICATIONS TAB -->
+    <div class="tab-pane" id="notifications" role="tabpanel">
+        {% for nf in this.session.get('notifications') %}
+        <div class="row">
+            <div class="col-12 alert alert-{%if nf.type == 'error'%}danger wow shake{%else%}{{nf.type}}{%endif%}">
+                <strong>{{nf.type|capitalize}}</strong> {{ nf.message }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- END NOTIFICATIONS TAB -->
+
+
+</div>
+</div>
+
+{% else %}
+<div class="jumbotron">
+    <h1 class="display-3">Hello {{__SELF__.user.username}}!</h1>
+    {% if __SELF__.user.sloth.team_id == __SELF__.team.id %}
+    <p class="lead">
+        You cheeky lil' sloth wanted to mutiny against your captain, eh? <br/> Not this time! <br/> ..But you may try again
+        later.
+    </p>
+
+    {% else %}
+    <p class="lead">
+        You cheeky lil' sloth wanted to undercut your enemy? <br/> Not this time! <br/> ..But you may try again later.
+    </p>
+    {% endif %}
+    <p class="lead">
+        <a class="btn btn-primary btn-lg float-right" href="/" role="button">End the mutiny and go back to Home!</a>
+    </p>
+</div>
+{% endif %}

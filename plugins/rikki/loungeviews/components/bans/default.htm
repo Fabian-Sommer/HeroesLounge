@@ -1,0 +1,109 @@
+<div class="card mb-2">
+    <h4 class="card-header text-center text-white" style="background-color:#2e93cd">
+        Banned Heroes/Bugs/Talents/Skins
+    </h4>
+    <div class="card-body">
+        <div class="alert alert-info">
+            <strong>Note:</strong> This list may not be comprehensive and you may still be sanctioned if found abusing bugs that
+            are not listed here.
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>Banned Heroes</h3>
+                <ul class="list-group list-group-flush">
+                    {% for ban in __SELF__.heroes %}
+                        <li class="list-group-item">
+                            <strong>{{ban.hero.title}}</strong> 
+                            {% if ban.round_start %}
+                            [Round {{ban.round_start}} {% if ban.round_length %} - {{ban.round_start + ban.round_length}} {% endif %}]
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Banned Bugs</h3>
+                <ul class="list-group list-group-flush">
+                    {% for ban in __SELF__.literals %}
+                        <li class="list-group-item">
+                            {{ban.literal}}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Banned Talents</h3>
+                <ul class="list-group list-group-flush">
+                    {% for ban in __SELF__.talents %}
+                        <li class="list-group-item">
+                            {% if ban.hero %}{{ban.hero.title}} - {% endif %}
+                            <strong>{{ban.talent.title}}</strong>
+                            {% if ban.round_start %}
+                            [Round {{ban.round_start}} {% if ban.round_length %} - {{ban.round_start + ban.round_length}} {% endif %}]
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div>
+            <p>If a banned talent is picked and noticed before 5 minutes after the start of the game and before the first fort or keep has fallen, then a restart is required under the technical difficulties rule listed below.</p>
+
+            <p>If a banned talent is picked mid game, you may continue the game as long as the talent does not give a passive benefit, and the ability linked to the talent is not used for the rest of the game.</p>
+
+            <p>If the talent does give a passive benefit, the team that picked the banned talent will lose the map (not the series).</p>
+
+            <p>In situations where a banned hero is accidentally picked in draft, the draft must be stopped, and remade up to the point where the banned hero was picked.</p>
+
+            <p>All banned talent/hero/bug breaches must be reported within 7 days of the game being played.</p>
+        </div>
+        <div class="row">
+            <div class="col">
+                <b>Prohibited character skins:</b>
+                <ul>
+                    <li>Archangel Diablo</li>
+                    <li>Twilight Archangel Diablo</li>
+                    <li>Skyborne Archangel Diablo</li>
+                    <li>Toxic Archangel Diablo</li>
+
+                    <li>Cyberhawk Kael'thas</li>
+                    <li>Sapphire Cyberhawk Kael'thas</li>
+                    <li>Cyborghawk Kael'thas</li>
+                    <li>Spectre Cyberhawk Kael’thas</li>
+
+                    <li>Maraudin' Muradin</li>
+                    <li>Raider Maraudin' Muradin</li>
+                    <li>Dominion Maraudin' Muradin</li>
+                    <li>Umojan Maraudin’ Muradin</li>
+
+                    <li>Striker Li-Ming</li>
+                    <li>Scarlet Striker Li-Ming</li>
+                    <li>Canary Striker Li-Ming</li>
+                    <li>Sapphire Striker Li-Ming</li>
+
+                    <li>Mecha Tyrael</li>
+                    <li>Strike Mecha Tyrael</li>
+                    <li>Deathreaper Mecha Tyrael</li>
+                </ul>
+            </div>
+            <div class="col">
+                <b>Prohibited character mounts:</b>
+                <ul>
+                    <li>Arthas Bat Form</li>
+                    <li>Kerrigan Bat Transformation</li>
+                </ul>
+            </div>
+            <div class="col">
+                <b>Prohibited mounts:</b>
+                <ul>
+                    <li>Invisible Horse</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <p>Picking banned skins leads to a restart as long as 2 minutes have not yet passed in game. If they are not noticed within 2 minutes, the game continues as normal. Furthermore, the teams can decide to continue as normal if both teams agree.</p>
+            
+        </div>
+    </div>
+
+</div>

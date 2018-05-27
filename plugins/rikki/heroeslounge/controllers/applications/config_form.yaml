@@ -1,0 +1,10 @@
+name: Applications
+form: $/rikki/heroeslounge/models/apps/fields.yaml
+modelClass: Rikki\Heroeslounge\Models\Apps
+defaultRedirect: rikki/heroeslounge/applications
+create:
+    redirect: 'rikki/heroeslounge/applications/update/:id'
+    redirectClose: rikki/heroeslounge/applications
+update:
+    redirect: rikki/heroeslounge/applications
+    redirectClose: rikki/heroeslounge/applications

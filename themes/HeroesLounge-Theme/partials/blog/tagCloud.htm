@@ -1,0 +1,19 @@
+[viewBag]
+
+[tagsList]
+slug = "{{ :slug }}"
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No post found"
+sortOrder = "name asc"
+postPage = "blog/tag"
+==
+<div class="tagcloud">
+	 {% for post in posts %}
+    	<span class="tag"><a class="text-white">{{ post.name }}</a></span>
+     {% else %}
+    	<div class="no-post">
+    		{{ noPostsMessage }}
+    	</div>
+    {% endfor %}
+</div>

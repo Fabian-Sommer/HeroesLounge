@@ -1,0 +1,32 @@
+columns:
+    title:
+        label: Title
+        type: text
+        searchable: true
+        sortable: true
+    season:
+        label: Season
+        type: text
+        searchable: true
+        sortable: true
+        relation: season
+        select: title
+    playoff:
+        label: Tournament
+        type: text
+        searchable: true
+        sortable: true
+        relation: playoff
+        select: title
+    teams_count:
+        label: '# of Teams'
+        type: number
+        default: '0'
+        sortable: false
+        relation: teams_count
+        valueFrom: count
+    slug:
+        label: Slug
+        type: text
+        searchable: true
+        sortable: true

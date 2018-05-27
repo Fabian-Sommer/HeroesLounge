@@ -1,0 +1,12 @@
+name: Match
+modelClass: Rikki\Heroeslounge\Models\Match
+form: $/rikki/heroeslounge/models/match/fields.yaml
+defaultRedirect: rikki/heroeslounge/match
+create:
+    redirect: 'rikki/heroeslounge/match/update/:id'
+    redirectClose: rikki/heroeslounge/match
+update:
+    redirect: rikki/heroeslounge/match
+    redirectClose: rikki/heroeslounge/match
+preview:
+    title: 'View Matches'

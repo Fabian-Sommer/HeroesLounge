@@ -1,0 +1,12 @@
+<div class="fixed-top container" style="z-index:9999999;top:5%">
+    <div class="row">
+
+        {% flash %}
+        <div class="errorMSG col-12 alert alert-{%if type == 'error'%}danger wow shake{%else%}{{type}}{%endif%}">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>{{type|capitalize}}</strong> {{ message }}
+        </div>
+        {% endflash %}
+    </div>
+
+</div>

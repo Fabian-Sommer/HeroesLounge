@@ -1,0 +1,11 @@
+title = "Account"
+url = "/user/:code?"
+layout = "plain"
+is_hidden = 0
+
+[SlothAccount]
+redirect = "user/account"
+paramCode = "code"
+forceSecure = 1
+==
+{% component 'SlothAccount' %}

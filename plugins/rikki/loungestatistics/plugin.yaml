@@ -1,0 +1,7 @@
+plugin:
+    name: 'rikki.loungestatistics::lang.plugin.name'
+    description: 'rikki.loungestatistics::lang.plugin.description'
+    author: rikki
+    icon: oc-icon-angellist
+    homepage: 'https://github.com/kealsera'
+   

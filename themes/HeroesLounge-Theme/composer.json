@@ -1,0 +1,28 @@
+{
+    "name": "vojtasvoboda/oc-vegapro-theme",
+    "type": "october-theme",
+    "description": "Vega Pro theme for OctoberCMS",
+    "keywords": ["vega", "pro", "theme"],
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Vojta Svoboda",
+            "email": "vojtasvoboda.cz@gmail.com",
+            "role": "Webdeveloper. Port theme to OctoberCMS."
+        },
+        {
+            "name": "Lyra Themes",
+            "website": "www.lyrathemes.com",
+            "role": "Author of the template."
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

@@ -1,0 +1,130 @@
+{% if __SELF__.user != null and __SELF__.user.sloth.team_id == 0 %} {{form_open({request: 'onCreateTeam', files:true})}}
+<div class="col-12">
+    <div class="row">
+        <!-- START TEAMNAME -->
+        <div class="col-md-6">
+            <h3>Team Name</h3>
+            <label for="Team Name" class="sr-only">Team Name</label>
+            <input class="form-control" placeholder="Team Name" type="text" name="team_name">
+        </div>
+        <!-- END TEAMNAME -->
+        <!-- START ABBREVIATION -->
+        <div class="col-md-6">
+            <h3>Abbreviation</h3>
+            <label for="Abbreviation" class="sr-only">Abbreviation</label>
+            <input class="form-control" placeholder="Abbreviation" type="text" maxlength="20" name="team_slug">
+            <small class="text-muted">Your teams abbreviation will be used by Casters. Once your team is created it is not possible to change the abbreviation!</small>
+        </div>
+        <!-- END ABBREVIATION -->
+
+    </div>
+    <hr class="separator">
+
+
+    <div class="row">
+        <!-- START LOGO -->
+        <div class="form-group col-md-6">
+            <h3>Logo</h3>
+            <div class="fileselect">
+                <label class="input-group-btn form-control-label" style="height:40px">
+                        <span class="btn btn-primary" type="button">
+                            Browse..
+                            <input type="file" class="form-control" name="logo" style="display:none">
+                        </span>
+                    </label>
+                <input type="text" class="form-control" readonly="true">
+            </div>
+            <small id="shortLogoBlock" class="text-muted">
+                The Logo will be used to recognize your team even if no team name is shown.<br />
+                We suggest to take a square image e.g. 128x128 Pixel.
+                </small>
+        </div>
+
+        <!-- END LOGO-->
+        <!-- START BANNER -->
+        <div class="form-group col-md-6">
+            <h3>Banner</h3>
+            <div class="fileselect">
+                <label class="input-group-btn form-control-label" style="height:40px">
+                        <span class="btn btn-primary" type="button">
+                            Browse..
+                            <input type="file" class="form-control" name="banner" style="display:none">
+                        </span>
+                    </label>
+                <input type="text" class="form-control" readonly="true">
+            </div>
+            <small id="shortBannerBlock" class="text-muted">
+                The Banner will be used to spice up your Teams Profile Page.<br />
+                We suggest to take a rectangular image e.g. 1000x250 Pixel.
+                </small>
+        </div>
+        <!-- END BANNER -->
+    </div>
+
+    <hr class="separator">
+
+    <!-- START DESCRIPTION -->
+    <h3>Description</h3>
+    <div>
+        <textarea class="form-control" placeholder="Say something about your team!" name="short_description" maxlength="255" style="height:75px"
+            aria-describedby="shortDescBlock"></textarea>
+        <small id="shortDescBlock" class="text-muted">
+                Can be 255 characters long.
+            </small>
+    </div>
+
+    <hr class="separator">
+    <!-- END DESCRIPTION -->
+
+    <!-- START SOCIAL LINKS -->
+    <h3>Social Links</h3>
+    <div class="form-inline">
+        <div class="row">
+            <div class="input-group col-lg-3 mb-3 col-md-4">
+                <label for="facebook_url" class="sr-only">Facebook URL</label>
+                <div class="input-group-addon"><i class="fa fa-facebook" aria-hidden="true"></i></div>
+                <input class="form-control" placeholder="Facebook URL" type="text" name="facebook_url" pattern="[a-zA-Z]*">
+            </div>
+            <div class="input-group col-lg-3 mb-3 col-md-4">
+                <label for="twitter_url" class="sr-only">Twitter URL</label>
+                <div class="input-group-addon"><i class="fa fa-twitter" aria-hidden="true"></i></div>
+                <input class="form-control" placeholder="Twitter URL" type="text" name="twitter_url">
+            </div>
+            <div class="input-group col-lg-3 mb-3 col-md-4">
+                <label for="twitch_url" class="sr-only">Twitch URL</label>
+                <div class="input-group-addon"><i class="fa fa-twitch" aria-hidden="true"></i></div>
+                <input class="form-control" placeholder="Twitch URL" type="text" name="twitch_url">
+            </div>
+            <div class="input-group col-lg-3 mb-3 col-md-4">
+                <label for="youtube_url" class="sr-only">YouTube URL</label>
+                <div class="input-group-addon"><i class="fa fa-youtube" aria-hidden="true"></i></div>
+                <input class="form-control" placeholder="YouTube URL" type="text" name="youtube_url">
+            </div>
+            <div class="input-group col-lg-3 mb-3 col-md-4">
+                <label for="website_url" class="sr-only">Website URL</label>
+                <div class="input-group-addon"><i class="fa fa-globe" aria-hidden="true"></i></div>
+                <input class="form-control" placeholder="Website URL" type="url" name="website_url">
+            </div>
+        </div>
+    </div>
+    <!-- END SOCIAL LINKS -->
+    <button type="submit" class="btn btn-primary">Create Team</button>
+</div>
+
+{{form_close()}} {%  else  %}
+<div class="jumbotron">
+    <h1 class="display-3">Hello {{__SELF__.user.username}}!</h1>
+    {% if __SELF__.user.sloth.team_id > 0 %}
+    <p class="lead">
+        You cheeky lil' sloth already belong to a team, so you can't create one<br/>
+        <br/> ..But you may try again later.
+    </p>
+
+    {% else %}
+    <p class="lead">
+        You need to authenticate/register first before creating a Team!
+        <a href="{{'user/account' | page}}" class="btn btn-primary">Sign Up</a>
+    </p>
+    {% endif %}
+</div>
+{%  endif  %}

@@ -1,0 +1,93 @@
+divisions:
+    label: Divisions
+    view:
+        list:
+            columns:
+                season:
+                    label: Season
+                    relation: season
+                    select: title
+                title:
+                    label: Division
+                pivot[active]:
+                    label: Active
+                    type: switch
+        toolbarButtons: add|remove
+    manage:
+        form:
+            fields:
+                title:
+                    label: Title
+    pivot:
+        form:
+            fields:
+                pivot[active]:
+                    label: Active
+                    type: switch
+timeline:
+    label: Timeline Entries
+    view:
+        list:
+            columns:
+                created_at:
+                    label: Date
+                type:
+                    label: type
+        form: $/rikki/heroeslounge/models/timeline/fields.yaml
+        toolbarPartial: timeline_toolbar
+    manage:
+        form:
+            fields:
+                type:
+                    label: 'Type - this has to be one of Team.{Message,Created,Deleted,Active,InActive,Logo}, Sloth.Joins.Team, Sloth.Left.Team, Admin.Message'
+                    type: text
+                    default: 'Team.Message'
+                message:
+                    label: 'Only used when type is Team.Message, Admin.Message'
+                    type: textarea
+                    default: ''
+                sloths:
+                    label: 'Associated Users - when type is Sloth. ...'
+                    span: auto
+                    oc.commentPosition: ''
+                    type: relation
+                    select: title
+        list: $/rikki/heroeslounge/models/timeline/columns.yaml
+sloths:
+    label: Roster
+    view: 
+        list:
+            columns:
+                title:
+                    label: title
+                    searchable: true
+                is_captain:
+                    label: Captain
+                    type: switch
+                team:
+                    label: Team
+                    relation: team 
+                    select: title
+        toolbarButtons: add|remove
+    manage:
+        recordsPerPage: 20
+        showSearch: true
+        form:
+            fields:
+                user:
+                    label: User
+                    readOnly: true
+                    type: relation
+                    select: username
+                    span: left
+                is_captain:
+                    label: Is Captain
+                    type: checkbox
+                    default: false
+                    span: right
+                    comment: NEVER MAKE 2 SLOTHS BE CAPTAIN OF A TEAM
+                team:
+                    label: Assign Team
+                    type: relation
+                    select: title
+

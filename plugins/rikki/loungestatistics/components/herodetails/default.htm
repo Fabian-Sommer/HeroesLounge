@@ -1,0 +1,28 @@
+ {% set path = 'assets/img/heroes/' ~__SELF__.hero.title|replace({'.':''})|replace({'\'':''})|replace({' ':''})|replace({'-':''})|lower
+~ '.png' %}
+<img src="{{ path |theme }}" class="rounded m-1">
+
+
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="season" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            All Seasons
+        </button>
+        <div class="dropdown-menu" aria-labelledby="season">
+            {% for season in __SELF__.seasons %}
+            <a class="dropdown-item" href="{{ 'statistics/hero' |page({season:season.title})}}">{{season.title}}</a> {% endfor
+            %}
+        </div>
+    </div>
+    {% if __SELF__.selSeason %}
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="division" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                All Divisions
+            </button>
+        <div class="dropdown-menu" aria-labelledby="division">
+            {% for division in __SELF__.divisions %}
+            <a class="dropdown-item">{{division.title}}</a> {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>

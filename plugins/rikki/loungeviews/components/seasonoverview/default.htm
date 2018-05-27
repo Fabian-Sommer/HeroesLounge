@@ -1,0 +1,10 @@
+{% if __SELF__.season %} 
+	{% if __SELF__.season.reg_open == true %}
+		{% component 'participationOverview' id=__SELF__.season.id %}
+	{% elseif  __SELF__.season.divisions %}
+
+	{% endif %} 
+{% else %}
+
+
+{% endif %}

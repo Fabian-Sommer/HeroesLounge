@@ -1,0 +1,11 @@
+{
+  "name": "oc-vegapro-theme",
+  "title": "Vega Pro theme for OctoberCMS",
+  "version": "1.0.0",
+  "author": "Vojta Svoboda",
+  "license": "GPLv2",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/vojtasvoboda/oc-vegapro-theme"
+  }
+}

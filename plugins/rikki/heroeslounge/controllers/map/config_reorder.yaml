@@ -1,0 +1,4 @@
+title: Map
+modelClass: Rikki\Heroeslounge\Models\Map
+toolbar:
+    buttons: reorder_toolbar

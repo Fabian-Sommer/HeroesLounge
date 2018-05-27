@@ -1,0 +1,8 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table rikki_loungestatistics_sloth_hero_statistics'
+    - builder_table_create_rikki_loungestatistics_sloth_hero_statistics.php
+1.0.3:
+    - 'Updated table rikki_loungestatistics_sloth_hero_statistics'
+    - builder_table_update_rikki_loungestatistics_sloth_hero_statistics.php

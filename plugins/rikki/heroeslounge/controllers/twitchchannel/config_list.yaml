@@ -1,0 +1,11 @@
+list: $/rikki/heroeslounge/models/twitchchannel/columns.yaml
+modelClass: Rikki\Heroeslounge\Models\Twitchchannel
+title: Twitchchannel
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'rikki/heroeslounge/twitchchannel/update/:id'

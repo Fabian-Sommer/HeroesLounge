@@ -1,0 +1,76 @@
+{% set banner %} {% if __SELF__.sloth.banner %} {{__SELF__.sloth.banner.path}} {% else %} {{'plugins/rikki/heroeslounge/assets/img/bg_CCC.png'
+| app}} {% endif %} {% endset %} {% set avatar %} {% if __SELF__.sloth.user.avatar %} {{__SELF__.sloth.user.avatar.path}}
+{% else %} {{'plugins/rikki/heroeslounge/assets/img/profile-icon.png' | app}} {% endif %} {% endset %} {% set team %} {%
+if __SELF__.sloth.team %}
+<a href="{{ 'team/view' | page({slug: __SELF__.sloth.team.slug})}}">[{{__SELF__.sloth.team.title}}]</a> {% else %} {% endif
+%} {% endset %}
+{% if user %}
+<div class="jumbotron image-banner banner-custom-header mb-3" style="background:url({{banner}}) no-repeat 0 0 #ffffff;background-size:cover;background-position:center center">
+    <div style="background-color:rgba(33,33,33,0.5)" class="wow fadeIn">
+        <div class=" d-flex justify-content-center mr-5">
+            <div style="height:110px;width:110px;position:relative; display:inline-block;overflow:hidden" class="wow zoomIn mr-3">
+                <img class="img-fluid rounded" style="position:absolute;top:50%;min-height:100%;display:block;left:50%;-webkit-transform: translate(-50%, -50%);
+                                min-width:100%;" src="{{avatar}}" alt="Logo" title="Logo">
+            </div>
+            <div class="mr-5">
+                <h1 class="block-title wow zoomIn">{{team}}{{__SELF__.sloth.title}}</h1>
+                <div class="text-center d-xs-none wow zoomIn description" style="visibility: visible; animation-name: zoomIn;">
+                    <div class="SocialSharingButtons">
+                        {% if __SELF__.sloth.twitter_url %}
+                        <a href="{{__SELF__.sloth.twitter_url}}" target="_blank" title="View Twitter Profile" class="share-btn twitter">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a> {% endif %} {% if __SELF__.sloth.facebook_url %}
+                        <a href="{{__SELF__.sloth.facebook_url}}" target="_blank" title="View Facebook Profile" class="share-btn facebook">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a> {% endif %} {% if __SELF__.sloth.twitch_url %}
+                        <a href="{{__SELF__.sloth.twitch_url}}" class="share-btn twitch">
+                            <i class="fa fa-twitch" aria-hidden="true"></i>
+                        </a> {% endif %} {% if __SELF__.sloth.youtube_url %}
+                        <a href="{{__SELF__.sloth.youtube_url}}" class="share-btn youtube">
+                            <i class="fa fa-youtube" aria-hidden="true"></i>
+                        </a> {% endif %} {% if __SELF__.sloth.website_url %}
+                        <a href="{{__SELF__.sloth.website_url}}" class="share-btn website">
+                            <i class="fa fa-globe" aria-hidden="true"></i>
+                        </a> {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if __SELF__.sloth.role %} {% set path = 'assets/img/roles/' ~__SELF__.sloth.role.title|replace({' ':'-'})|lower ~ '.svg' %}
+        <p class="card-text">
+            <img src="{{path | theme}}" class="mr-2 rounded" title="{{__SELF__.sloth.role.title}}" alt="{{__SELF__.sloth.role.title}}"
+                style="max-height:30px;max-width:30px;background-color:#2e93cd" /> {{__SELF__.sloth.role.title}}
+        </p>
+        {% endif %} {% if __SELF__.sloth.battle_tag %}
+        <p class="card-text">
+            <img src="{{'assets/img/btns/battlenet.svg' | theme}}" class="mr-2 rounded" title="Battle Tag" alt="Battle Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd"
+            />{% if  __SELF__.sloth.hotslogs_id %} <a href="https://www.hotslogs.com/Player/Profile?PlayerID={{ __SELF__.sloth.hotslogs_id}}"
+                alt="HotSLogs ID">{{__SELF__.sloth.battle_tag}}</a> {% else %} {{__SELF__.sloth.battle_tag}} {% endif %}</p>{%
+        endif %} {% if __SELF__.sloth.discord_tag %}
+        <p class="card-text">
+            <img src="{{'assets/img/btns/discord.svg' | theme}}" class="mr-2 rounded" title="Discord Tag" alt="Discord Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd"
+            /> {{__SELF__.sloth.discord_tag}}</p>{% endif %} {% if __SELF__.sloth.user.country_id %}
+        <p class="card-text"><strong>Country:</strong> {{__SELF__.sloth.user.country.name}}</p>{% endif %} {% if __SELF__.sloth.birthday %}
+        <p class="card-text"><strong>Birthday:</strong> {{__SELF__.sloth.birthday}}</p>{% endif %} {% if __SELF__.sloth.short_description %}
+        <p class="card-text"><strong>Description:</strong><br/>{{__SELF__.sloth.short_description}}</p>{% endif %}
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        {% component 'slothStatistics' %}
+    </div>
+    <div class="col-md-12">
+        {% component 'timeLine' id=__SELF__.sloth.id %}
+    </div>
+</div>
+{% else %}
+<div>
+    You must be logged in to view this page.
+</div>
+{% endif %}

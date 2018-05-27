@@ -1,0 +1,29 @@
+{% if __SELF__.round is same as(null) %}
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand d-block d-md-none">View Matches</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#roundmatches_groups"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="roundmatches_groups">
+            <ul class="nav nav-tabs mr-auto">
+                {% for key,groupMatch in __SELF__.matches %}
+                <li class="nav-item">
+                    <a class="nav-link{% if loop.index == 1 %} active{% endif %}" data-toggle="tab" href="#roundmatches_group_{{loop.index}}">
+                        {% if key %}{{key}}{% else %}Playoffs{%endif%}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+    <div class="tab-content">
+        {% for groupMatch in __SELF__.matches %}
+        <div class="tab-pane{% if loop.index == 1 %} active{% endif %}" id="roundmatches_group_{{loop.index}}" role="tabpanel">
+            {%  partial '@showMatchGroup' matchGroup=groupMatch showLogo=__SELF__.showLogo showName=__SELF__.showName  %}
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    {%  partial '@showMatchGroup' matchGroup=__SELF__.matches showLogo=__SELF__.showLogo showName=__SELF__.showName  %}
+{% endif %}

@@ -1,0 +1,15 @@
+columns:
+    created_at:
+        label: DateTime
+        type: datetime
+    team:
+        label: Team
+        type: text
+        relation: teams_backend
+        select: title
+    message:
+        label: Message
+        type: text
+    type:
+        label: Type
+        type: text

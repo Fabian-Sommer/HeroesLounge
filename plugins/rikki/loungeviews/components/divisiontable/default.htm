@@ -1,0 +1,57 @@
+
+<table class="table table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+            </th>
+            <th>
+                Team
+            </th>
+            {% if __SELF__.showScore %}
+            <th>
+                Score
+            </th>
+            <th>
+                Map Score
+            </th>
+            {% else %}
+            <th>
+                Map Wins
+            </th>
+            <th>
+                Wins
+            </th>
+            {% endif %}
+            <th>
+                Matches
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for team in __SELF__.teams[__SELF__.startIndex:__SELF__.length] %}
+        <tr {% if user.sloth.team.id == team.id or __SELF__.selTeam == team.id %} class="table-success" {% endif %}>
+            <th scope="row">{{loop.index+__SELF__.startIndex}}</th>
+            <td>
+                {% if team.disbanded == false %}
+                    <img src="/plugins/rikki/heroeslounge/assets/img/active.png" style="width:8px" alt="Active" title="Active"/>
+                {% else %}
+                    <img src="/plugins/rikki/heroeslounge/assets/img/inactive.png" style="width:8px" alt="Inactive" title="Inactive"/>
+                {% endif %}
+            </td>
+            <td><a href="{{ 'team/view'|page({ slug: team.slug }) }}" style="color:#34495e;text-decoration:underline">{{team.title}}</a></td>
+            {% if __SELF__.showScore %}
+            <td>{{team.score}}</td>
+            <td>{{team.map_score}}</td>
+            {% else %}
+            <td>{{team.game_wins}}</td>
+            <td>{{team.pivot.win_count}}</td>
+            {% endif %}
+            <td>{{team.pivot.match_count}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

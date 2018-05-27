@@ -1,0 +1,47 @@
+title = "Blog category"
+url = "/blog/category/:slug/:page?"
+layout = "blog"
+is_hidden = 0
+
+[blogList]
+pageNumber = "{{ :page }}"
+categoryFilter = "{{ :slug }}"
+postsPerPage = 9
+noPostsMessage = "No post found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+==
+<?php
+function onEnd()
+{
+    if ($this->category) {
+        $this->page->title = $this->category->name;
+
+    } else {
+        $this->page->title = "Category not found!";
+        header("HTTP/1.0 404 Not Found");
+        flush();
+    }
+}
+?>
+==
+{% if category %}
+
+{% put title %}
+    {{ 'blog.category.title' | _ }} {{ category.name }}
+{% endput %}
+
+<div class="col-md-9 blog-feed-column">
+    {% component 'blogList' %}
+</div>
+
+<div class="col-md-3 sidebar">
+    {% partial 'modules/sidebar' %}
+</div>
+
+{% else %}
+<div class="col-md-12">
+    <p class="text-center">{{ 'blog.category.not_found' | _ }} <a href="{{ 'blog-list' | page }}">{{ 'blog.category.all_posts' | _ }}</a>.</p>
+</div>
+{% endif %}

@@ -1,0 +1,13 @@
+title: Timeline
+modelClass: Rikki\Heroeslounge\Models\Timeline
+list: $/rikki/heroeslounge/models/timeline/columns.yaml
+recordUrl: 'rikki/heroeslounge/timeline/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: '40'
+showSetup: true
+showCheckboxes: true
+showSorting: 1
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

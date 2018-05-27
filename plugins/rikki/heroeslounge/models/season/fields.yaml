@@ -1,0 +1,69 @@
+fields:
+    title:
+        label: Title
+        oc.commentPosition: ''
+        span: auto
+        required: 1
+        type: text
+    slug:
+        label: Slug
+        oc.commentPosition: ''
+        span: auto
+        required: 1
+        preset:
+            field: title
+            type: slug
+        type: text
+    logo:
+        label: Logo
+        span: auto
+        oc.commentPosition: ''
+        mode: file
+        useCaption: true
+        thumbOptions:
+            mode: crop
+            extension: auto
+        type: fileupload
+    is_active:
+        label: 'Is Active'
+        span: auto
+        required: 0
+        type: switch
+        comment: 'Only Active Seasons will be factored into Matchmaking if Round_length > Current_Round. Has to be active for people to sign up.'
+    round_length:
+        label: 'Round Length'
+        oc.commentPosition: ''
+        span: auto
+        required: 1
+        type: number
+    current_round:
+        label: 'Current Round'
+        oc.commentPosition: ''
+        span: auto
+        disabled: 1
+        type: number
+    divisions:
+        label: 'Assigned Divisions'
+        oc.commentPosition: ''
+        nameFrom: title
+        descriptionFrom: season.title
+        span: auto
+        type: relation
+    reg_open:
+        label: 'Registration Open'
+        span: auto
+        trigger:
+            action: empty
+            field: is_active
+            condition: unchecked
+        type: checkbox
+        comment: 'When checked FAs & Teams can signup for'
+    mm_active:
+        label: 'Matchmaking Active'
+        span: auto
+        trigger:
+            action: empty
+            field: reg_open
+            condition: checked
+        type: checkbox
+        comment: 'When checked, matchmaking will run ever sunday midnight if current round < round_length'

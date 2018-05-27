@@ -1,0 +1,15 @@
+# ===================================
+#  Field Definitions
+# ===================================
+
+fields:
+
+
+tabs:
+    fields:
+
+        groups:
+            label: rainlab.user::lang.user.groups
+            tab: rainlab.user::lang.user.account
+            type: relation
+            emptyOption: rainlab.user::lang.user.empty_groups

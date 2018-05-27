@@ -1,0 +1,118 @@
+<div class="card border">
+    <div class="card-header bg-primary">
+        <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#heroStatisticsToggle" aria-expanded="false"
+            aria-controls="collapseExample">
+                                Toggle Heroes
+            </button>
+    </div>
+    <div class="collapse" id="heroStatisticsToggle">
+        <table class="table table-bordered table-responsive table-sm m-0">
+            <thead class="thead-default">
+                <tr>
+                    <th class="text-center">
+                        Hero
+                    </th>
+                    <th class="text-center">
+                        Picks
+                    </th>
+                    <th class="text-center">
+                        Wins
+                    </th>
+                    <th class="text-center">
+                        Bans by
+                    </th>
+                    <th class="text-center">
+                        Bans vs
+                    </th>
+                    <th class="text-center">
+                        <img src="{{ 'assets/img/icons/skull_swords.svg' | theme }}" class="Icon24x mx-1" title="Kills" alt="Kills" />
+                    </th>
+                    <th class="text-center">
+                        <img src="{{ 'assets/img/icons/palm.svg' | theme }}" class="Icon24x mx-1" title="Assists" alt="Assists" />
+                    </th>
+                    <th class="text-center">
+                        <img src="{{ 'assets/img/icons/skull.svg' | theme }}" class="Icon24x mx-1" title="Deaths" alt="Deaths" />
+                    </th>
+                    <th class="text-center">
+                        Siege Dmg
+                    </th>
+                    <th class="text-center">
+                        Hero Dmg
+                    </th>
+                    <th class="text-center">
+                        Healing
+                    </th>
+                    <th class="text-center">
+                        Dmg Taken
+                    </th>
+                    <th class="text-center" title="Experience Contribution">
+                        Exp
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for heroArray in __SELF__.heroes %}
+                <tr>
+                    <th scope="row" class="text-center">
+                        <img src="{{ ('assets/img/heroes/' ~  heroArray['hero'].image_url
+                                        ~ '.png') | theme }}" class="" alt="{{heroArray['hero'].title}}" title="{{heroArray['hero'].title}}"
+                            style="max-height:50px">
+                        <p class="d-none">{{heroArray['hero'].title}}</p>
+                    </th>
+                    <td class="align-middle text-center">{{heroArray['picks']}}{% if heroArray['picks'] != '-' %}<br>({{heroArray['pick_popularity']}}%){%endif%}</td>
+                    <td class="align-middle text-center">{{heroArray['winrate']}}</td>
+                    <td class="align-middle text-center">{{heroArray['bans_by_team']}}{% if heroArray['bans_by_team'] != '-' %}<br>({{heroArray['bbt_popularity']}}%){%endif%}</td>
+                    <td class="align-middle text-center">{{heroArray['bans_against_team']}}{% if heroArray['bans_against_team'] != '-' %}<br>({{heroArray['bat_popularity']}}%){%endif%}</td>
+                    <td class="align-middle text-center">{{heroArray['kills']}}</td>
+                    <td class="align-middle text-center">{{heroArray['assists']}}</td>
+                    <td class="align-middle text-center">{{heroArray['deaths']}}</td>
+                    <td class="align-middle text-center">{{heroArray['siege_dmg']}}</td>
+                    <td class="align-middle text-center">{{heroArray['hero_dmg']}}</td>
+                    <td class="align-middle text-center">{{heroArray['healing']}}</td>
+                    <td class="align-middle text-center">{{heroArray['dmg_taken']}}</td>
+                    <td class="align-middle text-center">{{heroArray['xp']}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="card border">
+    <div class="card-header bg-primary">
+        <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#mapStatisticsToggle" aria-expanded="false"
+            aria-controls="collapseExample">
+                                Toggle Maps
+            </button>
+    </div>
+    <div class="collapse" id="mapStatisticsToggle">
+        <table class="table table-bordered table-responsive table-sm m-0">
+            <thead class="thead-default">
+                <tr>
+                    <th class="text-center">
+                        Map
+                    </th>
+                    <th class="text-center">
+                        Picked by {{__SELF__.sloth.title}}
+                    </th>
+                    <th class="text-center">
+                        Picked vs. {{__SELF__.sloth.title}}
+                    </th>
+                    <th class="text-center">
+                        Winrate
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mapArray in __SELF__.maps %}
+                <tr>
+                    <td class="align-middle text-center">{{mapArray['map'].title}}</td>
+                    <td class="align-middle text-center">{{mapArray['picks_by']}}</td>
+                    <td class="align-middle text-center">{{mapArray['picks_vs']}}</td>
+                    <td class="align-middle text-center">{{mapArray['winrate']}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+

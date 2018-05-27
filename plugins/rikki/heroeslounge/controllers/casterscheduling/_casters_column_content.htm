@@ -1,0 +1,20 @@
+<?php
+foreach ($record->casters as $caster) {
+  if ($caster->pivot->approved != 2) {
+    echo $caster->title;
+    if ($caster->pivot->approved == 0) {
+      echo "<button data-request=\"onRequestApproval\" data-request-data=\"match_id: ";
+      echo $record->id;
+      echo ", caster_id: ";
+      echo $caster->id;
+      echo "\">Approve</button>";
+      echo "<button data-request=\"onRequestDenial\" data-request-data=\"match_id: ";
+      echo $record->id;
+      echo ", caster_id: ";
+      echo $caster->id;
+      echo "\">Deny</button>";
+    }
+    echo "<br>";
+  }
+}
+?>

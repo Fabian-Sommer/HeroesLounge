@@ -1,0 +1,86 @@
+<h3>Stats</h3>
+Displaying stats of 
+<form data-request="onSeasonChange" data-request-success="jQuery('#mapStatisticsToggle>table').DataTable
+            ({
+                searching: false,
+                paging: false,
+                autoWidth: false,
+                order: [[3, 'desc']],
+                info: false
+            });
+        jQuery('#heroStatisticsToggle>table').DataTable
+            ({
+                columns: [
+                    null,
+                    { 'orderDataType': 'hl-take-first', 'type': 'num' },
+                    null,
+                    { 'orderDataType': 'hl-take-first', 'type': 'num' },
+                    { 'orderDataType': 'hl-take-first', 'type': 'num' },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                order: [[1, 'desc']],
+                dom: &quot;<'row'<'col-sm-6'<'mt-2'l>><'col-sm-6'<'mt-2' f>>>&quot; +
+                &quot;<'row'<'col-sm-12'tr>>&quot; +
+                &quot;<'row'<'col-sm-5'i><'col-sm-7'p>>&quot;
+            });
+        jQuery('.dataTables_wrapper').removeClass('container-fluid');">
+<select name="season_id">
+  {% for season in __SELF__.allseasons %}
+  <option value="{{season.id}}">{{season.title}}</option>
+  {% endfor %}
+  <option  value="-1" >all time</option>
+</select>
+<button type="submit">Update</button>
+</form>
+<br>
+<div id="slothstatistics">
+{%  partial '@stats' %}
+</div>
+
+{% put scripts %}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('#mapStatisticsToggle>table').DataTable
+            ({
+                searching: false,
+                paging: false,
+                autoWidth: false,
+                order: [[3, 'desc']],
+                info: false
+            });
+        jQuery('#heroStatisticsToggle>table').DataTable
+            ({
+                columns: [
+                    null,
+                    { "orderDataType": "hl-take-first", "type": "num" },
+                    null,
+                    { "orderDataType": "hl-take-first", "type": "num" },
+                    { "orderDataType": "hl-take-first", "type": "num" },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                order: [[1, 'desc']],
+                dom: "<'row'<'col-sm-6'<'mt-2'l>><'col-sm-6'<'mt-2' f>>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>"
+            });
+        jQuery('.dataTables_wrapper').removeClass('container-fluid');
+
+    });
+
+</script>
+
+{% endput %}

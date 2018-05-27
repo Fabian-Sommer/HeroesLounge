@@ -1,0 +1,33 @@
+
+Displaying stats of 
+<form data-request="onSeasonChange" data-request-success="$('#heroStatisticsToggle>table').DataTable({ 
+                      'columns': [
+                          null,
+                          { 'orderDataType': 'hl-take-first', 'type': 'num' },
+                          null,
+                          { 'orderDataType': 'hl-take-first', 'type': 'num' },
+                          { 'orderDataType': 'hl-take-first', 'type': 'num' }
+                      ],
+                      'destroy': true, //use for reinitialize datatable
+                      'order': [[1, 'desc']],
+                   });
+                   jQuery('#mapStatisticsToggle>table').DataTable
+                               ({
+                                   searching: false,
+                                   paging: false,
+                                   autoWidth: false,
+                                   order: [[3, 'desc']],
+                                   info: false
+                               });">
+<select name="season_id">
+  {% for season in __SELF__.allseasons %}
+  <option value="{{season.id}}">{{season.title}}</option>
+  {% endfor %}
+  <option  value="-1" >all time</option>
+</select>
+<button type="submit">Update</button>
+</form>
+<br>
+<div id="teamstatistics">
+{%  partial '@stats' %}
+</div>

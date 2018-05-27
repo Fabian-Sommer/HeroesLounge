@@ -1,0 +1,322 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table rikki_heroeslounge_divisions'
+    - builder_table_create_rikki_heroeslounge_divisions.php
+1.0.3:
+    - 'Created table rikki_heroeslounge_match'
+    - builder_table_create_rikki_heroeslounge_match.php
+1.0.4:
+    - 'Created table rikki_heroeslounge_seasons'
+    - builder_table_create_rikki_heroeslounge_seasons.php
+1.0.5:
+    - 'Updated table rikki_heroeslounge_divisions'
+    - builder_table_update_rikki_heroeslounge_divisions.php
+1.0.6:
+    - 'Created table rikki_heroeslounge_sloths'
+    - builder_table_create_rikki_heroeslounge_sloths.php
+1.0.7:
+    - 'Created table rikki_heroeslounge_teams'
+    - builder_table_create_rikki_heroeslounge_teams.php
+1.0.8:
+    - 'Created table rikki_heroeslounge_team_division'
+    - builder_table_create_rikki_heroeslounge_team_division.php
+1.0.9:
+    - 'Created table rikki_heroeslounge_team_match'
+    - builder_table_create_rikki_heroeslounge_team_match.php
+1.0.10:
+    - 'Created table rikki_heroeslounge_country'
+    - builder_table_create_rikki_heroeslounge_country.php
+1.0.11:
+    - 'Added timeline table to HeroesLounge Plugin'
+    - create_table_rikki_heroeslounge_timeline.php
+1.0.12:
+    - 'Updated table rikki_heroeslounge_timeline'
+    - builder_table_update_rikki_heroeslounge_timeline.php
+1.0.13:
+    - 'Updated table rikki_heroeslounge_timeline'
+    - builder_table_update_rikki_heroeslounge_timeline_2.php
+1.0.14:
+    - 'Created table rikki_heroeslounge_games'
+    - builder_table_create_rikki_heroeslounge_games.php
+1.0.15:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths.php
+1.0.16:
+    - 'Updated table rikki_heroeslounge_teams'
+    - builder_table_update_rikki_heroeslounge_teams.php
+1.0.17:
+    - 'Created table rikki_heroeslounge_match_caster'
+    - builder_table_create_rikki_heroeslounge_match_caster.php
+1.0.18:
+    - 'Created table rikki_heroeslounge_twitchchannel'
+    - builder_table_create_rikki_heroeslounge_twitchchannel.php
+1.0.19:
+    - 'Updated table rikki_heroeslounge_match'
+    - builder_table_update_rikki_heroeslounge_match.php
+1.0.20:
+    - 'Created table rikki_heroeslounge_heroes'
+    - builder_table_create_rikki_heroeslounge_heroes.php
+1.0.21:
+    - 'Added Theme Database Entry'
+    - theme_database_entry.php
+1.0.22:
+    - 'duplicate 1.0.31'
+1.0.23:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_3.php
+1.0.24:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_4.php
+1.0.25:
+    - 'Created table rikki_heroeslounge_team_apps'
+    - builder_table_create_rikki_heroeslounge_team_apps.php
+1.0.26:
+    - 'Created table rikki_heroeslounge_game'
+    - builder_table_create_rikki_heroeslounge_game.php
+1.0.27:
+    - 'Drop table rikki_heroeslounge_games'
+    - builder_table_delete_rikki_heroeslounge_games.php
+1.0.28:
+    - 'Updated table rikki_heroeslounge_game'
+    - builder_table_update_rikki_heroeslounge_games.php
+1.0.29:
+    - 'Updated table rikki_heroeslounge_games'
+    - builder_table_update_rikki_heroeslounge_games_2.php
+1.0.30:
+    - 'Updated table rikki_heroeslounge_games'
+    - builder_table_update_rikki_heroeslounge_games3.php
+1.0.31:
+    - 'Updated table rikki_heroeslounge_match'
+    - builder_table_update_rikki_heroeslounge_match2.php
+1.0.32:
+    - 'Updated table rikki_heroeslounge_match'
+    - builder_table_update_rikki_heroeslounge_match3.php
+1.0.33:
+    - 'Created table rikki_heroeslounge_maps'
+    - builder_table_create_rikki_heroeslounge_maps.php
+1.0.34:
+    - 'Updated table rikki_heroeslounge_maps'
+    - builder_table_update_rikki_heroeslounge_maps.php
+1.0.35:
+    - 'Updated table rikki_heroeslounge_games'
+    - builder_table_update_rikki_heroeslounge_games4.php
+1.0.36:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_5.php
+1.0.37:
+    - 'Updated table rikki_heroeslounge_team_apps'
+    - builder_table_update_rikki_heroeslounge_team_apps.php
+1.0.38:
+    - 'Updated table rikki_heroeslounge_team_apps'
+    - builder_table_update_rikki_heroeslounge_team_apps_2.php
+1.0.39:
+    - 'Created table rikki_heroeslounge_team_availability'
+    - builder_table_create_rikki_heroeslounge_team_availability.php
+1.0.40:
+    - 'Updated table rikki_heroeslounge_teams'
+    - builder_table_update_rikki_heroeslounge_teams_2.php
+1.0.41:
+    - 'Updated table rikki_heroeslounge_team_availability'
+    - builder_table_update_rikki_heroeslounge_team_availability.php
+1.0.42:
+    - 'Updated table rikki_heroeslounge_team_apps'
+    - builder_table_update_rikki_heroeslounge_team_apps3.php
+1.0.43:
+    - 'Updated table rikki_heroeslounge_match_caster'
+    - builder_table_update_rikki_heroeslounge_match_caster.php
+1.0.44:
+    - 'Updated table rikki_heroeslounge_match'
+    - builder_table_update_rikki_heroeslounge_match4.php
+1.0.45:
+    - 'Drop table rikki_heroeslounge_country'
+    - builder_table_delete_rikki_heroeslounge_country.php
+1.0.46:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_6.php
+1.0.47:
+    - 'Updated table rikki_heroeslounge_maps'
+    - builder_table_update_rikki_heroeslounge_maps_2.php
+1.0.48:
+    - 'map default names'
+    - map_entries_default.php
+1.0.49:
+    - 'Created table rikki_heroeslounge_sloth_archive'
+    - builder_table_create_rikki_heroeslounge_sloth_archive.php
+1.0.50:
+    - 'Drop table rikki_heroeslounge_sloth_archive'
+    - builder_table_delete_rikki_heroeslounge_sloth_archive.php
+1.0.51:
+    - 'Updated table rikki_heroeslounge_timeline'
+    - builder_table_update_rikki_heroeslounge_timeline_3.php
+1.0.52:
+    - 'Updated table rikki_heroeslounge_timeline'
+    - builder_table_update_rikki_heroeslounge_timeline_4.php
+1.0.53:
+    - 'Created table rikki_heroeslounge_timeline_relation'
+    - builder_table_create_rikki_heroeslounge_timeline_relation.php
+1.0.54:
+    - 'Updated table rikki_heroeslounge_timeline_relation'
+    - builder_table_update_rikki_heroeslounge_timelineables.php
+1.0.55:
+    - 'Created table rikki_heroeslounge_sloth_roles'
+    - builder_table_create_rikki_heroeslounge_sloth_roles.php
+1.0.56:
+    - 'Updated table rikki_heroeslounge_sloth_roles'
+    - builder_table_update_rikki_heroeslounge_sloth_roles.php
+1.0.57:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths7.php
+1.0.58:
+    - 'Hanamura update'
+    - hanamura.php
+1.0.63:
+    - 'Updated table rikki_heroeslounge_team_apps'
+    - builder_table_update_rikki_heroeslounge_team_apps_3.php
+1.0.64:
+    - 'Updated table rikki_heroeslounge_team_apps'
+    - builder_table_update_rikki_heroeslounge_team_apps4.php
+1.0.65:
+    - 'Created table rikki_heroeslounge_season_team'
+    - builder_table_create_rikki_heroeslounge_season_team.php
+1.0.66:
+    - 'Created table rikki_heroeslounge_season_freeagent'
+    - builder_table_create_rikki_heroeslounge_season_freeagent.php
+1.0.67:
+    - 'Updated table rikki_heroeslounge_season_freeagent'
+    - builder_table_update_rikki_heroeslounge_season_freeagent.php
+1.0.68:
+    - 'Added more slothroles'
+    - add_roles1.php
+1.0.69:
+    - 'Updated table rikki_heroeslounge_sloth_roles'
+    - builder_table_update_rikki_heroeslounge_sloth_roles2.php
+1.0.70:
+    - 'Updated table rikki_heroeslounge_seasons'
+    - builder_table_update_rikki_heroeslounge_seasons.php
+1.0.72:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_8.php
+1.0.73:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths9.php
+1.0.74:
+    - 'Updated table rikki_heroeslounge_match'
+    - builder_table_update_rikki_heroeslounge_match_2.php
+1.0.75:
+    - 'Updated table rikki_heroeslounge_team_division'
+    - builder_table_update_rikki_heroeslounge_team_division.php
+1.0.76:
+    - 'Updated table rikki_heroeslounge_seasons'
+    - builder_table_update_rikki_heroeslounge_seasons_2.php
+1.0.77:
+    - 'Created table rikki_heroeslounge_gameparticipation'
+    - builder_table_create_rikki_heroeslounge_gameparticipation.php
+1.0.78:
+    - 'Updated table rikki_heroeslounge_heroes'
+    - builder_table_update_rikki_heroeslounge_heroes.php
+1.0.79:
+    - 'Updated table rikki_heroeslounge_heroes'
+    - builder_table_update_rikki_heroeslounge_heroes2.php
+1.0.80:
+    - 'Updated table rikki_heroeslounge_games'
+    - builder_table_update_rikki_heroeslounge_games5.php
+1.0.81:
+    - 'Updated table rikki_heroeslounge_gameparticipation'
+    - builder_table_update_rikki_heroeslounge_gameparticipation.php
+1.0.82:
+    - 'Updated table rikki_heroeslounge_gameparticipation'
+    - builder_table_update_rikki_heroeslounge_gameparticipation2.php
+1.0.83:
+    - 'Updated table rikki_heroeslounge_games'
+    - builder_table_update_rikki_heroeslounge_games6.php
+1.0.84:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths10.php
+1.0.85:
+    - 'Updated table rikki_heroeslounge_maps'
+    - builder_table_update_rikki_heroeslounge_maps_3.php
+1.0.86:
+    - 'Updated table rikki_heroeslounge_heroes'
+    - builder_table_update_rikki_heroeslounge_heroes_3.php
+1.0.87:
+    - 'Updated table rikki_heroeslounge_games'
+    - builder_table_update_rikki_heroeslounge_games55.php
+1.0.88:
+    - 'Updated table rikki_heroeslounge_gameparticipation'
+    - builder_table_update_rikki_heroeslounge_gameparticipation_3.php
+1.0.89:
+    - 'Updated table rikki_heroeslounge_games'
+    - builder_table_update_rikki_heroeslounge_games7.php
+1.0.90:
+    - 'Created table rikki_heroeslounge_talents'
+    - builder_table_create_rikki_heroeslounge_talents.php
+1.0.91:
+    - 'Updated table rikki_heroeslounge_heroes'
+    - builder_table_update_rikki_heroeslounge_heroes4.php
+1.0.92:
+    - 'Updated table rikki_heroeslounge_talents'
+    - builder_table_update_rikki_heroeslounge_talents.php
+1.0.93:
+    - 'Created table rikki_heroeslounge_gameparticipation_talent'
+    - builder_table_create_rikki_heroeslounge_gameparticipation_talent.php
+1.0.94:
+    - 'Updated table rikki_heroeslounge_gameparticipation_talent'
+    - builder_table_update_rikki_heroeslounge_gameparticipation_talent.php
+1.0.95:
+    - 'Created table rikki_heroeslounge_bans'
+    - builder_table_create_rikki_heroeslounge_bans.php
+1.0.96:
+    - 'Updated table rikki_heroeslounge_bans'
+    - builder_table_update_rikki_heroeslounge_bans.php
+1.0.97:
+    - 'Created table rikki_heroeslounge_sloth_providers'
+    - builder_table_create_rikki_heroeslounge_sloth_providers.php
+1.0.98:
+    - 'Updated table rikki_heroeslounge_teams'
+    - builder_table_update_rikki_heroeslounge_teams_3.php
+1.0.99:
+    - 'Updated table rikki_heroeslounge_team_division'
+    - builder_table_update_rikki_heroeslounge_team_division2.php
+1.0.100:
+    - 'Created table rikki_heroeslounge_playoffs'
+    - builder_table_create_rikki_heroeslounge_playoffs.php
+1.0.101:
+    - 'Updated table rikki_heroeslounge_match'
+    - builder_table_update_rikki_heroeslounge_match_3.php
+1.0.102:
+    - 'Updated table rikki_heroeslounge_match'
+    - builder_table_update_rikki_heroeslounge_match_4.php
+1.0.103:
+    - 'Updated table rikki_heroeslounge_playoffs'
+    - builder_table_update_rikki_heroeslounge_playoffs.php
+1.0.104:
+    - 'Updated table rikki_heroeslounge_playoffs'
+    - builder_table_update_rikki_heroeslounge_playoffs_2.php
+1.0.105:
+    - 'Updated table rikki_heroeslounge_divisions'
+    - builder_table_update_rikki_heroeslounge_divisions2.php
+1.0.106:
+    - 'Updated table rikki_heroeslounge_season_freeagent'
+    - builder_table_update_rikki_heroeslounge_season_freeagent_2.php
+1.0.107:
+    - 'Updated table rikki_heroeslounge_season_team'
+    - builder_table_update_rikki_heroeslounge_season_team.php
+1.0.108:
+    - 'Updated table rikki_heroeslounge_match'
+    - builder_table_update_rikki_heroeslounge_match_5.php
+1.0.109:
+    - 'Updated table rikki_heroeslounge_games'
+    - builder_table_update_rikki_heroeslounge_games_5.php
+1.0.110:
+    - 'Updated table rikki_heroeslounge_playoffs'
+    - builder_table_update_rikki_heroeslounge_playoffs_3.php
+1.0.111:
+    - 'Created table rikki_heroeslounge_team_playoff'
+    - builder_table_create_rikki_heroeslounge_team_playoff.php
+1.0.112:
+    - 'Updated table rikki_heroeslounge_teams'
+    - builder_table_update_rikki_heroeslounge_teams_4.php
+1.0.113:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_11.php

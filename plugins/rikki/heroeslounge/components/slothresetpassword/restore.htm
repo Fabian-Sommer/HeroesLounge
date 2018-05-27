@@ -1,0 +1,19 @@
+<p class="lead">
+    <strong>Lost your password?</strong> No problem! Enter your email address to verify your account.
+
+    <div class="alert alert-warning">
+        <strong>Warning!</strong> We are currently experiencing issues sending emails to Hotmail addresses. Until this is resolved, please contact a moderator to reset your password if you are using a Hotmail address.
+    </div>
+
+</p>
+
+<form
+    data-request="{{ __SELF__ }}::onRestorePassword"
+    data-request-update="'{{ __SELF__ }}::reset': '#partialUserResetForm'" data-request-flash>
+    <div class="form-group">
+        <label for="userRestoreEmail">Email</label>
+        <input name="email" type="email" class="form-control" id="userRestoreEmail" placeholder="Enter your email">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Restore password</button>
+</form>

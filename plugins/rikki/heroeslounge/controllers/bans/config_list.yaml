@@ -1,0 +1,11 @@
+title: Bans
+modelClass: Rikki\Heroeslounge\Models\Bans
+list: $/rikki/heroeslounge/models/bans/columns.yaml
+recordUrl: 'rikki/heroeslounge/bans/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

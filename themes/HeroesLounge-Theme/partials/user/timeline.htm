@@ -1,0 +1,38 @@
+[viewBag]
+
+[TimelineEntries]
+type = "sloth"
+subsequent = 1
+maxItems = 4
+maxPerSubentity = -1
+
+[TimelineEntries teamLine]
+type = "team"
+subsequent = 1
+maxItems = 4
+maxPerSubentity = -1
+==
+{% if user %}
+<div class="col-md-6 col-12">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#tl-user-{{user.id}}" data-toggle="tab" role="tab">{{user.username}}</a>
+        </li>
+        {% if user.sloth.team %}
+        <li class="nav-item">
+            <a class="nav-link" href="#tl-team-{{user.sloth.team.id}}" data-toggle="tab" role="tab">{{user.sloth.team.slug}}</a>
+        </li>
+        {% endif %}
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tl-user-{{user.id}}" role="tabpanel">
+            {% component 'TimelineEntries' id= user.sloth.id %}
+        </div>
+        {% if user.sloth.team %}
+        <div class="tab-pane" id="tl-team-{{user.sloth.team.id}}" role="tabpanel">
+            {% component 'teamLine' id= user.sloth.team.id %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}

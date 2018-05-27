@@ -1,0 +1,111 @@
+{% if __SELF__.match %}
+{% if __SELF__.match.round > 0 %}
+<h1><a href="{{ 'season/' |page({slug: __SELF__.match.division.season.slug})}}">{{__SELF__.match.division.season.title}}</a>    Round {{__SELF__.match.round}}</h1> 
+{%endif%}
+{% if __SELF__.match.division %}
+    {% if __SELF__.match.division.playoff %}
+        <h2><a href="{{ 'season/playoff' |page({'season-slug': __SELF__.match.division.playoff.season.slug, 'playoff-title': __SELF__.match.division.playoff.title})}}">{{__SELF__.match.division.playoff.longTitle}}</a></h2>
+        <h3>{{__SELF__.match.division.title}}</h3>
+    {% else %}
+        <h2><a href="{{ 'season/division' |page({slug: __SELF__.match.division.season.slug, divslug: __SELF__.match.division.slug})}}">{{__SELF__.match.division.title}}</a></h2>
+    {% endif %}
+
+{% endif %}
+{% if __SELF__.match.playoff %}
+    <h1><a href="{{ 'season/playoff' |page({'season-slug': __SELF__.match.playoff.season.slug, 'playoff-title': __SELF__.match.playoff.title})}}">{{__SELF__.match.playoff.longTitle}}</a></h1>
+    {% if __SELF__.decoded_playoff_position %}
+        {% if __SELF__.decoded_playoff_position['bracket'] == 3 %}
+            <h2>Finals</h2>
+        {% else %}
+            {% if __SELF__.decoded_playoff_position['bracket'] == 1 %}
+                <h2>Winner Bracket</h2>
+            {% elseif __SELF__.decoded_playoff_position['bracket'] == 2 %}
+                <h2>Loser Bracket</h2>
+            {% endif %}
+                <h3>Round {{__SELF__.decoded_playoff_position['round']}} - Match {{__SELF__.decoded_playoff_position['matchnumber']}}</h3>
+        {% endif %}
+    {% endif %}
+{% endif %}
+{% if __SELF__.match.getAcceptedCasters %}
+<h4>Casted by: 
+    {% for caster in __SELF__.match.getAcceptedCasters %}
+        {{caster.title}}{% if not loop.last %}, {%endif%}
+    {% endfor %}
+    {% if __SELF__.match.channel %}
+    <span class="facebook">
+    <a href="{{__SELF__.match.channel.url}}" style="display:inline" target="_blank" ><i class="fa fa-twitch"  aria-hidden="true"></i></a>
+    </span>
+    {% endif %}
+</h4>
+{% endif %}
+
+{% if __SELF__.match.wbp %}
+<h3>Scheduled for {{__SELF__.match.wbp | date}}</h3>
+
+{% else %}
+<h3 class="text-danger">The match has not been scheduled yet!</h3>
+{% endif %}
+{% if __SELF__.match.games is empty %}
+<div class="card-deck mt-2">
+    {% for team in __SELF__.match.teams %}
+    <div class="card {% if __SELF__.match.winner_id == team.id %}card-outline-success{% else %}card-outline-danger{% endif %}">
+        <h3 class="card-header text-center" style="background-color: #fff">
+            <a href="{{ 'team/view' | page({ slug: team.slug})}}">
+                    {{team.title}}
+                    </a>
+        </h3>
+        <div class="card-body">
+            <div class="card-img-top text-center">
+                <a href="{{ 'team/view' | page({slug: team.slug}) }}">
+                            <img style="height: 200px;width: 200px;object-fit: contain;" src="{% if team.logo.path %}{{team.logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}"
+                                alt="{{team.title}} Logo" title="Click for {{team.title}}'s Profile">
+                        </a>
+            </div>
+
+            <div class="card-body">
+                {% for sloth in team.sloths %}
+                <div class="card-text m-1">
+                    {% if sloth.role %} {% set path = 'assets/img/roles/' ~sloth.role.title|replace({' ':'-'})|lower ~ '.svg' %}
+                    <img src="{{path | theme}}" title="{{sloth.role.title}}" alt="{{sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:#2e93cd"
+                    /> {% endif %}
+                    <a href="{{ 'user/view' | page({id: sloth.user.id})}}">
+                            {{sloth.title}}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="navbar-header">
+        <a class="navbar-brand d-lg-none">Games</a>
+        <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#gameNav"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Games">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    </div>
+    <div class="collapse navbar-collapse" id="gameNav">
+        <ul class="nav nav-tabs mr-auto">
+            {% for game in __SELF__.match.games %}
+            <li class="nav-item">
+                <a class="nav-link {% if loop.first %}active{% endif %}" href="#game{{game.id}}" data-toggle="tab" role="tab">Game {{loop.index}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
+
+<div class="tab-content">
+    {% for game in __SELF__.match.games %}
+    <div class="tab-pane {% if loop.first %}active{% endif %}" id="game{{game.id}}" role="tabpanel">
+        {% component 'gameStatistic' game_id = game.id %}
+    </div>
+    {% endfor %}
+</div>
+
+{% else %} {% endif %}

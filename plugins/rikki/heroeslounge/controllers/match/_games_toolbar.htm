@@ -1,0 +1,42 @@
+<div data-control="toolbar">
+
+    
+    <a
+    data-control="popup"
+    data-size="huge"
+    data-handler="onRelationButtonCreate"
+    href="javascript:;"
+    class="btn btn-sm btn-secondary oc-icon-file">
+    Create Game</a>
+            
+        
+    <button
+    class="btn btn-sm btn-secondary oc-icon-trash-o"
+    onclick="$(this).data('request-data', {
+        checked: $('#Match-update-RelationController-games-view .control-list').listWidget('getChecked')
+    })"
+    disabled="disabled"
+    data-request="onRelationButtonDelete"
+    data-request-confirm="Are you sure?"
+    data-trigger-action="enable"
+    data-trigger="#Match-update-RelationController-games-view .control-list input[type=checkbox]"
+    data-trigger-condition="checked"
+    data-stripe-load-indicator>
+    Delete    
+    </button>
+
+    <button
+    class="btn btn-sm btn-secondary oc-icon-flask"
+    onclick="$(this).data('request-data', {
+        checked: $('#Match-update-RelationController-games-view .control-list').listWidget('getChecked')
+    })"
+    disabled="disabled"
+    data-request="onRelationButtonParseReplay"
+    data-trigger-action="enable"
+    data-trigger="#Match-update-RelationController-games-view .control-list input[type=checkbox]"
+    data-trigger-condition="checked"
+    data-stripe-load-indicator>
+    Parse Replay 
+    </button>
+    
+</div>

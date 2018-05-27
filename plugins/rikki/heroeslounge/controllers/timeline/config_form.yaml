@@ -1,0 +1,10 @@
+name: Timeline
+form: $/rikki/heroeslounge/models/timeline/fields.yaml
+modelClass: Rikki\Heroeslounge\Models\Timeline
+defaultRedirect: rikki/heroeslounge/timeline
+create:
+    redirect: 'rikki/heroeslounge/timeline/update/:id'
+    redirectClose: rikki/heroeslounge/timeline
+update:
+    redirect: rikki/heroeslounge/timeline
+    redirectClose: rikki/heroeslounge/timeline

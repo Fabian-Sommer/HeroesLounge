@@ -1,0 +1,48 @@
+{% if __SELF__.width %} {% set left = (100-__SELF__.width)/2  %} {%  set w  %} width:{{__SELF__.width}}%;left:{{left}}%; {% endset %}
+{% endif %}
+
+<div class="video-wrapper ratio-16-9" id="twitchcomponent" style="{% if __SELF__.width %}{{w}}{% endif %}{% if __SELF__.height %}padding-bottom:0!important;{% endif %}"></div>
+
+
+{%  put scripts %}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        jQuery.ajax({
+            type: 'GET',
+            url: 'https://api.twitch.tv/kraken/streams/{{__SELF__.chan}}',
+            headers: {
+                'Client-ID': 'ca3m8wxmxzfzxv7a5w00jlpqn4rix1'
+            },
+            success: function (data) {
+                if (data.stream !== null) {
+                    var options = {
+                        channel: '{{__SELF__.chan}}',
+                        autoplay: false
+                    };
+                    var player = new Twitch.Player("twitchcomponent", options);
+                    player.setVolume(0.5);
+                    {% if __SELF__.height  %}
+                    jQuery('iframe[src*="https://player.twitch.tv/?allowfullscreen&channel={{__SELF__.chan}}&!autoplay"]').css('cssText', 'height: {{__SELF__.height}}px !important');
+                    {% endif  %}
+                    jQuery('iframe[src*="https://player.twitch.tv/?allowfullscreen&channel={{__SELF__.chan}}&!autoplay"]').css('box-shadow','4px 4px 10px #888888');
+                    jQuery('#twitchSection').show();
+                    jQuery('#twitchcomponent').show();
+                } else {
+                    jQuery('#twitchcomponent').hide();
+                    jQuery('#twitchSection').hide();
+
+                }
+                jQuery(window).trigger('resize.px.parallax');
+                
+
+            }
+        });
+        
+
+
+    });
+
+</script>
+
+{% endput %}

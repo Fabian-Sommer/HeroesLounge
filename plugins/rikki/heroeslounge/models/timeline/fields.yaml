@@ -1,0 +1,38 @@
+fields:
+    type:
+        label: 'Type - this has to be one of Admin.Message, Sloth.Joins.Team, Sloth.Leaves.Team, Team.Logo, Team.Message, Team.Active, Team.Inactive, Team.Created, Team.Deleted, Sloth.Created, Sloth.Deleted, Match.Scheduled, Match.Played'
+        type: text
+        default: 'Admin.Message'
+    message:
+        label: 'Message (only displayed if type is Team.Message or Admin.Message)'
+        type: textarea
+    teams:
+        label: 'Associated Teams'
+        span: auto
+        oc.commentPosition: ''
+        nameFrom: title
+        type: relation
+    sloths:
+        label: 'Associated Users'
+        span: auto
+        oc.commentPosition: ''
+        select: title
+        type: relation
+    seasons:
+        label: 'Associated Seasons'
+        span: auto
+        oc.commentPosition: ''
+        nameFrom: title
+        type: relation
+    divisions:
+        label: 'Associated Divisions'
+        span: auto
+        oc.commentPosition: ''
+        nameFrom: title
+        type: relation
+    matches:
+        label: 'Associated Matches'
+        span: auto
+        oc.commentPosition: ''
+        select: wbp
+        type: relation

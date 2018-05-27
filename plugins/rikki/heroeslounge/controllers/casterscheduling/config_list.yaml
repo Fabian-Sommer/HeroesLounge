@@ -1,0 +1,13 @@
+title: Match
+modelClass: Rikki\Heroeslounge\Models\Match
+list: $/rikki/heroeslounge/models/match/casterscheduling/casterscheduling.yaml
+recordUrl: 'rikki/heroeslounge/casterscheduling/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: '40'
+showSetup: true
+showCheckboxes: false
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+filter: config_filter.yaml

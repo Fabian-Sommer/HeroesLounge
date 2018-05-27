@@ -1,0 +1,75 @@
+<form data-request="onRegister" data-request-flash>
+    <!-- Large modal -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="Code of Conduct" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Welcome!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {%  partial 'ruleSet/default'  %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">I'm in - Register!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="alert alert-warning">
+            Registering for Heroes Lounge requires you to join our 
+            <a href="https://discordapp.com/invite/aePkBsZ">
+                Discord.
+            </a> It may take several minutes until we verify that you have joined our server, so in case you can't register right away, please try again later.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="registerName">Username</label>
+        <input name="username" type="text" class="form-control" id="registerUsername" placeholder="Enter your username"
+        />
+    </div>
+
+    <div class="form-group">
+        <label for="registerEmail">Email</label>
+        <input name="email" type="email" class="form-control" id="registerEmail" placeholder="Enter your email" />
+    </div>
+    <div class="form-group">
+        <label for="registerEmailConfirm">Confirm Email</label>
+        <input name="email_confirmation" type="email" class="form-control" id="registerEmailConfirm" placeholder="Enter your email again"
+        />
+    </div>
+    <div class="form-group">
+        <label for="registerName">BattleTag</label>
+        <input name="battle_tag" type="text" class="form-control" id="registerBattletag" placeholder="Enter your BattleTag (e.g. Sloth#2345)"
+        />
+    </div>
+    <div class="form-group">
+        <label for="registerName">DiscordTag</label>
+        <input name="discord_tag" type="text" class="form-control" id="registerDiscordtag" placeholder="Enter your DiscordTag (e.g. Potato#1234)"
+        />
+    </div>
+    <div class="form-group">
+        <label for="registerPassword">Password</label>
+        <input name="password" type="password" class="form-control" id="registerPassword" placeholder="Choose a password" />
+    </div>
+    <div class="form-group">
+        <label for="registerPasswordConfirm">Confirm Password</label>
+        <input name="password_confirmation" type="password" class="form-control" id="registerPasswordConfirm" placeholder="Enter your chosen password again"
+        />
+    </div>
+    <div class="form-group">
+        <label for="newsletterCheckbox">Subscribe to our newsletter</label>
+        <input name="newsletter_subscription" type="checkbox" id="newsletterCheckbox"
+        />
+        
+    </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Register</button>
+
+</form>

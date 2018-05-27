@@ -1,0 +1,23 @@
+timeline:
+    label: Timeline Entries
+    view:
+        list:
+            columns:
+                created_at:
+                    label: Date
+                type:
+                    label: type
+        form: $/rikki/heroeslounge/models/timeline/fields.yaml
+        toolbarPartial: timeline_toolbar
+    manage:
+        form:
+            fields:
+                type:
+                    label: 'Type - this has to be Admin.Message'
+                    type: text
+                    default: 'Admin.Message'
+                message:
+                    label: 'Only used when type is Admin.Message'
+                    type: textarea
+                    default: ''
+        list: $/rikki/heroeslounge/models/timeline/columns.yaml

@@ -1,0 +1,16 @@
+title: Applications
+modelClass: Rikki\Heroeslounge\Models\Apps
+list: $/rikki/heroeslounge/models/apps/columns.yaml
+recordUrl: 'rikki/heroeslounge/applications/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: '40'
+showSetup: true
+showCheckboxes: true
+showSorting: 1
+defaultSort:
+    column: created_at
+    direction: asc
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

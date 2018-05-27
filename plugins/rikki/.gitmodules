@@ -1,0 +1,3 @@
+[submodule "heroeslounge/classes/replayparsing/heroprotocol"]
+	path = heroeslounge/classes/replayparsing/heroprotocol
+	url = https://github.com/Blizzard/heroprotocol

@@ -1,0 +1,62 @@
+title = "Blog Post"
+url = "/blog/post/:slug"
+layout = "blog"
+is_hidden = 0
+
+[BlogPage blogPage]
+slug = "{{ :slug }}"
+categoryPage = "blog/category"
+redirectPage = "application/create"
+
+[ssbuttonsnb]
+fa = "maxcdn"
+twitter = 1
+facebook = 1
+google+ = 1
+stumbleupon = 0
+linkedin = 0
+order_twitter = 1
+order_facebook = 2
+order_google+ = 3
+order_stumbleupon = 4
+order_linkedin = 5
+
+[ssbuttonsssb]
+facebook = 1
+twitter = 1
+google+ = 1
+tumblr = 0
+pinterest = 0
+pocket = 0
+reddit = 1
+linkedin = 0
+wordpress = 1
+pinboard = 0
+email = 0
+order_facebook = 1
+order_twitter = 2
+order_google+ = 3
+order_tumblr = 4
+order_pinterest = 5
+order_pocket = 6
+order_reddit = 7
+order_linkedin = 8
+order_wordpress = 9
+order_pinboard = 10
+order_email = 11
+theme = "social_flat_rounded_rects_svg"
+==
+{% set post = blogPage.post %}
+{% if post %}
+    <div class="col-md-9">
+        {%component 'blogPage'%}
+    </div>
+    <div class="col-md-3 sidebar">
+        {% partial 'blog/sidebar' %}
+    </div>
+
+{% else %}
+<div class="col-md-12">
+    <p class="text-center">{{ 'blog.post.not_found' | _ }} <a href="{{ 'blog-list' | page }}">{{ 'blog.category.all_posts' | _ }}</a>.</p>
+</div>
+{% endif %}

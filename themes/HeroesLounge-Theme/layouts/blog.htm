@@ -1,0 +1,49 @@
+description = "Clean layout"
+
+[Navigation]
+
+[googleTracker]
+
+[SideNav]
+
+[session]
+security = "all"
+==
+<?php
+use RainLab\Translate\Models\Message;
+
+function onStart() {
+    $this['baseUrl'] = Config::get('app.url');
+    Message::setContext(App::getLocale(), $this->page->url);
+}
+?>
+==
+<!DOCTYPE html>
+<html lang="{{ this.theme.site_locale }}">
+
+<head>
+    {% partial 'assets/head' %}
+</head>
+
+<body class="{{ this.page.id }} page page-{{ this.page.id }} layout-{{ this.layout.id }} {% placeholder bodyclass %}">
+
+    {% partial 'base/head' %} 
+    <div class="sticky-top float-left" style="top:90px">
+            {% component 'SideNav' %}
+    </div>
+ 
+    <div class="section blog-feed bg-white">
+        <div class="container">
+            <div class="row">
+                {% partial 'base/page' %} 
+            </div>
+        </div>
+    </div>
+  
+    {% partial 'base/foot' %} 
+    
+    
+{% placeholder modal %}
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+columns:
+    teams:
+        label: Teams
+        type: text
+        searchable: true
+        sortable: true
+        select: title
+        relation: teams
+    wbp:
+        label: wbp
+        type: text
+    winner:
+        label: 'Winning Team'
+        type: text
+        select: title
+        relation: winner
+    div_id:
+        label: Division
+        type: text
+        select: title
+        relation: division
+    round:
+        label: round
+        type: number
+    channel:
+        label: 'Twitch channel'
+        type: text
+        select: title
+        relation: channel

@@ -1,0 +1,34 @@
+<div data-control="toolbar">
+
+    <button
+        class="btn btn-sm btn-secondary oc-icon-check"
+        onclick="$(this).data('request-data', {
+            checked: $('#Match-update-RelationController-casters-view .control-list').listWidget('getChecked'),
+            model_id: '<?= $this->formGetModel()->id ?>'
+        })"
+        disabled="disabled"
+        data-request="onRelationButtonApprove"
+        data-trigger-action="enable"
+        data-trigger="#Match-update-RelationController-casters-view .control-list input[type=checkbox]"
+        data-trigger-condition="checked"
+        data-stripe-load-indicator>
+        Approve   
+    </button>
+
+
+
+    <button
+        class="btn btn-sm btn-secondary oc-icon-minus"
+        onclick="$(this).data('request-data', {
+            checked: $('#Match-update-RelationController-casters-view .control-list').listWidget('getChecked')
+        })"
+        disabled="disabled"
+        data-request="onRelationButtonRemove"
+        data-trigger-action="enable"
+        data-trigger="#Match-update-RelationController-casters-view .control-list input[type=checkbox]"
+        data-trigger-condition="checked"
+        data-stripe-load-indicator>
+        Remove    
+    </button>
+        
+</div>

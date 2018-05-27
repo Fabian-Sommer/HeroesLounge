@@ -1,0 +1,45 @@
+fields:
+    season:
+        label: 'Belongs to season'
+        nameFrom: title
+        span: full
+        hidden: 0
+        required: 0
+        type: relation
+        comment: 'If selected, Ban only applies to a certain season'
+        emptyOption: None
+    hero:
+        label: Hero
+        oc.commentPosition: ''
+        nameFrom: title
+        span: auto
+        type: relation
+        emptyOption: None
+    talent:
+        label: Talent
+        oc.commentPosition: ''
+        nameFrom: title
+        descriptionFrom: description
+        span: auto
+        type: relation
+        emptyOption: None
+    round_start:
+        label: 'Round Start'
+        span: auto
+        type: number
+        comment: 'If set, Ban will only apply for a certain Round'
+    round_length:
+        label: 'Round Length'
+        span: auto
+        trigger:
+            action: hide
+            field: round_start
+            condition: ''
+        type: number
+        comment: 'If set, Ban will last X Rounds'
+    literal:
+        label: Literal
+        size: large
+        span: full
+        type: textarea
+        comment: 'If you don''t ban a certain Hero and/or Talent you have to write it yourself'

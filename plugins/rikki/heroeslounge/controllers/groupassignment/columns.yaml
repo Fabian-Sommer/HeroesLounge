@@ -1,0 +1,14 @@
+# ===================================
+#  Column Definitions
+# ===================================
+
+columns:
+
+    id:
+        label: rainlab.user::lang.user.id
+        invisible: true
+
+    username:
+        label: rainlab.user::lang.user.username
+        searchable: true
+        invisible: false

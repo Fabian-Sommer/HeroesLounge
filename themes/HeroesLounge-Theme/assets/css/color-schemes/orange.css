@@ -1,0 +1,147 @@
+/* Vega - Orange Color Scheme - Default */
+
+/* f96238, f73b07 => F55145, DC483E*/
+
+/* Special Headings
+------------------------------------------------------------------------*/
+
+.block-title:after{ border-bottom:1px solid #F55145; }
+
+/* Links
+------------------------------------------------------------------------*/
+
+a{ color:#F55145; }
+a:hover,
+a:focus{ color:#DC483E;}
+
+/* Background Colors for Sections
+------------------------------------------------------------------------*/
+.bg-primary{ background-color:#F55145; color:#fff; }
+
+/* Buttons
+------------------------------------------------------------------------*/
+
+.btn-primary-custom{ background-color:#F55145; border-color:#F55145; color:#fff; }
+.btn-primary-custom{ background-color:#F55145; color:#fff; }
+.btn-primary-custom:hover,
+.btn-primary-custom:active,
+.btn-primary-custom:focus{ background-color:#DC483E; color:#fff; }
+
+/* Forms
+------------------------------------------------------------------------*/
+
+.form-control:focus { border-color: #F55145; -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(249, 98, 56, 0.6); -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(245,81,69, 0.6); box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(245,81,69, 0.6); }
+
+/* Header Navigation 
+------------------------------------------------------------------------*/
+
+.header{background-color:#F55145;}
+
+
+/* Top Navigation
+------------------------------------------------------------------------*/
+
+.navbar-nav .dropdown-menu{ border-top:2px solid #F55145; }
+.navbar-custom .dropdown-menu > li > a:hover,
+.navbar-custom .dropdown-menu > li:hover > a,
+.navbar-custom .dropdown-menu > .open > a{ background:transparent; color:#F55145; }
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover { color:#F55145 !important; background-color: transparent; }
+.navbar-custom .nav > li > a:hover,
+.navbar-custom .nav > li > a:focus,
+.navbar-custom .nav > .current > a,
+.navbar-custom .nav > .active > a,
+.navbar-custom .nav > .current-menu-ancestor > a,
+.navbar-custom .nav > .open > a{ background-color:transparent; color:#F55145; }
+.navbar-custom .nav > .page-scroll > a:hover,
+.navbar-custom .nav > .page-scroll > a.showing{color:#F55145 !important;}
+
+/* Page Banner 
+------------------------------------------------------------------------*/
+
+.jumbotron p span{ background-color:#F55145; }
+
+/* Blog Feed
+------------------------------------------------------------------------*/
+
+.blog-feed .entry .entry-content-right:after{ border-bottom:1px solid #F55145; }
+
+/* Pagination
+------------------------------------------------------------------------*/
+
+.posts-pagination-block a:focus,
+.posts-pagination-block a:hover{ outline:none; z-index:2; -webkit-box-shadow:0 0 0 0 #F55145; -moz-box-shadow:0 0 0 0 #F55145; box-shadow:0 0 0 0 #F55145; color:#fff; background-color:#F55145;}
+
+/* Post 
+------------------------------------------------------------------------*/
+
+.post-content .post .entry-title:after{ border-bottom:1px solid #F55145; }
+
+/* Page
+------------------------------------------------------------------------*/
+
+.page-content .page .page-title:after{ border-bottom:1px solid #F55145; }
+
+/* Widgets
+------------------------------------------------------------------------*/
+
+.widget-title{ border-bottom:1px solid #F55145; }
+.widget ul li a:focus,
+.widget ul li a:hover{ color:#F55145; }
+/*.widget ul li a:before{ color:#F55145; }*/
+/* .widget ul li.recentcomments:before{ color:#F55145; } */
+
+/* Tag Cloud Widget
+------------------------------------------------------------------------*/
+
+.tagcloud a:focus,
+.tagcloud a:hover{ background-color:#F55145; color:#fff; }
+
+/* Icon List
+------------------------------------------------------------------------*/
+/* .icon-list li .fa{ color:#F55145; } */
+
+/* Featured Icons / 4 Columns with Icons
+------------------------------------------------------------------------*/
+
+.content-icon .icon{ color:#F55145; }
+.content-icon:hover .btn{ background-color:#DC483E; }
+
+/* Front Page - Recent Posts
+------------------------------------------------------------------------*/
+
+.recent-entry .recent-entry-image .caption{ background-color:#F55145; background-color:rgba(245,81,69,0.54); }
+.recent-entry .recent-entry-content:after{  border-bottom:1px solid #F55145; }
+
+/* Comments
+------------------------------------------------------------------------*/
+
+h3#comments{ color: #F55145; }
+#respond h3{color: #F55145;}
+
+/* Footer Widgets
+------------------------------------------------------------------------*/
+
+.footer-widgets .widget-title:after{ border-bottom:1px solid #F55145; }
+
+/* Footer
+------------------------------------------------------------------------*/
+
+.footer{ background-color:#F55145; }
+
+/* Back to Top
+------------------------------------------------------------------------*/
+
+/* #back_to_top.show{ -webkit-box-shadow:0 0 0 0 #F55145; -moz-box-shadow:0 0 0 0 #F55145; box-shadow:0 0 0 0 #F55145; }
+#back_to_top a{ background-color:#F55145; color:#fff;  } */
+
+/* MAX WIDTH 767
+------------------------------------------------------------------------*/
+@media (max-width:767px){
+	.navbar-custom .dropdown-menu > li > a:hover,
+    .navbar-custom .dropdown-menu > li:hover > a ,
+    .navbar-custom .dropdown-menu > .open > a{ color:#fff; background:#F55145 }
+    /*.navbar-custom .nav > li > a:hover, 
+    .navbar-custom .nav > li > a:focus, */
+    .navbar-custom .nav > .current > a, 
+    .navbar-custom .nav > .open > a{ background-color:#F55145; color:#fff; }
+}

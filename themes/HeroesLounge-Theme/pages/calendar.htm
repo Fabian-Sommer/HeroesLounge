@@ -1,0 +1,26 @@
+title = "Calendar"
+url = "/calendar"
+layout = "plain-with-sidebar"
+is_hidden = 0
+
+[UpcomingMatches]
+daysInFuture = 100
+showLogo = 1
+showName = 1
+showCasters = 1
+type = "all"
+casterFilter = "off"
+==
+<?php
+use Rikki\Heroeslounge\Models\Division;
+use Rikki\Heroeslounge\Models\Season;
+use Rikki\Heroeslounge\Models\Match;
+
+
+function onStart()
+{
+    $this['data'] = Match::find(1);
+    }
+?>
+==
+{% component 'UpcomingMatches' %}

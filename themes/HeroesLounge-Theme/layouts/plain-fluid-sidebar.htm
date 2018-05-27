@@ -1,0 +1,60 @@
+description = "Plain fluid layout for sections"
+
+[staticPage]
+
+[Navigation]
+
+[googleTracker]
+
+[SideNav]
+
+[session]
+security = "all"
+==
+<?php
+use RainLab\Translate\Models\Message;
+
+function onStart() {
+    $this['baseUrl'] = Config::get('app.url');
+    Message::setContext(App::getLocale(), $this->page->url);
+}
+?>
+==
+<!DOCTYPE html>
+<html lang="{{ this.theme.site_locale }}">
+
+<head>
+    {% partial 'assets/head' %}
+</head>
+
+<body class="{{ this.page.id }} page page-{{ this.page.id }} layout-{{ this.layout.id }} {% placeholder bodyclass title='Body class' %}">
+
+    {% partial 'base/head' %} 
+    
+    <div class="sticky-top float-left" style="top:90px">
+        {% component 'SideNav' %}
+    </div>
+    <div class="section page-content bg-white">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="clearfix page type-page status-publish hentry">
+                        <div class="page-content">
+                            {% partial 'base/page' %} 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 sidebar">
+                    {% partial 'modules/sidebar' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% partial 'base/foot' %} 
+    
+    
+    {% placeholder modal %}
+    
+</body>
+
+</html>

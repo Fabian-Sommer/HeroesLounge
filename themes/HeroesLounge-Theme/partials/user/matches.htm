@@ -1,0 +1,17 @@
+[viewBag]
+
+[UpcomingMatches]
+daysInFuture = 14
+showLogo = 1
+showName = 1
+showCasters = 1
+type = "team"
+casterFilter = "off"
+
+==
+{% if user.sloth.team %}
+    <div class="col-md-6 col-12">
+	<h3>Upcoming Matches</h3>
+    {% component 'UpcomingMatches' id = user.sloth.team.id %}
+    </div>
+{% endif %}

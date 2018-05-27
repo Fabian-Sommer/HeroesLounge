@@ -1,0 +1,175 @@
+{% if __SELF__.match is not null %}
+
+<div class="col-md-6 mb-2">
+       
+    <div class="card">
+        <div class="card-img-top text-center">
+            <a href="{{ 'team/view' | page({slug:__SELF__.opp.slug})}}">
+                <img style="height: 200px;width: 200px;object-fit: contain;" src="{{__SELF__.opp.logo.path}}" alt="Logo" title="Click for Team Profile">
+            </a>
+        </div>
+
+        <div class="card-body">
+            <h4 class="card-title text-center">VS <a href="{{ 'team/view' | page({slug:__SELF__.opp.slug})}}"><strong>{{__SELF__.opp.title |upper}}</strong></a></h4>
+          
+
+                    <div class="alert alert-danger" role="alert">
+                            Finishing this process requires you to save (<i class="fa fa-floppy-o" aria-hidden="true" ></i>) after uploading all games.
+                            Failing to do so until {{__SELF__.match.tbp| date('Y-m-d')}} 23.55PM CET/CEST will set this match to a tie and make BOTH teams inactive.
+                        </div>
+            <h4>Games
+                <button type="button" class="close" data-toggle="modal" data-target="#new_{{__SELF__.match.id}}" title="Add Game">
+                    <i class="fa fa-plus-circle green" aria-hidden="true"></i>
+                </button> {% if __SELF__.match.games | length > 0 %}
+                <button class="close" type="button" data-toggle="modal" data-target="#save_{{__SELF__.match.id}}" title="Save Match">
+                        <i class="fa fa-floppy-o blue mr-2" aria-hidden="true" ></i>
+                    </button> {% endif %}
+            </h4>
+
+            <hr class="separator"> {% for game in __SELF__.match.games %} {% set path = 'assets/img/maps/bg_' ~game.map.title|replace({' ':'-'})|lower
+            ~ '.jpg' %}
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <a href="{{game.replay.path}}">
+                        <img src="{{ path| theme }}" class="rounded img-thumbnail" alt="{{game.map.title}}" title="Click to download the replay file" >
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <div class="card" style="height:100%">
+                        <h3 class="card-header text-center" style="background-color: #fff">
+                            {{form_open({request: 'onGameDelete'})}}
+                            <a href="{{ 'team/view' | page({ slug: game.winner.slug})}}" title="{{game.winner.title}} Profile">
+                                <i class="fa fa-trophy" aria-hidden="true"></i> 
+                                {{game.winner.title}}
+                            </a>
+                            <input type="hidden" value="{{game.id}}" name="game">
+                            <button type="submit" class="close" title="Remove game from match">
+                                <i class="fa fa-trash-o red" aria-hidden="true" style="line-height:35px"></i>
+                            </button> {{ form_close() }}
+                        </h3>
+                        <div class="card-body">
+                            <div class="card-text">
+                                <a href="#" data-toggle="modal" data-target="#game_{{game.id}}">
+                                    <img src="{{game.draft.path}}" class="img-fluid">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if false == loop.last %}
+            <hr class="seperator"> {% endif %}
+            <div class="modal fade" id="game_{{game.id}}" tabindex="-1" role="dialog">
+                <div class="modal-dialog" style="max-width:80%;">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <img src="{{game.draft.path}}" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Start Save Match Modal -->
+<div class="modal fade" role="dialog" id="save_{{__SELF__.match.id}}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h5 class="modal-title">Save Match</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    {% if not (__SELF__.match.games is empty) %}
+                    <input type="hidden" name="match_id" value="{{__SELF__.match.id}}">
+                    {% if __SELF__.winner != null %}
+                    <p><a href="{{ 'team/view' | page({slug: __SELF__.winner.slug})}}" title="{{__SELF__.winner.title}} Profile">{{__SELF__.winner.title}}</a>                        will be saved as match winner.</p>
+                    {% else %}
+                    <p> The match will be saved as a draw. </p>
+                    {% endif %}
+                    <div class="alert alert-info" role="alert">
+                        <strong>Info</strong> After saving you will no longer be able to make changes.
+                    </div>
+                    {% else %}
+                    <div class="alert alert-danger">
+                        <strong>Error</strong> You have to upload replays before saving.
+                    </div>
+                    {%endif%}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Map</th>
+                                <th>Winning Team</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for game in __SELF__.match.games %}
+                            <tr>
+                                <th scope="row">{{loop.index}}</th>
+                                <td>{{game.map.title}}</td>
+                                <td>{{game.winner.title}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> {%if not (__SELF__.match.games is empty) %}
+                    <button type="submit" class="btn btn-primary" data-request="{{__SELF__}}::onMatchSave">Save Match</button> {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Save Match Modal -->
+
+<!-- Start New Game Modal -->
+<div class="modal fade" role="dialog" id="new_{{__SELF__.match.id}}">
+    <div class="modal-dialog" role="document">
+        {{form_open({request: 'onGameSave',files:true})}}
+        <input type="hidden" name="match" value="{{__SELF__.match.id}}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Game</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="fileselect">
+                                <label for="draft">Replay file</label>
+                                <label class="input-group-btn form-control-label" style="height:40px">
+                                    <span class="btn btn-primary" type="button">
+                                        Browse..
+                                        <input type="file" class="form-control" name="replay" style="display:none">
+                                    </span>
+                                </label>
+                                <input type="text" class="form-control" readonly="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save Game</button>
+            </div>
+        </div>
+        {{form_close()}}
+    </div>
+</div>
+<!-- End New Game Modal -->
+{% endif %}

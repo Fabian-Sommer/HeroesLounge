@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-8 col-md-9">
+        <div id="blogFeaturedSlide" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {% for post in posts %}
+                <li data-target="#blogFeaturedSlide" data-slide-to="{{loop.index0}}" {% if loop.first %} class="active" {% endif %}></li>
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+                {% for post in posts %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}" style="background-image:url({{post.image | media}}); ">
+                    <a href="{{post.url}}">
+                        <div style="height:100%">
+                            <div class="carousel-caption d-none d-md-block" style="background-color:rgba(0,0,0,0.5);left:0;bottom:0;right:0">
+                                <h3>{{post.title}}</h3>
+                                <p>{{post.summary |striptags|slice(0, 255)}}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <ul class="col-4 col-md-3 indicators list-unstyled" data-target="#blogFeaturedSlide">
+        {% for post in posts %}
+        <li data-target="#blogFeaturedSlide" data-slide-to="{{loop.index0}}" class="blogFeaturedIndicator {% if loop.first %}text-white border border-primary{% else %}text-light{% endif %}" style="{% if loop.first == false %}margin-top:1vh;{% endif %}">
+            <div class="blogPostWrapper" style="height:8vh">
+                <div class="blogImage" style="background-image:url({{post.image |media}});height:8vh">
+                    <h4 class="text-truncate p-3 {% if loop.first %}active{% endif %}" >
+                        {{ post.title |striptags|slice(0, 140) }}
+                    </h4>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% put scripts %}
+<script type="text/javascript">
+function initCarouselIndicators() {
+    jQuery(".indicators[data-target]").each(function (i, indicators) {
+        var targetId = indicators.dataset.target;
+        if (targetId != "") {
+            var $carousel = jQuery(targetId);
+            $carousel.bind('slide.bs.carousel', function (e) {
+                var $targetSlide = jQuery(e.relatedTarget);
+                var index = $targetSlide.index();
+
+                var oldItem = jQuery('.indicators[data-target="' + targetId + '"] li');
+                oldItem.removeClass('text-white');
+                oldItem.addClass('text-light');
+                oldItem.removeClass('border border-primary');
+                oldItem.find('h4').removeClass('active');
+                
+                var newItem = jQuery('.indicators[data-target="' + targetId + '"] li:nth-child(' + (index + 1) + ')');
+                newItem.addClass('text-white');
+                newItem.removeClass('text-light');
+                newItem.addClass('border border-primary');
+                newItem.find('h4').addClass('active');
+                
+            });
+        }
+    });
+}
+
+jQuery(document).ready(function()
+{
+    initCarouselIndicators();
+});
+</script>
+{% endput %}
+
+

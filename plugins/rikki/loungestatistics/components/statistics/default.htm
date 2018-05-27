@@ -1,0 +1,10 @@
+<div class="d-flex flex-wrap">
+    {% for hero in __SELF__.heroes %} {% set path = 'assets/img/heroes/' ~hero.title|replace({'.':''})|replace({'\'':''})|replace({' ':''})|replace({'-':''})|lower ~ '.png' %}
+
+    <a href="{{ 'statistics/hero' |page({slug: hero.title})}}">
+        <img src="{{ path |theme }}" class="rounded m-1"> 
+    </a> 
+    {% endfor %}
+</div>
+
+    

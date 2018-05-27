@@ -1,0 +1,4 @@
+title: Division
+modelClass: Rikki\Heroeslounge\Models\Division
+toolbar:
+    buttons: reorder_toolbar

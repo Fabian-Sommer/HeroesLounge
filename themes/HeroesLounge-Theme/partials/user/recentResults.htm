@@ -1,0 +1,27 @@
+[viewBag]
+
+[RecentResults]
+maxItems = 5
+type = "division"
+==
+{% if user.sloth.team and user.sloth.team.active_divisions | length > 0 %}
+    <div class="col-md-6 col-12">
+        <h3>Recent Results</h3>
+        <ul class="nav nav-tabs">
+        {% for div in user.sloth.team.active_divisions %}
+            <li class="nav-item">
+                <a class="nav-link {% if loop.first %}active{% endif %}" href="#rr-{{div.id}}" data-toggle="tab" role="tab">
+                    {{div.title}}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+        <div class="tab-content">
+            {% for div in user.sloth.team.active_divisions %}
+                <div class="tab-pane {% if loop.first %}active{% endif %} mt-3" id="rr-{{div.id}}" role="tabpanel">
+                    {% component 'RecentResults' id = div.id %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

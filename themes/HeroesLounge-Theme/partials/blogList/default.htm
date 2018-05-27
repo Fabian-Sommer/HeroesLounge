@@ -1,0 +1,89 @@
+[viewBag]
+==
+{% set posts = __SELF__.posts %}
+{% for post in posts %}
+    {% if loop.first %}
+        <div class="row">
+            <div class="col-12">
+                <div class="blogPostWrapper">
+                    <a href="{{ post.url }}" class="text-white">
+                        <div class="blogImage" style="background-image:url({{post.image |media }});height:35vh;">
+                        </div>
+                        <h3 class="text-white text-truncate">
+                            {{ post.title }}
+                        </h3>
+                        <div class="blogFPSummary text-white">
+                            {{ post.summary |striptags|slice(0, 255)}}
+                            {% if post.summary |length > 255 %}
+                            ...
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr class="separator">
+    {% else %}
+        {% if loop.index is even %}
+        <div class="row mt-2">
+        {% endif %}
+            <div class="col-md-6 col-sm-12">
+                <a href="{{post.url}}">
+                    <div class="blogPostWrapper">
+                        <h4 class="text-truncate">
+                            {{ post.title }}
+                        </h4>
+                        <div class="blogImage" style="background-image:url({{post.image |media}});height:10vh">   
+                        </div>
+                    </div>
+                </a>
+                <span class="badge badge-secondary">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> {{ post.published_at|date('M d, Y') }}
+                </span>
+                <span class="badge badge-secondary">
+                    <i class="fa fa-user" aria-hidden="true"></i> {{ post.findAuthor.login }} 
+                </span>
+                {% for category in post.categories %}
+                <a href="{{ category.url }}">
+                    <span class="badge badge-secondary">
+                        <i class="fa fa-tag" aria-hidden="true"></i> {{ category.name }}
+                    </span>
+                </a>
+                {% endfor %}
+                <div>
+                    {{ post.summary |striptags|slice(0, 140)}} 
+                    {% if post.summary |length > 140 %}
+                    ...
+                    {% endif %}
+                </div>
+            </div>
+            
+        {% if loop.index is odd or loop.last %}
+        </div>
+        <hr class="separator">
+        {% endif %}
+    {% endif %}
+{% else %}
+<p class="text-center">{{ noPostsMessage }}</p>
+{% endfor %}
+{% if posts.lastPage > 1 %}
+<div class="posts-pagination float-right">
+    <div class="posts-pagination-block">
+        {% if posts.currentPage > 1 %}
+        <a href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage-1) }) }}"><span class="ic ic-angle-left"></span></a>
+        {% endif %}
+
+        {# for page in 1..posts.lastPage
+        <a
+            href="{{ this.page.baseFileName|page({ (pageParam): page }) }}"
+            class="{{ posts.currentPage == page ? 'active' : null }}">
+            {{ page }}
+        </a>
+        endfor #}
+
+        {% if posts.lastPage > posts.currentPage %}
+        <a href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage+1) }) }}"><span class="ic ic-angle-right"></span></a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}

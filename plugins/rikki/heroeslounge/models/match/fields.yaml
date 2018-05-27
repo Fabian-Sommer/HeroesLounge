@@ -1,0 +1,34 @@
+secondaryTabs:
+    fields:
+        wbp:
+            label: 'Schedule for'
+            oc.commentPosition: ''
+            mode: datetime
+            span: auto
+            type: datepicker
+            tab: Misc
+        schedule_date:
+            label: 'Has to be scheduled until'
+            mode: date
+            span: auto
+            readOnly: true
+            tab: Misc
+            type: text
+        tbp:
+            label: 'To be played until'
+            mode: date
+            span: auto
+            readOnly: true
+            tab: Misc
+            type: text
+        winner:
+            label: 'Winning Team'
+            type: relation
+            select: title
+            emptyOption: '-- no team --'
+            tab: Misc
+        games:
+            span: full
+            path: ~/plugins/rikki/heroeslounge/controllers/match/_game.htm
+            type: partial
+            tab: Games

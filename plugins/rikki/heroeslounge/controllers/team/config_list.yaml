@@ -1,0 +1,16 @@
+title: Team
+modelClass: Rikki\Heroeslounge\Models\Team
+list: $/rikki/heroeslounge/models/team/columns.yaml
+recordUrl: 'rikki/heroeslounge/team/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: '40'
+showSetup: true
+showCheckboxes: true
+showSorting: 1
+defaultSort:
+    column: title
+    direction: asc
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

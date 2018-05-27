@@ -1,0 +1,11 @@
+name: Bans
+modelClass: Rikki\Heroeslounge\Models\Bans
+form: $/rikki/heroeslounge/models/bans/fields.yaml
+defaultRedirect: rikki/heroeslounge/bans
+create:
+    redirect: 'rikki/heroeslounge/bans/update/:id'
+    redirectClose: rikki/heroeslounge/bans
+update:
+    redirect: rikki/heroeslounge/bans
+    redirectClose: rikki/heroeslounge/bans
+preview: {  }

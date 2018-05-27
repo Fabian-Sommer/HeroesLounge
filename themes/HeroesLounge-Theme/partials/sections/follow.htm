@@ -1,0 +1,35 @@
+[viewBag]
+snippetCode = "follow"
+snippetName = "Follow Section"
+==
+<div
+    class="image-banner frontpage-banner frontpage-banner-parallax-bg{% if this.theme.intro_fullscreen %} full-screen{% endif %}"
+    data-parallax="scroll"
+    data-image-src="{{ 'assets/img/fw_banner_1.png' | theme }}"
+    id="intro">
+    <div class="container">
+        <div class="inner">
+            <h1 class="block-title wow zoomIn">{% content 'follow/heading' %}</h1>
+            <div class="text-center hidden-xs wow zoomIn description">
+                {% content 'follow/content' %}
+            </div>
+        </div>
+        	<div class="row cols">
+        		<div class="col-4">
+        			<div class="content-icon wow fadeInUp">
+        				<a class="icon" href="https://www.facebook.com/heroeslounge.gg"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+        			</div>
+        		</div>
+        		<div class="col-4">
+        			<div class="content-icon wow fadeInUp">
+        				<a class="icon" href="https://twitter.com/hotslounge"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        			</div>
+        		</div>
+        		<div class="col-4">
+        			<div class="content-icon wow fadeInUp">
+        				<a class="icon" href="https://www.youtube.com/channel/UCbo4u4GMHlNPIVB4PPfyJZg"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+        			</div>
+        		</div>
+        	</div>
+    </div>
+</div>

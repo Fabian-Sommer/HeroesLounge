@@ -1,0 +1,12 @@
+scopes:
+  is_played:
+    label: 'Is Played'
+    type: switch
+    conditions: 
+      - is_played <> true
+      - is_played = true
+  div_id:
+    label: 'Division'
+    modelClass: Rikki\Heroeslounge\Models\Division
+    conditions: div_id in (:filtered)
+    nameFrom: title

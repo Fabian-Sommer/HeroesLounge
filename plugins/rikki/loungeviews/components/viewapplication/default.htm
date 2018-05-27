@@ -1,0 +1,17 @@
+<div class="row">
+<div class="input-group col-md-6">
+    <div class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></div>
+    <a class="form-control" href="{{ 'user/view' | page({id:__SELF__.app.user_id})}}">{{__SELF__.app.sloth.title}}</a>
+</div>
+
+<div class="input-group  col-md-6">
+    <div class="input-group-addon"><i class="fa fa-group" aria-hidden="true"></i></div>
+    <a class="form-control" href="{{ 'team/view' |page({slug: __SELF__.team.slug})}}">{{__SELF__.team.title}}</a>
+</div>
+</div>
+
+
+<hr>
+
+<label><strong>Application Message:</strong></label>
+<blockquote>{{__SELF__.app.message}}</blockquote>

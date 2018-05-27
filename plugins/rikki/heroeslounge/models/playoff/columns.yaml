@@ -1,0 +1,16 @@
+columns:
+    title:
+        label: Title
+        type: text
+        searchable: true
+        sortable: true
+    type:
+        label: 'Type'
+        type: text
+        searchable: false
+    Season:
+        label: 'Season'
+        type: text
+        sortable: true
+        relation: season
+        valueFrom: title

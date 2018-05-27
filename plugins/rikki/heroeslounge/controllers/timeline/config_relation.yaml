@@ -1,0 +1,32 @@
+teams:
+    label: Team
+    view:
+        list:
+            columns:
+                title:
+                    label: Team
+
+        toolbarButtons: remove
+        showSearch: false
+        showCheckboxes: false
+    manage:
+        list:
+            columns:
+                title:
+                    label: Name
+users:
+    label: Users
+    view:
+        list:
+            columns:
+                title:
+                    label: User
+
+        toolbarButtons: remove
+        showSearch: false
+        showCheckboxes: false
+    manage:
+        list:
+            columns:
+                title:
+                    label: title

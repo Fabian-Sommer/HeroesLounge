@@ -1,0 +1,33 @@
+[viewBag]
+snippetCode = "intro"
+snippetName = "Intro section"
+snippetProperties[link][title] = "Button link"
+snippetProperties[link][type] = "string"
+snippetProperties[link][default] = "#features"
+snippetProperties[link][options][] = ""
+
+[Twitch]
+channel = "heroes_lounge"
+height = 500
+width = 80
+==
+<div class="image-banner frontpage-banner frontpage-banner-parallax-bg{% if this.theme.intro_fullscreen %} full-screen{% endif %}"
+    data-parallax="scroll" data-image-src="{{ 'assets/img/fp_banner_1.png' | theme }}" id="intro">
+    <div class="container">
+        <div class="inner">
+
+            <h1 class="block-title wow zoomIn">
+
+                Heroes Lounge
+            </h1>
+            <div class="text-center hidden-xs wow zoomIn description">
+                {% content 'intro/content' %}
+                <!--<p><a class="btn btn-primary-custom btn-margin-top" href=""></a></p>-->
+            </div>
+        </div>
+        <div class="helper"></div>
+    </div>
+</div>
+<div class="section bg-white wow zoomIn" style="height:590px;display:none" id="twitchSection">
+    {%component 'Twitch'%}
+</div>

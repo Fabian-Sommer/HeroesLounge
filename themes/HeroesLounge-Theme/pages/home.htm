@@ -1,0 +1,23 @@
+title = "Home"
+url = "/"
+layout = "clean"
+is_hidden = 0
+==
+{% if user %}
+<div class="container">
+    {% partial 'user/welcome' %}
+    <div class="row">
+    {% partial 'user/posts' %}
+        {% partial 'user/notifications' %}
+        {% partial 'user/standings' %}
+        {% partial 'user/matches' %}
+        {% partial 'user/recentResults' %}
+        {% partial 'user/timeline' %}
+    </div>
+</div>
+{% else %}
+{% partial 'sections/intro' %}
+{% partial 'sections/features' %}
+{% partial 'sections/posts' %}
+{% partial 'sections/follow' %}
+{% endif %}

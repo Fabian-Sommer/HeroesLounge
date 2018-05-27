@@ -1,0 +1,24 @@
+teams:
+    label: Teams
+    view:
+        list:
+            columns:
+                title:
+                    label: Team
+                pivot[seed]:
+                    label: Seed
+        toolbarButtons: Add|Remove
+    manage:
+        list:
+            columns:
+                title:
+                    label: Name
+                pivot[seed]:
+                    label: Seed
+        showSearch: true
+    pivot:
+        form:
+            fields:
+                pivot[seed]:
+                    label: Seed
+    emptyMessage: There are no teams lined up to be assigned.

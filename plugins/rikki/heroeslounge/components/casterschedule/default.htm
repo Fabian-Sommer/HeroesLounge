@@ -1,0 +1,14 @@
+{% if user and can('cast_matches') %}
+<div>
+<h3>Decision Pending</h3>
+{% component 'upcomingMatchesPending' %}
+</div>
+<div>
+<h3>Accepted Applications</h3>
+{% component 'upcomingMatchesAccepted' %}
+</div>
+<div>
+<h3>Denied Applications</h3>
+{% component 'upcomingMatchesDenied' %}
+</div>
+{% endif %}

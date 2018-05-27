@@ -1,0 +1,20 @@
+# ===================================
+#  Rest Behavior Config
+# ===================================
+
+# Allowed Rest Actions
+allowedActions:
+  index:
+      pageSize: 20
+  indexAll:
+  store:
+  show:
+  update:
+  destroy:
+  teams:
+  replays:
+  games:
+  getTodaysMatches:
+  caster:
+# Model Class name
+modelClass: Rikki\Heroeslounge\Models\Match

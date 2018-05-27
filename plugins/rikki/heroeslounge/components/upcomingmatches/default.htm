@@ -1,0 +1,67 @@
+{% if __SELF__.groupMatches | length > 0 %}
+<ul class="event-list">
+    {% for groupMatch in __SELF__.groupMatches %}
+    <li>
+        <time datetime="{{groupMatch.wbp | date('m/d/Y')}}">
+            <span class="weekday">{{groupMatch[0].wbp | date('l')}}</span>
+            <span class="day">{{groupMatch[0].wbp | date('d')}}</span>
+            <span class="month">{{groupMatch[0].wbp | date('M')}}</span>
+            <span class="year">{{groupMatch[0].wbp | date('y')}}</span>
+        </time>
+        <div class="info">
+			{% for match in groupMatch %}
+			<div class="event-list--game row no-gutters">
+            <div class="event-list--division col-sm-12 col-md-3">
+				<span title="{{match.division.title}}" class="hideOverflow">{{match.division.title}}</span>
+				<span class="event-list--time facebook">
+						@{{match.wbp | date('H:i')}}
+						{%  if match.channel  %}
+						<a href="{{match.channel.url}}" style="display:inline" target="_blank" ><i class="fa fa-twitch"  aria-hidden="true" title="{{match.channel.title}}"></i></a>
+						{% endif %}
+					</span>
+            </div>
+        
+            <div class="event-list--team row col-sm-12 col-md-3 row no-gutters">
+                <div class="event-list--teamlogo col-sm-6 col-md-3 px-1">
+					{% if match.teams[0].logo is not null %}
+					<img src="{{match.teams[0].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid" alt="Team 1 Logo" title="Click for {{match.teams[0].title}} Profile" />
+					{% endif %}
+				</div>
+                <div class="event-list--teamname col-sm-6 col-md-9 px-1">                                
+                    {% if match.teams[0] is not null %}<a href="{{ 'team/view' | page({slug:match.teams[0].slug})}}">{{match.teams[0].title}}</a>{% else %} TBD {% endif %}
+                </div>
+            </div>
+            <div class="event-list--vs col-md-1 font-weight-bold">
+				<a href="{{ 'match/view' | page({id: match.id})}}" title="Match Details">VS</a>
+            </div>
+            <div class="event-list--team row col-sm-12 col-md-3 row no-gutters">
+                <div class="event-list--teamlogo col-sm-6 col-md-3 px-1">
+						{% if match.teams[1].logo is not null %}
+						<img src="{{match.teams[1].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid hideOverflow" alt="Team 2 Logo" title="Click for {{match.teams[1].title}} Profile" />
+						{% endif %}
+					</div>
+                <div class="event-list--teamname col-sm-6 col-md-9 px-1">                                
+                    {% if match.teams[1] is not null %}<a href="{{ 'team/view' | page({slug:match.teams[1].slug})}}">{{match.teams[1].title}}</a>{% else %} TBD {% endif %}
+                </div>
+            </div>
+            <div class="event-list--casted col-sm-12 col-md-2 caster-request" id="divCasterRequests{{match.id}}"> 
+            {%  partial '@casterRequests' match=match  %}
+          
+			</div>
+		</div>
+		
+            {% endfor %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<div class="jumbotron">
+    <h3 class="text-truncate">Hello {{user.username}}!</h1>
+    <p class="lead">
+        Our lil' sloths are too lazy to schedule matches.<br/>
+        ..But you may try again later.
+	</p>
+	<img src="{{ 'assets/img/icons/sad_pepe.svg' |theme }}" class="img-fluid ml-4" style="max-height:135px"/>
+</div>
+{% endif %}

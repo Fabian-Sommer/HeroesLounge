@@ -1,0 +1,4 @@
+title: Applications
+modelClass: Rikki\Heroeslounge\Models\Apps
+toolbar:
+    buttons: reorder_toolbar

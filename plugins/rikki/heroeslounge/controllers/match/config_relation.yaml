@@ -1,0 +1,96 @@
+teams:
+    label: Teams
+    view:
+        list:
+            columns:
+                title:
+                    label: title
+        toolbarPartial: teams_toolbar
+games:
+    label: Games
+    view: 
+        list:
+            columns:
+                map_id:
+                    label: Map
+                    relation: map
+                    select: title
+                winner_id:
+                    label: Winner
+                    relation: winner
+                    select: title
+        toolbarPartial: games_toolbar
+    manage:
+        form:
+            fields:
+                map:
+                    label: Map
+                    type: relation
+                    select: title
+                winner:
+                    label: Winning Team
+                    type: relation
+                    select: title
+                replay:
+                    label: replay
+                    type: fileupload
+                    mode: file
+                    fileTypes: stormreplay
+                    useCaption: false
+                    select: file_name
+casters:
+    label: Casters
+    view:
+        list:
+            columns:
+                title:
+                    label: Caster
+                pivot[approved]:
+                    label: Approved
+        toolbarPartial: casters_toolbar
+        showSearch: false
+        showCheckboxes: true
+    manage:
+        list:
+            columns:
+                title:
+                    label: Name
+                pivot[approved]:
+                    label: Approved
+    pivot:
+        form:
+            fields:
+                pivot[approved]:
+                    label: approved
+    emptyMessage: This match has no casters yet.
+channel:
+    label: Twitch channel
+    view:
+        form: $/rikki/heroeslounge/models/twitchchannel/fields.yaml
+        toolbarPartial: twitch_toolbar
+    manage:
+        form: $/rikki/heroeslounge/models/twitchchannel/fields.yaml
+        list: $/rikki/heroeslounge/models/twitchchannel/columns.yaml
+timeline:
+    label: Timeline Entries
+    view:
+        list:
+            columns:
+                created_at:
+                    label: Date
+                type:
+                    label: type
+        form: $/rikki/heroeslounge/models/timeline/fields.yaml
+        toolbarPartial: timeline_toolbar
+    manage:
+        form:
+            fields:
+                type:
+                    label: 'Type - this has to be one of Match.Scheduled, Match.Played, Admin.Message'
+                    type: text
+                    default: 'Invalid.Type'
+                message:
+                    label: 'Message - only when type is Admin.Message'
+                    type: textarea
+                    default: ''
+        list: $/rikki/heroeslounge/models/timeline/columns.yaml

@@ -1,0 +1,13 @@
+[viewBag]
+==
+{% set countryId = countryId|default(form_value('country_id')) %}
+
+    <label for="accountCountry" class="sr-only">Country</label>
+    <div class="input-group-addon"><i class="fa fa-flag-o" aria-hidden="true"></i></div>
+    {{ form_select_country('country_id', countryId, {
+        id: 'accountCountry',
+        class: 'form-control',
+        style: 'height:auto ',
+        emptyOption: '',
+        'data-request': 'onInit'
+    }) }}

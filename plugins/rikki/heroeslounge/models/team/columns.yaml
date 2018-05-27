@@ -1,0 +1,39 @@
+columns:
+    title:
+        label: Title
+        type: text
+        searchable: true
+        sortable: true
+    disbanded:
+        label: 'Disband'
+        type: switch
+        sortable: true
+    slug:
+        label: Slug
+        type: text
+        searchable: true
+        sortable: true
+    accepting_apps:
+        label: 'Accepting Applications'
+        type: switch
+        sortable: true
+    divisions:
+        label: Divisions
+        type: text
+        searchable: true
+        sortable: true
+        select: title
+        relation: divisions
+    seasons:
+        label: Seasons
+        type: text
+        searchable: true
+        sortable: true
+        select: title
+        relation: seasons
+    sloths_count:
+        label: '# of Members'
+        type: number
+        sortable: false
+        relation: sloths_count
+        valueFrom: count

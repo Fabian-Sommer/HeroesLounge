@@ -1,0 +1,17 @@
+<div class="hideOverflow" title="{%  for caster in match.getAcceptedCasters  %}{{caster.title}}{%  if not loop.last  %}, {%  endif  %}{% endfor %}">
+{% if user and can('cast_matches') and (user.sloth.id not in match.getCasterIds or match.casters is empty) %}
+    <a role="button" title="Apply to cast this match" data-request="{{ __SELF__ }}::onCastRequest" data-request-data="match_id: {{ match.id }}, caster_id: {{ user.sloth.id }}">
+    <i class="fa fa-calendar-check-o"></i></a>
+{% endif %}
+{% if user and can('cast_matches') and (user.sloth.id in match.getAppliedCasterIds) %}
+    <a role="button" title="I no longer want to cast this match" data-request="{{ __SELF__ }}::onCastRetract" data-request-data="match_id: {{ match.id }}, caster_id: {{ user.sloth.id }}">
+    <i class="fa fa-calendar-times-o"></i></a>
+{% endif %}
+{% if user and can('cast_matches') and not (match.getAppliedCasterTitles is empty) %}
+    <i class="fa fa-users" title="Casters who applied to cast: {% for title in match.getAppliedCasterTitles %}{{title}}{% if not loop.last %}, {% endif %}{% else %}None{% endfor %}"></i>
+{% endif %}
+{% for caster in match.getAcceptedCasters %}
+	{%  if loop.first  %}<i class="fa fa-microphone"></i>{%  endif  %} 
+	<a href="{{ 'user/view' | page({id:caster.user.id})}}">{{caster.title}}</a>{%  if not loop.last  %}, {%  endif  %}
+{% endfor %}
+</div>

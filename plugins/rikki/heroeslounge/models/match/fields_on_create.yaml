@@ -1,0 +1,26 @@
+secondaryTabs:
+    fields:
+        schedule_date:
+            label: 'Has to be scheduled until'
+            readOnly: false
+            mode: datetime
+            span: auto
+            type: datepicker
+        tbp: 
+            label: 'To be played until'
+            mode: datetime
+            span: auto
+            type: datepicker
+            readOnly: false
+        wbp:
+            label: 'Schedule for'
+            oc.commentPosition: ''
+            mode: datetime
+            span: auto
+            type: datepicker
+        division:
+            label: 'Division'
+            oc.commentPosition: ''
+            type: relation
+            placeholder: 'null'
+            nameFrom: title

@@ -1,0 +1,66 @@
+[viewBag]
+
+[blogList]
+pageNumber = "{{ :page }}"
+postsPerPage = 4
+noPostsMessage = "No post found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+==
+<?php
+function onStart() {
+    $this['q'] = Request::get('q', '');
+}
+?>
+==
+<div class="sidebar-widgets">
+
+    <!-- SEARCH -->
+    <div id="search-3" class="widget widget_search">
+        <h3 class="widget-title">{{ 'sidebar.search.title' | _ }}</h3>
+        <form role="search" method="get" class="search-form" name="form" action="{{ 'search' | page }}">
+            <input
+                type="search"
+                class="search-field form-control"
+                placeholder="{{ 'sidebar.search.placeholder' | _ }}"
+                value="{{ q }}" name="q" title="Search for:"  />
+            <button class="btn btn-primary-custom" type="submit">
+                <i class="fa fa-search" aria-hidden="true" color="white"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- RECENT POSTS -->
+    <div id="recent-posts-3" class="widget widget_recent_entries">
+        <h3 class="widget-title">{{ 'sidebar.recent.title' | _ }}</h3>
+        {% set posts = blogList.posts %}
+        {% if posts %}
+        <ul class="post-list">
+            {% for post in posts %}
+                <li>
+                    <a href="{{ post.url }}">{{ post.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% else %}
+        <p>{{ noPostsMessage }}</p>
+        {% endif %}
+    </div>
+
+    {% if post.tags.count %}
+    <div id="tags-3" class="widget widget_tag_cloud">
+        <h3 class="widget-title">Related Tags</h3>
+        <div class="tagcloud">
+            {% for tag in post.tags %}
+                <a class="text-white">{{ tag.name }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}    
+        </div>
+    </div>
+    {% endif %}
+
+
+
+
+</div>

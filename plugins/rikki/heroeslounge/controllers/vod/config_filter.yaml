@@ -1,0 +1,11 @@
+scopes:
+  is_played:
+    label: 'Is Played'
+    type: checkbox
+    default: true
+    conditions: is_played <> false
+  wbp:
+    label: Played At
+    type: daterange
+    yearRange: 1
+    conditions: wbp >= ':after' AND wbp <= ':before'

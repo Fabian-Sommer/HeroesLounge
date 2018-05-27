@@ -1,0 +1,24 @@
+fields:
+    title:
+        label: Title
+        span: auto
+        required: 1
+        type: text
+    type:
+        label: Type
+        span: auto
+        required: 1
+        type: text
+    divisions:
+        label: 'Assigned Groups (Divisions)'
+        nameFrom: title
+        descriptionFrom: playoff.title
+        span: auto
+        type: relation
+    season:
+        label: 'Season'
+        nameFrom: title
+        descriptionFrom: playoff.title
+        span: auto
+        type: relation
+        emptyOption: None

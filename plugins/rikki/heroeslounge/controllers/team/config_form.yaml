@@ -1,0 +1,10 @@
+name: Team
+modelClass: Rikki\Heroeslounge\Models\Team
+form: $/rikki/heroeslounge/models/team/fields.yaml
+defaultRedirect: rikki/heroeslounge/team
+create:
+    redirect: 'rikki/heroeslounge/team/update/:id'
+    redirectClose: rikki/heroeslounge/team
+update:
+    redirect: rikki/heroeslounge/team/update/:id
+    redirectClose: rikki/heroeslounge/team

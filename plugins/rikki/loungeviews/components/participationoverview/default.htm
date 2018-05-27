@@ -1,0 +1,113 @@
+ {% if __SELF__.season is null %} {% else %}
+<h1>{{__SELF__.season.title}} Participation</h1>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="navbar-header">
+        <a class="navbar-brand d-lg-none">Teams & Free Agents</a>
+        <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#divNav"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="divNav">
+        <ul class="nav nav-tabs mr-auto">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#teams">
+                	&nbsp;Teams&nbsp; [{{__SELF__.season.teams | length}}]<span class="sr-only">(current)</span>
+                	</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#agents">
+                    &nbsp;Free Agents&nbsp; [{{__SELF__.season.free_agents | length}}]
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+<div class="tab-content col-12">
+    <div class="tab-pane active" id="teams" role="tabpanel">
+        {% for teamBatch in __SELF__.season.teams | batch(2) %}
+        <div class="card-deck mb-3">
+            {% for team in teamBatch %}
+            <div class="card mb-2">
+                {% if team.logo %}
+                <div style="height:200px; position:relative; display:inline-block;overflow:hidden">
+                    <img class="card-img-top img-fluid rounded" style="position:absolute;top:50%;display:block;left:50%;-webkit-transform: translate(-50%, -50%);max-height:200px;width:auto;"
+                        src="{{team.logo.path}}" alt="{{team.title}} Logo" title="{{team.title}} Logo">
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h4 class="card-title text-center">
+                        <a href="{{ 'team/view' | page({slug: team.slug})}}">{{team.title}}</a>
+                    </h4>
+                    <div class="card-text">
+                        {% for slothBatch in team.sloths | batch(2) %}
+                        <div class="row">
+                            {% for sloth in slothBatch %}
+                            <a href="{{ 'user/view' | page({id: sloth.user.id})}}" class="col-md-6 mb-2" title="{{sloth.title}} Profile">
+										{% if sloth.role  %} {%  set path = 'assets/img/roles/' ~sloth.role.title|replace({' ':'-'})|lower ~ '.svg'  %}
+												<img src="{{path | theme}}" class="mr-2 rounded" title="{{sloth.role.title}}" alt="{{sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:#2e93cd"/>
+										{% endif %}
+										{% if sloth.is_captain %}
+											<i class="fa fa-star blue-icon" title="Captain"></i>
+										{% endif %}
+										{{sloth.title}}
+									</a> {% endfor %}
+                        </div>
+                        {% endfor %}
+                        {% if team.short_description %}
+                        <div class="row">
+                            <div class="col-12">
+                                <h6>Team Description:</h6>
+                                <p class="lead">
+                                    {{team.short_description | raw}}
+                                </p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="tab-pane" id="agents" role="panel">
+        {% for agentsBatch in __SELF__.season.free_agents | batch(3) %}
+        <div class="card-deck mb-3">
+            {% for agent in agentsBatch %}
+            <div class="card mb-2">
+                {% if agent.user.avatar %}
+                <div style="height:200px; position:relative; display:inline-block;overflow:hidden">
+                    <img class="card-img-top img-fluid rounded" style="position:absolute;top:50%;display:block;left:50%;-webkit-transform: translate(-50%, -50%);max-height:200px;"
+                        src="{{agent.user.avatar.path}}" alt="{{agent.title}} Logo" title="{{agent.title}} Avatar">
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h4 class="card-title text-center">
+                        <a href="{{ 'user/view' | page({id: agent.user.id})}}">{{agent.title}}</a>
+                    </h4>
+                    {% if agent.role %} {% set path = 'assets/img/roles/' ~agent.role.title|replace({' ':'-'})|lower ~ '.svg' %}
+                    <p class="card-text">
+                        <img src="{{path | theme}}" class="mr-2 rounded" title="{{agent.role.title}}" alt="{{agent.role.title}}" style="max-height:30px;max-width:30px;background-color:#2e93cd"
+                        /> {{agent.role.title}}
+                    </p>
+                    {% endif %} {% if agent.battle_tag %}
+                    <p class="card-text">
+                        <img src="{{'assets/img/btns/battlenet.svg' | theme}}" class="mr-2 rounded" title="Battle Tag" alt="Battle Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd"
+                        /> {{agent.battle_tag}}</p>{% endif %} {% if agent.discord_tag %}
+                    <p class="card-text">
+                        <img src="{{'assets/img/btns/discord.svg' | theme}}" class="mr-2 rounded" title="Discord Tag" alt="Discord Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd"
+                        /> {{agent.discord_tag}}</p>{% endif %} {% if agent.user.country_id %}
+                    <p class="card-text"><strong>Country:</strong> {{agent.user.country.name}}</p>{% endif %} {% if agent.birthday %}
+                    <p class="card-text"><strong>Birthday:</strong> {{agent.birthday}}</p>{% endif %} {% if agent.short_description %}
+                    <p class="card-text"><strong>Description:</strong><br/>{{agent.short_description}}</p>{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

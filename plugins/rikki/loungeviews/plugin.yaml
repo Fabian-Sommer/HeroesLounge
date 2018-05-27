@@ -1,0 +1,7 @@
+plugin:
+    name: 'rikki.loungeviews::lang.plugin.name'
+    description: 'rikki.loungeviews::lang.plugin.description'
+    author: rikki
+    icon: oc-icon-angellist
+    homepage: 'https://github.com/kealsera'
+   

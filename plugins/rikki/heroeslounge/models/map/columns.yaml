@@ -1,0 +1,10 @@
+columns:
+    title:
+        label: title
+        type: text
+        searchable: true
+        sortable: true
+    enabled:
+        label: Enabled
+        type: text
+        sortable: true

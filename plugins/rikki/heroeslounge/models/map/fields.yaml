@@ -1,0 +1,13 @@
+fields:
+    title:
+        label: 'Map title'
+        oc.commentPosition: ''
+        span: left
+        placeholder: 'map name'
+        required: 1
+        type: text
+    enabled:
+        label: Enabled
+        span: right
+        type: checkbox
+        comment: 'If checked, this map is eligable to be played'

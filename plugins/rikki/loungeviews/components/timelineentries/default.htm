@@ -1,0 +1,105 @@
+<section id="cd-timeline" class="cd-container">
+    {%  for timelineEntry in __SELF__.timeline  %}
+    {%  if timelineEntry.type != 'Invalid.Type'  %}
+    <div class="cd-timeline-block">
+        {%  if timelineEntry.type == 'Sloth.Created' or timelineEntry.type == 'Sloth.Deleted' or timelineEntry.type == 'Sloth.Logo'  %}
+        <div class="cd-timeline-img">
+            {%  if timelineEntry.sloths[0].user.avatar %}
+                <img src="{{timelineEntry.sloths[0].user.avatar.path | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.sloths[0].title}} Avatar" title="{{match.teams[0].title}} Avatar" />
+            {% else %}
+                <i class="fa fa-user fa-3x" style="padding-top:3px;"></i>
+            {% endif %}
+        </div>
+        <div class="cd-timeline-content" id="sloth">
+            {%  if timelineEntry.type == 'Sloth.Created'  %}
+                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> has just created an account. Welcome to Heroes Lounge!</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  elseif  timelineEntry.type == 'Sloth.Logo'  %}
+                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> has a new avatar. Nice!</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  elseif  timelineEntry.type == 'Sloth.Deleted'  %}
+                <p>Sadly, {{ timelineEntry.sloths[0].title }} left Heroeslounge.</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  endif  %}
+        </div>
+        {%  elseif timelineEntry.type == 'Admin.Message'  %}
+        <div class="cd-timeline-img">
+            <img src="{{ 'plugins/Rikki/heroeslounge/assets/img/favicon.png' | app}}" style="max-height: 60px" class="img-fluid" alt="Announcement" title="Announcement" />
+        </div>
+        <div class="cd-timeline-content" id="sloth">
+            {%  if timelineEntry.type == 'Admin.Message'  %}
+                <p>{{ timelineEntry.message | nl2br }}</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+            {%  endif  %}
+        </div>
+        {%  elseif timelineEntry.type == 'Match.Scheduled' or timelineEntry.type == 'Match.Played'  %}
+        <div class="cd-timeline-img">
+            {%  if timelineEntry.matches[0].teams[0].logo.path  %}
+                <img src="{{timelineEntry.matches[0].teams[0].logo.path | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.matches[0].teams[0].title}} Logo" title="{{timelineEntry.matches[0].teams[0].title}} Logo"  /> 
+            {%  elseif timelineEntry.matches[0].teams[1].logo.path  %}
+                <img src="{{timelineEntry.matches[0].teams[1].logo.path | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.matches[0].teams[1].title}} Logo" title="{{timelineEntry.matches[0].teams[1].title}} Logo"  /> 
+            {%  else  %}
+                <i class="fa fa-users fa-3x" style="padding-top:3px;"></i>
+            {%  endif  %}
+        </div>
+        <div class="cd-timeline-content" id="sloth">
+            {%  if timelineEntry.type == 'Match.Scheduled'  %}
+                <p>The match between <a href="{{ 'team/view'|page({ slug: timelineEntry.matches[0].teams[0].slug }) }}">{{ timelineEntry.matches[0].teams[0].title }}</a> and <a href="{{ 'team/view'|page({ slug: timelineEntry.matches[0].teams[1].slug }) }}">{{ timelineEntry.matches[0].teams[1].title }}</a> was scheduled to {{ timelineEntry.matches[0].wbp | date('M d H:i') }}.</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+            {%  elseif timelineEntry.type == 'Match.Played'  %}
+                <p>The match between <a href="{{ 'team/view'|page({ slug: timelineEntry.matches[0].teams[0].slug }) }}">{{ timelineEntry.matches[0].teams[0].title }}</a> and <a href="{{ 'team/view'|page({ slug: timelineEntry.matches[0].teams[1].slug }) }}">{{ timelineEntry.matches[0].teams[1].title }}</a> ended {{ timelineEntry.matches[0].teams[0].pivot.team_score }}:{{ timelineEntry.matches[0].teams[1].pivot.team_score }}.</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+            {%  endif  %}
+        </div>
+        {%  else  %}
+        <div class="cd-timeline-img">
+            {%  if timelineEntry.teams[0].logo.path %}
+                <img src="{{timelineEntry.teams[0].logo.path | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.teams[0].title}} Logo" title="{{timelineEntry.teams[0].title}} Logo"  /> 
+            {% else %}
+                <i class="fa fa-users fa-3x" style="padding-top:3px;"></i>
+            {% endif %}
+        </div>
+        <div class="cd-timeline-content" id="team">
+            {%  if timelineEntry.type == 'Team.Active'  %}
+                <p><a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a> became active and is now ready for adventure!</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  elseif timelineEntry.type == 'Team.InActive'  %}
+                <p><a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a> could no longer continue, and is now inactive.</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  elseif timelineEntry.type == 'Team.Created'  %}
+                <p>A new challenger approaches. <a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> has created the new team <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>!</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  elseif timelineEntry.type == 'Team.Deleted'  %}
+                <p><a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a> was deleted. Sorry to see you go!</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  elseif timelineEntry.type == 'Team.Logo'  %}
+                <p><a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a> just changed their logo. Fancy!</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  elseif timelineEntry.type == 'Team.Message'  %}
+                <p>A message from <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>:</p>
+                <p>{{ timelineEntry.message | nl2br}}</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  elseif  timelineEntry.type == 'Sloth.Joins.Team' %}
+                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> found a new home and joined <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>.</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  elseif  timelineEntry.type == 'Sloth.Left.Team' %}
+                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> left <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>, and is wandering free.</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {%  endif  %}
+        </div>
+        {%  endif  %}
+    </div>
+    {%  endif  %}
+    {%  endfor  %}
+</section>

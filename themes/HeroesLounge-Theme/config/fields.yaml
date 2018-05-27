@@ -1,0 +1,89 @@
+tabs:
+    fields:
+        site_title:
+            tab: General
+            label: Title
+            type: text
+            default: HeroesLounge
+            comment: Used at site title
+        site_locale:
+            tab: General
+            label: Locale
+            type: text
+            default: en
+            comment: Used for HTML lang parameter
+        color:
+            tab: General
+            label: Color scheme
+            type: dropdown
+            default: blue
+            options:
+                blue: Blue
+                orange: Orange
+                green: Green
+        intro_fullscreen:
+            tab: General
+            label: Intro fullscreen
+            type: switch
+            default: false
+            comment: Intro image is fullscreen
+
+        header_email:
+            tab: Header
+            label: Email
+            default: contact@heroeslounge.gg
+        header_phone:
+            tab: Header
+            label: Phone
+            default: 
+
+        footer_address:
+            tab: Footer
+            label: Address
+            default: 
+            span: left
+        footer_phone:
+            tab: Footer
+            label: Phone
+            default: 
+            span: right
+        footer_email:
+            tab: Footer
+            label: Email
+            default: contact@heroeslounge.gg
+            span: left
+        footer_facebook:
+            tab: Footer
+            label: Facebook link
+            default: https://www.facebook.com/heroeslounge.gg/
+            span: right
+
+        social_facebook:
+            tab: Social
+            label: Facebook link
+            default: https://www.facebook.com/heroeslounge.gg/
+        social_twitter:
+            tab: Social
+            label: Twitter link
+            default: https://twitter.com/hotslounge
+        social_instagram:
+            tab: Social
+            label: Instagram link
+            default: 
+        social_google:
+            tab: Social
+            label: Google link
+            default: 
+        social_linkedin:
+            tab: Social
+            label: LinkedIn link
+            default: 
+
+        copyright_first:
+            tab: Copyright
+            label: First line
+            default: Copyright 2017
+        copyright_second:
+            tab: Copyright
+            label: Second line
+            default: Heroes Lounge

@@ -1,0 +1,14 @@
+name: 'HeroesLounge'
+description: 'HeroesLounge theme'
+author: 'HeroesLounge Webdevs'
+homepage: 'http://www.vojtasvoboda.cz'
+code: Vega Pro
+require:
+    - RainLab.Blog
+    - RainLab.Pages
+    - RainLab.Translate
+    - AnandPatel.WysiwygEditors
+    - OFFLINE.SiteSearch
+    - Zainab.SimpleContact
+form: config/fields.yaml
+translate: config/lang.yaml

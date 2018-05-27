@@ -1,0 +1,61 @@
+<!-- Relation Toolbar -->
+<div id="Match-update-RelationController-timeline-toolbar" class="relation-toolbar">
+    <div class="toolbar-widget list-header" id="Toolbar-relationTimelineToolbar">
+        <div class="control-toolbar">
+
+            <!-- Control Panel -->
+            <div class="toolbar-item toolbar-primary">
+                <div data-control="toolbar">
+
+                    <button
+                        class="btn btn-sm btn-secondary oc-icon-clock-o"
+                        onclick="$(this).data('request-data', {
+                            model_id: '<?= $this->formGetModel()->id ?>'
+                        })"
+                        data-request="onTimelineCreation">
+                        Create new timeline entry
+                    </button>
+    
+                    <a
+    data-control="popup"
+    data-size="huge"
+    data-handler="onRelationButtonAdd"
+    href="javascript:;"
+    class="btn btn-sm btn-secondary oc-icon-plus">
+    Add existing timeline entries</a>
+        
+    
+                        <button
+        class="btn btn-sm btn-secondary oc-icon-trash-o"
+        onclick="$(this).data('request-data', {
+            checked: $('#Match-update-RelationController-timeline-view .control-list').listWidget('getChecked')
+        })"
+        disabled="disabled"
+        data-request="onRelationButtonDelete"
+        data-request-confirm="Are you sure?"
+        data-trigger-action="enable"
+        data-trigger="#Match-update-RelationController-timeline-view .control-list input[type=checkbox]"
+        data-trigger-condition="checked"
+        data-stripe-load-indicator>
+        Delete    </button>
+        
+    
+                        <button
+        class="btn btn-sm btn-secondary oc-icon-minus"
+        onclick="$(this).data('request-data', {
+            checked: $('#Match-update-RelationController-timeline-view .control-list').listWidget('getChecked')
+        })"
+        disabled="disabled"
+        data-request="onRelationButtonRemove"
+        data-trigger-action="enable"
+        data-trigger="#Match-update-RelationController-timeline-view .control-list input[type=checkbox]"
+        data-trigger-condition="checked"
+        data-stripe-load-indicator>
+        Remove from this division   </button>
+        
+    
+</div>
+</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,31 @@
+columns:
+    teamA:
+        label: 'Team A'
+        type: text
+        searchable: true
+        sortable: true
+        select: title
+        relation: teams
+    wbp:
+        label: Will be played on
+        type: text
+    div_id:
+        label: Dvision
+        type: text
+        relation: division
+        select: title
+    round:
+        label: round
+        type: number
+    channel:
+        label: 'Twitch channel'
+        type: partial
+        path: ~/plugins/rikki/heroeslounge/models/match/casterscheduling/_channel_column.htm
+        clickable: false
+        sortable: false
+    casters:
+        label: 'Casters'
+        type: partial
+        path: ~/plugins/rikki/heroeslounge/models/match/casterscheduling/_casters_column.htm
+        clickable: false
+        sortable: false

@@ -1,0 +1,51 @@
+{% for key,match in __SELF__.matches %}
+    {% set team1 = match.teams[0] %}
+    {% set team2 = match.teams[1] %}
+    {% set class1 %}
+        {% if team1.pivot.team_score > team2.pivot.team_score %}
+        badge-success
+        {% elseif team1.pivot.team_score == team2.pivot.team_score %}
+        badge-warning
+        {% else %}
+        badge-danger
+        {% endif %}
+    {% endset %}
+    {% set class2 %}
+        {% if team2.pivot.team_score > team1.pivot.team_score %}
+        badge-success
+        {% elseif team2.pivot.team_score == team1.pivot.team_score %}
+        badge-warning
+        {% else %}
+        badge-danger
+        {% endif %}
+    {% endset %}
+    
+        <div class="row">
+            <div class="col-8 text-truncate">
+                <img src="{{ team1.logo.path | resize(64,64) }}" class="img-fluid mr-1 Icon28x" alt="{{team1.title}} Logo">
+                <a href="{{ 'team/view' | page({slug : team1.slug }) }}" title="View {{team1.title}}">{{ team1.title }}</a>
+            </div>
+            <div class="col-4">
+                <a href="{{ 'match/view' | page({id:match.id})}}">
+                    <span class="f100 badge {{class1}}">
+                        {{ team1.pivot.team_score }}
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="row mt-1">
+                <div class="col-8 text-truncate">
+                    <img src="{{ team2.logo.path | resize(64,64)}}" class="img-fluid mr-1 Icon28x" alt="{{team2.title}} Logo">
+                    <a href="{{ 'team/view' | page({slug : team2.slug }) }}" title="View {{team2.title}}">{{ team2.title }}</a>
+                </div>
+                <div class="col-4">
+                    <a href="{{ 'match/view' | page({id:match.id})}}">
+                        <span class="f100 badge {{class2}}">
+                            {{ team2.pivot.team_score }}
+                        </span>
+                    </a>
+                </div>
+            </div>
+    <hr class="seperator">
+    
+{% endfor %}

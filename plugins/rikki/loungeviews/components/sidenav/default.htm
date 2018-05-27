@@ -1,0 +1,126 @@
+{% if user%}
+<nav id="sidebar" class="active">
+    <!-- Sidebar Header -->
+
+    <div class="sidebar-header">
+        <a href="/" title="Home"><img src="{{ 'assets/img/HL.svg' | theme }}" class="img-fluid"></a>
+    </div>
+    <!-- Sidebar Links -->
+    <ul class="list-unstyled components">
+            <li>
+                <a href="#userMenu" data-toggle="collapse" aria-expanded="false" class="text-truncate">
+                    <i class="fa fa-user"></i>
+                    {{user.sloth.title}}
+                </a>
+                <ul class="collapse list-unstyled" id="userMenu">
+                    <li>
+                        <a href="{{'user/account' | page}}" title="Account Settings"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                    </li>
+                    <li>
+                        <a href="{{'user/view' | page({id: user.sloth.user.id})}}" title="View Profile"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                    </li>
+                </ul>
+            </li>
+            {% if user.sloth.team is not null %}
+            <li>
+                <a href="#teamMenu" data-toggle="collapse" aria-expanded="false">
+                <i class="fa fa-users"></i>
+                    {{user.sloth.team.slug}}
+                </a>
+                <ul class="collapse list-unstyled" id="teamMenu">
+                {% if user.sloth.is_captain == true %}
+                    <li>
+                        <a href="{{ 'team/manage' | page({slug: user.sloth.team.slug}) }}" title="Manage {{user.sloth.team.title}}">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                        Manage
+                    </a>
+                    </li>
+                    <li>
+                        <a href="{{ 'team/manageMatch' | page({slug: user.sloth.team.slug}) }}" title="Manage Matches">
+                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
+                            Matches
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{'team/view' | page({slug: user.sloth.team.slug}) }}">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                View
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{'team/view' | page({slug: user.sloth.team.slug}) }}">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            View
+                        </a>
+                    </li>
+                    <li>
+                        <a role="button" href="" data-toggle="modal" data-target="#leaveTeamModal">
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                                Leave {{user.sloth.team.slug}}
+                            </a>
+                        </li>
+                {% endif %}
+                </ul>
+            </li>
+            {% endif %}
+
+            <li>
+                <a href="{{ 'general/ruleset' |page}}"><i class="fa fa-book" aria-hidden="true"></i> Ruleset</a>
+            </li>
+            {% if can('cast_matches') %}
+            <li>
+                <a href="{{ 'user/casterschedule' |page}}">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    Casting Schedule
+                </a>
+            </li>
+            {% endif %}
+            <li>
+                <a role="button" href="#" data-request="onLogOut"><i class="fa fa-sign-out" aria-hidden="true"></i>Sign Out</a>
+            </li>
+
+
+
+
+
+
+
+    </ul>
+</nav>
+
+
+{% if user.sloth.team and user.sloth.is_captain == false %}
+    {% put modal %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="leaveTeamModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Leaving your team: {{user.sloth.team.title}} ?
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger">
+                            Are you certain you would like to leave your current team?
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger" data-request="{{__SELF__}}::onLeaveTeam">Leave {{user.sloth.team.title}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% default %}
+    {% endput %}
+{% endif %}
+
+
+
+{% endif %}

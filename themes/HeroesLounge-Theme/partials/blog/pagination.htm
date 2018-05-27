@@ -1,0 +1,76 @@
+description = "Pagination" 
+[viewBag] 
+== 
+{% set nextPost = blogPage.nextPost %} {% set lastPost = blogPage.previousPost %}
+<div class="row">
+        <div class="col-6">
+                {% if lastPost %}
+                <div class="bg-light border border-secondary p-2">
+                    <h4 class="text-center">Previous</h4>
+                    <a href="{{lastPost.url}}">
+                        <div class="blogPostWrapper">
+                            <h4 class="text-truncate">
+                                {{ lastPost.title }}
+                            </h4>
+                            <div class="blogImage" style="background-image:url({{lastPost.image |media}});height:10vh">   
+                            </div>
+                        </div>
+                    </a>
+                    <span class="badge badge-secondary">
+                        <i class="fa fa-calendar" aria-hidden="true"></i> {{ lastPost.published_at|date('M d, Y') }}
+                    </span>
+                    <span class="badge badge-secondary">
+                        <i class="fa fa-user" aria-hidden="true"></i> {{ lastPost.findAuthor.login }} 
+                    </span>
+                    {% for category in lastPost.categories %}
+                    <a href="{{ category.url }}">
+                        <span class="badge badge-secondary">
+                            <i class="fa fa-tag" aria-hidden="true"></i> {{ category.name }}
+                        </span>
+                    </a>
+                    {% endfor %}
+                    <div class="text-truncate">
+                        {{ lastPost.summary |striptags|slice(0, 140)}}
+                        {% if lastPost.summary |length > 140 %}
+                        ...
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+        </div>
+        <div class="col-6">
+                {% if nextPost %}
+                <div class="bg-light border border-secondary p-2">
+                <h4 class="text-center">Next</h4>
+                <a href="{{nextPost.url}}">
+                        <div class="blogPostWrapper">
+                            <h4 class="text-truncate">
+                                {{ nextPost.title }}
+                            </h4>
+                            <div class="blogImage" style="background-image:url({{nextPost.image |media}});height:10vh">   
+                            </div>
+                        </div>
+                    </a>
+                    <span class="badge badge-secondary">
+                        <i class="fa fa-calendar" aria-hidden="true"></i> {{ nextPost.published_at|date('M d, Y') }}
+                    </span>
+                    <span class="badge badge-secondary">
+                        <i class="fa fa-user" aria-hidden="true"></i> {{ nextPost.findAuthor.login }} 
+                    </span>
+                    {% for category in nextPost.categories %}
+                    <a href="{{ category.url }}">
+                        <span class="badge badge-secondary">
+                            <i class="fa fa-tag" aria-hidden="true"></i> {{ category.name }}
+                        </span>
+                    </a>
+                    {% endfor %}
+                    <div class="text-truncate">
+                        {{ nextPost.summary |striptags|slice(0, 140)}}
+                        {% if nextPost.summary |length > 140 %}
+                        ...
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+        </div>
+</div>

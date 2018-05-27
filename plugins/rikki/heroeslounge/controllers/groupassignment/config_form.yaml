@@ -1,0 +1,20 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: rainlab.user::lang.user.label
+
+# Model Form Field configuration
+form: $/rikki/heroeslounge/controllers/groupassignment/fields.yaml
+
+# Model Class name
+modelClass: RainLab\User\Models\User
+
+# Default redirect location
+defaultRedirect: rikki/heroeslounge/groupassignment
+
+# Update page
+update:
+    redirect: rikki/heroeslounge/groupassignment/update/:id
+    redirectClose: rikki/heroeslounge/groupassignment

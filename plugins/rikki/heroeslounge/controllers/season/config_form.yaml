@@ -1,0 +1,11 @@
+name: Season
+modelClass: Rikki\Heroeslounge\Models\Season
+form: $/rikki/heroeslounge/models/season/fields.yaml
+defaultRedirect: rikki/heroeslounge/season
+create:
+    redirect: 'rikki/heroeslounge/season/update/:id'
+    redirectClose: rikki/heroeslounge/season
+update:
+    redirect: rikki/heroeslounge/season
+    redirectClose: rikki/heroeslounge/season
+preview: {  }
