@@ -45,6 +45,18 @@ class Playoff extends Model
     {
         $playoff = $this;
         if ($this->type == 'playoffv1') {
+            //TODO configure dates from backend
+            $timezone = 'Europe/Berlin';
+            $year0 = 2018;
+            $month0 = 6;
+            $day0 = 22;
+            $year1 = 2018;
+            $month1 = 6;
+            $day1 = 23;
+            $year2 = 2018;
+            $month2 = 6;
+            $day2 = 24;
+
             $a1 = $this->teams()->where('seed', 1)->firstOrFail();
             $a2 = $this->teams()->where('seed', 5)->firstOrFail();
             $a3 = $this->teams()->where('seed', 9)->firstOrFail();
@@ -76,7 +88,7 @@ class Playoff extends Model
                 3 => ['title' => 'Group D', 'slug' => 'group-d',
                         'teams' => [0 =>$d1,1 => $d2,2 => $d3,3 => $d4]]
             ];
-            $groups_until = Carbon::create(2018, 2, 16, 23, 59, 59, 'Europe/Berlin');
+            $groups_until = Carbon::create($year0, $month0, $day0, 23, 59, 59, $timezone);
             foreach ($groups as $key => $groupe) {
                 $gr = new Division;
                 $gr->playoff = $playoff;
@@ -136,78 +148,88 @@ class Playoff extends Model
                 $match->teams()->add($groupe['teams'][1]);
                 $match->teams()->add($groupe['teams'][2]);     
             }
-            //TODO configure dates
+            
+            $Time1 = Carbon::create($year1, $month1, $day1, 13, 00, 0, $timezone);
+            $Time2 = Carbon::create($year1, $month1, $day1, 14, 45, 0, $timezone);
+            $Time3 = Carbon::create($year1, $month1, $day1, 16, 30, 0, $timezone);
+            $Time4 = Carbon::create($year1, $month1, $day1, 18, 15, 0, $timezone);
+            $Time5 = Carbon::create($year1, $month1, $day1, 20, 00, 0, $timezone);
+            $Time6 = Carbon::create($year2, $month2, $day2, 13, 00, 0, $timezone);
+            $Time7 = Carbon::create($year2, $month2, $day2, 14, 45, 0, $timezone);
+            $Time8 = Carbon::create($year2, $month2, $day2, 18, 15, 0, $timezone);
+            $Time9 = Carbon::create($year2, $month2, $day2, 20, 30, 0, $timezone);
+            
             $matchArray = [
                 0 => [  'pos' => Match::encodePlayoffPosition(1,1,1), 
                         'wn' => Match::encodePlayoffPosition(1,2,1), 
                         'ln' => Match::encodePlayoffPosition(2,3,2), 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 18, 15, 0, 'Europe/Berlin')],
+                        'wbp' => $Time3],
                 1 => [  'pos' => Match::encodePlayoffPosition(1,1,2), 
                         'wn' => Match::encodePlayoffPosition(1,2,1), 
                         'ln' => Match::encodePlayoffPosition(2,3,1), 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 18, 15, 0, 'Europe/Berlin')],
+                        'wbp' => $Time3],
                 2 => [  'pos' => Match::encodePlayoffPosition(2,1,1), 
                         'wn' => Match::encodePlayoffPosition(2,2,1), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 13, 00, 0, 'Europe/Berlin')],
+                        'wbp' => $Time1],
                 3 => [  'pos' => Match::encodePlayoffPosition(2,1,2), 
                         'wn' => Match::encodePlayoffPosition(2,2,1), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 13, 00, 0, 'Europe/Berlin')],
+                        'wbp' => $Time1],
                 4 => [  'pos' => Match::encodePlayoffPosition(2,1,3), 
                         'wn' => Match::encodePlayoffPosition(2,2,2), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 14, 45, 0, 'Europe/Berlin')],
+                        'wbp' => $Time2],
                 5 => [  'pos' => Match::encodePlayoffPosition(2,1,4), 
                         'wn' => Match::encodePlayoffPosition(2,2,2), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 14, 45, 0, 'Europe/Berlin')],
+                        'wbp' => $Time2],
                 6 => [  'pos' => Match::encodePlayoffPosition(2,2,1), 
                         'wn' => Match::encodePlayoffPosition(2,3,1), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 16, 30, 0, 'Europe/Berlin')],
+                        'wbp' => $Time4],
                 7 => [  'pos' => Match::encodePlayoffPosition(2,2,2), 
                         'wn' => Match::encodePlayoffPosition(2,3,2), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 16, 30, 0, 'Europe/Berlin')],
+                        'wbp' => $Time4],
                 8 => [  'pos' => Match::encodePlayoffPosition(2,3,1), 
                         'wn' => Match::encodePlayoffPosition(2,4,1), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 20, 00, 0, 'Europe/Berlin')],
+                        'wbp' => $Time5],
                 9 => [  'pos' => Match::encodePlayoffPosition(2,3,2), 
                         'wn' => Match::encodePlayoffPosition(2,4,1), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 17, 20, 00, 0, 'Europe/Berlin')],
+                        'wbp' => $Time5],
                 10 => [ 'pos' => Match::encodePlayoffPosition(2,4,1), 
                         'wn' => Match::encodePlayoffPosition(2,5,1), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 18, 14, 45, 0, 'Europe/Berlin')],
+                        'wbp' => $Time7],
                 11 => [ 'pos' => Match::encodePlayoffPosition(1,2,1), 
                         'wn' => Match::encodePlayoffPosition(3,1,1), 
                         'ln' => Match::encodePlayoffPosition(2,5,1), 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 18, 13, 00, 0, 'Europe/Berlin')],
+                        'wbp' => $Time6],
                 12 => [ 'pos' => Match::encodePlayoffPosition(3,1,1), 
                         'wn' => null, 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 18, 20, 00, 0, 'Europe/Berlin')],
+                        'wbp' => $Time9],
                 13 => [ 'pos' => Match::encodePlayoffPosition(2,5,1), 
                         'wn' => Match::encodePlayoffPosition(3,1,1), 
                         'ln' => null, 
                         'teams' => [], 
-                        'wbp' => Carbon::create(2018, 2, 18, 18, 15, 0, 'Europe/Berlin')]
+                        'wbp' => $Time8]
             ];
         } else if ($this->type == 'se16') {
             $firstRoundTime = Carbon::create(2018, 2, 17, 18, 15, 0, 'Europe/Berlin');
