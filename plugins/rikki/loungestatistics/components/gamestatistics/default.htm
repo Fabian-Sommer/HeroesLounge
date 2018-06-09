@@ -9,13 +9,13 @@
                     </a>
                 </h3>
             </div>
-            <img src="{{__SELF__.game.teamOne.logo.path}}" class="d-flex align-self-start ml-2" style="max-height: 50px" alt="{{__SELF__.game.teamOne.title}}"
+            <img src="{% if __SELF__.game.teamOne.logo.path %}{{__SELF__.game.teamOne.logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}" class="d-flex align-self-start ml-2" style="max-height: 50px" alt="{{__SELF__.game.teamOne.title}}"
                 title="{{__SELF__.game.teamOne.title}}">
         </div>
     </div>
     <div class="col-6">
         <div class="media text-left">
-            <img src="{{__SELF__.game.teamTwo.logo.path}}" class="d-flex align-self-start mr-2" style="max-height: 50px" alt="{{__SELF__.game.teamTwo.title}}"
+            <img src="{% if __SELF__.game.teamTwo.logo.path %}{{__SELF__.game.teamTwo.logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}" class="d-flex align-self-start mr-2" style="max-height: 50px" alt="{{__SELF__.game.teamTwo.title}}"
                 title="{{__SELF__.game.teamTwo.title}}">
             <div class="media-body">
                 <h3>
