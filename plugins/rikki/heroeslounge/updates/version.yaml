@@ -320,3 +320,15 @@
 1.0.113:
     - 'Updated table rikki_heroeslounge_sloths'
     - builder_table_update_rikki_heroeslounge_sloths_11.php
+1.0.114:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_12.php
+1.0.115:
+    - 'Updated table rikki_heroeslounge_seasons'
+    - builder_table_update_rikki_heroeslounge_seasons_3.php
+1.0.116:
+    - 'Created table rikki_heroeslounge_regions'
+    - builder_table_create_rikki_heroeslounge_regions.php
+1.0.117:
+    - 'Updated table rikki_heroeslounge_games'
+    - builder_table_update_rikki_heroeslounge_games_6.php

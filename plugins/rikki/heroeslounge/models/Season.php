@@ -25,6 +25,9 @@ class Season extends Model
     ];
     protected $slugs = ['slug' => 'title'];
 
+    public $belongsTo = ['region' => ['Rikki\Heroeslounge\Models\Region']
+    ];
+
     /**
      * @var string The database table used by the model.
      */

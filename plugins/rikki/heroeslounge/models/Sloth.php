@@ -42,7 +42,8 @@ class Sloth extends Model
             'user' => ['RainLab\User\Models\User'],
             'role' => [
                 'Rikki\Heroeslounge\Models\SlothRole'
-            ]
+            ],
+            'region' => ['Rikki\Heroeslounge\Models\Region'],
         ];
 
     public $hasMany = [

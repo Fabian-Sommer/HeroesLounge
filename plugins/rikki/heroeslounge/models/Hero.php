@@ -63,6 +63,14 @@ class Hero extends Model
                 +
                 $team->games->where('team_two_ban_two_id', $this->id)
                 ->where('team_two_id', $team->id)
+                ->count()
+                +
+                $team->games->where('team_one_ban_three_id', $this->id)
+                ->where('team_one_id', $team->id)
+                ->count()
+                +
+                $team->games->where('team_two_ban_three_id', $this->id)
+                ->where('team_two_id', $team->id)
                 ->count();
     }
 
@@ -81,6 +89,14 @@ class Hero extends Model
                 ->count()
                 +
                 $team->games->where('team_two_ban_two_id', $this->id)
+                ->where('team_two_id', $team->id)
+                ->count()
+                +
+                $team->games->where('team_one_ban_three_id', $this->id)
+                ->where('team_one_id', $team->id)
+                ->count()
+                +
+                $team->games->where('team_two_ban_three_id', $this->id)
                 ->where('team_two_id', $team->id)
                 ->count();
     }

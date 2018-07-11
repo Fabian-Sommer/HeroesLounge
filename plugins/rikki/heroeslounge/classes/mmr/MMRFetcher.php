@@ -52,7 +52,7 @@ class MMRFetcher
         }
 
         if ($output != "null") {
-            SlothModel::where('id', $sloth->id)->update(['mmr' => 0, 'all_mmr' => 0]);
+            SlothModel::where('id', $sloth->id)->update(['mmr' => 0, 'all_mmr' => 3000]);
             $data = json_decode($output, true);
 
             if ($data != null) {

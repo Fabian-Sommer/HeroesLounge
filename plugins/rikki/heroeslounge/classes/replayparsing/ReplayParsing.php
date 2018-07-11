@@ -391,6 +391,8 @@ class ReplayParsing
         $this->game->teamOneSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4025"][0]["value"])->first();
         $this->game->teamTwoFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4028"][0]["value"])->first();
         $this->game->teamTwoSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4030"][0]["value"])->first();
+        $this->game->teamOneThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4043"][0]["value"])->first();
+        $this->game->teamTwoThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4045"][0]["value"])->first();
         $this->game->save();
     }
 

@@ -85,6 +85,11 @@
             <img src="{{path | theme}}" title="{{__SELF__.game.teamOneSecondBan.title}}" alt="{{__SELF__.game.teamOneSecondBan.title}}"
                 class="rounded " />
         </figure>
+        <figure class="figure float-left m-1">
+            {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamOneThirdBan.image_url ~ '.png' %}
+            <img src="{{path | theme}}" title="{{__SELF__.game.teamOneThirdBan.title}}" alt="{{__SELF__.game.teamOneThirdBan.title}}"
+                class="rounded " />
+        </figure>
     </div>
     <div class="col">
         {% set map = 'assets/img/maps/bg_' ~__SELF__.game.map.title|replace({' ':'-'})|lower ~ '.jpg'%}
@@ -113,6 +118,11 @@
         <figure class="figure float-right m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamTwoSecondBan.image_url ~ '.png' %}
             <img src="{{path | theme}}" title="{{__SELF__.game.teamTwoSecondBan.title}}" alt="{{__SELF__.game.teamTwoSecondBan.title}}"
+                class="rounded " />
+        </figure>
+        <figure class="figure float-right m-1">
+            {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamTwoThirdBan.image_url ~ '.png' %}
+            <img src="{{path | theme}}" title="{{__SELF__.game.teamTwoThirdBan.title}}" alt="{{__SELF__.game.teamTwoThirdBan.title}}"
                 class="rounded " />
         </figure>
     </div>

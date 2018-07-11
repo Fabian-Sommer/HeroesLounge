@@ -64,6 +64,16 @@ class Game extends Model
             'key' => 'team_two_ban_two_id',
             'otherKey' => 'id'
         ],
+        'teamOneThirdBan' => [
+            'Rikki\Heroeslounge\Models\Hero',
+            'key' => 'team_one_ban_three_id',
+            'otherKey' => 'id'
+        ],
+        'teamTwoThirdBan' => [
+            'Rikki\Heroeslounge\Models\Hero',
+            'key' => 'team_two_ban_three_id',
+            'otherKey' => 'id'
+        ],
         'teamOne' => [
             'Rikki\Heroeslounge\Models\Team',
             'key' => 'team_one_id',
