@@ -173,6 +173,8 @@ class HeroUpdater
                         $tal = new Talent;
                         $tal->hero = $heroModel;
                         $tal->title = $talent['title'];
+                        $tal->suspected_replay_title = preg_replace("/[^A-Za-z0-9]/", '', $tal->title);
+                        $tal->replay_title = $talent['name'];
                         $temp_string_array = explode('/', $talent['icon_url']['64x64']);
                         $tal->image_url = end($temp_string_array);
                         $talent_url = "https://cdn.hotstat.us/images/" . end($temp_string_array);
@@ -189,11 +191,11 @@ class HeroUpdater
                                 ->resize(32, 32)
                                 ->save($talent_image_path.DS.$tal->image_url, 100);
                         } else {
-                            Log::error('Failed to get image for talent '.$talent['title']);
+                            //Log::error('Failed to get image for talent '.$talent['title']);
+                            $hotslogs_title = substr($talent['name'], strlen($heroModel->title));
+                            HeroUpdater::fetchHotslogsImage($hotslogs_title, $talent['title'], end($temp_string_array), $tal->suspected_replay_title);
                         }
                         
-                        $tal->suspected_replay_title = preg_replace("/[^A-Za-z0-9]/", '', $tal->title);
-                        $tal->replay_title = $talent['name'];
                         $tal->save();
                         Log::info('New talent added: '.$talent['title']);
                     } else {
@@ -213,7 +215,9 @@ class HeroUpdater
                                 ->resize(32, 32)
                                 ->save($talent_image_path.DS.end($temp_string_array), 100);
                         } else {
-                            Log::error('Failed to get image for talent '.$talent['title']);
+                            //Log::error('Failed to get image for talent '.$talent['title']);
+                            $hotslogs_title = substr($talent['name'], strlen($heroModel->title));
+                            HeroUpdater::fetchHotslogsImage($hotslogs_title, $talent['title'], end($temp_string_array), preg_replace("/[^A-Za-z0-9]/", '', $talent['title']));
                         }
                     }  
                 }
@@ -249,14 +253,18 @@ class HeroUpdater
         if (array_key_exists('talents', $decoded_hero)) {
             foreach ($decoded_hero['talents'] as $talent) {
                 if (Talent::where('title', $talent['title'])->where('hero_id', $hero->id)->count() == 0) {
+
                     $ch2 = curl_init($talent['icon_url']['64x64']);
                     curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
                     $talent_icon = curl_exec($ch2);
                     $contentType = curl_getinfo($ch2, CURLINFO_CONTENT_TYPE);
                     curl_close($ch2);
+
                     $tal = new Talent;
                     $tal->hero = $hero;
                     $tal->title = $talent['title'];
+                    $tal->suspected_replay_title = preg_replace("/[^A-Za-z0-9]/", '', $tal->title);
+                    $tal->replay_title = $talent['name'];
                     $temp_string_array = explode('/', $talent['icon_url']['64x64']);
                     $tal->image_url = end($temp_string_array);
                     if ($contentType != 'application/xml') {
@@ -267,11 +275,12 @@ class HeroUpdater
                             ->resize(32, 32)
                             ->save($talent_image_path.DS.$tal->image_url, 100);
                     } else {
-                        Log::error('Failed to get image for talent '.$talent['title']);
+                        //Log::error('Failed to get image for talent '.$talent['title']);
+                        $hotslogs_title = substr($talent['name'], strlen($heroModel->title));
+                        HeroUpdater::fetchHotslogsImage($hotslogs_title, $talent['title'], end($temp_string_array), preg_replace("/[^A-Za-z0-9]/", '', $talent['title']));
                     }
                     
-                    $tal->suspected_replay_title = preg_replace("/[^A-Za-z0-9]/", '', $tal->title);
-                    $tal->replay_title = $talent['name'];
+                    
                     $tal->save();
                     Log::info('New talent added: '.$talent['title']);
                 } elseif (Talent::where('title', $talent['title'])->where('hero_id', $hero->id)->where('replay_title', 'IS NOT', 'NULL')->count() == 0) {
@@ -284,6 +293,68 @@ class HeroUpdater
         } else {
             Log::error('No talents found during talent update: '.json_encode($decoded_hero));
             return null;
+        }
+    }
+
+    public static function fetchHotslogsImage($talent_name, $talent_title, $image_url, $secondTalentName) {
+        $theme = Theme::getActiveTheme();
+        $theme_path = $theme->getPath();
+        defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+        $talent_image_path = $theme_path.DS.'assets'.DS.'img'.DS.'talents';
+
+        $ch2 = curl_init("https://d1i1jxrdh2kvwy.cloudfront.net/Images/Talents/".$talent_name.".png");
+        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+        $talent_icon = curl_exec($ch2);
+        $contentType = curl_getinfo($ch2, CURLINFO_CONTENT_TYPE);
+        curl_close($ch2);
+        if ($contentType != 'application/xml') {
+            $file = fopen($talent_image_path.DS.$image_url, "w+");
+            fputs($file, $talent_icon);
+            fclose($file);
+
+            Resizer::open($talent_image_path.DS.$image_url)
+                ->resize(32, 32)
+                ->save($talent_image_path.DS.$image_url, 100);
+        } else {
+            $ch3 = curl_init("https://d1i1jxrdh2kvwy.cloudfront.net/Images/Talents/".$secondTalentName.".png");
+            curl_setopt($ch3, CURLOPT_RETURNTRANSFER, true);
+            $talent_icon = curl_exec($ch3);
+            $contentType = curl_getinfo($ch3, CURLINFO_CONTENT_TYPE);
+            curl_close($ch3);
+            if ($contentType != 'application/xml') {
+                $file = fopen($talent_image_path.DS.$image_url, "w+");
+                fputs($file, $talent_icon);
+                fclose($file);
+
+                Resizer::open($talent_image_path.DS.$image_url)
+                    ->resize(32, 32)
+                    ->save($talent_image_path.DS.$image_url, 100);
+            } else {
+                //final try
+                //capitalize
+                $final_name = preg_replace_callback('/(?<=( |-))./',
+                      function ($m) { return strtoupper($m[0]); },
+                      $talent_title);
+                //remove spaces
+                $final_name = preg_replace("/[^A-Za-z0-9]/", '', $final_name);
+
+                $ch4 = curl_init("https://d1i1jxrdh2kvwy.cloudfront.net/Images/Talents/".$final_name.".png");
+                curl_setopt($ch4, CURLOPT_RETURNTRANSFER, true);
+                $talent_icon = curl_exec($ch4);
+                $contentType = curl_getinfo($ch4, CURLINFO_CONTENT_TYPE);
+                curl_close($ch4);
+                if ($contentType != 'application/xml') {
+                    $file = fopen($talent_image_path.DS.$image_url, "w+");
+                    fputs($file, $talent_icon);
+                    fclose($file);
+
+                    Resizer::open($talent_image_path.DS.$image_url)
+                        ->resize(32, 32)
+                        ->save($talent_image_path.DS.$image_url, 100);
+                } else {
+                    Log::error('Failed to get image for talent '.$talent_name);
+                }
+            }
         }
     }
 
