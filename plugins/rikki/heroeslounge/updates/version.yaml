@@ -332,3 +332,6 @@
 1.0.117:
     - 'Updated table rikki_heroeslounge_games'
     - builder_table_update_rikki_heroeslounge_games_6.php
+1.0.118:
+    - 'updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_13.php
