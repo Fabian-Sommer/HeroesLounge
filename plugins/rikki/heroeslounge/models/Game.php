@@ -162,26 +162,32 @@ class Game extends Model
 
     public function getTeamOneBans()
     {
-    	if ($this->teamOneFirstBan && $this->teamOneSecondBan) {
-    		return new Collection([$this->teamOneFirstBan, $this->teamOneSecondBan]);
-    	} else if ($this->teamOneFirstBan) {
-    		return new Collection([$this->teamOneFirstBan]);
-    	} else if ($this->teamOneSecondBan) {
-    		return new Collection([$this->teamOneSecondBan]);
+        $c = [];
+    	if ($this->teamOneFirstBan) {
+    		array_push($c, $this->teamOneFirstBan);
     	}
-    	return new Collection;
+        if ($this->teamOneSecondBan) {
+    		array_push($c, $this->teamOneSecondBan);
+    	}
+        if ($this->teamOneThirdBan) {
+            array_push($c, $this->teamOneThirdBan);
+        }
+    	return new Collection($c);
     }
 
     public function getTeamTwoBans()
     {
-    	if ($this->teamTwoFirstBan && $this->teamTwoSecondBan) {
-    		return new Collection([$this->teamTwoFirstBan, $this->teamTwoSecondBan]);
-    	} else if ($this->teamTwoFirstBan) {
-    		return new Collection([$this->teamTwoFirstBan]);
-    	} else if ($this->teamTwoSecondBan) {
-    		return new Collection([$this->teamTwoSecondBan]);
-    	}
-    	return new Collection;
+    	$c = [];
+        if ($this->teamTwoFirstBan) {
+            array_push($c, $this->teamTwoFirstBan);
+        }
+        if ($this->teamTwoSecondBan) {
+            array_push($c, $this->teamTwoSecondBan);
+        }
+        if ($this->teamTwoThirdBan) {
+            array_push($c, $this->teamTwoThirdBan);
+        }
+        return new Collection($c);
     }
 
     //parses the associated replay, erasing previous results
