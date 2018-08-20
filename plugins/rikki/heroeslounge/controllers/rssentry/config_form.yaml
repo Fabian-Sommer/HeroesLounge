@@ -1,0 +1,11 @@
+name: RssEntry
+modelClass: Rikki\Heroeslounge\Models\RssEntry
+form: $/rikki/heroeslounge/models/rssentry/fields.yaml
+defaultRedirect: rikki/heroeslounge/rssentry
+create:
+    redirect: 'rikki/heroeslounge/rssentry/update/:id'
+    redirectClose: rikki/heroeslounge/rssentry
+update:
+    redirect: rikki/heroeslounge/rssentry
+    redirectClose: rikki/heroeslounge/rssentry
+preview: {  }

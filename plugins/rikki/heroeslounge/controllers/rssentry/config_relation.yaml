@@ -1,0 +1,29 @@
+timeline:
+    label: Timeline Entries
+    view:
+        list:
+            columns:
+                created_at:
+                    label: Date
+                type:
+                    label: type
+        form: $/rikki/heroeslounge/models/timeline/fields.yaml
+        toolbarPartial: timeline_toolbar
+    manage:
+        form:
+            fields:
+                type:
+                    label: 'Type - this has to be one of Team.{Message,Created,Deleted,Active,InActive,Logo}, Sloth.Joins.Team, Sloth.Left.Team'
+                    type: text
+                    default: 'Team.Message'
+                message:
+                    label: 'Only used when type is Team.Message'
+                    type: textarea
+                    default: ''
+                divisions:
+                    label: 'Associated divisions'
+                    span: auto
+                    oc.commentPosition: ''
+                    nameFrom: title
+                    type: relation
+        list: $/rikki/heroeslounge/models/timeline/columns.yaml

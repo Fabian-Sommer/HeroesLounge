@@ -1,0 +1,28 @@
+fields:
+    title:
+        label: Title
+        oc.commentPosition: ''
+        span: auto
+        required: 1
+        type: text
+    media:
+        label: Media
+        span: auto
+        type: mediafinder
+        mode: file
+    description:
+        label: 'Description'
+        span: auto
+        required: 1
+        type: textarea
+    blog:
+        label: 'Related Blog'
+        nameFrom: title
+        span: auto
+        type: relation
+    publication_date:
+        label: 'Publication Date'
+        mode: datetime
+        type: datepicker
+        span: auto
+        required: 1

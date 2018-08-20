@@ -1,0 +1,11 @@
+title: RssEntry
+modelClass: Rikki\Heroeslounge\Models\RssEntry
+list: $/rikki/heroeslounge/models/rssentry/columns.yaml
+recordUrl: 'rikki/heroeslounge/rssentry/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

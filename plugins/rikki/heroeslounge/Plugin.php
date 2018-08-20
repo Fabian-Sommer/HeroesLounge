@@ -46,6 +46,7 @@ class Plugin extends PluginBase
             'Rikki\Heroeslounge\Components\SlothResetPassword' => 'SlothResetPassword',
             'Rikki\Heroeslounge\Components\CreateApp' => 'CreateApp',
             'Rikki\Heroeslounge\Components\ViewApps' => 'ViewApps',
+            'Rikki\Heroeslounge\Components\RssFeed' => 'RssFeed',
         ];
     }
 
@@ -251,7 +252,13 @@ class Plugin extends PluginBase
                     'tab' => 'Sloth',
                     'type' => 'number',
                     'readOnly' => true
-                 ],
+                ], 'sloth[all_mmr]' => [
+                    'label' => 'All available MMR',
+                    'comment' => 'Is QM if nothing else is available',
+                    'tab' => 'Sloth',
+                    'type' => 'number',
+                    'readOnly' => true
+                ],
                 'sloth[birthday]' => [
                     'label' => 'Birthday',
                      'tab' => 'Sloth',
