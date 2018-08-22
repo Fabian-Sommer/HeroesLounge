@@ -17,10 +17,10 @@ if __SELF__.sloth.team %}
                 <div class="text-center d-xs-none wow zoomIn description" style="visibility: visible; animation-name: zoomIn;">
                     <div class="SocialSharingButtons">
                         {% if __SELF__.sloth.twitter_url %}
-                        <a href="{{__SELF__.sloth.twitter_url}}" target="_blank" title="View Twitter Profile" class="share-btn twitter">
+                        <a href="{{__SELF__.sloth.twitter_url}}" rel="noopener" target="_blank" title="View Twitter Profile" class="share-btn twitter">
                             <i class="fa fa-twitter" aria-hidden="true"></i>
                         </a> {% endif %} {% if __SELF__.sloth.facebook_url %}
-                        <a href="{{__SELF__.sloth.facebook_url}}" target="_blank" title="View Facebook Profile" class="share-btn facebook">
+                        <a href="{{__SELF__.sloth.facebook_url}}" rel="noopener" target="_blank" title="View Facebook Profile" class="share-btn facebook">
                             <i class="fa fa-facebook" aria-hidden="true"></i>
                         </a> {% endif %} {% if __SELF__.sloth.twitch_url %}
                         <a href="{{__SELF__.sloth.twitch_url}}" class="share-btn twitch">
@@ -50,7 +50,7 @@ if __SELF__.sloth.team %}
         <p class="card-text">
             <img src="{{'assets/img/btns/battlenet.svg' | theme}}" class="mr-2 rounded" title="Battle Tag" alt="Battle Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd"
             />{% if  __SELF__.sloth.hotslogs_id %} <a href="https://www.hotslogs.com/Player/Profile?PlayerID={{ __SELF__.sloth.hotslogs_id}}"
-                alt="HotSLogs ID" target="_blank">{{__SELF__.sloth.battle_tag}}</a> {% else %} {{__SELF__.sloth.battle_tag}} {% endif %}</p>{%
+                alt="HotSLogs ID" rel="noopener" target="_blank">{{__SELF__.sloth.battle_tag}}</a> {% else %} {{__SELF__.sloth.battle_tag}} {% endif %}</p>{%
         endif %} {% if __SELF__.sloth.discord_tag %}
         <p class="card-text">
             <img src="{{'assets/img/btns/discord.svg' | theme}}" class="mr-2 rounded" title="Discord Tag" alt="Discord Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd"

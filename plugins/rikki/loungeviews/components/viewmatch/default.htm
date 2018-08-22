@@ -1,6 +1,6 @@
 {% if __SELF__.match %}
 {% if __SELF__.match.round > 0 %}
-<h1><a href="{{ 'season/' |page({slug: __SELF__.match.division.season.slug})}}">{{__SELF__.match.division.season.title}}</a>    Round {{__SELF__.match.round}}</h1> 
+<h1><a href="{{ 'season/' |page({slug: __SELF__.match.division.season.slug})}}">{{__SELF__.match.division.season.title}}</a>    Round {{__SELF__.match.round}}</h1>
 {%endif%}
 {% if __SELF__.match.division %}
     {% if __SELF__.match.division.playoff %}
@@ -27,13 +27,13 @@
     {% endif %}
 {% endif %}
 {% if __SELF__.match.getAcceptedCasters %}
-<h4>Casted by: 
+<h4>Casted by:
     {% for caster in __SELF__.match.getAcceptedCasters %}
         {{caster.title}}{% if not loop.last %}, {%endif%}
     {% endfor %}
     {% if __SELF__.match.channel %}
     <span class="facebook">
-    <a href="{{__SELF__.match.channel.url}}" style="display:inline" target="_blank" ><i class="fa fa-twitch"  aria-hidden="true"></i></a>
+    <a href="{{__SELF__.match.channel.url}}" style="display:inline" rel="noopener" target="_blank" ><i class="fa fa-twitch"  aria-hidden="true"></i></a>
     </span>
     {% endif %}
 </h4>
