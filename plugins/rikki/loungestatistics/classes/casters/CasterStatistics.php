@@ -207,6 +207,8 @@ class CasterStatistics
         $queryResult4 = DB::table('rikki_heroeslounge_match')
                             ->select('rikki_heroeslounge_match.round', DB::raw('COUNT(rikki_heroeslounge_match.id) as matchcount'))
                             ->where('rikki_heroeslounge_match.is_played', '=', 1)
+                            ->join('rikki_heroeslounge_divisions', 'rikki_heroeslounge_match.div_id', '=', 'rikki_heroeslounge_divisions.id')
+                            ->where('rikki_heroeslounge_divisions.season_id', '=', $this->season->id)
                             ->groupBy('rikki_heroeslounge_match.round')
                             ->get();
 
