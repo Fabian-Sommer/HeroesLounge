@@ -32,7 +32,7 @@ class TeamStatistics extends ComponentBase
         $this->addJs('assets/js/loungestatistics.js');
         $this->addCss('assets/css/datatables.min.css');
         $this->team = Team::where('id', $this->property('team_id'))
-                        ->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan')
+                        ->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan', 'matches.games.teamOneThirdBan', 'matches.games.teamTwoThirdBan')
                         ->first();
         $this->allseasons = Season::where('reg_open', false)->get()->sortByDesc('created_at');
         $this->calculateStats($this->allseasons->first());

@@ -333,5 +333,14 @@
     - 'Updated table rikki_heroeslounge_games'
     - builder_table_update_rikki_heroeslounge_games_6.php
 1.0.118:
+    - 'Created table rikki_heroeslounge_rssentry'
+    - builder_table_create_rikki_heroeslounge_rssentry.php
+1.0.119:
+    - 'Updated table rikki_heroeslounge_rssentry'
+    - builder_table_update_rikki_heroeslounge_rssentry.php
+1.0.120:
+    - 'Updated table rikki_heroeslounge_rssentry'
+    - builder_table_update_rikki_heroeslounge_rssentry_2.php
+1.0.121:
     - 'updated table rikki_heroeslounge_sloths'
     - builder_table_update_rikki_heroeslounge_sloths_13.php

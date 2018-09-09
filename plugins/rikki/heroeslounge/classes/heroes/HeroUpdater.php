@@ -177,12 +177,13 @@ class HeroUpdater
                         $tal->replay_title = $talent['name'];
                         $temp_string_array = explode('/', $talent['icon_url']['64x64']);
                         $tal->image_url = end($temp_string_array);
-                        $talent_url = "https://cdn.hotstat.us/images/" . end($temp_string_array);
+                        $talent_url = "http://s3.hotsapi.net/img/talents/64x64/" . end($temp_string_array);
                         $ch2 = curl_init($talent_url);
                         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
                         $talent_icon = curl_exec($ch2);
                         $contentType = curl_getinfo($ch2, CURLINFO_CONTENT_TYPE);
                         curl_close($ch2);
+                        $tal->save();
                         if ($contentType != 'application/xml') {
                             $file = fopen($talent_image_path.DS.$tal->image_url, "w+");
                             fputs($file, $talent_icon);
@@ -193,15 +194,15 @@ class HeroUpdater
                         } else {
                             //Log::error('Failed to get image for talent '.$talent['title']);
                             $hotslogs_title = substr($talent['name'], strlen($heroModel->title));
-                            HeroUpdater::fetchHotslogsImage($hotslogs_title, $talent['title'], end($temp_string_array), $tal->suspected_replay_title);
+                            HeroUpdater::fetchHotslogsImage($tal, $hotslogs_title, $talent['title'], end($temp_string_array), $tal->suspected_replay_title);
                         }
                         
-                        $tal->save();
+                        
                         Log::info('New talent added: '.$talent['title']);
                     } else {
                         //just update image
                         $temp_string_array = explode('/', $talent['icon_url']['64x64']);
-                        $talent_url = "https://cdn.hotstat.us/images/" . end($temp_string_array);
+                        $talent_url = "http://s3.hotsapi.net/img/talents/64x64/" . end($temp_string_array);
                         $ch2 = curl_init($talent_url);
                         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
                         $talent_icon = curl_exec($ch2);
@@ -215,9 +216,8 @@ class HeroUpdater
                                 ->resize(32, 32)
                                 ->save($talent_image_path.DS.end($temp_string_array), 100);
                         } else {
-                            //Log::error('Failed to get image for talent '.$talent['title']);
                             $hotslogs_title = substr($talent['name'], strlen($heroModel->title));
-                            HeroUpdater::fetchHotslogsImage($hotslogs_title, $talent['title'], end($temp_string_array), preg_replace("/[^A-Za-z0-9]/", '', $talent['title']));
+                            HeroUpdater::fetchHotslogsImage(Talent::where('title', $talent['title'])->where('hero_id', $heroModel->id)->firstOrFail(), $hotslogs_title, $talent['title'], end($temp_string_array), preg_replace("/[^A-Za-z0-9]/", '', $talent['title']));
                         }
                     }  
                 }
@@ -267,6 +267,7 @@ class HeroUpdater
                     $tal->replay_title = $talent['name'];
                     $temp_string_array = explode('/', $talent['icon_url']['64x64']);
                     $tal->image_url = end($temp_string_array);
+                    $tal->save();
                     if ($contentType != 'application/xml') {
                         $file = fopen($talent_image_path.DS.$tal->image_url, "w+");
                         fputs($file, $talent_icon);
@@ -276,12 +277,12 @@ class HeroUpdater
                             ->save($talent_image_path.DS.$tal->image_url, 100);
                     } else {
                         //Log::error('Failed to get image for talent '.$talent['title']);
-                        $hotslogs_title = substr($talent['name'], strlen($heroModel->title));
-                        HeroUpdater::fetchHotslogsImage($hotslogs_title, $talent['title'], end($temp_string_array), preg_replace("/[^A-Za-z0-9]/", '', $talent['title']));
+                        $hotslogs_title = substr($talent['name'], strlen($hero->title));
+                        HeroUpdater::fetchHotslogsImage($tal, $hotslogs_title, $talent['title'], end($temp_string_array), preg_replace("/[^A-Za-z0-9]/", '', $talent['title']));
                     }
                     
                     
-                    $tal->save();
+                    
                     Log::info('New talent added: '.$talent['title']);
                 } elseif (Talent::where('title', $talent['title'])->where('hero_id', $hero->id)->where('replay_title', 'IS NOT', 'NULL')->count() == 0) {
                     $tal = Talent::where('title', $talent['title'])->where('hero_id', $hero->id)->firstOrFail();
@@ -296,7 +297,8 @@ class HeroUpdater
         }
     }
 
-    public static function fetchHotslogsImage($talent_name, $talent_title, $image_url, $secondTalentName) {
+    public static function fetchHotslogsImage($talent, $talent_name, $talent_title, $image_url, $secondTalentName) {
+        Log::info("Trying hotslogs for ".$talent_title." ".$image_url." ".$secondTalentName);
         $theme = Theme::getActiveTheme();
         $theme_path = $theme->getPath();
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
@@ -311,7 +313,8 @@ class HeroUpdater
             $file = fopen($talent_image_path.DS.$image_url, "w+");
             fputs($file, $talent_icon);
             fclose($file);
-
+            $talent->image_url = $image_url;
+            $talent->save();
             Resizer::open($talent_image_path.DS.$image_url)
                 ->resize(32, 32)
                 ->save($talent_image_path.DS.$image_url, 100);
@@ -325,7 +328,8 @@ class HeroUpdater
                 $file = fopen($talent_image_path.DS.$image_url, "w+");
                 fputs($file, $talent_icon);
                 fclose($file);
-
+                $talent->image_url = $image_url;
+                $talent->save();
                 Resizer::open($talent_image_path.DS.$image_url)
                     ->resize(32, 32)
                     ->save($talent_image_path.DS.$image_url, 100);
@@ -347,7 +351,8 @@ class HeroUpdater
                     $file = fopen($talent_image_path.DS.$image_url, "w+");
                     fputs($file, $talent_icon);
                     fclose($file);
-
+                    $talent->image_url = $image_url;
+                    $talent->save();
                     Resizer::open($talent_image_path.DS.$image_url)
                         ->resize(32, 32)
                         ->save($talent_image_path.DS.$image_url, 100);
