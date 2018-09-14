@@ -463,7 +463,6 @@ class Swiss
         Log::info($logMessage);
 
         $this->handleMatches();
-        $this->matchesToHandle = []; // Resets the matchesToHandle array after a division has been handled.
     }
 
     private function handleMatch($match)
@@ -495,5 +494,6 @@ class Swiss
                 $match->save();
             }
         }
+        $this->matchesToHandle = []; // Resets the matchesToHandle array after a division has been handled.
     }
 }
