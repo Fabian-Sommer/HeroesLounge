@@ -1,6 +1,6 @@
 <?php namespace Rikki\Heroeslounge\classes\Matchmaking;
 
- 
+
 use Rikki\Heroeslounge\Models\Division;
 use Rikki\Heroeslounge\Models\Match;
 use Rikki\Heroeslounge\Models\Team as Teams;
@@ -41,7 +41,7 @@ class Swiss
                     $first[]=[$v1,$v2];  // unique pairs as 2-d array containing first element
                 }else{
                     $other[]=[$v1,$v2]; // unique pairs as 2-d array not containing first element
-                }            
+                }
             }
         }
 
@@ -123,7 +123,7 @@ class Swiss
             $match->round = $div->season->current_round;
             $match->schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 23:55'));
             $match->tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 23:55'));
-          
+
             $match->save();
             $match->teams()->save(Teams::find($pairing[0]));
             $match->teams()->save(Teams::find($pairing[1]));
@@ -143,7 +143,7 @@ class Swiss
                     $g->map_id = $m;
 
                     $g->winner_id = $winner->id;
-                
+
                     $g->save();
                 }
 
@@ -199,7 +199,7 @@ class Swiss
 
         return null;
     }
-   
+
     //Sorts team from best to worst by default, unless $order is ASC
     //Teams sorted by: Wins (Most) > Number of free wins (Most) > BYEs (Least) > Number of Games (Least)
     //BYEs prefer teams with most games played, least free wins
@@ -211,7 +211,7 @@ class Swiss
             $teams = $teams->sortBy(function($team, $key){
                 return $team->slothrating;
             });
-        } 
+        }
 
         return $teams;
     }
@@ -225,7 +225,7 @@ class Swiss
             $teams = $teams->sortBy(function($team, $key){
                 return $team->slothrating;
             });
-        } 
+        }
 
         $byeReceiver = null;
         $byeTeam = Teams::where("title", "BYE!")->firstOrFail();
@@ -253,7 +253,7 @@ class Swiss
 
         end($this->pairings); //Move the internal pointer to the last item in the array;
 
-        while($foundSolution == false){ 
+        while($foundSolution == false){
             $currentPair = current($this->pairings); //Get the current pair the pointer is at
             $keysToRemove[] = key($this->pairings); //Get the key so we can remove the pair later
 
@@ -315,7 +315,7 @@ class Swiss
             Log::info('Selected BYE team id: ' . $this->byeId);
 
             $divs = $s->divisions()->get();
-        
+
             foreach ($divs as $div) {
                 $this->saveUnsavedMatches($div);
                 $this->findInactiveTeams($div, $s->current_round);
@@ -334,7 +334,7 @@ class Swiss
 
             foreach ($divs as $div) {
                 $this->makeMatches($div);
-            }  
+            }
 
 
     }
@@ -349,9 +349,8 @@ class Swiss
 
     public function makeMatches($div)
     {
-        Log::info('Starting matchmaking for division ' . $div->slug);   
+        Log::info('Starting matchmaking for division ' . $div->slug);
         $this->pairings = [];
-        $this->matchesToHandle = [];
         $unmatchedTeams = [];
         $pairsCorrect = true;
 
@@ -411,7 +410,7 @@ class Swiss
                 throw $e;
             }
 
-          
+
         }
 
 
@@ -495,5 +494,6 @@ class Swiss
                 $match->save();
             }
         }
+        $this->matchesToHandle = []; // Resets the matchesToHandle array after a division has been handled.
     }
 }
