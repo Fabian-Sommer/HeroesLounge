@@ -65,7 +65,7 @@ class Attendance
         return $emails;
     }
 
-    public function IsOnServer($discordTag)
+    public function GetDiscordUserId($discordTag)
     {
         $presentUsers = $this->FetchUsers();
         $userId = '';
@@ -84,7 +84,7 @@ class Attendance
 
     public function CheckIndividualAttendance($discordId)
     {
-      $url = 'https://discordapp.com/api/guilds/200267155479068672/members/';
+      $url = 'https://discordapp.com/api/guilds/200267155479068672/members/' . $discordId;
 
       $auth_header = AuthCode::getCode();
       $headers = [
@@ -93,7 +93,7 @@ class Attendance
         "User-Agent: HeroesLounge (http://heroeslounge.gg, 0.1)"
       ];
 
-      $ch = curl_init($url . $discordId);
+      $ch = curl_init($url);
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
@@ -122,22 +122,18 @@ class Attendance
       return $presentDiscordTags;
     }
 
-    /*
-      Unsure if this is being done correctly and if it should not instead be inside of the migration file?
-    */
     public function migrationDiscordTagsToIds ()
     {
-      $sloths = Db::table('rikki_heroeslounge_sloths')->select('id', 'discord_tag');
+      $sloths = SlothModel::all();
       $presentUsers = $this->FetchUsers();
 
       if ($presentUsers) {
         foreach ($presentUsers as $user) {
           $userTag = $user["username"] . "#" . $user["discriminator"];
           foreach ($sloths as $sloth) {
-            if ($userTag == $sloth["discord_tag"]) {
-              Db::table('rikki_heroeslounge_sloths')
-              ->where('id', $sloth["id"])
-              ->update(['discord_id' => $user["id"]]);
+            if ($userTag == $sloth->discord_tag) {
+              $sloth->discord_id = $user["id"];
+              $sloth->save();
               break;
             }
           }
