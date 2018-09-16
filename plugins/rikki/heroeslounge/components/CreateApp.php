@@ -58,11 +58,30 @@ class CreateApp extends ComponentBase
 
     public function onApplicationSend()
     {
+      /* Validates user input to be a team that is accepting applications. */
+      $acceptsApps = false;
+
         try {
             $user = Auth::getUser();
 
             if ($user != null) {
                 $this->sloth = SlothModel::getFromUser($user);
+                $appliedTo = Db::table('rikki_heroeslounge_team_apps')->where('user_id', '=', $this->sloth->user_id)->lists('team_id');
+                $this->teams = Db::table('rikki_heroeslounge_teams')->where("accepting_apps", "=", 1)->whereNotIn('id', $appliedTo)->get();
+
+                foreach ($this->teams as $team) {
+                  if ($team->id == post('team_id') && $team->accepting_apps === 1) {
+                    $acceptsApps = true;
+                    break;
+                  }
+                }
+
+                if ($acceptsApps == false) {
+                  Flash::error('That team is currently not accepting applications!');
+                  return Redirect::refresh();
+                }
+
+
                 $app = new Application;
                 $app->user_id = $this->sloth->user_id;
                 $app->team_id = post('team_id');
