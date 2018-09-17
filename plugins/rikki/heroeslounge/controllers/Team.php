@@ -1,6 +1,6 @@
 <?php namespace Rikki\Heroeslounge\Controllers;
 
- 
+
 use Backend\Classes\Controller;
 use BackendMenu;
 
@@ -8,6 +8,8 @@ use Rikki\Heroeslounge\Models\Team as TeamModel;
 use Rikki\Heroeslounge\Models\Sloth as Sloths;
 use Rikki\Heroeslounge\Models\Timeline;
 use Redirect;
+
+use Rikki\Heroeslounge\classes\Discord;
 
 class Team extends Controller
 {
@@ -47,11 +49,13 @@ class Team extends Controller
             $team->sloths->each(function($sloth){
                 if($sloth->is_captain)
                     $sloth->is_captain = false;
+                    $DiscordRoleManagement = new Discord\RoleManagement;
+                    $DiscordRoleManagement->UpdateUserRole("DELETE", $sloth->discord_id, "Captains");
 
                 $sloth->team()->dissociate();
                 $sloth->save();
 
-            });      
+            });
             $team->divisions->each(function($d) use(&$team) {
                 if ($d->season != null && $d->season->is_active) {
                     $t = $d->teams()->where('rikki_heroeslounge_teams.id',$team->id)->first();
@@ -60,10 +64,10 @@ class Team extends Controller
                         $t->pivot->save();
                     }
                 }
-                
-            }); 
+
+            });
         }
     }
-  
+
 
 }

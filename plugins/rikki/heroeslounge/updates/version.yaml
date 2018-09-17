@@ -341,3 +341,6 @@
 1.0.120:
     - 'Updated table rikki_heroeslounge_rssentry'
     - builder_table_update_rikki_heroeslounge_rssentry_2.php
+1.0.121:
+    - 'updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_13.php

@@ -1,6 +1,6 @@
 <?php namespace Rikki\Heroeslounge\Components;
 
- 
+
 use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Team as Teams;
 use Rikki\Heroeslounge\Models\Sloth as Sloths;
@@ -16,6 +16,7 @@ use Input;
 use Validator;
 use ValidationException;
 use Rikki\Heroeslounge\Models\Apps as Applications;
+use Rikki\Heroeslounge\classes\Discord;
 
 class CreateTeam extends ComponentBase
 {
@@ -32,7 +33,7 @@ class CreateTeam extends ComponentBase
     public function init()
     {
         $this->addJs('/plugins/rikki/heroeslounge/assets/js/selectFile.js');
-        
+
         $this->user = Auth::getUser();
         if ($this->user == null) {
             Flash::error('You are not authenticated!');
@@ -55,7 +56,7 @@ class CreateTeam extends ComponentBase
         } else {
             try {
                 $this->team = new Teams;
-                
+
                 $validation = Validator::make(['title'=>post('team_name'), 'slug'=>post('team_slug')], $this->team->rules);
                 if ($validation->fails()) {
                     Flash::error($validation->messages()->first());
@@ -78,7 +79,7 @@ class CreateTeam extends ComponentBase
                     $this->onDescriptionSave();
                     $this->onSocialSave();
                     $this->user->sloth->seasons()->detach();
-                  
+
 
                     $pendingApps = Applications::where("user_id", $this->user->id)->where("team_id", "!=", $this->team->id)->get();
 
@@ -86,6 +87,12 @@ class CreateTeam extends ComponentBase
                         $model->withdrawn = 1;
                         $model->save();
                     });
+
+                    $DiscordRoleManagement = new Discord\RoleManagement;
+                    /*
+                      Requires testing of sloth discord_id in the database.
+                    */
+                    $DiscordRoleManagement->UpdateUserRole("PUT", $this->user->sloth->discord_id, "Captains");
 
                     Flash::success('Team sucessfully created!');
                     return Redirect::to('team/manage/'.$this->team->slug);
@@ -100,7 +107,7 @@ class CreateTeam extends ComponentBase
     private function onLogoSave()
     {
         $f = Input::file('logo');
-        
+
         if ($f != null) {
             try {
                 if ($f->getClientOriginalExtension() == 'gif') {

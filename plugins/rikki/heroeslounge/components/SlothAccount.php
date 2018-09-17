@@ -161,7 +161,7 @@ class SlothAccount extends UserAccount
              * Validate input
              */
             $data = post();
-            
+
             if (!array_key_exists('password_confirmation', $data)) {
                 $data['password_confirmation'] = post('password');
             }
@@ -182,11 +182,14 @@ class SlothAccount extends UserAccount
                 throw new ValidationException($validation);
             }
 
+            /*
+             * Check if the user is on the Heroes Lounge Discord server.
+             */
 
             $DiscordAttendance = new Discord\Attendance;
-            $matchFound = $DiscordAttendance->IsOnServer($data['discord_tag']);
+            $userDiscordId = $DiscordAttendance->GetDiscordUserId($data['discord_tag']);
 
-            if (!$matchFound) {
+            if (empty($userDiscordId)) {
                 throw new ApplicationException("Please join the Discord server before registering. If you are a member, check your Discord tag and try again later.");
             }
 
@@ -224,6 +227,7 @@ class SlothAccount extends UserAccount
             $sloth = SlothModel::getFromUser($user);
             $sloth->battle_tag = $data['battle_tag'];
             $sloth->discord_tag = $data['discord_tag'];
+            $sloth->discord_id = $userDiscordId;
 
             $sloth->save();
             $this->user = $user;
@@ -255,15 +259,18 @@ class SlothAccount extends UserAccount
 
     public function onParticipationSave()
     {
+      $DiscordRoleManagement = new Discord\RoleManagement;
         try {
             foreach ($this->seasons as $season) {
                 if ($season->current_round == 0) {
                     $val = post('part_seas_'.$season->id);
                     if (isset($val) && !$season->free_agents->contains($this->sloth->id)) {
                         $season->free_agents()->attach($this->sloth->id);
+                        $DiscordRoleManagement->UpdateUserRole("PUT", $this->sloth->discord_id, "FreeAgent");
                         Flash::success('You will participate in '.$season->title.'!');
                     } elseif (isset($val) == false) {
                         $season->free_agents()->detach($this->sloth->id);
+                        $DiscordRoleManagement->UpdateUserRole("DELETE", $this->sloth->discord_id, "FreeAgent");
                         Flash::error('You will not paricipate in '.$season->title.' - Sad to see you go!');
                     }
                 }
