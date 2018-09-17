@@ -186,8 +186,7 @@ class SlothAccount extends UserAccount
              * Check if the user is on the Heroes Lounge Discord server.
              */
 
-            $DiscordAttendance = new Discord\Attendance;
-            $userDiscordId = $DiscordAttendance->GetDiscordUserId($data['discord_tag']);
+            $userDiscordId = Discord\Attendance::GetDiscordUserId($data['discord_tag']);
 
             if (empty($userDiscordId)) {
                 throw new ApplicationException("Please join the Discord server before registering. If you are a member, check your Discord tag and try again later.");
@@ -259,18 +258,17 @@ class SlothAccount extends UserAccount
 
     public function onParticipationSave()
     {
-      $DiscordRoleManagement = new Discord\RoleManagement;
         try {
             foreach ($this->seasons as $season) {
                 if ($season->current_round == 0) {
                     $val = post('part_seas_'.$season->id);
                     if (isset($val) && !$season->free_agents->contains($this->sloth->id)) {
                         $season->free_agents()->attach($this->sloth->id);
-                        $DiscordRoleManagement->UpdateUserRole("PUT", $this->sloth->discord_id, "FreeAgent");
+                        Discord\RoleManagement::UpdateUserRole("PUT", $this->sloth->discord_id, "FreeAgent");
                         Flash::success('You will participate in '.$season->title.'!');
                     } elseif (isset($val) == false) {
                         $season->free_agents()->detach($this->sloth->id);
-                        $DiscordRoleManagement->UpdateUserRole("DELETE", $this->sloth->discord_id, "FreeAgent");
+                        Discord\RoleManagement::UpdateUserRole("DELETE", $this->sloth->discord_id, "FreeAgent");
                         Flash::error('You will not paricipate in '.$season->title.' - Sad to see you go!');
                     }
                 }

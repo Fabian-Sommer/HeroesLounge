@@ -49,8 +49,7 @@ class Team extends Controller
             $team->sloths->each(function($sloth){
                 if($sloth->is_captain)
                     $sloth->is_captain = false;
-                    $DiscordRoleManagement = new Discord\RoleManagement;
-                    $DiscordRoleManagement->UpdateUserRole("DELETE", $sloth->discord_id, "Captains");
+                    Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "Captains");
 
                 $sloth->team()->dissociate();
                 $sloth->save();

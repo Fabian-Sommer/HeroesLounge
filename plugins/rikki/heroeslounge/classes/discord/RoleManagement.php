@@ -8,7 +8,7 @@ class RoleManagement
     Use a PUT request to assign a role to the user.
     Use a DELETE request to remove a role from the user.
   */
-  public function UpdateUserRole($request, $discordId, $role)
+  public static function UpdateUserRole($request, $discordId, $role)
   {
     $roleIDs = [
       "Captains"      => "201017727958253568",

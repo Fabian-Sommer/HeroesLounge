@@ -6,7 +6,7 @@ use Db;
 
 class Attendance
 {
-    public function FetchUsers()
+    public static function FetchUsers()
     {
       $presentUsers = [];
       $jsonData = null;
@@ -52,11 +52,11 @@ class Attendance
       return $presentUsers;
     }
 
-    public function CheckAttendance()
+    public static function CheckAttendance()
     {
         $discordTags = Db::table("rikki_heroeslounge_sloths")->where("is_captain", 1)->whereIn('team_id', Db::table('rikki_heroeslounge_team_division')->whereIn('div_id', [1,2,3,4,5])->lists('team_id'))->lists("discord_tag");
-        $presentUsers = $this->FetchUsers();
-        $presentDiscordTags = $this->CreateDiscordTagArray($presentUsers);
+        $presentUsers = Attendance::FetchUsers();
+        $presentDiscordTags = Attendance::CreateDiscordTagArray($presentUsers);
 
         $data = ($presentDiscordTags != false) ? array_udiff($discordTags, $presentDiscordTags, "strcasecmp") : [];
 
@@ -65,9 +65,9 @@ class Attendance
         return $emails;
     }
 
-    public function GetDiscordUserId($discordTag)
+    public static function GetDiscordUserId($discordTag)
     {
-        $presentUsers = $this->FetchUsers();
+        $presentUsers = Attendance::FetchUsers();
         $userId = '';
 
         if ($presentUsers) {
@@ -79,10 +79,10 @@ class Attendance
             }
           }
         }
-        return $userId
+        return $userId;
     }
 
-    public function CheckIndividualAttendance($discordId)
+    public static function CheckIndividualAttendance($discordId)
     {
       $url = 'https://discordapp.com/api/guilds/200267155479068672/members/' . $discordId;
 
@@ -111,7 +111,7 @@ class Attendance
 
     }
 
-    public function CreateDiscordTagArray($users)
+    public static function CreateDiscordTagArray($users)
     {
       $presntDiscordTags = [];
 
@@ -122,10 +122,10 @@ class Attendance
       return $presentDiscordTags;
     }
 
-    public function migrationDiscordTagsToIds ()
+    public static function migrateDiscordTagsToIds()
     {
       $sloths = SlothModel::all();
-      $presentUsers = $this->FetchUsers();
+      $presentUsers = Attendance::FetchUsers();
 
       if ($presentUsers) {
         foreach ($presentUsers as $user) {

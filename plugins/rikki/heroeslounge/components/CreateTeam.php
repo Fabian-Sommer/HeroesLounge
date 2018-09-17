@@ -88,11 +88,7 @@ class CreateTeam extends ComponentBase
                         $model->save();
                     });
 
-                    $DiscordRoleManagement = new Discord\RoleManagement;
-                    /*
-                      Requires testing of sloth discord_id in the database.
-                    */
-                    $DiscordRoleManagement->UpdateUserRole("PUT", $this->user->sloth->discord_id, "Captains");
+                    Discord\RoleManagement::UpdateUserRole("PUT", $this->user->sloth->discord_id, "Captains");
 
                     Flash::success('Team sucessfully created!');
                     return Redirect::to('team/manage/'.$this->team->slug);

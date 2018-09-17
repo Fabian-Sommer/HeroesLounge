@@ -20,6 +20,7 @@ use Rikki\Heroeslounge\classes\Mailchimp;
 use Rikki\Heroeslounge\classes\Heroes\HeroUpdater;
 use Rikki\Heroeslounge\classes\deployment\Deployment;
 use Rikki\Heroeslounge\classes\helpers\NotificationHelper;
+use Rikki\Heroeslounge\classes\Discord\Attendance;
 use Indikator\content\models\Blog as Blog;
 
 use Session;
