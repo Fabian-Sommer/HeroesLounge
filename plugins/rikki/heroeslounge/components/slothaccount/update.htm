@@ -256,6 +256,16 @@
             </select>
         </div>
 
+        {% if __SELF__.sloth.region_id == 2 %}
+        <h3>Server Preference</h3>
+        <div>
+            <select name="server_preference" id="registerServer">
+                <option value="NA West" {% if __SELF__.sloth.server_preference=="NA West"%}selected="selected"{%endif%}>NA West</option>
+                <option value="NA East" {% if __SELF__.sloth.server_preference=="NA East"%}selected="selected"{%endif%}>NA East</option>
+            </select>
+        </div>
+        {% endif %}
+
         {% if __SELF__.sloth.team_id == 0 %}
         <!-- START PARTICIPATION -->
 
@@ -278,7 +288,7 @@
         <!-- END PARTICIPATION -->
         {% endif %}
         <br>
-        <button type="submit" class="btn btn-primary mt-2">Save Role {% if __SELF__.sloth.team_id == 0 %}and Participation{% endif %}</button>        {{ form_close() }}
+        <button type="submit" class="btn btn-primary mt-2">Save</button>        {{ form_close() }}
     </div>
     <!-- END GAME TAB-->
 

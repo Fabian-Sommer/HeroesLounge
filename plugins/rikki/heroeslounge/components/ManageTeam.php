@@ -51,7 +51,7 @@ class ManageTeam extends ComponentBase
             $this->team = Teams::where('slug', $this->param('slug'))->first();
             if ($this->team) {
                 $this->players = Sloths::where('team_id', $this->team->id)->where('id', '!=', $this->user->sloth->id)->get();
-                $this->seasons = Seasons::where('is_active', 1)->get();
+                $this->seasons = Seasons::where('is_active', 1)->where('region_id', $this->team->region_id)->get();
                 $id = $this->team->id;
                 $lock = $this->seasons->filter(function ($season) use ($id) {
                     if ($season->reg_open == 0) {
@@ -149,6 +149,10 @@ class ManageTeam extends ComponentBase
 
     public function onParticipationSave()
     {
+        if ($this->team->region_id == 2) {
+            $this->team->server_preference = post('server_preference');
+            $this->team->save();
+        }
         try {
             foreach ($this->seasons as $season) {
                 if ($season->reg_open == 1) {

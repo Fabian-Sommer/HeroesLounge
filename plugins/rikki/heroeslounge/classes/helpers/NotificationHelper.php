@@ -168,12 +168,12 @@ class NotificationHelper
         $s = null;
         if ($sloth->team_id > 0) {
             //Only get seasons which are activated, not already in progress and where team is not registered as participating
-            $s = Seasons::where('is_active', 1)->where('reg_open', 1)->whereDoesntHave('teams', function ($q) use ($sloth) {
+            $s = Seasons::where('is_active', 1)->where('reg_open', 1)->where('region_id', $sloth->region_id)->whereDoesntHave('teams', function ($q) use ($sloth) {
                 $q->where('team_id', $sloth->team_id);
             })->get();
         } else {
             //Only get seasons which are activated, not already in progress and where sloth is not registered as Free agents
-            $s = Seasons::where('is_active', 1)->where('reg_open', 1)->whereDoesntHave('free_agents', function ($q) use ($sloth) {
+            $s = Seasons::where('is_active', 1)->where('reg_open', 1)->where('region_id', $sloth->region_id)->whereDoesntHave('free_agents', function ($q) use ($sloth) {
                 $q->where('sloth_id', $sloth->id);
             })->get();
         }
@@ -186,13 +186,19 @@ class NotificationHelper
             if ($sloth->is_captain == true) {
                 $retVal[] = [
                     'type' => 'warning',
-                    'message' => 'Your team isn\'t listed to participate for '.$season->title,
+                    'message' => 'Your team isn\'t listed to participate in '.$season->title.'. You can sign up your team on the team management page!',
+                    'entity' => $season->toArray()
+                    ];
+            } elseif ($sloth->team_id > 0) {
+                $retVal[] = [
+                    'type' => 'warning',
+                    'message' => 'Your team isn\'t listed to participate in '.$season->title.'. Your captain can sign up the team for it.',
                     'entity' => $season->toArray()
                     ];
             } else {
                 $retVal[] = [
                     'type' => 'warning',
-                    'message' => 'You are currently not listed to participate for '.$season->title,
+                    'message' => 'You are currently not listed to participate in '.$season->title.'. Join a team or sign up as free agent in your profile!',
                     'entity' => $season->toArray()
                     ];
             }

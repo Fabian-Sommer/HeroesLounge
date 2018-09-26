@@ -18,6 +18,17 @@
         <!-- END ABBREVIATION -->
 
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Region</h3>
+            <label for="registerRegion" class="sr-only">Region</label>
+            <select name="region_id" id="registerRegion">
+                {% for region in __SELF__.regions %}
+                    <option value="{{region.id}}">{{region.title}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
     <hr class="separator">
 
 

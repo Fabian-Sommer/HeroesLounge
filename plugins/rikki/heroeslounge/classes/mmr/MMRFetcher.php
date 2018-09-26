@@ -31,7 +31,11 @@ class MMRFetcher
         $battletag = $sloth->battle_tag;
         $battletagReformatted = str_replace("#", "_", $battletag);
 
-        $url = 'https://www.hotslogs.com/API/Players/2/'.urlencode($battletagReformatted);
+        $region = "2";
+        if ($sloth->region_id == 2) {
+            $region = "1";
+        }
+        $url = 'https://www.hotslogs.com/API/Players/'.$region.'/'.urlencode($battletagReformatted);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

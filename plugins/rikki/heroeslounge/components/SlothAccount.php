@@ -25,6 +25,7 @@ use Rikki\Heroeslounge\Classes\Helpers\URLHelper;
 use Rikki\Heroeslounge\Models\SlothRole;
 use Rikki\Heroeslounge\Models\Timeline;
 use Rikki\Heroeslounge\classes\Mailchimp\MailChimpAPI;
+use Rikki\Heroeslounge\Models\Region as Region;
 
 class SlothAccount extends UserAccount
 {
@@ -70,7 +71,7 @@ class SlothAccount extends UserAccount
     public $roles = null;
     public $notifications = null;
     public $appsCount = null;
-
+    public $regions = null;
 
     public function init()
     {
@@ -80,7 +81,7 @@ class SlothAccount extends UserAccount
 
         $user = Auth::getUser();
         $this->roles = SlothRole::all();
-
+        $this->regions = Region::all();
         if ($user) {
             $component = $this->addComponent(
                             'Rikki\Heroeslounge\Components\ViewApps',
@@ -88,7 +89,7 @@ class SlothAccount extends UserAccount
                             []
                         );
             $this->sloth = SlothModel::getFromUser($user);
-            $this->seasons = Seasons::where('is_active', 1)->get();
+            $this->seasons = Seasons::where('is_active', 1)->where('region_id', $this->sloth->region_id)->get();
             $this->appsCount = $component->apps->count();
         }
     }
@@ -227,6 +228,7 @@ class SlothAccount extends UserAccount
             $sloth->battle_tag = $data['battle_tag'];
             $sloth->discord_tag = $data['discord_tag'];
             $sloth->discord_id = $userDiscordId;
+            $sloth->region_id = $data['region_id'];
 
             $sloth->save();
             $this->user = $user;
@@ -449,6 +451,9 @@ class SlothAccount extends UserAccount
         $sloth = SlothModel::getFromUser($user);
 
         $sloth->role_id = $data['role_id'];
+        if ($sloth->region_id == 2) {
+            $sloth->server_preference = $data['server_preference'];
+        }
         if ($sloth->team_id == 0) {
             $this->onParticipationSave();
         }

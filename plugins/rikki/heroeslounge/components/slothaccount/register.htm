@@ -31,9 +31,8 @@
     </div>
 
     <div class="form-group">
-        <label for="registerName">Username</label>
-        <input name="username" type="text" class="form-control" id="registerUsername" placeholder="Enter your username"
-        />
+        <label for="registerUsername">Username</label>
+        <input name="username" type="text" class="form-control" id="registerUsername" placeholder="Enter your username"/>
     </div>
 
     <div class="form-group">
@@ -42,18 +41,23 @@
     </div>
     <div class="form-group">
         <label for="registerEmailConfirm">Confirm Email</label>
-        <input name="email_confirmation" type="email" class="form-control" id="registerEmailConfirm" placeholder="Enter your email again"
-        />
+        <input name="email_confirmation" type="email" class="form-control" id="registerEmailConfirm" placeholder="Enter your email again"/>
     </div>
     <div class="form-group">
-        <label for="registerName">BattleTag</label>
-        <input name="battle_tag" type="text" class="form-control" id="registerBattletag" placeholder="Enter your BattleTag (e.g. Sloth#2345)"
-        />
+        <label for="registerBattletag">BattleTag</label>
+        <input name="battle_tag" type="text" class="form-control" id="registerBattletag" placeholder="Enter your BattleTag (e.g. Sloth#2345)"/>
     </div>
     <div class="form-group">
-        <label for="registerName">DiscordTag</label>
-        <input name="discord_tag" type="text" class="form-control" id="registerDiscordtag" placeholder="Enter your DiscordTag (e.g. Potato#1234)"
-        />
+        <label for="registerDiscordtag">DiscordTag</label>
+        <input name="discord_tag" type="text" class="form-control" id="registerDiscordtag" placeholder="Enter your DiscordTag (e.g. Potato#1234)"/>
+    </div>
+    <div class="form-group">
+        <label for="registerRegion">Region</label><br>
+        <select name="region_id" id="registerRegion">
+            {% for region in __SELF__.regions %}
+                <option value="{{region.id}}">{{region.title}}</option>
+            {% endfor %}
+        </select>
     </div>
     <div class="form-group">
         <label for="registerPassword">Password</label>
@@ -61,13 +65,11 @@
     </div>
     <div class="form-group">
         <label for="registerPasswordConfirm">Confirm Password</label>
-        <input name="password_confirmation" type="password" class="form-control" id="registerPasswordConfirm" placeholder="Enter your chosen password again"
-        />
+        <input name="password_confirmation" type="password" class="form-control" id="registerPasswordConfirm" placeholder="Enter your chosen password again"/>
     </div>
     <div class="form-group">
         <label for="newsletterCheckbox">Subscribe to our newsletter</label>
-        <input name="newsletter_subscription" type="checkbox" id="newsletterCheckbox"
-        />
+        <input name="newsletter_subscription" type="checkbox" id="newsletterCheckbox"/>
         
     </div>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Register</button>

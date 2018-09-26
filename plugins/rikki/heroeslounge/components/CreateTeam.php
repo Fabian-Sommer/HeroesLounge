@@ -17,6 +17,7 @@ use Validator;
 use ValidationException;
 use Rikki\Heroeslounge\Models\Apps as Applications;
 use Rikki\Heroeslounge\classes\Discord;
+use Rikki\Heroeslounge\Models\Region as Region;
 
 class CreateTeam extends ComponentBase
 {
@@ -30,11 +31,14 @@ class CreateTeam extends ComponentBase
 
     public $user = null;
     public $team = null;
+    public $regions = null;
+
     public function init()
     {
         $this->addJs('/plugins/rikki/heroeslounge/assets/js/selectFile.js');
 
         $this->user = Auth::getUser();
+        $this->regions = Region::all();
         if ($this->user == null) {
             Flash::error('You are not authenticated!');
         } elseif (Sloths::getFromUser($this->user)->team_id != 0 && Sloths::getFromUser($this->user)->team_id != null) {
@@ -63,6 +67,7 @@ class CreateTeam extends ComponentBase
                 } else {
                     $this->team->title = post('team_name');
                     $this->team->slug = post('team_slug');
+                    $this->team->region_id = post('region_id');
                     $this->team->disbanded = false;
                     $this->team->save();
                     $this->user->sloth->team_id = $this->team->id;

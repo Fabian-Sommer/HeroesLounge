@@ -344,3 +344,12 @@
 1.0.121:
     - 'updated table rikki_heroeslounge_sloths'
     - builder_table_update_rikki_heroeslounge_sloths_13.php
+1.0.122:
+    - 'Updated table rikki_heroeslounge_teams'
+    - builder_table_update_rikki_heroeslounge_teams_5.php
+1.0.123:
+    - 'Updated table rikki_heroeslounge_teams'
+    - builder_table_update_rikki_heroeslounge_teams_6.php
+1.0.124:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_14.php

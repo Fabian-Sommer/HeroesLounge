@@ -65,6 +65,10 @@ class Team extends Model
                         'table' => 'rikki_heroeslounge_timelineables']
     ];
 
+    public $belongsTo = [
+        'region' => ['Rikki\Heroeslounge\Models\Region'],
+    ];
+
     public $belongsToMany = [
         'divisions' =>
         [

@@ -4,7 +4,7 @@
 <div class="col-md-6 col-12">
     <h3>Notifications</h3>
     {% for nf in this.session.get('notifications') %}
-    <div class="col-12 alert alert-{%if nf.type == 'error'%}danger wow shake{%else%}{{nf.type}}{%endif%}">
+    <div class="col-12 alert alert-{%if nf.type == 'error'%}danger{%else%}{{nf.type}}{%endif%}">
             <strong>{{nf.type|capitalize}}</strong> {{ nf.message }}
     </div>
     {% endfor %}

@@ -52,6 +52,14 @@
         <!-- START PARTICIPATION -->
         <h3>Participation</h3>
         <form>
+            {% if __SELF__.team.region_id == 2 %}
+            <div>
+                <select name="server_preference" id="registerServer">
+                    <option value="NA West" {% if __SELF__.team.server_preference=="NA West"%}selected="selected"{%endif%}>NA West</option>
+                    <option value="NA East" {% if __SELF__.team.server_preference=="NA East"%}selected="selected"{%endif%}>NA East</option>
+                </select>
+            </div>
+            {% endif %}
             {% set checked = '0' %} 
                 {% for season in __SELF__.seasons %} 
                     {% for team in season.teams %} 

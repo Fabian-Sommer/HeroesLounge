@@ -18,6 +18,16 @@ secondaryTabs:
                 type: slug
             type: text
             tab: General
+        region:
+            label: Region
+            required: 1
+            nameFrom: title
+            type: relation
+            tab: General
+        server_preference:
+            label: Server Preference
+            type: text
+            tab: General
         disbanded:
             label: 'Disbanded'
             span: auto

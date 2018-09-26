@@ -14,6 +14,11 @@ fields:
             field: title
             type: slug
         type: text
+    region:
+        label: Region
+        required: 1
+        nameFrom: title
+        type: relation
     logo:
         label: Logo
         span: auto

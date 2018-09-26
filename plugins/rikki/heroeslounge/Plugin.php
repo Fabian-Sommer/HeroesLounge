@@ -88,6 +88,10 @@ class Plugin extends PluginBase
         })->dailyAt('3:30');
 
         $schedule->call(function () {
+            classes\Discord\Attendance::migrateDiscordTagsToIds();
+        })->weekly()->tuesdays()->at('2:30');
+
+        $schedule->call(function () {
             $hu = new HeroUpdater;
             $hu->updateHeroes();
             Deployment::updateHeroprotocol();
