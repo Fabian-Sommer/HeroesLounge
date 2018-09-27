@@ -16,6 +16,6 @@ class Deployment
     {
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
         exec('(cd plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'replayparsing'.DS.'heroprotocol && exec git pull https://github.com/Blizzard/heroprotocol.git master)', $output);
-        Log::info('Attemted to update heroprotocol. Output: '.json_encode($output));
+        Log::info('Attempted to update heroprotocol. Output: '.json_encode($output));
     }
 }

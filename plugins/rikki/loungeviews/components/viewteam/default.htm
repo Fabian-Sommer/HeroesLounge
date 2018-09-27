@@ -13,10 +13,10 @@
                 <div class="text-center d-xs-none wow zoomIn description" style="visibility: visible; animation-name: zoomIn;">
                     <div class="SocialSharingButtons">
                         {% if __SELF__.team.twitter_url %}
-                        <a href="{{__SELF__.team.twitter_url}}" target="_blank" title="View Twitter Profile" class="share-btn twitter">
+                        <a href="{{__SELF__.team.twitter_url}}" rel="noopener" target="_blank" title="View Twitter Profile" class="share-btn twitter">
                             <i class="fa fa-twitter" aria-hidden="true"></i>
                         </a> {% endif %} {% if __SELF__.team.facebook_url %}
-                        <a href="{{__SELF__.team.facebook_url}}" target="_blank" title="View Facebook Profile" class="share-btn facebook">
+                        <a href="{{__SELF__.team.facebook_url}}" rel="noopener" target="_blank" title="View Facebook Profile" class="share-btn facebook">
                             <i class="fa fa-facebook" aria-hidden="true"></i>
                         </a> {% endif %} {% if __SELF__.team.twitch_url %}
                         <a href="{{__SELF__.team.twitch_url}}" class="share-btn twitch">
@@ -45,7 +45,7 @@
                                 <span class="navbar-toggler-icon"></span>
                             </button>
                         </div>
-            
+
                         <div class="collapse navbar-collapse" id="divNav">
                             <ul class="nav nav-tabs mr-auto">
                                 <li class="nav-item">
@@ -64,13 +64,13 @@
                                         &nbsp;Matches&nbsp;
                                     </a>
                                 </li>
-            
+
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#teamStatistics">
                                         &nbsp;Statistics&nbsp;
                                     </a>
                                 </li>
-            
+
                             </ul>
                         </div>
                     </nav>
@@ -84,7 +84,7 @@
                                         <img src="{{ 'assets/img/icons/disbanded.png' |theme }}" class="img-fluid" alt="Team disbanded" />
                                     </div>
                                 </div>
-                                {% else %} 
+                                {% else %}
                                 <div class="row">
                                     {% for sloth in __SELF__.team.sloths %}
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-2">
@@ -94,7 +94,7 @@
                                                     {% if sloth.short_description %}
                                                     <div style="position:absolute;top:0;bottom:0;left:0;right:0;height:100%;width:100%;transition:.5s easy;background-color:#333;z-index:9999" class="hover-fadein">
                                                         <div style="color:#FFF;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
-                                                                {{sloth.short_description |striptags|slice(0, 70) }} 
+                                                                {{sloth.short_description |striptags|slice(0, 70) }}
                                                         </div>
                                                     </div>
                                                     {% endif %}
@@ -102,11 +102,11 @@
                                                 <h3 class="text-truncate">
                                                     {% if sloth.is_captain %}
                                                     <i class="fa fa-star" title="Captain" style="color:gold"></i>
-                                                    {% endif %} 
-                                                    {% if sloth.role %} 
+                                                    {% endif %}
+                                                    {% if sloth.role %}
                                                     {% set path = 'assets/img/roles/' ~sloth.role.title|replace({' ':'-'})|lower ~ '.svg' %}
-                                                    <img src="{{path | theme}}" class="mr-2 rounded" title="{{sloth.role.title}}" alt="{{sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:rgba(0,0,0,0.5)"/> 
-                                                    {% endif %} 
+                                                    <img src="{{path | theme}}" class="mr-2 rounded" title="{{sloth.role.title}}" alt="{{sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:rgba(0,0,0,0.5)"/>
+                                                    {% endif %}
                                                     {{sloth.title}}
                                                 </h3>
                                             </a>
@@ -114,43 +114,43 @@
                                             <div style="position:absolute;top:0;right:0;" class="p-3">
                                                 <div class="btn-group-vertical">
                                                     {% if sloth.facebook_url %}
-                                                    <a href="{{sloth.facebook_url}}"  target="_blank" title="{{sloth.facebook_url}}">
+                                                    <a href="{{sloth.facebook_url}}" rel="noopener" target="_blank" title="{{sloth.facebook_url}}">
                                                         <i class="fa fa-facebook facebook-white" aria-hidden="true"></i>
-                                                    </a> 
-                                                    {% endif %} 
+                                                    </a>
+                                                    {% endif %}
                                                     {% if sloth.twitch_url %}
-                                                    <a href="{{sloth.twitch_url}}" target="_blank" title="{{sloth.twitch_url}}">
+                                                    <a href="{{sloth.twitch_url}}" rel="noopener" target="_blank" title="{{sloth.twitch_url}}">
                                                         <i class="fa fa-twitch twitch-white" aria-hidden="true"></i>
                                                     </a>
                                                     {% endif %}
                                                     {% if sloth.twitter_url %}
-                                                    <a href="{{sloth.twitter_url}}" target="_blank" title="{{sloth.twitter_url}}">
+                                                    <a href="{{sloth.twitter_url}}" rel="noopener" target="_blank" title="{{sloth.twitter_url}}">
                                                         <i class="fa fa-twitter twitter-white" aria-hidden="true"></i>
-                                                    </a> 
-                                                    {% endif %} 
+                                                    </a>
+                                                    {% endif %}
                                                     {% if sloth.youtube_url %}
                                                     <a href="{{sloth.youtube_url}}" title="{{sloth.youtube_url}}">
-                                                        <i class="fa fa-youtube youtube-white" aria-hidden="true" target="_blank"></i>
-                                                    </a> 
-                                                    {% endif %} 
+                                                        <i class="fa fa-youtube youtube-white" aria-hidden="true" rel="noopener" target="_blank" ></i>
+                                                    </a>
+                                                    {% endif %}
                                                     {% if sloth.website_url %}
-                                                    <a href="{{sloth.website_url}}" target="_blank" title="{{sloth.website_url}}">
+                                                    <a href="{{sloth.website_url}}" rel="noopener" target="_blank" title="{{sloth.website_url}}">
                                                         <i class="fa fa-globe website-white" aria-hidden="true"></i>
-                                                    </a> 
+                                                    </a>
                                                     {% endif %}
                                                 </div>
                                             </div>
                                             <div class="blogFPSummary">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <img src="{{'assets/img/btns/battlenet.svg' | theme}}" class="mr-2 rounded" title="Battle Tag" alt="Battle Tag" style="max-height:30px;max-width:30px;"/> 
+                                                        <img src="{{'assets/img/btns/battlenet.svg' | theme}}" class="mr-2 rounded" title="Battle Tag" alt="Battle Tag" style="max-height:30px;max-width:30px;"/>
                                                         {% if sloth.hotslogs_id %}
-                                                        <a href="https://www.hotslogs.com/Player/Profile?PlayerID={{sloth.hotslogs_id}}" alt="HotSLogs ID" class="text-white" target="_blank" title="View HotsLogs Profile">
+                                                        <a href="https://www.hotslogs.com/Player/Profile?PlayerID={{sloth.hotslogs_id}}" alt="HotSLogs ID" class="text-white" rel="noopener" target="_blank" title="View HotsLogs Profile">
                                                             {{sloth.battle_tag}}
                                                         </a>
-                                                        {% else %} 
+                                                        {% else %}
                                                         <span class="text-white">
-                                                            {{sloth.battle_tag}} 
+                                                            {{sloth.battle_tag}}
                                                         </span>
                                                         {% endif %}
                                                     </div>
@@ -160,7 +160,7 @@
                                                             {{sloth.discord_tag}}
                                                         </span>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                             {% endif %}
@@ -169,8 +169,8 @@
                                     {% endfor %}
                                 </div>
                                 {% endif %}
-                
-                
+
+
                                 <!-- END ROSTER -->
                             </div>
                             <div class="tab-pane" id="timeline" role="tabpanel">
@@ -189,9 +189,9 @@
                                 <!-- END ROUND MATCHES -->
                             </div>
                         </div>
-            
+
         </div>
-      
+
 
     </div>
     <!-- START SIDEBAR -->

@@ -1,6 +1,6 @@
 <?php namespace Rikki\Heroeslounge\classes\tests;
 
-  
+
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Match;
@@ -28,7 +28,7 @@ class CreateTestUsers
             $sloth->user->avatar = 'plugins/rikki/heroeslounge/assets/img/tests/teams/logos/'.$i.'.png';
             $sloth->user->save();
             $sloth->banner = 'plugins/rikki/heroeslounge/assets/img/tests/teams/banners/'.$i.'.jpg';
-            $sloth->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/hotslounge');
+            $sloth->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/HeroesLoungeGG');
             $sloth->role_id = SlothRole::where('title', 'Support')->firstOrFail()->id;
             $sloth->twitch_url  = URLHelper::makeTwitchURL('twitch.tv/blizzheroes');
             $sloth->facebook_url  = URLHelper::makeFacebookURL('https://www.facebook.com/klaasjan.boon');
