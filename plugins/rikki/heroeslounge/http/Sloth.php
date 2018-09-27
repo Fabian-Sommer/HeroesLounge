@@ -19,4 +19,9 @@ class Sloth extends Controller
         return SlothModel::all();
     }
 
+    public function byDiscordId($discord_id)
+    {
+        return SlothModel::where('discord_id', $discord_id)->get();
+    }
+
 }

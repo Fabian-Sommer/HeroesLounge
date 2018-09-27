@@ -25,6 +25,7 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::get('teamsAll','Rikki\Heroeslounge\Http\Team@indexAll');
     Route::resource('sloths','Rikki\Heroeslounge\Http\Sloth');
     Route::get('slothsAll','Rikki\Heroeslounge\Http\Sloth@indexAll');
+    Route::get('slothDiscordId/{discord_id}', 'Rikki\Heroeslounge\Http\Sloth@byDiscordId');
     Route::get('matches/{id}/teams','Rikki\Heroeslounge\Http\Match@teams');
     Route::get('matches/{id}/caster','Rikki\Heroeslounge\Http\Match@caster');
     
