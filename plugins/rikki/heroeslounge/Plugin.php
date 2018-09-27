@@ -229,6 +229,11 @@ class Plugin extends PluginBase
                      'tab' => 'Sloth',
                      'type' => 'text'
                 ],
+                'sloth[region_id]' => [
+                    'label' => 'Region (1=EU,2=NA - ONLY ENTER NUMBERS)',
+                     'tab' => 'Sloth',
+                     'type' => 'text'
+                ],
                 'sloth[discord_tag]' => [
                     'label' => 'Discord Tag',
                      'tab' => 'Sloth',

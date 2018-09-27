@@ -221,7 +221,7 @@
                             />
                         </svg>
                     </div>
-                    <input class="form-control" placeholder="DiscordTag" title="Discord Tag" type="text" name="discord_tag" disabled value="{{ __SELF__.sloth.discord_tag }}">
+                    <input class="form-control" placeholder="DiscordTag" title="Discord Tag" type="text" name="discord_tag" value="{{ __SELF__.sloth.discord_tag }}">
                 </div>
 
                 <div class="input-group col-lg-3 mb-3 col-md-4">
@@ -232,12 +232,18 @@
                             />
                         </svg>
                     </div>
-                    <input class="form-control" placeholder="BattleTag" title="Battle Tag" type="text" name="battle_tag" disabled value="{{ __SELF__.sloth.battle_tag }}">
+                    <input class="form-control" placeholder="BattleTag" title="Battle Tag - talk to a moderator on Discord if this has changed" type="text" name="battle_tag" disabled value="{{ __SELF__.sloth.battle_tag }}">
                 </div>
-                <div class="input-group col-lg-3 mb-3 col-md-4">
+                <div class="input-group col-lg-2 mb-2 col-md-3">
                     {% partial 'country-state/default' countryId=user.country_id %}
                 </div>
-                <button type="submit" class="btn btn-primary" name="submit" data-request="{{__SELF__}}::onUpdateLinks">Update Social Links</button>
+                <div class="input-group col-lg-1 mb-1 col-md-1">
+                    <select name="region_id" id="regionSelect">
+                        <option value="1" {% if __SELF__.sloth.region_id=="1"%}selected="selected"{%endif%}>EU</option>
+                        <option value="2" {% if __SELF__.sloth.region_id=="2"%}selected="selected"{%endif%}>NA</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" name="submit" data-request="{{__SELF__}}::onUpdateLinks">Update Social Information</button>
             </form>
         </div>
     </div>
@@ -257,6 +263,7 @@
         </div>
 
         {% if __SELF__.sloth.region_id == 2 %}
+        <br>
         <h3>Server Preference</h3>
         <div>
             <select name="server_preference" id="registerServer">
