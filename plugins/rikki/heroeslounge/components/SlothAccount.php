@@ -233,6 +233,18 @@ class SlothAccount extends UserAccount
             $sloth->save();
             $this->user = $user;
 
+            /*
+              Assign EU or NA role on Discord based on region_id.
+              region_id = 1: EU
+              region_id = 2: NA
+            */
+
+            if ($sloth->region_id == 1) {
+              Discord\RoleManagement::UpdateUserRole("PUT", $this->sloth->discord_id, "EU");
+            } else if ($sloth->region_id == 2) {
+              Discord\RoleManagement::UpdateUserRole("PUT", $this->sloth->discord_id, "NA");
+            }
+
             // sign up for newsletter
             if (array_key_exists('newsletter_subscription', $data) && $data['newsletter_subscription']) {
                 MailChimpAPI::subscribeNewUser($user);

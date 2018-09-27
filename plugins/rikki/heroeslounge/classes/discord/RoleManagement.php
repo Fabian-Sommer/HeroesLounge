@@ -13,7 +13,9 @@ class RoleManagement
     $roleIDs = [
       "Captains"      => "201017727958253568",
       "Casters"       => "201413196316278784",
-      "FreeAgent"     => "476465358023163918"
+      "FreeAgent"     => "476465358023163918",
+      "EU"            => "494534903547822105",
+      "NA"            => "494535033722372106"
     ];
 
     $url = 'https://discordapp.com/api/guilds/200267155479068672/members/';
