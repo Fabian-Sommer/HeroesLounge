@@ -1,6 +1,6 @@
 <?php namespace Rikki\Heroeslounge\classes\tests;
 
-  
+
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Match;
@@ -49,7 +49,7 @@ class EntireSeason
         Division::truncate();
         Game::truncate();
         Apps::truncate();
-    
+
         $this->createCasterSloths();
         $this->createTeams();
     }
@@ -68,7 +68,7 @@ class EntireSeason
             $d = $this->createDivision($ii);
             $s->divisions()->add($d);
         }
-        
+
         $teams= Team::all();
         if ($r==2) {
             $t1 = Team::take(15)->get();
@@ -78,7 +78,7 @@ class EntireSeason
                 $divs[1]->teams()->add($team);
             }
             $divs[1]->save();
-           
+
             foreach ($t2 as $team) {
                 $divs[0]->teams()->add($team);
             }
@@ -88,17 +88,17 @@ class EntireSeason
             $t2 = Team::skip(10)->take(10);
             $t3 = Team::skip(20)->take(10);
             $divs = $s->divisions()->get();
-            
+
             foreach ($t1 as $team) {
                 $divs[0]->teams()->add($team);
             }
             $divs[0]->save();
-           
+
             foreach ($t2 as $team) {
                 $divs[1]->teams()->add($team);
             }
             $divs[1]->save();
-           
+
             foreach ($t3 as $team) {
                 $divs[2]->teams()->add($team);
             }
@@ -121,7 +121,7 @@ class EntireSeason
             $sloth->user->avatar = 'plugins/rikki/heroeslounge/assets/img/tests/teams/logos/'.$i.'.png';
             $sloth->user->save();
             $sloth->banner = 'plugins/rikki/heroeslounge/assets/img/tests/teams/banners/'.$i.'.jpg';
-            $sloth->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/hotslounge');
+            $sloth->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/HeroesLoungeGG');
             $sloth->role_id = SlothRole::where('title', 'Support')->firstOrFail()->id;
             $sloth->twitch_url  = URLHelper::makeTwitchURL('twitch.tv/blizzheroes');
             $sloth->facebook_url  = URLHelper::makeFacebookURL('https://www.facebook.com/klaasjan.boon');
@@ -164,7 +164,7 @@ class EntireSeason
                     $match->casters()->add($this->casterSloths[$cast], $pivot);
                 }
                 $rnd = rand(0, 100);
-               
+
                 if ($rnd <= 50) {
                     $match->winner = $match->teams[0];
                 } else {
@@ -185,7 +185,7 @@ class EntireSeason
                     }
                     $g->save();
                 }
-               
+
                 $match->teams[0]->pivot->save();
                 $match->teams[1]->pivot->save();
                 $match->save();
@@ -203,7 +203,7 @@ class EntireSeason
             $team->short_description = "Shortdescription team ".$i;
             $team->logo = 'plugins/rikki/heroeslounge/assets/img/tests/teams/logos/'.$i.'.png';
             $team->banner = 'plugins/rikki/heroeslounge/assets/img/tests/teams/banners/'.$i.'.jpg';
-            $team->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/hotslounge');
+            $team->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/HeroesLoungeGG');
             $team->twitch_url  = URLHelper::makeTwitchURL('twitch.tv/blizzheroes');
             $team->facebook_url  = URLHelper::makeFacebookURL('https://www.facebook.com/klaasjan.boon');
             $team->youtube_url  = URLHelper::makeYoutubeURL('https://www.youtube.com/channel/UCbo4u4GMHlNPIVB4PPfyJZg');
@@ -217,7 +217,7 @@ class EntireSeason
         $team->short_description = "Shortdescription team ".$i;
         $team->logo = 'plugins/rikki/heroeslounge/assets/img/tests/teams/logos/'.$i.'.png';
         $team->banner = 'plugins/rikki/heroeslounge/assets/img/tests/teams/banners/'.$i.'.jpg';
-        $team->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/hotslounge');
+        $team->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/HeroesLoungeGG');
         $team->twitch_url  = URLHelper::makeTwitchURL('twitch.tv/blizzheroes');
         $team->facebook_url  = URLHelper::makeFacebookURL('https://www.facebook.com/klaasjan.boon');
         $team->youtube_url  = URLHelper::makeYoutubeURL('https://www.youtube.com/channel/UCbo4u4GMHlNPIVB4PPfyJZg');
@@ -240,7 +240,7 @@ class EntireSeason
             $sloth->user->avatar = 'plugins/rikki/heroeslounge/assets/img/tests/teams/logos/'.$i.'.png';
             $sloth->user->save();
             $sloth->banner = 'plugins/rikki/heroeslounge/assets/img/tests/teams/banners/'.$i.'.jpg';
-            $sloth->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/hotslounge');
+            $sloth->twitter_url  = URLHelper::makeTwitterURL('https://twitter.com/HeroesLoungeGG');
             $sloth->role_id = SlothRole::where('title', 'Support')->firstOrFail()->id;
             $sloth->twitch_url  = URLHelper::makeTwitchURL('twitch.tv/blizzheroes');
             $sloth->facebook_url  = URLHelper::makeFacebookURL('https://www.facebook.com/klaasjan.boon');

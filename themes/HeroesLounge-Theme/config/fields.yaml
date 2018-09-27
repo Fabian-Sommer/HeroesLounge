@@ -35,17 +35,17 @@ tabs:
         header_phone:
             tab: Header
             label: Phone
-            default: 
+            default:
 
         footer_address:
             tab: Footer
             label: Address
-            default: 
+            default:
             span: left
         footer_phone:
             tab: Footer
             label: Phone
-            default: 
+            default:
             span: right
         footer_email:
             tab: Footer
@@ -65,19 +65,19 @@ tabs:
         social_twitter:
             tab: Social
             label: Twitter link
-            default: https://twitter.com/hotslounge
+            default: https://twitter.com/HeroesLoungeGG
         social_instagram:
             tab: Social
             label: Instagram link
-            default: 
+            default:
         social_google:
             tab: Social
             label: Google link
-            default: 
+            default:
         social_linkedin:
             tab: Social
             label: LinkedIn link
-            default: 
+            default:
 
         copyright_first:
             tab: Copyright
