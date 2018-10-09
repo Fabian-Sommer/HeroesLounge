@@ -45,17 +45,17 @@ class Playoff extends Model
     {
         $playoff = $this;
         if ($this->type == 'playoffv1') {
-            //TODO configure dates from backend
+            //TODO configure dates and timezone from backend
             $timezone = 'Europe/Berlin';
             $year0 = 2018;
-            $month0 = 6;
-            $day0 = 22;
+            $month0 = 10;
+            $day0 = 12;
             $year1 = 2018;
-            $month1 = 6;
-            $day1 = 23;
+            $month1 = 10;
+            $day1 = 13;
             $year2 = 2018;
-            $month2 = 6;
-            $day2 = 24;
+            $month2 = 10;
+            $day2 = 14;
 
             $a1 = $this->teams()->where('seed', 1)->firstOrFail();
             $a2 = $this->teams()->where('seed', 5)->firstOrFail();

@@ -60,6 +60,24 @@ class UpdateMatch extends ComponentBase
         }
     }
 
+    public function onMyRender()
+    {
+        $timezoneoffset = (int)$_POST['time'];
+        $timezoneName = $_POST['timezone'];
+        
+        $this->match = Match::find($_POST['match_id']);
+
+        if (!in_array($timezoneName, timezone_identifiers_list())) {
+            $timezoneName = "Europe/Berlin";
+        }
+
+        $containerId = "#deadline".$this->match->id;
+        return [
+            $containerId => $this->renderPartial('@deadline', ['timezone' => $timezoneName, 'match' => $this->match])
+        ];
+        
+    }
+
 
     public function onGameSave()
     {

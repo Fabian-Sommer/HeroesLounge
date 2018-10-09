@@ -1,0 +1,19 @@
+<h4 class="card-title text-center">VS <a href="{{ 'team/view' | page({slug:__SELF__.opp.slug})}}"><strong>{{__SELF__.opp.title |upper}}</strong></a></h4>
+<form>
+<div class="row mb-3">
+    <div class="col-md-8 col-8 text-center">
+        <input type="text" class="match text-center" style="height:100%" name="date" value="{{__SELF__.match.wbp}}">
+        <input type="hidden" name="match_id" value="{{__SELF__.match.id}}">
+        <input type="hidden" name="timezoneName" value="{{timezone}}">
+    </div>
+
+    <div class="col-md-4 col-4">
+        <button class="btn btn-primary" data-request="{{__SELF__}}::onSaveDate" style="text-overflow: ellipsis;overflow:hidden;max-width:100%" type="submit">Save Date</button>
+    </div>
+</div>
+{{form_close()}}
+<p class="card-text">Timezone: {{timezone}}</p>
+<p class="card-text">This match has to be scheduled before: {{__SELF__.match.schedule_date | date('d M Y H:i',timezone)}}</p>
+<p class="card-text"><small class="text-muted">If you fail to schedule the game before the required time, your team will be marked inactive, and you will not get assigned a game the next round of matchmaking.</small></p>
+<p class="card-text">This match has to be played before: {{__SELF__.match.tbp | date('d M Y H:i',timezone)}}</p>
+<p class="card-text"><small class="text-muted">If you fail to report the score for the game before the last play time, the match will be marked as a tie regardless of score.</small></p>

@@ -46,7 +46,21 @@ class ViewMatch extends ComponentBase
     }
 
 
+    public function onMyRender()
+    {
+        $this->match = Match::find($this->param('id'));
+        $timezoneoffset = (int)$_POST['time'];
+        $timezoneName = $_POST['timezone'];
 
+        if (!in_array($timezoneName, timezone_identifiers_list())) {
+            $timezoneName = "Europe/Berlin";
+        }
+
+        $containerId = "#matchtime";
+        return [
+            $containerId => $this->renderPartial('@matchtime', ['timezone' => $timezoneName])
+        ];
+    }
 
     
     public function defineProperties()

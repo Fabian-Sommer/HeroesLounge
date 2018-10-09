@@ -3,8 +3,7 @@
 {% for match in __SELF__.matches %} {% if loop.index0 is even %}
 <div class="row mb-3">
     {% endif %} 
-    {% if match.wbp == null
-     %} 
+    {% if match.wbp == null %} 
     {% component 'scheduleMatch' class="mb-3"  id=match.id %} 
     {% else %} 
     {%  component 'updateMatch' class="mb-3" id=match.id %}

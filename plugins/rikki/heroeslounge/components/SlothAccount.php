@@ -240,9 +240,9 @@ class SlothAccount extends UserAccount
             */
 
             if ($sloth->region_id == 1) {
-              Discord\RoleManagement::UpdateUserRole("PUT", $this->sloth->discord_id, "EU");
+              Discord\RoleManagement::UpdateUserRole("PUT", $sloth->discord_id, "EU");
             } else if ($sloth->region_id == 2) {
-              Discord\RoleManagement::UpdateUserRole("PUT", $this->sloth->discord_id, "NA");
+              Discord\RoleManagement::UpdateUserRole("PUT", $sloth->discord_id, "NA");
             }
 
             // sign up for newsletter

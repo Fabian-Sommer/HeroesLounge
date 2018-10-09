@@ -8,7 +8,7 @@ columns:
         relation: teams
     wbp:
         label: wbp
-        type: text
+        type: datetime
     winner:
         label: 'Winning Team'
         type: text

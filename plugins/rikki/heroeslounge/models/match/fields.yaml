@@ -13,14 +13,14 @@ secondaryTabs:
             span: auto
             readOnly: true
             tab: Misc
-            type: text
+            type: datepicker
         tbp:
             label: 'To be played until'
             mode: date
             span: auto
             readOnly: true
             tab: Misc
-            type: text
+            type: datepicker
         winner:
             label: 'Winning Team'
             type: relation
