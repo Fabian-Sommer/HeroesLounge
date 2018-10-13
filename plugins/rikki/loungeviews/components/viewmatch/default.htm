@@ -40,8 +40,7 @@
 {% endif %}
 
 {% if __SELF__.match.wbp %}
-<h3>Scheduled for {{__SELF__.match.wbp | date}}</h3>
-
+<div id="matchtime"></div>
 {% else %}
 <h3 class="text-danger">The match has not been scheduled yet!</h3>
 {% endif %}

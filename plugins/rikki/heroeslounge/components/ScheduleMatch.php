@@ -5,7 +5,11 @@ use Auth;
 use Rikki\Heroeslounge\Models\Match;
 use Input;
 use Redirect;
+use Log;
+use DateTime;
+use DateTimeZone;
 use Flash;
+use Carbon\Carbon;
 
 class ScheduleMatch extends ComponentBase
 {
@@ -20,16 +24,19 @@ class ScheduleMatch extends ComponentBase
     public $match = null;
     public $opp = null;
     public $user = null;
+    public $timezone = null;
 
-
-    public function onRender()
+    public function init()
     {
         $this->addCss('/plugins/rikki/heroeslounge/assets/css/jquery.datetimepicker.css');
         $this->addCss('/plugins/rikki/heroeslounge/assets/css/heroeslounge.css');
         $this->addJs('/plugins/rikki/heroeslounge/assets/js/jquery.datetimepicker.full.js');
+    }
+
+    public function onRender()
+    {
         $this->user = Auth::getUser();
         $this->match = Match::find($this->property('id'));
-
         if ($this->match) {
             if ($this->match->teams[0]->id == $this->user->sloth->team_id) {
                 $this->opp = $this->match->teams[1];
@@ -39,6 +46,23 @@ class ScheduleMatch extends ComponentBase
         }
     }
 
+    public function onMyRender()
+    {
+        $timezoneoffset = (int)$_POST['time'];
+        $timezoneName = $_POST['timezone'];
+        
+        $this->match = Match::find($_POST['match_id']);
+
+        if (!in_array($timezoneName, timezone_identifiers_list())) {
+            $timezoneName = "Europe/Berlin";
+        }
+
+        $containerId = "#schedulebox".$this->match->id;
+        return [
+            $containerId => $this->renderPartial('@schedulebox', ['timezone' => $timezoneName, 'match' => $this->match])
+        ];
+        
+    }
 
 
     public function onSaveDate()
@@ -46,14 +70,19 @@ class ScheduleMatch extends ComponentBase
         $match = Match::find(post('match_id'));
         if ($match) {
             $date = post('date');
+            $timezone = post('timezoneName');
             if ($date != null) {
                 try {
-                    $match->wbp = date('Y-m-d H:i:s', strtotime($date));
-                    if ($match->tbp != null && $match->wbp < $match->tbp) {
+                    $x = new DateTime($date, new DateTimeZone($timezone));
+                    $x->setTimezone(new DateTimeZone('Europe/Berlin'));
+                    $match->wbp = $x->format('Y-m-d H:i:s');
+                    if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp)) {
                         $match->save();
                         Flash::success('Match has been successfully scheduled for '.$date);
                     } else {
-                        Flash::error('The match has to be played before ' . $match->tbp);
+                        $y = new DateTime($match->tbp, new DateTimeZone('Europe/Berlin'));
+                        $y->setTimezone(new DateTimeZone($timezone));
+                        Flash::error('The match has to be played before ' . $y->format('d M Y H:i'));
                     }
                     
                 } catch (Exception $e) {
@@ -80,6 +109,6 @@ class ScheduleMatch extends ComponentBase
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'The MatchID property can contain only numeric symbols'
             ]
-            ];
+        ];
     }
 }

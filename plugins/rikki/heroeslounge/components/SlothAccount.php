@@ -233,6 +233,18 @@ class SlothAccount extends UserAccount
             $sloth->save();
             $this->user = $user;
 
+            /*
+              Assign EU or NA role on Discord based on region_id.
+              region_id = 1: EU
+              region_id = 2: NA
+            */
+
+            if ($sloth->region_id == 1) {
+              Discord\RoleManagement::UpdateUserRole("PUT", $sloth->discord_id, "EU");
+            } else if ($sloth->region_id == 2) {
+              Discord\RoleManagement::UpdateUserRole("PUT", $sloth->discord_id, "NA");
+            }
+
             // sign up for newsletter
             if (array_key_exists('newsletter_subscription', $data) && $data['newsletter_subscription']) {
                 MailChimpAPI::subscribeNewUser($user);
@@ -430,12 +442,14 @@ class SlothAccount extends UserAccount
         $sloth->twitter_url = URLHelper::makeTwitterURL($data['twitter_url']);
         $sloth->website_url = URLHelper::makeWebsiteURL($data['website_url']);
         $sloth->youtube_url = URLHelper::makeYoutubeURL($data['youtube_url']);
+        $sloth->discord_tag = $data['discord_tag'];
+        $sloth->region_id = $data['region_id'];
         $sloth->save();
 
         $user->country_id = $data['country_id'];
         $user->save();
 
-        Flash::success('Social links were updated successfully!');
+        Flash::success('Social information was updated successfully!');
         if ($redirect = $this->makeRedirection()) {
             return $redirect;
         }
@@ -451,7 +465,7 @@ class SlothAccount extends UserAccount
         $sloth = SlothModel::getFromUser($user);
 
         $sloth->role_id = $data['role_id'];
-        if ($sloth->region_id == 2) {
+        if ($sloth->region_id == 2 && isset($data['server_preference'])) {
             $sloth->server_preference = $data['server_preference'];
         }
         if ($sloth->team_id == 0) {

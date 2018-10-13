@@ -9,6 +9,7 @@ use Rikki\Heroeslounge\classes\hotfixes as hotfixes;
 use Rikki\Heroeslounge\Models\Season as Season;
 use Rikki\Heroeslounge\Models\Playoff;
 use Rikki\Heroeslounge\Models\Team;
+use Carbon\Carbon;
 use Log;
 /**
  * Model
@@ -217,19 +218,6 @@ class Match extends Model
                         Log::info(json_encode(debug_backtrace()));
                     }
                 }
-            }
-        }
-        //timeline
-        if ($this->isDirty('wbp')) {
-            $scheduledTimelineEntry = $this->timeline()->where('type', 'Match.Scheduled')->first();
-            if (is_null($scheduledTimelineEntry)) {
-                $timeline = new Timeline();
-                $timeline->type = 'Match.Scheduled';
-                $timeline->save();
-                $timeline->matches()->add($this);
-            } else {
-                $scheduledTimelineEntry->created_at = time();
-                $scheduledTimelineEntry->save();
             }
         }
 

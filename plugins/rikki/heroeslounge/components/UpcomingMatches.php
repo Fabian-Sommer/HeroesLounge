@@ -12,6 +12,7 @@ use Rikki\Heroeslounge\Models\Sloth as Sloths;
 use Input;
 use Request;
 use Carbon\Carbon;
+use Log;
 use RainLab\User\facades\Auth;
 
 class UpcomingMatches extends ComponentBase
@@ -20,6 +21,7 @@ class UpcomingMatches extends ComponentBase
     public $showLogo = false;
     public $showName = false;
     public $showCasters = false;
+    public $idApp = "";
 
     public function componentDetails()
     {
@@ -41,6 +43,12 @@ class UpcomingMatches extends ComponentBase
         $this->showLogo = ($this->property('showLogo') == true) ? true : false;
         $this->showName = ($this->property('showName') == true) ? true : false;
         $this->showCasters = ($this->property('showCasters') == true) ? true : false;
+        $this->idApp = $this->property("casterFilter");
+    }
+
+    public function collectMatches($timezoneName)
+    {
+        $this->idApp = $this->property("casterFilter");
         $type = $this->property('type');
         $id = $this->property('id');
         $daysInFuture = $this->property('daysInFuture');
@@ -63,10 +71,6 @@ class UpcomingMatches extends ComponentBase
             case 'all':
                 $myEntity = 1;
                 break;
-            /* CURRENTLY NOT IMPLEMENTED */
-            /*case 'playoff':
-                $myData = Playoffs::find($id);
-                break;*/
         }
         if ($myEntity) {
             if ($type == 'all') {
@@ -85,11 +89,78 @@ class UpcomingMatches extends ComponentBase
                 $myData = $myEntity->matches()->with('teams', 'teams.logo', 'casters')->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
             }
             $matches = $myData->groupBy(
-                                function ($date) {
-                                    return Carbon::parse($date->wbp)->format('d-M-y');
+                                function ($match) use ($timezoneName) {
+                                    $x = Carbon::parse($match->wbp)->setTimezone($timezoneName);
+                                    return $x->format('d-M-y');
                                 }
             );
             $this->groupMatches = $matches;
+        }
+    }
+
+    public function onMyRender()
+    {
+        $timezoneoffset = (int)$_POST['time'];
+        $timezoneName = $_POST['timezone'];
+
+        if (!in_array($timezoneName, timezone_identifiers_list())) {
+            $timezoneName = "Europe/Berlin";
+        }
+        $this->idApp = $this->property("casterFilter");
+        if ($this->idApp != "accepted" && $this->idApp != "denied") {
+            $this->collectMatches($timezoneName);
+
+        
+            $containerId = "#upcomingMatches".$this->idApp;
+            return [
+                $containerId => $this->renderPartial('@calendar', ['user' => Auth::getUser(), 'groupMatches' => $this->groupMatches, 'timezone' => $timezoneName])
+            ];
+        }
+    }
+
+    public function onMyRenderAcceptedCasts()
+    {
+        $timezoneoffset = (int)$_POST['time'];
+        $timezoneName = $_POST['timezone'];
+
+        if (!in_array($timezoneName, timezone_identifiers_list())) {
+            $timezoneName = "Europe/Berlin";
+        }
+        $this->idApp = $this->property("casterFilter");
+        if ($this->idApp == "accepted") {
+            $this->collectMatches($timezoneName);
+        
+        
+            $containerId = "#upcomingMatches".$this->idApp;
+            return [
+                $containerId => $this->renderPartial('@calendar', ['user' => Auth::getUser(), 'groupMatches' => $this->groupMatches, 'timezone' => $timezoneName])
+            ];
+        }
+    }
+
+    public function onMyRenderDeniedCasts()
+    {
+        $timezoneoffset = (int)$_POST['time'];
+        if (isset($_POST['timezone'])) {
+            $timezoneName = $_POST['timezone'];
+        } else {
+            $timezoneName = "Europe/Berlin";
+        }
+        
+
+        if (!in_array($timezoneName, timezone_identifiers_list())) {
+            $timezoneName = "Europe/Berlin";
+        }
+        $this->idApp = $this->property("casterFilter");
+
+        if ($this->idApp == "denied") {
+
+            $this->collectMatches($timezoneName);
+        
+            $containerId = "#upcomingMatches".$this->idApp;
+            return [
+                $containerId => $this->renderPartial('@calendar', ['user' => Auth::getUser(), 'groupMatches' => $this->groupMatches, 'timezone' => $timezoneName])
+            ];
         }
     }
 

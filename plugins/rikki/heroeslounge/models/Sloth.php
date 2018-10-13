@@ -6,6 +6,7 @@ use Rikki\Heroeslounge\Models\Timeline;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\classes\hotslogs\IDFetcher;
 use Rikki\Heroeslounge\classes\MMR\MMRFetcher;
+use Rikki\Heroeslounge\classes\Discord;
 use Rikki\Heroeslounge\classes\Mailchimp\MailChimpAPI;
 use Flash;
 /**
@@ -174,6 +175,20 @@ class Sloth extends Model
                 $this->is_captain = false;
             }
             MailChimpAPI::patchExistingUser($this->user);
+        }
+        if ($this->isDirty('discord_tag') && !isset($this->discord_id)) {
+            $this->discord_id = Discord\Attendance::GetDiscordUserId($this->discord_tag);
+            $this->save();
+        }
+        if ($this->isDirty('region_id') && isset($this->discord_id)) {
+            if ($this->region_id == 1) {
+                Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "NA");
+                Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "EU");
+            } elseif ($this->region_id == 2) {
+                Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "EU");
+                Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "NA");
+            }
+            
         }
     }
 

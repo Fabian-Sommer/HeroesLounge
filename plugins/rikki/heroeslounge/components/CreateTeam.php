@@ -99,7 +99,11 @@ class CreateTeam extends ComponentBase
                     return Redirect::to('team/manage/'.$this->team->slug);
                 }
             } catch (Exception $e) {
-                Flash::error($e->getMessage());
+                if ($e->getMessage() == "The slug has already been taken.") {
+                    Flash::error("This abbreviation has already been taken.");
+                } else {
+                    Flash::error($e->getMessage());
+                }
                 return Redirect::refresh();
             }
         }

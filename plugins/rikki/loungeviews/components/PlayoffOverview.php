@@ -100,6 +100,21 @@ class PlayoffOverview extends ComponentBase
         ];
     }
 
+    public function onMyRender()
+    {
+        $timezoneoffset = (int)$_POST['time'];
+        $timezoneName = $_POST['timezone'];
+
+        if (!in_array($timezoneName, timezone_identifiers_list())) {
+            $timezoneName = "Europe/Berlin";
+        }
+
+        $containerId = "#knockout";
+        return [
+            $containerId => $this->renderPartial('@bracket', ['timezone' => $timezoneName])
+        ];
+    }
+
     //gets offsets in rem for a playoff_position $pp
     public function getOffsetsForMatch($pp)
     {
