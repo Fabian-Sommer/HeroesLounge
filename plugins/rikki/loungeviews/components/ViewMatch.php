@@ -50,7 +50,10 @@ class ViewMatch extends ComponentBase
     {
         $this->match = Match::find($this->param('id'));
         $timezoneoffset = (int)$_POST['time'];
-        $timezoneName = $_POST['timezone'];
+        $timezoneName = "Europe/Berlin";
+        if (isset($_POST['timezone'])) {
+            $timezoneName = $_POST['timezone'];
+        }
 
         if (!in_array($timezoneName, timezone_identifiers_list())) {
             $timezoneName = "Europe/Berlin";
