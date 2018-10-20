@@ -12,6 +12,15 @@
             {% for match in groupMatch %}
             <div class="event-list--game row no-gutters">
             <div class="event-list--division col-sm-12 col-md-3">
+                {% if match.teams[0].region_id == match.teams[1].region_id %}
+                <span class="event-list--region">
+                    {% if match.teams[0].region_id == "1" %}
+                    [EU]
+                    {% elseif match.teams[0].region_id == "2" %}
+                    [NA]
+                    {% endif %}
+                </span>
+                {% endif %}
                 <span title="{{match.division.title}}" class="hideOverflow">{{match.division.title}}</span>
                 <span class="event-list--time facebook">
                     @{{match.wbp | date('H:i', timezone)}}
