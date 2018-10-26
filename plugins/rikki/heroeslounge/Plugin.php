@@ -78,7 +78,7 @@ class Plugin extends PluginBase
                 $mm->prepare($s);
             });
         })->weekly()->mondays()->at('01:00');
-
+        /*
         $schedule->call(function () {
             MMR\MMRFetcher::updateMMRs();
         })->dailyAt('3:00');
@@ -90,12 +90,13 @@ class Plugin extends PluginBase
         $schedule->call(function () {
             classes\Discord\Attendance::migrateDiscordTagsToIds();
         })->weekly()->tuesdays()->at('2:30');
-
+        
         $schedule->call(function () {
             $hu = new HeroUpdater;
             $hu->updateHeroes();
             Deployment::updateHeroprotocol();
         })->dailyAt('4:00');
+        */
     }
 
 

@@ -352,4 +352,7 @@
     - builder_table_update_rikki_heroeslounge_teams_6.php
 1.0.124:
     - 'Updated table rikki_heroeslounge_sloths'
-    - builder_table_update_rikki_heroeslounge_sloths_14.php
+    - builder_table_update_rikki_heroeslounge_sloths14.php
+1.0.125:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths11.php
