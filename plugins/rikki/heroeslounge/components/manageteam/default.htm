@@ -116,6 +116,9 @@
                             %} 1 {% endif %}
                         </div>
                         <input class="form-control" placeholder="Captain" type="text" value="{{__SELF__.user.username}}" disabled>
+                        <div class="input-group-addon captain-icon">
+                            <i class="icon fa fa-star" title="Captain" style="color: gold;"></i>
+                        </div>
                     </div>
                     <div class="input-group col-4">
                         <label for="captain" class="sr-only">Sloth 2</label>
@@ -128,17 +131,30 @@
                         </div>
                         <input class="form-control autocomplete" placeholder="Sloth 2" name="sl2" type="text" value="{{__SELF__.players[0].user.username}}"
                         {% if __SELF__.players[0].user and not  __SELF__.rosterLocked %} disabled>
-                        <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[0].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[0].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
-                            <span aria-hidden="true">
-                              &times;</span>
-                          </button>
-                        </div>
                         {% else %}>
+                        {% endif %}
+                        {% if __SELF__.players[0].user %}
+                            <div class="input-group-btn">
+                                <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                        data-request="{{__SELF__}}::onPromoteMemberToCaptain"
+                                        data-request-confirm="Do you want to promote {{__SELF__.players[0].user.username}} to Captain?"
+                                        data-request-data="promote: '{{__SELF__.players[0].user.username}}'"
+                                        title="Promote Player to Captain" class="close" type="button">
+                                    <i class="promote-icon fa fa-star-o" title="Promote" style="color: black;" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            {% if not __SELF__.rosterLocked %}
+                            <div class="input-group-btn">
+                            <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                    data-request="{{__SELF__}}::onMemberRemove"
+                                    data-request-confirm="Do you want to remove {{__SELF__.players[0].user.username}} from your roster?"
+                                    data-request-data="remove: '{{__SELF__.players[0].user.username}}'"
+                                    title="Remove Player" class="close" type="button">
+                                <span aria-hidden="true">
+                                &times;</span>
+                            </button>
+                            </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="input-group col-4">
@@ -151,18 +167,31 @@
                             %} 3 {% endif %}
                         </div>
                         <input class="form-control autocomplete" placeholder="Sloth 3" name="sl3" type="text" value="{{__SELF__.players[1].user.username}}"
-                        {% if __SELF__.players[1].user and not  __SELF__.rosterLocked %} disabled>
-                        <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[1].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[1].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
-                            <span aria-hidden="true">
-                              &times;</span>
-                          </button>
-                        </div>
+                        {% if __SELF__.players[1].user and not __SELF__.rosterLocked %} disabled>
                         {% else %}>
+                        {% endif %}
+                        {% if __SELF__.players[1].user %}
+                            <div class="input-group-btn">
+                                <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                        data-request="{{__SELF__}}::onPromoteMemberToCaptain"
+                                        data-request-confirm="Do you want to promote {{__SELF__.players[1].user.username}} to Captain?"
+                                        data-request-data="promote: '{{__SELF__.players[1].user.username}}'"
+                                        title="Promote Player to Captain" class="close" type="button">
+                                    <i class="promote-icon fa fa-star-o" title="Promote" style="color: black;" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            {% if not __SELF__.rosterLocked %}
+                            <div class="input-group-btn">
+                            <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                    data-request="{{__SELF__}}::onMemberRemove"
+                                    data-request-confirm="Do you want to remove {{__SELF__.players[1].user.username}} from your roster?"
+                                    data-request-data="remove: '{{__SELF__.players[1].user.username}}'"
+                                    title="Remove Player" class="close" type="button">
+                                <span aria-hidden="true">
+                                &times;</span>
+                            </button>
+                            </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
