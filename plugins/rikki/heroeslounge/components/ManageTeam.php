@@ -234,7 +234,7 @@ class ManageTeam extends ComponentBase
         $userToPromote->is_captain = 1;
         $userToPromote->save();
         
-        Flash::success($userToPromote->title.' has been promoted to captain');
+        Flash::success($userToPromote->title.' has been promoted to Captain');
         return Redirect::to('/team/view/'.$this->team->slug);
     }
 
