@@ -384,8 +384,8 @@
         jQuery('.modal-title').text(`Promote ${playerName}`);
         jQuery('.modal-body .alert').text(`Do you want to remove yourself from the captain role and make ${playerName} captain for {{__SELF__.team.title}}?`);
         
-        jQuery('.modal-footer .btn-primary').data('request', "{{__SELF__}}::onPromoteMemberToCaptain");
-        jQuery('.modal-footer btn-primary').data('requestData', `promote: '${playerName}'`);
+        jQuery('.modal-footer .btn-primary').attr('data-request', "{{__SELF__}}::onPromoteMemberToCaptain");
+        jQuery('.modal-footer .btn-primary').attr('data-request-data', `promote: '${playerName}'`);
     }
 
     function renderRemoveModal() {
@@ -393,8 +393,8 @@
         jQuery('.modal-title').text(`Remove ${playerName}`);
         jQuery('.modal-body .alert').text(`Do you want to remove ${playerName} from your roster?`);
         
-        jQuery('.modal-footer .btn-primary').data('request', "{{__SELF__}}::onMemberRemove");
-        jQuery('.modal-footer btn-primary').data('requestData', `remove: '${playerName}'`);
+        jQuery('.modal-footer .btn-primary').attr('data-request', "{{__SELF__}}::onMemberRemove");
+        jQuery('.modal-footer .btn-primary').attr('data-request-data', `remove: '${playerName}'`);
     }
 
     jQuery(document).ready(function () {
