@@ -72,13 +72,21 @@ class Plugin extends PluginBase
     public function registerSchedule($schedule)
     {
         $schedule->call(function () {
-            $ss = Seasons::where('is_active', 1)->where('reg_open', 0)->where('mm_active', 1)->get();
+            $ss = Seasons::where('is_active', 1)->where('reg_open', 0)->where('mm_active', 1)->where('region_id', 1)->get();
             $ss->each(function ($s) {
                 $mm = new Swiss;
                 $mm->prepare($s);
             });
         })->weekly()->mondays()->at('01:00');
-        /*
+
+        $schedule->call(function () {
+            $ss = Seasons::where('is_active', 1)->where('reg_open', 0)->where('mm_active', 1)->where('region_id', 2)->get();
+            $ss->each(function ($s) {
+                $mm = new Swiss;
+                $mm->prepare($s);
+            });
+        })->weekly()->mondays()->at('10:00');
+        
         $schedule->call(function () {
             MMR\MMRFetcher::updateMMRs();
         })->dailyAt('3:00');
@@ -90,13 +98,16 @@ class Plugin extends PluginBase
         $schedule->call(function () {
             classes\Discord\Attendance::migrateDiscordTagsToIds();
         })->weekly()->tuesdays()->at('2:30');
-        
+
+        $schedule->call(function () {
+            Deployment::updateHeroprotocol();
+        })->dailyAt('1:30');
+            
         $schedule->call(function () {
             $hu = new HeroUpdater;
             $hu->updateHeroes();
-            Deployment::updateHeroprotocol();
-        })->dailyAt('4:00');
-        */
+        })->weekly()->thursdays()->at('4:00');
+        
     }
 
 
