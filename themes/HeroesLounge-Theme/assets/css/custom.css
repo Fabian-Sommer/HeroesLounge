@@ -181,3 +181,23 @@ i.website-white:hover
 {
     opacity:1;
 }
+
+.input-group-addon.captain-icon {
+    height: 40px;
+    border-radius: 0;
+    padding: 7px;
+}
+.input-group-addon.captain-icon .icon {
+    font-size: 16px;
+    text-shadow:
+        0 0 1px #495057,
+        0 0 1px #495057,
+        0 0 1px #495057,
+        0 0 1px #495057;
+}
+
+.input-group-btn .promote-icon {
+    position: relative;
+    top: -3px;
+    font-size: 16px;
+}

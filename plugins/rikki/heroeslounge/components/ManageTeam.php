@@ -222,6 +222,22 @@ class ManageTeam extends ComponentBase
         return Redirect::refresh();
     }
 
+    public function onPromoteMemberToCaptain()
+    {
+        // Demote current captain
+        $currentCaptain = $this->user->sloth;
+        $currentCaptain->is_captain = 0;
+        $currentCaptain->save();
+
+        // // Promote user to captain
+        $userToPromote = $this->players->where('title', post('promote'))->first();
+        $userToPromote->is_captain = 1;
+        $userToPromote->save();
+        
+        Flash::success($userToPromote->title.' has been promoted to Captain');
+        return Redirect::to('/team/view/'.$this->team->slug);
+    }
+
     public function onRosterSave()
     {
         if ($this->rosterLocked == false) {

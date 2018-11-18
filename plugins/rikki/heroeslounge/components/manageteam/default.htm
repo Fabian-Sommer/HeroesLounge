@@ -94,227 +94,77 @@
             {% if __SELF__.rosterLocked %}
             <label class="text-warning">Your roster is locked, due to participation in a active league! Contact a Moderator or Admin if you want to make changes.</label>
             <fieldset disabled>
-                {% endif %}
+            {% endif %}
 
-                <div class="form-check">
-                    <label class="form-check-label">
+            <div class="form-check">
+                <label class="form-check-label">
                 <input type="checkbox" name="accepting_apps" id="accepting_apps" class="form-check-input" {% if __SELF__.team.accepting_apps == 1 %}checked{% endif %}>
                 We are accepting applications on the website
-            </label>
-                </div>
-                <small class="text-muted">
+                </label>
+            </div>
+            <small class="text-muted">
                 You are able to search for username, battletag or discordtag. Autocomplete will suggest usernames based of your search entry (minimum of 3 characters).
             </small>
-                <div class="row mb-3">
-                    <div class="input-group col-4">
-                        <label for="captain" class="sr-only">Captain</label>
-                        <div class="input-group-addon">
-                            {% if __SELF__.user.sloth.role %} {% set path = 'assets/img/roles/' ~__SELF__.user.sloth.role.title|replace({' ':'-'})|lower
-                            ~ '.svg' %}
-                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.user.sloth.role.title}}" alt="{{__SELF__.user.sloth.role.title}}"
-                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
-                            %} 1 {% endif %}
-                        </div>
-                        <input class="form-control" placeholder="Captain" type="text" value="{{__SELF__.user.username}}" disabled>
+            
+            <div class="row">
+                <div class="input-group col-md-4 col-sm-12 mb-3">
+                    <label for="captain" class="sr-only">Captain</label>
+                    <div class="input-group-addon">
+                        {% if __SELF__.user.sloth.role %} {% set path = 'assets/img/roles/' ~__SELF__.user.sloth.role.title|replace({' ':'-'})|lower
+                        ~ '.svg' %}
+                        <img src="{{path | theme}}" class="rounded" title="{{__SELF__.user.sloth.role.title}}" alt="{{__SELF__.user.sloth.role.title}}"
+                            style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                        %} 1 {% endif %}
                     </div>
-                    <div class="input-group col-4">
-                        <label for="captain" class="sr-only">Sloth 2</label>
-                        <div class="input-group-addon">
-                            {% if __SELF__.players[0].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[0].role.title|replace({' ':'-'})|lower
-                            ~ '.svg' %}
-                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[0].role.title}}" alt="{{__SELF__.players[0].role.title}}"
-                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
-                            %} 2 {% endif %}
-                        </div>
-                        <input class="form-control autocomplete" placeholder="Sloth 2" name="sl2" type="text" value="{{__SELF__.players[0].user.username}}"
-                        {% if __SELF__.players[0].user and not  __SELF__.rosterLocked %} disabled>
-                        <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[0].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[0].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
-                            <span aria-hidden="true">
-                              &times;</span>
-                          </button>
-                        </div>
-                        {% else %}>
-                        {% endif %}
-                    </div>
-                    <div class="input-group col-4">
-                        <label for="captain" class="sr-only">Sloth 3</label>
-                        <div class="input-group-addon">
-                            {% if __SELF__.players[1].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[1].role.title|replace({' ':'-'})|lower
-                            ~ '.svg' %}
-                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[1].role.title}}" alt="{{__SELF__.players[1].role.title}}"
-                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
-                            %} 3 {% endif %}
-                        </div>
-                        <input class="form-control autocomplete" placeholder="Sloth 3" name="sl3" type="text" value="{{__SELF__.players[1].user.username}}"
-                        {% if __SELF__.players[1].user and not  __SELF__.rosterLocked %} disabled>
-                        <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[1].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[1].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
-                            <span aria-hidden="true">
-                              &times;</span>
-                          </button>
-                        </div>
-                        {% else %}>
-                        {% endif %}
+                    <input class="form-control" placeholder="Captain" type="text" value="{{__SELF__.user.username}}" disabled>
+                    <div class="input-group-addon captain-icon">
+                        <i class="icon fa fa-star" title="Captain" style="color: gold;"></i>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="input-group col-4">
-                        <label for="captain" class="sr-only">Sloth 4</label>
-                        <div class="input-group-addon">
-                            {% if __SELF__.players[2].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[2].role.title|replace({' ':'-'})|lower
-                            ~ '.svg' %}
-                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[2].role.title}}" alt="{{__SELF__.players[2].role.title}}"
-                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
-                            %} 4 {% endif %}
-                        </div>
-                        <input class="form-control autocomplete" placeholder="Sloth 4" name="sl4" type="text" value="{{__SELF__.players[2].user.username}}"
-                        {% if __SELF__.players[2].user and not  __SELF__.rosterLocked %} disabled>
-                        <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[2].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[2].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
-                            <span aria-hidden="true">
-                              &times;</span>
-                          </button>
-                        </div>
-                        {% else %}>
-                        {% endif %}
+
+                {% for idx in 0..7 %}
+                <div class="input-group col-md-4 col-sm-12 mb-3">
+                    <label for="captain" class="sr-only">Sloth {{idx + 2}}</label>
+                    <div class="input-group-addon">
+                        {% if __SELF__.players[idx].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[idx].role.title|replace({' ':'-'})|lower
+                        ~ '.svg' %}
+                        <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[idx].role.title}}" alt="{{__SELF__.players[idx].role.title}}"
+                            style="height:20px;width:20px;background-color:#2e93cd"> {% else
+                        %} {{idx + 2}} {% endif %}
                     </div>
-                    <div class="input-group col-4">
-                        <label for="captain" class="sr-only">Sloth 5</label>
-                        <div class="input-group-addon">
-                            {% if __SELF__.players[3].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[3].role.title|replace({' ':'-'})|lower
-                            ~ '.svg' %}
-                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[3].role.title}}" alt="{{__SELF__.players[3].role.title}}"
-                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
-                            %} 5 {% endif %}
-                        </div>
-                        <input class="form-control autocomplete" placeholder="Sloth 5" name="sl5" type="text" value="{{__SELF__.players[3].user.username}}"
-                        {% if __SELF__.players[3].user and not  __SELF__.rosterLocked %} disabled>
+                    <input class="form-control autocomplete" placeholder="Sloth {{idx + 2}}" name="sl2" type="text" value="{{__SELF__.players[idx].user.username}}"
+                    {% if __SELF__.players[idx].user and not  __SELF__.rosterLocked %} disabled>
+                    {% else %}>
+                    {% endif %}
+                    {% if __SELF__.players[idx].user %}
                         <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[3].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[3].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
-                            <span aria-hidden="true">
-                              &times;</span>
-                          </button>
+                            <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                    data-toggle="modal"
+                                    data-target="#modifyMemberModal"
+                                    data-player-name="{{__SELF__.players[idx].user.username}}"
+                                    title="Promote Player to Captain" class="close promote-btn" type="button">
+                                <i class="promote-icon fa fa-star-o" title="Promote" style="color: black;" aria-hidden="true"></i>
+                            </button>
                         </div>
-                        {% else %}>
-                        {% endif %}
-                    </div>
-                    <div class="input-group col-4">
-                        <label for="captain" class="sr-only">Sloth 6</label>
-                        <div class="input-group-addon">
-                            {% if __SELF__.players[4].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[4].role.title|replace({' ':'-'})|lower
-                            ~ '.svg' %}
-                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[4].role.title}}" alt="{{__SELF__.players[4].role.title}}"
-                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
-                            %} 6 {% endif %}
-                        </div>
-                        <input class="form-control autocomplete" placeholder="Sloth 6" name="sl6" type="text" value="{{__SELF__.players[4].user.username}}"
-                        {% if __SELF__.players[4].user and not  __SELF__.rosterLocked %} disabled>
+                        {% if not __SELF__.rosterLocked %}
                         <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[4].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[4].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
+                        <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                data-toggle="modal"
+                                data-target="#modifyMemberModal"
+                                data-player-name="{{__SELF__.players[idx].user.username}}"
+                                title="Remove Player" class="close remove-btn" type="button">
                             <span aria-hidden="true">
-                              &times;</span>
-                          </button>
+                            &times;</span>
+                        </button>
                         </div>
-                        {% else %}>
                         {% endif %}
-                    </div>
+                    {% endif %}
                 </div>
-                <div class="row mb-3">
-                    <div class="input-group col-4">
-                        <label for="captain" class="sr-only">Sloth 7</label>
-                        <div class="input-group-addon">
-                            {% if __SELF__.players[5].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[5].role.title|replace({' ':'-'})|lower
-                            ~ '.svg' %}
-                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[5].role.title}}" alt="{{__SELF__.players[5].role.title}}"
-                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
-                            %} 7 {% endif %}
-                        </div>
-                        <input class="form-control autocomplete" placeholder="Sloth 7" name="sl7" type="text" value="{{__SELF__.players[5].user.username}}"
-                        {% if __SELF__.players[5].user and not  __SELF__.rosterLocked %} disabled>
-                        <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[5].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[5].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
-                            <span aria-hidden="true">
-                              &times;</span>
-                          </button>
-                        </div>
-                        {% else %}>
-                        {% endif %}
-                    </div>
-                    <div class="input-group col-4">
-                        <label for="captain" class="sr-only">Sloth 8</label>
-                        <div class="input-group-addon">
-                            {% if __SELF__.players[6].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[6].role.title|replace({' ':'-'})|lower
-                            ~ '.svg' %}
-                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[6].role.title}}" alt="{{__SELF__.players[6].role.title}}"
-                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
-                            %} 8 {% endif %}
-                        </div>
-                        <input class="form-control autocomplete" placeholder="Sloth 8" name="sl8" type="text" value="{{__SELF__.players[6].user.username}}"
-                        {% if __SELF__.players[6].user and not  __SELF__.rosterLocked %} disabled>
-                        <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[6].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[6].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
-                            <span aria-hidden="true">
-                              &times;</span>
-                          </button>
-                        </div>
-                        {% else %}>
-                        {% endif %}
-                    </div>
-                    <div class="input-group col-4">
-                        <label for="captain" class="sr-only">Sloth 9</label>
-                        <div class="input-group-addon">
-                            {% if __SELF__.players[7].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[7].role.title|replace({' ':'-'})|lower
-                            ~ '.svg' %}
-                            <img src="{{path | theme}}" class="rounded" title="{{__SELF__.players[7].role.title}}" alt="{{__SELF__.players[7].role.title}}"
-                                style="height:20px;width:20px;background-color:#2e93cd"> {% else
-                            %} 9 {% endif %}
-                        </div>
-                        <input class="form-control autocomplete" placeholder="Sloth 9" name="sl9" type="text" value="{{__SELF__.players[7].user.username}}"
-                        {% if __SELF__.players[7].user and not  __SELF__.rosterLocked %} disabled>
-                        <div class="input-group-btn">
-                          <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                  data-request="{{__SELF__}}::onMemberRemove"
-                                  data-request-confirm="Do you want to remove {{__SELF__.players[7].user.username}} from your roster?"
-                                  data-request-data="remove: '{{__SELF__.players[7].user.username}}'"
-                                  title="Remove Player" class="close" type="button">
-                            <span aria-hidden="true">
-                              &times;</span>
-                          </button>
-                        </div>
-                        {% else %}>
-                        {% endif %}
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary" data-request="{{__SELF__}}::onRosterSave">Update Roster</button>                {% if __SELF__.rosterLocked %}
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-primary" data-request="{{__SELF__}}::onRosterSave">Update Roster</button>
+            {% if __SELF__.rosterLocked %}
             </fieldset>
             {% endif %}
         </form>
@@ -500,3 +350,57 @@
     </p>
 </div>
 {% endif %}
+
+
+{% put modal %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modifyMemberModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% default %}
+{% endput %}
+
+{% put scripts %}
+<script type="text/javascript">
+    function renderPromoteModal() {
+        var playerName = jQuery(this).data('playerName');
+        jQuery('.modal-title').text(`Promote ${playerName}`);
+        jQuery('.modal-body .alert').text(`Do you want to remove yourself from the captain role and make ${playerName} captain for {{__SELF__.team.title}}?`);
+        
+        jQuery('.modal-footer .btn-primary').attr('data-request', "{{__SELF__}}::onPromoteMemberToCaptain");
+        jQuery('.modal-footer .btn-primary').attr('data-request-data', `promote: '${playerName}'`);
+    }
+
+    function renderRemoveModal() {
+        var playerName = jQuery(this).data('playerName');
+        jQuery('.modal-title').text(`Remove ${playerName}`);
+        jQuery('.modal-body .alert').text(`Do you want to remove ${playerName} from your roster?`);
+        
+        jQuery('.modal-footer .btn-primary').attr('data-request', "{{__SELF__}}::onMemberRemove");
+        jQuery('.modal-footer .btn-primary').attr('data-request-data', `remove: '${playerName}'`);
+    }
+
+    jQuery(document).ready(function () {
+        jQuery(".promote-btn").on('click', renderPromoteModal);
+        jQuery(".remove-btn").on('click', renderRemoveModal);
+    });
+
+</script>
+{% endput %}
