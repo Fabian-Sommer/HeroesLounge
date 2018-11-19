@@ -93,12 +93,13 @@
         <form>
             {% if __SELF__.rosterLocked %}
             <label class="text-warning">Your roster is locked, due to participation in a active league! Contact a Moderator or Admin if you want to make changes.</label>
-            <fieldset disabled>
             {% endif %}
 
             <div class="form-check">
                 <label class="form-check-label">
-                <input type="checkbox" name="accepting_apps" id="accepting_apps" class="form-check-input" {% if __SELF__.team.accepting_apps == 1 %}checked{% endif %}>
+                <input type="checkbox" name="accepting_apps" id="accepting_apps" class="form-check-input"
+                {% if __SELF__.team.accepting_apps == 1 %} checked{% endif %}
+                {% if __SELF__.rosterLocked %} disabled> {% else %}>{% endif %}
                 We are accepting applications on the website
                 </label>
             </div>
@@ -133,8 +134,8 @@
                         %} {{idx + 2}} {% endif %}
                     </div>
                     <input class="form-control autocomplete" placeholder="Sloth {{idx + 2}}" name="sl2" type="text" value="{{__SELF__.players[idx].user.username}}"
-                    {% if __SELF__.players[idx].user and not  __SELF__.rosterLocked %} disabled>
-                    {% else %}>
+                    {% if not __SELF__.players[idx].user and not __SELF__.rosterLocked %}>
+                    {% else %} disabled>
                     {% endif %}
                     {% if __SELF__.players[idx].user %}
                         <div class="input-group-btn">
@@ -143,7 +144,7 @@
                                     data-target="#modifyMemberModal"
                                     data-player-name="{{__SELF__.players[idx].user.username}}"
                                     title="Promote Player to Captain" class="close promote-btn" type="button">
-                                <i class="promote-icon fa fa-star-o" title="Promote" style="color: black;" aria-hidden="true"></i>
+                                <i class="promote-icon fa fa-star-o" style="color: black;" aria-hidden="true"></i>
                             </button>
                         </div>
                         {% if not __SELF__.rosterLocked %}
@@ -163,10 +164,10 @@
                 {% endfor %}
             </div>
 
-            <button type="submit" class="btn btn-primary" data-request="{{__SELF__}}::onRosterSave">Update Roster</button>
-            {% if __SELF__.rosterLocked %}
-            </fieldset>
-            {% endif %}
+            <button type="submit" class="btn btn-primary" data-request="{{__SELF__}}::onRosterSave"
+            {% if __SELF__.rosterLocked %} disabled> {% else %}>{% endif %}
+            Update Roster
+            </button>
         </form>
         <!-- END ROSTER -->
 
