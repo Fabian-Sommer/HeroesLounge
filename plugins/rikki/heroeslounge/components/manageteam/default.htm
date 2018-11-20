@@ -187,9 +187,11 @@
                             <input type="file" accept="image/png" class="form-control" name="logo" style="display:none" id="logoChooser">
                         </span>
                     </label>
-                    <input type="text" class="form-control form-control-warning" readonly="true" aria-describedby="shortLogoBlock">
+                    <input type="text" class="form-control form-control-warning filename" readonly="true" aria-describedby="shortLogoBlock">
                     <div><small id="logoUploadError" class="text-danger"></small></div>
-                    <small class="text-muted">Uploading a new logo will replace your current logo.</small>
+                    <small class="text-muted">Uploading a new logo will replace your current logo.<br />
+                    Image must be a PNG, under 100MB, and under 1280x1280 pixels.
+                    </small>
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Submit Logo</button> {{form_close()}}
             </div>
@@ -398,28 +400,51 @@
         jQuery('.modal-footer .btn-primary').attr('data-request-data', `remove: '${playerName}'`);
     }
 
+    function validateLogoUpload() {
+        if (this.files.length === 0) {
+            return;
+        }
+
+        var uploadedFile = this.files[0];
+        var errorDiv = jQuery("#logoUploadError");
+        errorDiv.text("");
+
+        // Check that file is a PNG
+        if (uploadedFile.type !== "image/png") {
+            errorDiv.text("File must be a png.");
+            jQuery("input.filename").val("");
+            this.value = "";
+        } else {
+            img = new Image();
+            var _URL = window.URL || window.webkitURL;
+            img.src = _URL.createObjectURL(uploadedFile);
+            img.onload = () => {
+                var errors = [];
+                // Check image size
+                if (uploadedFile.size > 104857600) {
+                    errors.push("Size exceeds 100MB.");
+                }
+                // Check image dimensions
+                if (img.width > 1280 || img.height > 1280) {
+                    errors.push("Dimensions exceed 1028x1028.");
+                }
+
+                if (errors.length > 0) {
+                    errorDiv.text(errors.join(" "));
+                    jQuery("input.filename").val("");
+                    this.value = "";
+                }
+            };
+        }
+    }
+
     jQuery(document).ready(function () {
         // Roster update modals
         jQuery(".promote-btn").on('click', renderPromoteModal);
         jQuery(".remove-btn").on('click', renderRemoveModal);
 
         // File check for logo upload
-        jQuery("#logoChooser").on('change', function() {
-            if(this.files.length === 0) {
-                return;
-            }
-
-            var uploadedFile = this.files[0];
-            var errorDiv = jQuery("#logoUploadError");
-            if(uploadedFile.type !== "image/png") {
-                errorDiv.text("File must be a png");
-                this.value = "";
-            }
-            if(uploadedFile.size >= 104857600){ // 100MB
-                errorDiv.text("File size must be under 100MB");
-                this.value = "";
-            };
-        });
+        jQuery("#logoChooser").on('change', validateLogoUpload);
         
     });
 
