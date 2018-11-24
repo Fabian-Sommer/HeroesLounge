@@ -40,13 +40,15 @@
                 <label class="input-group-btn form-control-label" style="height:40px">
                         <span class="btn btn-primary" type="button">
                             Browse..
-                            <input type="file" class="form-control" name="logo" style="display:none">
+                            <input type="file" accept="image/png" class="form-control" name="logo" style="display:none">
                         </span>
                     </label>
                 <input type="text" class="form-control" readonly="true">
             </div>
+            <div><small id="logoUploadError" class="text-danger"></small></div>
             <small id="shortLogoBlock" class="text-muted">
                 The Logo will be used to recognize your team even if no team name is shown.<br />
+                Image must be a PNG, under 100MB, and under 1280x1280 pixels.<br />
                 We suggest to take a square image e.g. 128x128 Pixel.
                 </small>
         </div>
@@ -59,13 +61,15 @@
                 <label class="input-group-btn form-control-label" style="height:40px">
                         <span class="btn btn-primary" type="button">
                             Browse..
-                            <input type="file" class="form-control" name="banner" style="display:none">
+                            <input type="file" accept="image/png" class="form-control" name="banner" style="display:none">
                         </span>
                     </label>
                 <input type="text" class="form-control" readonly="true">
             </div>
+            <div><small id="bannerUploadError" class="text-danger"></small></div>
             <small id="shortBannerBlock" class="text-muted">
                 The Banner will be used to spice up your Teams Profile Page.<br />
+                Image must be a PNG and under 100MB in size.<br />
                 We suggest to take a rectangular image e.g. 1000x250 Pixel.
                 </small>
         </div>
