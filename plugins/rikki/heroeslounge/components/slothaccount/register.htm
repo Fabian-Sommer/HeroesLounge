@@ -23,7 +23,7 @@
 
     <div class="form-group">
         <div class="alert alert-warning">
-            Registering for Heroes Lounge requires you to join our 
+            Registering for Heroes Lounge requires you to join our
             <a href="https://discordapp.com/invite/aePkBsZ">
                 Discord.
             </a> It may take several minutes until we verify that you have joined our server, so in case you can't register right away, please try again later.
@@ -53,7 +53,8 @@
     </div>
     <div class="form-group">
         <label for="registerRegion">Region</label><br>
-        <select name="region_id" id="registerRegion">
+        <select name="region_id" id="registerRegion" required>
+          <option value="0">select region</option selected>
             {% for region in __SELF__.regions %}
                 <option value="{{region.id}}">{{region.title}}</option>
             {% endfor %}
@@ -70,7 +71,7 @@
     <div class="form-group">
         <label for="newsletterCheckbox">Subscribe to our newsletter</label>
         <input name="newsletter_subscription" type="checkbox" id="newsletterCheckbox"/>
-        
+
     </div>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Register</button>
 
