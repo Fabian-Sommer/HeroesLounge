@@ -185,11 +185,14 @@
                     <label class="input-group-btn form-control-label" style="height:40px;display:grid">
                         <span class="btn btn-primary" type="button">
                             Browse..
-                            <input type="file" class="form-control" name="logo" style="display:none">
+                            <input type="file" accept="image/png" class="form-control" name="logo" style="display:none">
                         </span>
                     </label>
-                    <input type="text" class="form-control form-control-warning" readonly="true" aria-describedby="shortLogoBlock">
-                    <small class="text-muted">Uploading a new logo will replace your current logo.</small>
+                    <input type="text" class="form-control form-control-warning filename" readonly="true" aria-describedby="shortLogoBlock">
+                    <div><small id="logoUploadError" class="text-danger"></small></div>
+                    <small class="text-muted">Uploading a new logo will replace your current logo.<br />
+                    Image must be a PNG, under 100MB, and under 1280x1280 pixels.
+                    </small>
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Submit Logo</button> {{form_close()}}
             </div>
@@ -217,11 +220,13 @@
                     <label class="input-group-btn form-control-label" style="height:40px;display:grid">
                         <span class="btn btn-primary" type="button">
                             Browse..
-                            <input type="file" class="form-control" name="banner" style="display:none">
+                            <input type="file" accept="image/png" class="form-control" name="banner" style="display:none">
                         </span>
                     </label>
                     <input type="text" class="form-control form-control-warning" readonly="true" aria-describedby="shortBannerBlock">
-                    <small class="text-muted">Uploading a new banner will replace your current banner.</small>
+                    <div><small id="bannerUploadError" class="text-danger"></small></div>
+                    <small class="text-muted">Uploading a new banner will replace your current banner.<br/>
+                    Image must be a PNG and under 100MB in size.</small>
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Submit Banner</button> {{form_close()}}
             </div>
@@ -399,6 +404,7 @@
     }
 
     jQuery(document).ready(function () {
+        // Roster update modals
         jQuery(".promote-btn").on('click', renderPromoteModal);
         jQuery(".remove-btn").on('click', renderRemoveModal);
     });

@@ -23,6 +23,34 @@ jQuery(function() {
           }
 
       });
+
+      // Client-size checks for image uploaders
+      // Images must be PNG and under 100MB 
+      jQuery("input[type='file'][accept='image/png']").on('change', validateImageFileAndSize);
+
+      function validateImageFileAndSize() {
+          if (this.files.length === 0) {
+              return;
+          }
+          
+          var fieldName = jQuery(this).attr('name');
+          var errorDiv = jQuery(`#${fieldName}UploadError`);
+
+          var uploadedFile = this.files[0];
+          errorDiv.text("");
+          var errors = [];
+          if (uploadedFile.type !== "image/png") {
+              errors.push("File must be a PNG.");
+          }
+          if (uploadedFile.size > 104857600) {
+              errors.push("Size exceeds 100MB.");
+          }
+
+          if (errors.length > 0) {
+              errorDiv.text(errors.join(" "));
+              jQuery("input.filename").val("");
+              this.value = "";
+          }
+      }
   });
-  
 });
