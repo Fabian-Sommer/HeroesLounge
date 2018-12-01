@@ -9,14 +9,14 @@ secondaryTabs:
             tab: Misc
         schedule_date:
             label: 'Has to be scheduled until'
-            mode: date
+            mode: datetime
             span: auto
             readOnly: true
             tab: Misc
             type: datepicker
         tbp:
             label: 'To be played until'
-            mode: date
+            mode: datetime
             span: auto
             readOnly: true
             tab: Misc
