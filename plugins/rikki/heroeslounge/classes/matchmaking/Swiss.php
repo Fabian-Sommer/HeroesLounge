@@ -118,11 +118,13 @@ class Swiss
             $teamA = Teams::find($pairing[0]);
             $teamB = Teams::find($pairing[1]);
 
+            $timeoffset = ($teamA->region_id - 1)*36000;
+
             $match = new Match;
             $match->div_id = $div->id;
             $match->round = $div->season->current_round;
-            $match->schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 23:55'));
-            $match->tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 23:55'));
+            $match->schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 23:55')+$timeoffset);
+            $match->tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 23:55')+$timeoffset);
 
             $match->save();
             $match->teams()->save(Teams::find($pairing[0]));
