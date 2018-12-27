@@ -45,6 +45,18 @@ class PlayoffOverview extends ComponentBase
             } else if ($this->playoff->type == 'se16') {
                 $this->total_height = 43.9375;
                 $this->total_width = 60;
+            } else if ($this->playoff->type == 'se8' || $this->playoff->type == 'playoffv2') {
+                $this->total_height = 43.9375;
+                $this->total_width = 45;
+            } else if ($this->playoff->type == 'se32') {
+                $this->total_height = 43.9375;
+                $this->total_width = 75;
+            } else if ($this->playoff->type == 'se64') {
+                $this->total_height = 43.9375;
+                $this->total_width = 90;
+            } else if ($this->playoff->type == 'playoffv3') {
+                $this->total_height = 43.9375;
+                $this->total_width = 60;
             }
             $this->matches = [];
             $this->polylines = [];
@@ -190,11 +202,42 @@ class PlayoffOverview extends ComponentBase
                 $left = 5 * $round_width;
                 $top = 13.09375;
             }
-        } else if ($this->playoff->type == 'se16') {
+        } else if ($this->playoff->type == 'se16' || $this->playoff->type == 'se8' || $this->playoff->type == 'se32' || $this->playoff->type == 'se64' || $this->playoff->type == 'playoffv2') {
             //winners bracket only
             $left = $round_width * ($dec_position['round']-1);
             $diff = 4.625;
             $top = 2.6875 + (2**($dec_position['round']-1) - 1) * $diff / 2 + ($dec_position['matchnumber']-1) * $diff* 2**($dec_position['round']-1);
+        } else if ($this->playoff->type == 'playoffv3') {
+            if ($dec_position['bracket'] == 1) {
+                //winners bracket
+                $left = $round_width + (2 * $round_width * ($dec_position['round'] - 1));
+                $top = 2.6875;
+            } else if ($dec_position['bracket'] == 2) {
+                //losers bracket
+                $left = $round_width * ($dec_position['round'] - 1);
+                switch($dec_position['round']) {
+                    case 1:
+                        switch ($dec_position['matchnumber']) {
+                            case 1:
+                                $top = 7.5;
+                                break;
+                            case 2:
+                                $top = 12.125;
+                                break;
+                        }
+                        break;
+                    case 2:
+                        $top = 9.8125;
+                        break;
+                    case 3:
+                        $top = 6.8125;
+                        break;
+                }
+            } else if ($dec_position['bracket'] == 3) {
+                //finals
+                $left = 3 * $round_width;
+                $top = 5;
+            }
         }
         
         return ['left' => $left, 'top' => $top];
