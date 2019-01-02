@@ -85,4 +85,8 @@ class Match extends Controller
         return json_encode(Matchmodel::findOrFail($id)->casters);
     }
 
+    public function withApprovedCastSince($date)
+    {
+        return json_encode(MatchModel::whereDate('wbp','>',date($date));
+    }
 }

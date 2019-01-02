@@ -1,53 +1,117 @@
- {% if __SELF__.playoff is null%}
+{% if __SELF__.playoff is null%}
     We could not find a tournament with this title!
 {% else %}
     <h2>{{__SELF__.playoff.longTitle}}</h2>
-
-    <div class="col-md-12">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand">Stage</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#playoff_navigation"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                                </button>
-            <div class="collapse navbar-collapse" id="playoff_navigation">
-                <ul class="nav nav-tabs mr-auto">
-                    {% for division in __SELF__.playoff.divisions %}
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#{{division.slug}}">
-                            {{division.title}}
-                        </a>
-                    </li>
-                    {% endfor %}
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#knockout">
-                            Knockout Stage
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="tab-content">
-            {% for division in __SELF__.playoff.divisions %}
-            <div class="tab-pane" id="{{division.slug}}" role="tabpanel">
-                {% partial '@divisionView' div=division %}
+    {% if __SELF__.playoff.reg_open %}
+        <div class="col-md-12">
+            {% if __SELF__.user and __SELF__.user.sloth.is_captain and __SELF__.user.sloth.team and not __SELF__.userTeamSignedUp and __SELF__.user.sloth.team.region_id == __SELF__.playoff.region_id %}
+                Your team is not signed up for the tournament.<br>
+                <button type="button" 
+                        class="btn btn-sm btn-secondary center"
+                        onclick="$(this).data('request-data')"
+                        data-request="onTeamSignup">
+                    Sign up now!
+                </button>
+            {% endif %}
+        </div>
+        <h3 class="center">Participants</h3>
+        <div class="col-md-12">
+            {% for teamBatch in __SELF__.playoff.teams | batch(2) %}
+            <div class="card-deck mb-3">
+                {% for team in teamBatch %}
+                <div class="card mb-2">
+                    {% if team.logo %}
+                    <div style="height:200px; position:relative; display:inline-block;overflow:hidden">
+                        <img class="card-img-top img-fluid rounded" style="position:absolute;top:50%;display:block;left:50%;-webkit-transform: translate(-50%, -50%);max-height:200px;width:auto;"
+                            src="{{team.logo.path}}" alt="{{team.title}} Logo" title="{{team.title}} Logo">
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h4 class="card-title text-center">
+                            <a href="{{ 'team/view' | page({slug: team.slug})}}">{{team.title}}</a>
+                        </h4>
+                        <div class="card-text">
+                            {% for slothBatch in team.sloths | batch(2) %}
+                            <div class="row">
+                                {% for sloth in slothBatch %}
+                                <a href="{{ 'user/view' | page({id: sloth.user.id})}}" class="col-md-6 mb-2" title="{{sloth.title}} Profile">
+                                            {% if sloth.role  %} {%  set path = 'assets/img/roles/' ~sloth.role.title|replace({' ':'-'})|lower ~ '.svg'  %}
+                                                    <img src="{{path | theme}}" class="mr-2 rounded" title="{{sloth.role.title}}" alt="{{sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:#2e93cd"/>
+                                            {% endif %}
+                                            {% if sloth.is_captain %}
+                                                <i class="fa fa-star blue-icon" title="Captain"></i>
+                                            {% endif %}
+                                            {{sloth.title}}
+                                        </a> {% endfor %}
+                            </div>
+                            {% endfor %}
+                            {% if team.short_description %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6>Team Description:</h6>
+                                    <p class="lead">
+                                        {{team.short_description | raw}}
+                                    </p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
             {% endfor %}
-            
-
-            <div class="tab-pane active" id="knockout" role="tabpanel">
-
-            </div>
         </div>
-    </div>
+    {% else %}
 
-    {% put scripts %}
-    <script type="text/javascript">
-    jQuery(document).ready(function() {
-        jQuery.request('{{__SELF__}}::onMyRender', {
-            data: {time: -new Date().getTimezoneOffset()/60, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone}
-        })
-    });
-    </script>
-    {% endput %}
+        <div class="col-md-12">
+            {% if __SELF__.playoff.divisions %}
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand">Stage</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#playoff_navigation"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                    </button>
+                <div class="collapse navbar-collapse" id="playoff_navigation">
+                    <ul class="nav nav-tabs mr-auto">
+                        {% for division in __SELF__.playoff.divisions %}
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#{{division.slug}}">
+                                {{division.title}}
+                            </a>
+                        </li>
+                        {% endfor %}
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#knockout">
+                                Knockout Stage
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            {% endif %}
+            {% if __SELF__.playoff.divisions %}<div class="tab-content">{% endif %}
+                {% for division in __SELF__.playoff.divisions %}
+                <div class="tab-pane" id="{{division.slug}}" role="tabpanel">
+                    {% partial '@divisionView' div=division %}
+                </div>
+                {% endfor %}
+                
+
+                <div {% if __SELF__.playoff.divisions %} class="tab-pane active" role="tabpanel" {% endif %} id="knockout">
+
+                </div>
+            {% if __SELF__.playoff.divisions %}</div>{% endif %}
+        </div>
+
+        {% put scripts %}
+        <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery.request('{{__SELF__}}::onMyRender', {
+                data: {time: -new Date().getTimezoneOffset()/60, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone}
+            })
+        });
+        </script>
+        {% endput %}
+    {% endif %}
 {% endif %}

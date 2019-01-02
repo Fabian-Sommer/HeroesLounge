@@ -7,6 +7,8 @@ use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Playoff;
 use Redirect;
 use Flash;
+use Log;
+use Auth;
 
 class PlayoffOverview extends ComponentBase
 {
@@ -20,25 +22,33 @@ class PlayoffOverview extends ComponentBase
     public $season = null;
     public $playoff = null;
     public $matches = null;
+    public $user = null;
+    public $userTeamSignedUp = true;
     public $polylines = null;
     public $match_height = 3.875;
     public $match_width = 13;
     public $width_between_matches = 2;
-    public $total_width = 105; //TODO
-    public $total_height = 43.9375; //TODO
+    public $total_width = 105;
+    public $total_height = 43.9375;
 
     public function init()
     {
+        $this->user = Auth::getUser();
+
         if ($this->param('season-slug')) {
             $this->season = Season::where('slug',$this->param('season-slug'))->first();
             if ($this->season) {
                 $this->playoff = $this->season->playoffs()->where('title',$this->param('playoff-title'))->first();
             }
         } else {
-            $this->playoff = Playoff::where('title',$this->param('playoff-title'))->first();
+            $this->playoff = Playoff::where('slug',$this->param('playoff-title'))->first();
         }
         
         if ($this->playoff) {
+            if ($this->user && $this->user->sloth->team && !$this->playoff->teams->contains($this->user->sloth->team)) {
+                $this->userTeamSignedUp = false;
+            }
+
             if ($this->playoff->type == 'playoffv1') {
                 $this->total_height = 43.9375;
                 $this->total_width = 105;
@@ -275,5 +285,22 @@ class PlayoffOverview extends ComponentBase
         $line[] = $first_x.','.$third_y;
         $line[] = $third_x.','.$third_y;
         $this->polylines[] = $line;
+    }
+
+    public function onTeamSignup()
+    {
+        if ($this->user != null) {
+            $team = $this->user->sloth->team;
+            if ($team != null && $this->user->sloth->is_captain && $team->region_id == $this->playoff->region_id && !$this->playoff->teams->contains($team)) {
+                if ($team->sloths->count() >= 5) {
+                    $this->playoff->teams()->add($team);
+                    Flash::success('Your team is now signed up for '.$this->playoff->title);
+                    return Redirect::refresh();
+                } else {
+                    Flash::error('Your team must contain at least 5 players!');
+                    return Redirect::refresh();
+                }
+            }
+        }
     }
 }

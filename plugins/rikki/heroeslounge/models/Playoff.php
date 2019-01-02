@@ -9,12 +9,15 @@ class Playoff extends Model
 {
     public $table = 'rikki_heroeslounge_playoffs';
 
+    protected $slugs = ['slug' => 'title'];
+
     public $belongsTo = [
         'season' => [
             'Rikki\Heroeslounge\Models\Season',
             'key' => 'season_id',
             'otherKey' => 'id'
-		]
+		],
+        'region' => ['Rikki\Heroeslounge\Models\Region']
     ];
 
     public $hasMany = [

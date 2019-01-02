@@ -4,11 +4,23 @@ fields:
         span: auto
         required: 1
         type: text
+    slug:
+        label: slug
+        type: text
+        required: 1
+        preset:
+            field: title
+            type: slug
     type:
         label: Type
         span: auto
         required: 1
         type: text
+    region:
+        label: Region
+        required: 1
+        nameFrom: title
+        type: relation
     divisions:
         label: 'Assigned Groups (Divisions)'
         nameFrom: title
@@ -22,3 +34,6 @@ fields:
         span: auto
         type: relation
         emptyOption: None
+    reg_open:
+        label: 'Signups open'
+        type: checkbox
