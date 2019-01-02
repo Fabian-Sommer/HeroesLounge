@@ -234,6 +234,9 @@ class SlothAccount extends UserAccount
             $sloth->save();
             $this->user = $user;
 
+            IDFetcher::fetchID($sloth);
+            MMRFetcher::updateMMR($sloth);
+
             /*
               Assign EU or NA role on Discord based on region_id.
               region_id = 1: EU

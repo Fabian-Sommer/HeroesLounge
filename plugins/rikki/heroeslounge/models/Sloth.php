@@ -160,8 +160,6 @@ class Sloth extends Model
         if (!empty($this->team_id)) {
             $this->_saveTimelineEntry('Sloth.Joins.Team');
         }
-        IDFetcher::fetchID($this);
-        MMRFetcher::updateMMR($this);
     }
     
     public function beforeUpdate()
