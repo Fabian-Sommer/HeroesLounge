@@ -69,7 +69,6 @@
                                 <a class="dropdown-item" href="{{ item.url }}"><i class="fa fa-circle" aria-hidden="true"></i> {{item.title}}</a>
                             {% endfor %}
                             <a class="dropdown-item" href="{{ 'general/staff' | page }}"><i class="fa fa-users" aria-hidden="true"></i> Staff</a>
-                            <a class="dropdown-item" href="{{ 'general/credits' | page }}"><i class="fa fa-star" aria-hidden="true"></i> Credits</a>
                             {% if can('cast_matches') %}
                             <a class="dropdown-item" href="{{ 'general/casterstatistics' | page}}"><i class="fa fa-table" aria-hidden="true"></i> Caster Statistics</a>
                             {% endif %}
