@@ -3,6 +3,7 @@
 use Backend\Classes\Controller;
 use Rikki\Heroeslounge\Models\Match as MatchModel;
 use Rikki\Heroeslounge\Models\Game as GameModel;
+use Log;
 use Carbon\Carbon;
 /**
  * Match Back-end Controller
@@ -85,8 +86,12 @@ class Match extends Controller
         return json_encode(Matchmodel::findOrFail($id)->casters);
     }
 
-    public function withApprovedCastSince($date)
+    public function withApprovedCastBetween($startdate, $enddate)
     {
-        return json_encode(MatchModel::whereDate('wbp','>',date($date));
+        return json_encode(MatchModel::whereDate('wbp','>=',date($startdate))->whereDate('wbp','<=',date($enddate))->get()->filter(function ($match) {
+            return !$match->getAcceptedCasters()->isEmpty();
+        })->each(function ($match, $key) {
+            return [$match, $match->division, $match->playoff, $match->teams, $match->getAcceptedCasters()];
+        }));
     }
 }

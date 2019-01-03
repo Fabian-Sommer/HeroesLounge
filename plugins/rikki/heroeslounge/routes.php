@@ -28,7 +28,7 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::get('slothDiscordId/{discord_id}', 'Rikki\Heroeslounge\Http\Sloth@byDiscordId');
     Route::get('matches/{id}/teams','Rikki\Heroeslounge\Http\Match@teams');
     Route::get('matches/{id}/caster','Rikki\Heroeslounge\Http\Match@caster');
-    
+    Route::get('matches/withApprovedCastBetween/{startdate}/{enddate}','Rikki\Heroeslounge\Http\Match@withApprovedCastBetween');
     Route::get('matches/{id}/games','Rikki\Heroeslounge\Http\Match@games');
     Route::get('matches/{id}/replays','Rikki\Heroeslounge\Http\Match@replays');
     Route::get('matches/today','Rikki\Heroeslounge\Http\Match@getTodaysMatches');

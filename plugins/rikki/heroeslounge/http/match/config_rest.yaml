@@ -16,5 +16,6 @@ allowedActions:
   games:
   getTodaysMatches:
   caster:
+  withApprovedCastSince:
 # Model Class name
 modelClass: Rikki\Heroeslounge\Models\Match
