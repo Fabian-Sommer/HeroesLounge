@@ -22,6 +22,7 @@ class UpcomingMatches extends ComponentBase
     public $showName = false;
     public $showCasters = false;
     public $idApp = "";
+    public $eid = 0;
 
     public function componentDetails()
     {
@@ -44,13 +45,18 @@ class UpcomingMatches extends ComponentBase
         $this->showName = ($this->property('showName') == true) ? true : false;
         $this->showCasters = ($this->property('showCasters') == true) ? true : false;
         $this->idApp = $this->property("casterFilter");
+        $this->eid = $this->property('id');
+        
     }
 
-    public function collectMatches($timezoneName)
+    public function collectMatches($timezoneName, $id)
     {
+        $this->showLogo = ($this->property('showLogo') == true) ? true : false;
+        $this->showName = ($this->property('showName') == true) ? true : false;
+        $this->showCasters = ($this->property('showCasters') == true) ? true : false;
         $this->idApp = $this->property("casterFilter");
         $type = $this->property('type');
-        $id = $this->property('id');
+        
         $daysInFuture = $this->property('daysInFuture');
         $casterFilter = $this->property('casterFilter');
         $myData = null;
@@ -111,7 +117,7 @@ class UpcomingMatches extends ComponentBase
         }
         $this->idApp = $this->property("casterFilter");
         if ($this->idApp != "accepted" && $this->idApp != "denied") {
-            $this->collectMatches($timezoneName);
+            $this->collectMatches($timezoneName, $_POST['id']);
 
         
             $containerId = "#upcomingMatches".$this->idApp;
@@ -134,7 +140,7 @@ class UpcomingMatches extends ComponentBase
         }
         $this->idApp = $this->property("casterFilter");
         if ($this->idApp == "accepted") {
-            $this->collectMatches($timezoneName);
+            $this->collectMatches($timezoneName, $_POST['id']);
         
         
             $containerId = "#upcomingMatches".$this->idApp;
@@ -159,7 +165,7 @@ class UpcomingMatches extends ComponentBase
 
         if ($this->idApp == "denied") {
 
-            $this->collectMatches($timezoneName);
+            $this->collectMatches($timezoneName, $_POST['id']);
         
             $containerId = "#upcomingMatches".$this->idApp;
             return [

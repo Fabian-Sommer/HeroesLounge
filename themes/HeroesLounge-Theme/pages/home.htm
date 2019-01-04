@@ -2,6 +2,16 @@ title = "Home"
 url = "/"
 layout = "clean"
 is_hidden = 0
+contentType = "html"
+force_show = 0
+
+[UpcomingMatches]
+daysInFuture = 14
+showLogo = 1
+showName = 1
+showCasters = 1
+type = "team"
+casterFilter = "off"
 ==
 {% if user %}
 <div class="container">
@@ -10,7 +20,12 @@ is_hidden = 0
     {% partial 'user/posts' %}
         {% partial 'user/notifications' %}
         {% partial 'user/standings' %}
-        {% partial 'user/matches' %}
+        {% if user.sloth.team %}
+            <div class="col-md-6 col-12">
+        	<h3>Your Upcoming Matches</h3>
+            {% component 'UpcomingMatches' id = user.sloth.team.id %}
+            </div>
+        {% endif %}
         {% partial 'user/recentResults' %}
         {% partial 'user/timeline' %}
     </div>

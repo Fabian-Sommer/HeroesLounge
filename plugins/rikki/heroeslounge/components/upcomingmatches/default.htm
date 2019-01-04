@@ -4,7 +4,7 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
     jQuery.request('{{__SELF__}}::onMyRender', {
-        data: {time: -new Date().getTimezoneOffset()/60, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone}
+        data: {time: -new Date().getTimezoneOffset()/60, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, id: "{{__SELF__.eid}}" }
     })
 });
 </script>
@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
 <script type="text/javascript">
 jQuery(document).ready(function() {
     jQuery.request('{{__SELF__}}::onMyRenderAcceptedCasts', {
-        data: {time: -new Date().getTimezoneOffset()/60, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone}
+        data: {time: -new Date().getTimezoneOffset()/60, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, id: "{{__SELF__.eid}}" }
     })
 });
 </script>
@@ -26,7 +26,7 @@ jQuery(document).ready(function() {
 <script type="text/javascript">
 jQuery(document).ready(function() {
     jQuery.request('{{__SELF__}}::onMyRenderDeniedCasts', {
-        data: {time: -new Date().getTimezoneOffset()/60, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone}
+        data: {time: -new Date().getTimezoneOffset()/60, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, id: "{{__SELF__.eid}}" }
     })
 });
 </script>

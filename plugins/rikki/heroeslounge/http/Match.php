@@ -91,7 +91,7 @@ class Match extends Controller
         return json_encode(MatchModel::whereDate('wbp','>=',date($startdate))->whereDate('wbp','<=',date($enddate))->get()->filter(function ($match) {
             return !$match->getAcceptedCasters()->isEmpty();
         })->each(function ($match, $key) {
-            return [$match, $match->division, $match->playoff, $match->teams, $match->getAcceptedCasters()];
+            return [$match, $match->channel, $match->division, $match->playoff, $match->teams, $match->getAcceptedCasters()];
         }));
     }
 }

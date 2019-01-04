@@ -46,7 +46,8 @@ class DivisionOverview extends ComponentBase
                         'showLogo'          => true,
                         'showName' => false,
                         'showCasters' => false,
-                        'type' => 'division'
+                        'type' => 'division',
+                        'id' => $this->div->id
                     ]
                 );
                 $component = $this->addComponent(
