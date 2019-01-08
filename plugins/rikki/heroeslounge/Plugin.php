@@ -13,6 +13,7 @@ use Rikki\Heroeslounge\Models\Match as MatchModel;
 use Rikki\Heroeslounge\Models\Game as Games;
 use Rikki\Heroeslounge\Models\Map as Maps;
 use Rikki\Heroeslounge\Models\Season as Seasons;
+use Rikki\Heroeslounge\Models\Division as Divisions;
 use Rikki\Heroeslounge\classes\Matchmaking\Swiss;
 use Rikki\Heroeslounge\classes\MMR as MMR;
 use Rikki\Heroeslounge\classes\hotslogs as hotslogs;
@@ -86,7 +87,7 @@ class Plugin extends PluginBase
                 $mm->prepare($s);
             });
         })->weekly()->mondays()->at('10:00');
-        
+
         $schedule->call(function () {
             MMR\MMRFetcher::updateMMRs();
         })->dailyAt('3:00');

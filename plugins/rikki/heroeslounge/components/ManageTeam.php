@@ -272,7 +272,7 @@ class ManageTeam extends ComponentBase
 
             return Redirect::refresh();
         } else {
-            Flash::warning('Your roster is locked bud..');
+            Flash::warning('Your roster is locked.');
             return Redirect::refresh();
         }
     }

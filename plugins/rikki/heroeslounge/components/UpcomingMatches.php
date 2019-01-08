@@ -112,12 +112,17 @@ class UpcomingMatches extends ComponentBase
             $timezoneName = $_POST['timezone'];
         }
 
+        $id = 0;
+        if (isset($_POST['id'])) {
+            $id = $_POST['id'];
+        }
+
         if (!in_array($timezoneName, timezone_identifiers_list())) {
             $timezoneName = "Europe/Berlin";
         }
         $this->idApp = $this->property("casterFilter");
         if ($this->idApp != "accepted" && $this->idApp != "denied") {
-            $this->collectMatches($timezoneName, $_POST['id']);
+            $this->collectMatches($timezoneName, $id);
 
         
             $containerId = "#upcomingMatches".$this->idApp;
