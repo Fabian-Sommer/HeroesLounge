@@ -60,18 +60,18 @@
                 </select>
             </div>
             {% endif %}
-            {% set checked = '0' %} 
-                {% for season in __SELF__.seasons %} 
-                    {% for team in season.teams %} 
-                        {% if team.id == __SELF__.team.id %} 
-                            {% set checked = '1' %} 
-                        {% endif %} 
+            {% set checked = '0' %}
+                {% for season in __SELF__.seasons %}
+                    {% for team in season.teams %}
+                        {% if team.id == __SELF__.team.id %}
+                            {% set checked = '1' %}
+                        {% endif %}
                     {% endfor %}
             <div class="form-check{% if season.reg_open == 0 or user.sloth.team.sloths | length == 1%} disabled has-danger{% endif %}">
                 <label class="form-check-label">
                 <input type="checkbox" class="form-check-input" {% if season.reg_open == 0 or user.sloth.team.sloths | length  == 1%}disabled{% endif %} name="part_seas_{{season.id}}"  {% if checked == '1' %}checked{% endif %} >
                 {{season.title}}
-                </label> 
+                </label>
                 {% if season.reg_open == 0 or user.sloth.team.sloths | length == 1  %}
                 <small class="form-control-feedback">
                 {% if user.sloth.team.sloths | length == 1 %}
@@ -106,7 +106,7 @@
             <small class="text-muted">
                 You are able to search for username, battletag or discordtag. Autocomplete will suggest usernames based of your search entry (minimum of 3 characters).
             </small>
-            
+
             <div class="row">
                 <div class="input-group col-md-4 col-sm-12 mb-3">
                     <label for="captain" class="sr-only">Captain</label>
@@ -133,7 +133,7 @@
                             style="height:20px;width:20px;background-color:#2e93cd"> {% else
                         %} {{idx + 2}} {% endif %}
                     </div>
-                    <input class="form-control autocomplete" placeholder="Sloth {{idx + 2}}" name="sl2" type="text" value="{{__SELF__.players[idx].user.username}}"
+                    <input class="form-control autocomplete" placeholder="Sloth {{idx + 2}}" name="sl{{idx + 2}}" type="text" value="{{__SELF__.players[idx].user.username}}"
                     {% if not __SELF__.players[idx].user and not __SELF__.rosterLocked %}>
                     {% else %} disabled>
                     {% endif %}
@@ -389,7 +389,7 @@
         var playerName = jQuery(this).data('playerName');
         jQuery('.modal-title').text(`Promote ${playerName}`);
         jQuery('.modal-body .alert').text(`Do you want to remove yourself from the captain role and make ${playerName} captain for {{__SELF__.team.title}}?`);
-        
+
         jQuery('.modal-footer .btn-primary').attr('data-request', "{{__SELF__}}::onPromoteMemberToCaptain");
         jQuery('.modal-footer .btn-primary').attr('data-request-data', `promote: '${playerName}'`);
     }
@@ -398,7 +398,7 @@
         var playerName = jQuery(this).data('playerName');
         jQuery('.modal-title').text(`Remove ${playerName}`);
         jQuery('.modal-body .alert').text(`Do you want to remove ${playerName} from your roster?`);
-        
+
         jQuery('.modal-footer .btn-primary').attr('data-request', "{{__SELF__}}::onMemberRemove");
         jQuery('.modal-footer .btn-primary').attr('data-request-data', `remove: '${playerName}'`);
     }
