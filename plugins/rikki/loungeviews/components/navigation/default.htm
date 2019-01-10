@@ -39,7 +39,16 @@
                         <a class="nav-link" href="{{  url('blog')}}">Blog</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="seasons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Seasons</a>
+                        <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Division S</a>
+                        <div class="dropdown-menu" aria-labelledby="divsnav" role="menu">
+                            <a class="dropdown-item" href="{{ 'divisionS/general' | page }}">FAQ</a>
+                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-1'})}}"></i> EU Qualifiers</a>
+                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-1'})}}"></i> NA Qualifiers</a>
+                            <a class="dropdown-item" href="http://crowdfunding.heroeslounge.gg"></i> Crowdfunding</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="seasons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Amateur Series</a>
                         <ul role="menu" class="dropdown-menu pull-right">
                             {% for season in __SELF__.seasons %} {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
                             <li class="nav-item dropdown-submenu">
@@ -75,7 +84,7 @@
                         </div>
                     </li>
                     {% if user %} 
-                        {% if __SELF__.sloth.team_id == 0 %}
+                        {% if __SELF__.sloth.team_id == 0 or __SELF__.sloth.divs_team_id == 0 %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ 'team/create' | page}}">Create Team</a>
                         </li>

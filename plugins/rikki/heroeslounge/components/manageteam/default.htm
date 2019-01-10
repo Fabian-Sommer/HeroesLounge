@@ -1,4 +1,4 @@
-{% if __SELF__.user.sloth.is_captain == 1 and __SELF__.user.sloth.team_id == __SELF__.team.id %}
+{% if (__SELF__.user.sloth.is_captain == 1 and __SELF__.user.sloth.team_id == __SELF__.team.id) or (__SELF__.user.sloth.is_divs_captain == 1 and __SELF__.user.sloth.divs_team_id == __SELF__.team.id) %}
 <nav class="navbar navbar-expand-lg navbar-light col-12">
     <div class="navbar-header">
         <a class="navbar-brand d-lg-none">Manage Team</a>
@@ -51,6 +51,7 @@
     <div class="tab-pane active" id="general" role="tabpanel">
         <!-- START PARTICIPATION -->
         <h3>Participation</h3>
+        {%   if __SELF__.team.type == 1 %}
         <form>
             {% if __SELF__.team.region_id == 2 %}
             <div>
@@ -84,7 +85,9 @@
             {% set checked = '0' %} {% endfor %}
             <button type="submit" class="btn btn-primary mt-2" data-request="{{__SELF__}}::onParticipationSave">Update Participation</button>
         </form>
-
+        {% else %}
+            To participate in Division S, go to the qualifier tournament page.
+        {% endif %}
         <hr class="separator">
         <!-- END PARTICIPATION -->
 
@@ -104,7 +107,7 @@
                 </label>
             </div>
             <small class="text-muted">
-                You are able to search for username, battletag or discordtag. Autocomplete will suggest usernames based of your search entry (minimum of 3 characters).
+                To invite players into your team, enter their username and press 'Update Roster'.
             </small>
             
             <div class="row">
@@ -125,7 +128,7 @@
 
                 {% for idx in 0..7 %}
                 <div class="input-group col-md-4 col-sm-12 mb-3">
-                    <label for="captain" class="sr-only">Sloth {{idx + 2}}</label>
+                    <label for="captain" class="sr-only">Player {{idx + 2}}</label>
                     <div class="input-group-addon">
                         {% if __SELF__.players[idx].role %} {% set path = 'assets/img/roles/' ~__SELF__.players[idx].role.title|replace({' ':'-'})|lower
                         ~ '.svg' %}
@@ -133,7 +136,7 @@
                             style="height:20px;width:20px;background-color:#2e93cd"> {% else
                         %} {{idx + 2}} {% endif %}
                     </div>
-                    <input class="form-control autocomplete" placeholder="Sloth {{idx + 2}}" name="sl2" type="text" value="{{__SELF__.players[idx].user.username}}"
+                    <input class="form-control autocomplete" placeholder="Player {{idx + 2}}" name="sl{{idx + 2}}" type="text" value="{{__SELF__.players[idx].user.username}}"
                     {% if not __SELF__.players[idx].user and not __SELF__.rosterLocked %}>
                     {% else %} disabled>
                     {% endif %}

@@ -19,7 +19,7 @@ use Exception;
 use RainLab\User\Components\Account as UserAccount;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Rikki\Heroeslounge\Models\Season;
-
+use Rikki\Heroeslounge\Models\Team;
 class SideNav extends UserAccount
 {
     public function componentDetails()
@@ -52,9 +52,14 @@ class SideNav extends UserAccount
 
     public function onLeaveTeam()
     {
-        if($this->sloth)
+        $this->user = Auth::getUser();
+        if ($this->user != null) 
         {
-            $this->sloth->leaveTeam();
+            $this->sloth = $this->user->sloth;
+        }
+        if($this->sloth && isset($_POST['team_id']))
+        {
+            $this->sloth->leaveTeam(Team::findOrFail($_POST['team_id']));
             return Redirect::refresh();
         }
     }

@@ -40,6 +40,11 @@ class Sloth extends Model
                 'key' => 'team_id',
                 'otherKey' => 'id'
             ],
+            'divs_team' => [
+                'Rikki\Heroeslounge\Models\Team',
+                'key' => 'divs_team_id',
+                'otherKey' => 'id'
+            ],
             'user' => ['RainLab\User\Models\User'],
             'role' => [
                 'Rikki\Heroeslounge\Models\SlothRole'
@@ -126,25 +131,40 @@ class Sloth extends Model
         return $sloth;
     }
 
-    public function leaveTeam()
+    public function leaveTeam($team)
     {
-        if($this->is_captain == false)
+        if($this->isCaptain($team) == false)
         {
-            if($this->team_id > 0)
-            {
-                $title = $this->team->title;
-                $this->team_id = 0;
-                $this->save();
-                Flash::success('Succesfully left '.$title);
+            if ($team->type == 1) {
+                if($this->team_id > 0)
+                {
+                    $title = $team->title;
+                    $this->team_id = 0;
+                    $this->save();
+                    Flash::success('Succesfully left '.$title);
+                }
+                else
+                {
+                     Flash::error('You don\'t belong to this team!');
+                }
+            } else {
+                if($this->divs_team_id > 0)
+                {
+                    $title = $team->title;
+                    $this->divs_team_id = 0;
+                    $this->save();
+                    Flash::success('Succesfully left '.$title);
+                }
+                else
+                {
+                     Flash::error('You don\'t belong to this team!');
+                }
             }
-            else
-            {
-                 Flash::error('You don\'t belong to a team!');
-            }
+            
         }
         else
         {
-            Flash::error('You are the captain of your team and cannot leave it');
+            Flash::error('You are the captain of this team and cannot leave it');
         }
     }
 
@@ -152,6 +172,15 @@ class Sloth extends Model
     public function getTitleAttribute($value)
     {
         return $this->user->username;
+    }
+
+    public function isCaptain($team)
+    {
+        if ($team->type == 1) {
+            return $this->is_captain;
+        } else {
+            return $this->is_divs_captain;
+        }
     }
     
     public function afterCreate()
@@ -165,12 +194,11 @@ class Sloth extends Model
     public function beforeUpdate()
     {
         if ($this->isDirty('team_id')) {
-            if (!empty($this->team_id) && !$this->is_captain) {
-            } elseif (empty($this->team_id) or $this->team_id == 0) {
-                $this->_saveTimelineEntry('Sloth.Left.Team');
-            }
             if ($this->team_id == 0) {
                 $this->is_captain = false;
+            }
+            if ($this->divs_team_id == 0) {
+                $this->is_divs_captain = false;
             }
             MailChimpAPI::patchExistingUser($this->user);
         }

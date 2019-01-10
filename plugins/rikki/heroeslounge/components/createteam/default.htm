@@ -1,4 +1,4 @@
-{% if __SELF__.user != null and __SELF__.user.sloth.team_id == 0 %} {{form_open({request: 'onCreateTeam', files:true})}}
+{% if __SELF__.user != null and (__SELF__.user.sloth.team_id == 0 or __SELF__.user.sloth.divs_team_id == 0) %} {{form_open({request: 'onCreateTeam', files:true})}}
 <div class="col-12">
     <div class="row">
         <!-- START TEAMNAME -->
@@ -19,6 +19,14 @@
 
     </div>
     <div class="row">
+        <div class="col-md-6">
+            <h3>Type</h3>
+            <label for="registerType" class="sr-only">Type</label>
+            <select name="type" id="registerType">
+                {% if __SELF__.user.sloth.divs_team_id == 0 %}<option value="2">Division S</option>{%endif%}
+                {% if __SELF__.user.sloth.team_id == 0 %}<option value="1">Amatuer Series</option>{%endif%}
+            </select>
+        </div>
         <div class="col-md-6">
             <h3>Region</h3>
             <label for="registerRegion" class="sr-only">Region</label>
@@ -131,8 +139,7 @@
     <h1 class="display-3">Hello {{__SELF__.user.username}}!</h1>
     {% if __SELF__.user.sloth.team_id > 0 %}
     <p class="lead">
-        You cheeky lil' sloth already belong to a team, so you can't create one<br/>
-        <br/> ..But you may try again later.
+        You already belong to a team, so you cannot create one.
     </p>
 
     {% else %}

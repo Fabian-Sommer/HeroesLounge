@@ -41,8 +41,6 @@ class CreateTeam extends ComponentBase
         $this->regions = Region::all();
         if ($this->user == null) {
             Flash::error('You are not authenticated!');
-        } elseif (Sloths::getFromUser($this->user)->team_id != 0 && Sloths::getFromUser($this->user)->team_id != null) {
-            Flash::error('You already belong to a team!');
         }
     }
     public function onRun()
@@ -68,10 +66,16 @@ class CreateTeam extends ComponentBase
                     $this->team->title = post('team_name');
                     $this->team->slug = post('team_slug');
                     $this->team->region_id = post('region_id');
+                    $this->team->type = post('type');
                     $this->team->disbanded = false;
                     $this->team->save();
-                    $this->user->sloth->team_id = $this->team->id;
-                    $this->user->sloth->is_captain = 1;
+                    if (post('type') == 1) {
+                        $this->user->sloth->team_id = $this->team->id;
+                        $this->user->sloth->is_captain = 1;
+                    } else {
+                        $this->user->sloth->divs_team_id = $this->team->id;
+                        $this->user->sloth->is_divs_captain = 1;
+                    }
                     $this->user->sloth->save();
                     $timeline = new Timeline();
                     $timeline->type = 'Team.Created';
@@ -83,8 +87,6 @@ class CreateTeam extends ComponentBase
                     $this->onRosterSave();
                     $this->onDescriptionSave();
                     $this->onSocialSave();
-                    $this->user->sloth->seasons()->detach();
-
 
                     $pendingApps = Applications::where("user_id", $this->user->id)->where("team_id", "!=", $this->team->id)->get();
 

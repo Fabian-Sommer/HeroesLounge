@@ -32,7 +32,6 @@ class Navigation extends UserAccount
 
     public $user = null;
     public $sloth = null;
-    public $hasMatches = false;
     public $seasons = null;
 
     public function init()
@@ -44,9 +43,6 @@ class Navigation extends UserAccount
         $this->seasons = Season::orderBy('created_at','desc')->get();
         if ($this->user != null) {
             $this->sloth = SlothModel::getFromUser($this->user);
-            if ($this->user->sloth->is_captain && !is_null($this->user->sloth->team) && !empty($this->user->sloth->team->matches())) {
-                $hasMatches = true;
-            }
         }
         $component = $this->addComponent(
             'RainLab\Pages\Components\StaticMenu',

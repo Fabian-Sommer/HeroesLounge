@@ -1,3 +1,86 @@
+<h2> Division S </h2>
+
+{%  if __SELF__.sloth.divs_team_id <= 0  %}
+<table class="table">
+	
+	<thead>
+		<tr>
+		<th>Team</th>
+		<th>Approved</th>
+		<th>View Application</th>
+		<th>Accept Invite</th>
+		<th>Withdraw Application</th>
+		</tr>
+	</thead>
+
+{%  for app in __SELF__.divSApps  %}
+	<tr>
+		<td>{{ __SELF__.divSTeams[app.team_id].title }}</td>
+		<td>{%  if app.approved == 0  %}No{%  else  %}Yes{%  endif  %}</td>
+			<td><a href="{{ 'application/view' | page({id: app.id})}}">View Application</a></td>
+			<td>
+				{%  if app.approved == 1  %}
+					<div data-request-data="id: {{ app.id }}">
+						<button data-request="onAccept" class="btn btn-primary">Accept Invite</button>
+					</div>
+				{%  endif  %}
+			</td>
+			<td>
+				<div data-request-data="id: {{ app.id }}">
+					<button data-request="onWithdraw" class="btn btn-warning">Withdraw Application</button>
+				</div>
+			</td>
+		</div>
+	</tr>
+{%  endfor  %}
+
+</table>
+
+{%  else  %}
+	<table class="table">
+		<thead>
+			<tr>
+			<th>Username</th>
+			<th>Status</th>
+			<th>View Application</th>
+			{%  if __SELF__.sloth.is_divs_captain == 1  %}
+			<th>Accept Application</th>
+			<th>Decline Application</th>
+			{%  endif  %}
+			</tr>
+		</thead>
+
+	{%  for app in __SELF__.divSApps  %}
+		<tr>
+			<td>{{ __SELF__.divSUsers[app.user_id].title }}</td>
+			<td>{%  if app.approved == 0  %}Unaccepted{%  else  %}Invite pending{%  endif  %}</td>
+				<td><a href="{{ 'application/view' | page({id: app.id})}}">View Application</a></td>
+				{%  if __SELF__.sloth.is_divs_captain == 1  %}
+				<td>
+					{%  if app.approved == 0  %}
+						<div data-request-data="id: {{ app.id }}">
+							<button data-request="onSendAccept" class="btn btn-primary">Accept Application</button>
+						</div>
+					{%  else  %}
+						<span>Application accepted</span>
+					{%  endif  %}
+				</td>
+				<td>
+					<div data-request-data="id: {{ app.id }}">
+						<button data-request="onWithdraw" class="btn btn-danger">Decline Application</button>
+					</div>
+				</td>
+				{%  endif  %}
+			</div>
+		</tr>
+	{%  endfor  %}
+
+	</table>
+
+{%  endif  %}
+
+<h2> Amateur Series </h2>
+
 {%  if __SELF__.sloth.team_id <= 0  %}
 <table class="table">
 	
@@ -21,11 +104,13 @@
 					<div data-request-data="id: {{ app.id }}">
 						<button data-request="onAccept" class="btn btn-primary">Accept Invite</button>
 					</div>
-				{%  endif  %}</td>
+				{%  endif  %}
+			</td>
 			<td>
 				<div data-request-data="id: {{ app.id }}">
-					<button data-request="onWithdraw" class="btn btn-warning">Withdraw Application</button></td>
+					<button data-request="onWithdraw" class="btn btn-warning">Withdraw Application</button>
 				</div>
+			</td>
 		</div>
 	</tr>
 {%  endfor  %}

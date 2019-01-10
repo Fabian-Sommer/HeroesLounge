@@ -18,6 +18,13 @@ secondaryTabs:
                 type: slug
             type: text
             tab: General
+        type:
+            label: Type
+            type: text
+            required: 1
+            preset: "1"
+            comment: '1 - Amateur Series. 2 - Division S'
+            tab: General
         region:
             label: Region
             required: 1

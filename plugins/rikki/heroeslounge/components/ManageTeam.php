@@ -50,7 +50,11 @@ class ManageTeam extends ComponentBase
             $this->addJs('/plugins/rikki/heroeslounge/assets/js/autocomplete.js');
             $this->team = Teams::where('slug', $this->param('slug'))->first();
             if ($this->team) {
-                $this->players = Sloths::where('team_id', $this->team->id)->where('id', '!=', $this->user->sloth->id)->get();
+                if ($this->team->type == 1) {
+                    $this->players = Sloths::where('team_id', $this->team->id)->where('id', '!=', $this->user->sloth->id)->get();
+                } else {
+                    $this->players = Sloths::where('divs_team_id', $this->team->id)->where('id', '!=', $this->user->sloth->id)->get();
+                }
                 $this->seasons = Seasons::where('is_active', 1)->where('region_id', $this->team->region_id)->get();
                 $id = $this->team->id;
                 $lock = $this->seasons->filter(function ($season) use ($id) {
@@ -76,8 +80,11 @@ class ManageTeam extends ComponentBase
     public function onAutocomplete()
     {
         $term = implode(post());
-
-        $queries = Sloths::where('team_id', 0)->where(function ($q) use ($term) {
+        $id_string = 'team_id';
+        if ($this->team->type == 2) {
+            $id_string = 'divs_team_id';
+        }
+        $queries = Sloths::where($id_string, 0)->where(function ($q) use ($term) {
             $q->where('title', 'LIKE', '%'.$term.'%')->orWhere('battle_tag', 'LIKE', '%'.$term.'%')->orWhere('discord_tag', 'LIKE', '%'.$term.'%');
         })->take(5)->get()->pluck('title');
 
@@ -176,14 +183,19 @@ class ManageTeam extends ComponentBase
     private function handleRemovedPlayers($removedPlayers)
     {
         foreach ($removedPlayers as $player) {
-            $player->team_id = 0;
+            if ($this->team->type == 1) {
+                $player->team_id = 0;
+            } else {
+                $player->divs_team_id = 0;
+            }
+            
             $player->save();
             Flash::warning($player->title.' has been removed from your team');
         }
     }
 
 
-    private function handleNewPlayer($newPlayers)
+    private function handleNewPlayers($newPlayers)
     {
         $oldPlayersCount = Sloths::where('team_id', $this->team->id)->count();
         if (9-$oldPlayersCount >= count($newPlayers)) {
@@ -215,10 +227,14 @@ class ManageTeam extends ComponentBase
 
     public function onMemberRemove()
     {
-        $depo = $this->players->where('title', post('remove'))->first();
-        $depo->team_id = 0;
-        $depo->save();
-        Flash::warning($depo->title.' has been removed from your team');
+        $player = $this->players->where('title', post('remove'))->first();
+        if ($this->team->type == 1) {
+            $player->team_id = 0;
+        } else {
+            $player->divs_team_id = 0;
+        }
+        $player->save();
+        Flash::warning($player->title.' has been removed from your team');
         return Redirect::refresh();
     }
 
@@ -226,12 +242,20 @@ class ManageTeam extends ComponentBase
     {
         // Demote current captain
         $currentCaptain = $this->user->sloth;
-        $currentCaptain->is_captain = 0;
+        if ($this->team->type == 1) {
+            $currentCaptain->is_captain = 0;
+        } else {
+            $currentCaptain->is_divs_captain = 0;
+        }
         $currentCaptain->save();
 
         // // Promote user to captain
         $userToPromote = $this->players->where('title', post('promote'))->first();
-        $userToPromote->is_captain = 1;
+        if ($this->team->type == 1) {
+            $currentCaptain->is_captain = 1;
+        } else {
+            $currentCaptain->is_divs_captain = 1;
+        }
         $userToPromote->save();
         
         Flash::success($userToPromote->title.' has been promoted to Captain');
@@ -241,6 +265,7 @@ class ManageTeam extends ComponentBase
     public function onRosterSave()
     {
         if ($this->rosterLocked == false) {
+            
             $pArr = array();
             for ($i=2;$i<=9;$i++) {
                 $field = post('sl'.$i);
@@ -251,7 +276,13 @@ class ManageTeam extends ComponentBase
 
             $newPlayers = [];
             foreach ($pArr as $title) {
-                $np = Sloths::where('title', $title)->where('team_id', 0)->first();
+                $np = null;
+                if ($this->team->type == 1) {
+                    $np = Sloths::where('title', $title)->where('team_id', 0)->first();
+                } else {
+                    $np = Sloths::where('title', $title)->where('divs_team_id', 0)->first();
+                }
+                
                 if (isset($np)) {
                     $newPlayers[] = $np;
                 }
@@ -266,8 +297,7 @@ class ManageTeam extends ComponentBase
                 });
                 $this->handleRemovedPlayers($removedPlayers);
             }*/
-
-            $this->handleNewPlayer($newPlayers);
+            $this->handleNewPlayers($newPlayers);
 
 
             return Redirect::refresh();

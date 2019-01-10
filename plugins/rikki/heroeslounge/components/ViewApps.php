@@ -25,14 +25,17 @@ class ViewApps extends ComponentBase
 {
     public $sloth;
     public $apps;
+    public $divSApps;
     public $teams;
+    public $divSTeams;
     public $users;
+    public $divSUsers;
 
     public function componentDetails()
     {
         return [
             'name'        => 'ViewApps',
-            'description' => 'Allows users to manage their applications'
+            'description' => 'Allows users to manage their applications',
         ];
     }
 
@@ -42,23 +45,47 @@ class ViewApps extends ComponentBase
 
         if ($user != null) {
             $this->sloth = SlothModel::getFromUser($user);
+
+            if ($this->sloth->team_id != 0) {
+                $this->apps = Applications::where("team_id", "=", $this->sloth->team_id)->where('withdrawn', 0)->where('accepted', 0)->get();
+                $appsFrom = Db::table('rikki_heroeslounge_team_apps')->where('team_id', '=', $this->sloth->team_id)->where('withdrawn', 0)->where('accepted', 0)->lists('user_id');
+
+                foreach ($appsFrom as $uId) {
+                    $this->users[$uId] = SlothModel::where('user_id', $uId)->first();
+                }
+            } else {
+                $this->apps = Applications::where("user_id", "=", $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->get();
+                $appliedTo = Db::table('rikki_heroeslounge_team_apps')->where('user_id', '=', $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->lists('team_id');
+
+                foreach ($appliedTo as $tId) {
+                    $team = Teams::where('id', '=', $tId)->where('type', 1)->first();
+                    if ($team) {
+                        $this->teams[$tId] = $team;
+                    }
+                }
+            }
+
+            if ($this->sloth->divs_team_id != 0) {
+                $this->divSApps = Applications::where("team_id", "=", $this->sloth->divs_team_id)->where('withdrawn', 0)->where('accepted', 0)->get();
+                $appsFrom = Db::table('rikki_heroeslounge_team_apps')->where('team_id', '=', $this->sloth->divs_team_id)->where('withdrawn', 0)->where('accepted', 0)->lists('user_id');
+
+                foreach ($appsFrom as $uId) {
+                    $this->divSUsers[$uId] = SlothModel::where('user_id', $uId)->first();
+                }
+            } else {
+                $this->divSApps = Applications::where("user_id", "=", $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->get();
+                $appliedTo = Db::table('rikki_heroeslounge_team_apps')->where('user_id', '=', $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->lists('team_id');
+
+                foreach ($appliedTo as $tId) {
+                    $team = Teams::where('id', '=', $tId)->where('type', 2)->first();
+                    if ($team) {
+                        $this->divSTeams[$tId] = $team;
+                    }
+                }
+            }
         }
             
-        if ($this->sloth->team_id != 0) {
-            $this->apps = Applications::where("team_id", "=", $this->sloth->team_id)->where('withdrawn', 0)->where('accepted', 0)->get();
-            $appsFrom = Db::table('rikki_heroeslounge_team_apps')->where('team_id', '=', $this->sloth->team_id)->where('withdrawn', 0)->where('accepted', 0)->lists('user_id');
-
-            foreach ($appsFrom as $uId) {
-                $this->users[$uId] = SlothModel::where('user_id', $uId)->first();
-            }
-        } else {
-            $this->apps = Applications::where("user_id", "=", $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->get();
-            $appliedTo = Db::table('rikki_heroeslounge_team_apps')->where('user_id', '=', $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->lists('team_id');
-
-            foreach ($appliedTo as $tId) {
-                $this->teams[$tId] = Teams::where('id', '=', $tId)->first();
-            }
-        }
+        
     }
 
     public function onSendAccept()
@@ -72,7 +99,7 @@ class ViewApps extends ComponentBase
 
             $app = Applications::find(post("id"));
 
-            if ($app->team_id == $this->sloth->team_id) {
+            if ($app->team_id == $this->sloth->team_id || $app->team_id == $this->sloth->divs_team_id) {
                 $app->approved = 1;
                 $app->save();
                 Flash::success("Application successfully accepted. The player can now join the team by accepting the invite on his Account page.");
@@ -98,16 +125,15 @@ class ViewApps extends ComponentBase
             if ($app->approved == 1) {
                 if ($app->user_id == $this->sloth->user_id) {
                     $numOfPlayers = SlothModel::where("team_id", $app->team_id)->count();
-
+                    $team = Teams::find($app->team_id);
                     if ($numOfPlayers < 9) {
-                        $this->sloth->team_id = $app->team_id;
-                        $this->sloth->seasons()->detach();
+                        if ($team->type == 1) {
+                            $this->sloth->team_id = $app->team_id;
+                        } else {
+                            $this->sloth->divs_team_id = $app->team_id;
+                        }
+                        
                         $this->sloth->save();
-                        $timeline = new Timeline();
-                        $timeline->type = 'Sloth.Joins.Team';
-                        $timeline->save();
-                        $timeline->sloths()->add($this->sloth);
-                        $timeline->teams()->add(Teams::findOrFail($app->team_id));
 
                         $otherApps = Applications::where("user_id", $this->sloth->user_id)->where("team_id", "!=", $app->team_id)->get();
 
@@ -160,7 +186,7 @@ class ViewApps extends ComponentBase
             if ($app->user_id == $this->sloth->user_id) {
                 $app->withdrawn = 1;
                 $app->save();
-            } elseif ($app->team_id == $this->sloth->team_id) {
+            } elseif ($app->team_id == $this->sloth->team_id || $app->team_id == $this->sloth->divs_team_id) {
                 $app->withdrawn = 1;
                 $app->save();
             }

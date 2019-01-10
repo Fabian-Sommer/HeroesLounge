@@ -38,11 +38,7 @@ class ScheduleMatch extends ComponentBase
         $this->user = Auth::getUser();
         $this->match = Match::find($this->property('id'));
         if ($this->match) {
-            if ($this->match->teams[0]->id == $this->user->sloth->team_id) {
-                $this->opp = $this->match->teams[1];
-            } else {
-                $this->opp = $this->match->teams[0];
-            }
+            $this->opp = $this->match->teams()->where('team_id', '!=', $this->user->sloth->team_id)->where('team_id', '!=', $this->user->sloth->divs_team_id)->first();
         }
     }
 

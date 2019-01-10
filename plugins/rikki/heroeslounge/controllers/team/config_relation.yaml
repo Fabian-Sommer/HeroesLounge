@@ -46,15 +46,15 @@ timeline:
                     label: 'Only used when type is Team.Message, Admin.Message'
                     type: textarea
                     default: ''
-                sloths:
+                amateur_sloths:
                     label: 'Associated Users - when type is Sloth. ...'
                     span: auto
                     oc.commentPosition: ''
                     type: relation
                     select: title
         list: $/rikki/heroeslounge/models/timeline/columns.yaml
-sloths:
-    label: Roster
+amateur_sloths:
+    label: Player
     view: 
         list:
             columns:
@@ -81,7 +81,7 @@ sloths:
                     select: username
                     span: left
                 is_captain:
-                    label: Is Captain
+                    label: Is Amatuer Series Captain
                     type: checkbox
                     default: false
                     span: right
@@ -90,4 +90,40 @@ sloths:
                     label: Assign Team
                     type: relation
                     select: title
-
+divs_sloths:
+    label: Division S Player
+    view: 
+        list:
+            columns:
+                title:
+                    label: title
+                    searchable: true
+                is_divs_captain:
+                    label: Captain
+                    type: switch
+                team:
+                    label: Team
+                    relation: divs_team 
+                    select: title
+        toolbarButtons: add|remove
+    manage:
+        recordsPerPage: 20
+        showSearch: true
+        form:
+            fields:
+                user:
+                    label: User
+                    readOnly: true
+                    type: relation
+                    select: username
+                    span: left
+                is_divs_captain:
+                    label: Is DivS Captain
+                    type: checkbox
+                    default: false
+                    span: right
+                    comment: NEVER MAKE 2 SLOTHS BE CAPTAIN OF A TEAM
+                divs_team:
+                    label: Assign DivS Team
+                    type: relation
+                    select: title

@@ -52,19 +52,6 @@ class Attendance
       return $presentUsers;
     }
 
-    public static function CheckAttendance()
-    {
-        $discordTags = Db::table("rikki_heroeslounge_sloths")->where("is_captain", 1)->whereIn('team_id', Db::table('rikki_heroeslounge_team_division')->whereIn('div_id', [1,2,3,4,5])->lists('team_id'))->lists("discord_tag");
-        $presentUsers = Attendance::FetchUsers();
-        $presentDiscordTags = Attendance::CreateDiscordTagArray($presentUsers);
-
-        $data = ($presentDiscordTags != false) ? array_udiff($discordTags, $presentDiscordTags, "strcasecmp") : [];
-
-        $emails = Db::table("users")->whereIn("id", SlothModel::whereIn("discord_tag", $data)->lists("user_id"))->lists("email");
-
-        return $emails;
-    }
-
     public static function GetDiscordUserId($discordTag)
     {
         $presentUsers = Attendance::FetchUsers();

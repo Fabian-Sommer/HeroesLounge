@@ -29,7 +29,7 @@
                     &nbsp;Game&nbsp;
                 </a>
             </li>
-            {% if __SELF__.sloth.team_id == 0%}
+            {% if __SELF__.sloth.team_id == 0 or __SELF__.sloth.divs_team_id == 0 %}
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#apps">
                     &nbsp;Applications [<span class="text-primary font-weight-bold">{{__SELF__.appsCount}}</span>]&nbsp;

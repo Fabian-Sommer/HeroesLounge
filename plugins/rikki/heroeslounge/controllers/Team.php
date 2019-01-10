@@ -47,11 +47,22 @@ class Team extends Controller
         if($dis == true) {
             $team = $model;
             $team->sloths->each(function($sloth){
-                if($sloth->is_captain)
+                if($sloth->is_captain && $team->type == 1) {
                     $sloth->is_captain = false;
-                    Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "Captains");
-
-                $sloth->team()->dissociate();
+                    if (!$sloth->is_divs_captain) {
+                        Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "Captains");
+                    }
+                } else if ($sloth->is_divs_captain && $team->type == 2) {
+                    $sloth->is_divs_captain = false;
+                    if (!$sloth->is_captain) {
+                        Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "Captains");
+                    }
+                }
+                if ($team->type == 1) {
+                    $sloth->team()->dissociate();
+                } else {
+                    $sloth->divs_team()->dissociate();
+                }
                 $sloth->save();
 
             });

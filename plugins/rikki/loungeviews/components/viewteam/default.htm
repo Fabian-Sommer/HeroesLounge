@@ -100,7 +100,7 @@
                                                     {% endif %}
                                                 </div>
                                                 <h3 class="text-truncate">
-                                                    {% if sloth.is_captain %}
+                                                    {% if (__SELF__.team.type == 1 and sloth.is_captain) or (__SELF__.team.type == 2 and sloth.is_divs_captain) %}
                                                     <i class="fa fa-star" title="Captain" style="color:gold"></i>
                                                     {% endif %}
                                                     {% if sloth.role %}

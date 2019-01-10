@@ -45,7 +45,7 @@ class NotificationHelper
 
     public static function checkMatches($user, $team, &$retVal)
     {
-        if ($user->sloth->is_captain == true) {
+        if ($user->sloth->isCaptain($team) == true) {
             NotificationHelper::generateScheduleMatchMessages($user->sloth, $team->matches()->whereNull('wbp')->whereNull('is_played')->get(), $retVal);
             $repMatches = $user->sloth->team->matches()->where(function ($q) {
                 $q->whereNotNull('wbp')->where('winner_id', null);
@@ -79,7 +79,7 @@ class NotificationHelper
 
     public static function checkBans($user,&$retVal)
     {
-        if($user->sloth->is_captain)
+        if($user->sloth->is_captain || $user->sloth->is_divs_captain)
         {
             NotificationHelper::generateBanMessages(Bans::with('hero','talent')->get(),$retVal);
         }
@@ -146,7 +146,7 @@ class NotificationHelper
     private static function generateApplicationMessages($a, $sloth, &$retVal)
     {
         foreach ($a as $application) {
-            if ($sloth->is_captain == true) {
+            if ($sloth->isCaptain($application->team)) {
                 $retVal[] = [
                     'type' => 'info',
                     'message' => $application->sloth->title.' applied for your team!',

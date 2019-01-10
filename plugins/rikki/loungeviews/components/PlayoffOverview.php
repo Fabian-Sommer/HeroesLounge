@@ -45,7 +45,7 @@ class PlayoffOverview extends ComponentBase
         }
         
         if ($this->playoff) {
-            if ($this->user && $this->user->sloth->team && !$this->playoff->teams->contains($this->user->sloth->team)) {
+            if ($this->user && $this->user->sloth->divs_team && !$this->playoff->teams->contains($this->user->sloth->divs_team)) {
                 $this->userTeamSignedUp = false;
             }
 
@@ -290,8 +290,8 @@ class PlayoffOverview extends ComponentBase
     public function onTeamSignup()
     {
         if ($this->user != null) {
-            $team = $this->user->sloth->team;
-            if ($team != null && $this->user->sloth->is_captain && $team->region_id == $this->playoff->region_id && !$this->playoff->teams->contains($team)) {
+            $team = $this->user->sloth->divs_team;
+            if ($team != null && $this->user->sloth->is_divs_captain && $team->region_id == $this->playoff->region_id && !$this->playoff->teams->contains($team)) {
                 if ($team->sloths->count() >= 5) {
                     $this->playoff->teams()->add($team);
                     Flash::success('Your team is now signed up for '.$this->playoff->title);

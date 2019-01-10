@@ -5,6 +5,7 @@ namespace Rikki\Heroeslounge\Components;
 use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Game;
 use Rikki\Heroeslounge\Models\Map;
+use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Match;
 use Rikki\Heroeslounge\classes\ReplayParsing\ReplayParsing;
 use Auth;
@@ -12,6 +13,7 @@ use Input;
 use Redirect;
 use Validator;
 use Flash;
+use Log;
 
 class UpdateMatch extends ComponentBase
 {
@@ -19,6 +21,7 @@ class UpdateMatch extends ComponentBase
     public $user = null;
     public $maps = null;
     public $opp = null;
+    public $ownTeam = null;
     public $winner = null;
     public $t = null;
     public function componentDetails()
@@ -51,7 +54,8 @@ class UpdateMatch extends ComponentBase
             
         
     
-            $this->opp = $this->match->teams()->where('team_id', '!=', $this->user->sloth->team_id)->first();
+            $this->opp = $this->match->teams()->where('team_id', '!=', $this->user->sloth->team_id)->where('team_id', '!=', $this->user->sloth->divs_team_id)->first();
+            $this->ownTeam = ($this->opp->id == $this->match->teams[0]->id ? $this->match->teams[1] : $this->match->teams[0]);
             $tc1 = $this->match->games->where('winner_id', $teamids[0])->count();
             $tc2 = $this->match->games->where('winner_id', $teamids[1])->count();
             if ($tc1 != $tc2) {
@@ -104,7 +108,7 @@ class UpdateMatch extends ComponentBase
         $replayParser = new ReplayParsing;
         $replayParser->match = Match::find(post('match'));
         $replayParser->replay = $replay;
-        $replayParser->uploadingTeam = Auth::getUser()->sloth->team;
+        $replayParser->uploadingTeam = Team::find(post('uploading_team_id'));
 
         $validationResult = $replayParser->validateResult();
         if ($validationResult[0]) {
@@ -127,7 +131,7 @@ class UpdateMatch extends ComponentBase
         $replayParser->addGameDuration();
         $replayParser->addTrackerDetails();
 
-        Flash::success($this->match.' The game has been saved!');
+        Flash::success('The game has been saved!');
         return Redirect::refresh();
     }
 

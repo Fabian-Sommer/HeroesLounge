@@ -48,7 +48,8 @@ class Team extends Model
     ];
 
     public $hasMany = [
-            'sloths' => ['Rikki\Heroeslounge\Models\Sloth', 'order' => 'is_captain desc'],
+            'amateur_sloths' => ['Rikki\Heroeslounge\Models\Sloth', 'key' => 'team_id', 'order' => 'is_captain desc'],
+            'divs_sloths' => ['Rikki\Heroeslounge\Models\Sloth', 'key' => 'divs_team_id', 'order' => 'is_divs_captain desc'],
             'sloths_count' => ['Rikki\Heroeslounge\Models\Sloth', 'count' => true],
             'apps' => ['Rikki\Heroeslounge\Models\Apps'],
             'gameParticipants' => ['Rikki\Heroeslounge\Models\GameParticipation']
@@ -142,15 +143,33 @@ class Team extends Model
         $query->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan');
     }
 
+    public function getSlothsAttribute()
+    {
+        if ($this->type == 1) {
+            return $this->amateur_sloths;
+        } else {
+            return $this->divs_sloths;
+        }
+    }
 
     public function getCaptainAttribute()
     {
-        return $this->sloths->where('is_captain', true)->first();
+        if ($this->type == 1) {
+            return $this->sloths->where('is_captain', true)->first();
+        } else {
+            return $this->sloths->where('is_divs_captain', true)->first();
+        }
     }
   
     public function getSlothratingAttribute()
     {
-        $slothsMmr = SlothModel::where('team_id', $this->id)->lists('mmr');
+        $slothsMmr = '';
+        if ($this->type == 1) {
+            $slothsMmr = SlothModel::where('team_id', $this->id)->lists('mmr');
+        } else {
+            $slothsMmr = SlothModel::where('divs_team_id', $this->id)->lists('mmr');
+        }
+        
         $usedMmr = array_filter($slothsMmr, function ($v) {
             return ($v != 0);
         });
@@ -160,7 +179,13 @@ class Team extends Model
 
     public function getSlothratingMedianAttribute()
     {
-        $slothsMmr = SlothModel::where('team_id', $this->id)->lists('mmr');
+        $slothsMmr = '';
+        if ($this->type == 1) {
+            $slothsMmr = SlothModel::where('team_id', $this->id)->lists('mmr');
+        } else {
+            $slothsMmr = SlothModel::where('divs_team_id', $this->id)->lists('mmr');
+        }
+
         $usedMmr = array_filter($slothsMmr, function ($v) {
             return ($v != 0);
         });
@@ -178,36 +203,31 @@ class Team extends Model
 
     public function getHighestMMRAttribute()
     {
-        $slothMmr = SlothModel::where('team_id', $this->id)->orderBy('mmr', 'desc')->first();
+        $slothsMmr = '';
+        if ($this->type == 1) {
+            $slothsMmr = SlothModel::where('team_id', $this->id)->orderBy('mmr', 'desc')->first();
+        } else {
+            $slothsMmr = SlothModel::where('divs_team_id', $this->id)->orderBy('mmr', 'desc')->first();
+        }
 
         return $slothMmr->mmr;
     }
 
     public function getLowestMMRAttribute()
     {
-        $slothMmr = SlothModel::where('team_id', $this->id)->where('mmr', '<>', 0)->orderBy('mmr', 'asc')->first();
+        $slothsMmr = '';
+        if ($this->type == 1) {
+            $slothsMmr = SlothModel::where('team_id', $this->id)->where('mmr', '<>', 0)->orderBy('mmr', 'asc')->first();
+        } else {
+            $slothsMmr = SlothModel::where('divs_team_id', $this->id)->where('mmr', '<>', 0)->orderBy('mmr', 'asc')->first();
+        }
 
         return $slothMmr->mmr;
     }
 
-    public function getDiffHighAndLowAttribute()
-    {
-        $slothMmrHigh = SlothModel::where('team_id', $this->id)->orderBy('mmr', 'desc')->first();
-        $slothMmrLow = SlothModel::where('team_id', $this->id)->where('mmr', '<>', 0)->orderBy('mmr', 'asc')->first();
-
-        return ($slothMmrHigh->mmr - $slothMmrLow->mmr);
-    }
-
-
-
     public function getNumOfPlayersAttribute()
     {
-        return SlothModel::where('team_id', $this->id)->count();
-    }
-
-    public function getNumOfUnrankedAttribute()
-    {
-        return SlothModel::where('team_id', $this->id)->where('mmr', 0)->count();
+        return $this->sloths->count();
     }
 
     public function getGamesAttribute()

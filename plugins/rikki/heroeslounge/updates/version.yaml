@@ -371,3 +371,9 @@
 1.0.130:
     - 'Updated table rikki_heroeslounge_playoffs'
     - builder_table_update_rikki_heroeslounge_playoffs_6.php
+1.0.131:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_15.php
+1.0.132:
+    - 'Updated table rikki_heroeslounge_teams'
+    - builder_table_update_rikki_heroeslounge_teams_7.php

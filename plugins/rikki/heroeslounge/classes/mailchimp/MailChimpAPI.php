@@ -33,7 +33,7 @@ class MailChimpAPI
 	public static function subscribeNewUser($user)
 	{
 	    $request_url = "https://us17.api.mailchimp.com/3.0/lists/8877904eb6/members";
-	    $data = array('email_address'=>$user->email,'status'=>'subscribed', 'merge_fields' => array('FNAME' => $user->sloth->title), 'interests' => array('4a5a3da9d8' => ($user->sloth->is_captain == true), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
+	    $data = array('email_address'=>$user->email,'status'=>'subscribed', 'merge_fields' => array('FNAME' => $user->sloth->title), 'interests' => array('4a5a3da9d8' => ($user->sloth->is_captain || $user->sloth->is_divs_captain), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
 	    $data_json = json_encode($data);
 
 	    $ch = curl_init($request_url);
@@ -54,7 +54,7 @@ class MailChimpAPI
 	public static function unsubscribeNewUser($user)
 	{
 	    $request_url = "https://us17.api.mailchimp.com/3.0/lists/8877904eb6/members";
-	    $data = array('email_address'=>$user->email,'status'=>'unsubscribed', 'merge_fields' => array('FNAME' => $user->sloth->title), 'interests' => array('4a5a3da9d8' => ($user->sloth->is_captain == true), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
+	    $data = array('email_address'=>$user->email,'status'=>'unsubscribed', 'merge_fields' => array('FNAME' => $user->sloth->title), 'interests' => array('4a5a3da9d8' => ($user->sloth->is_captain || $user->sloth->is_divs_captain), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
 	    $data_json = json_encode($data);
 
 	    $ch = curl_init($request_url);
@@ -78,7 +78,7 @@ class MailChimpAPI
 		$email_hash = md5(strtolower($user->email));
 
 		$request_url = "https://us17.api.mailchimp.com/3.0/lists/8877904eb6/members/".$email_hash;
-		$data = array('status'=>'unsubscribed', 'merge_fields' => array('FNAME' => $user->sloth->title), 'interests' => array('4a5a3da9d8' => ($user->sloth->is_captain == true), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
+		$data = array('status'=>'unsubscribed', 'merge_fields' => array('FNAME' => $user->sloth->title), 'interests' => array('4a5a3da9d8' => ($user->sloth->is_captain || $user->sloth->is_divs_captain), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
 		$data_json = json_encode($data);
 
 		$ch = curl_init($request_url);
@@ -101,7 +101,7 @@ class MailChimpAPI
 		$email_hash = md5(strtolower($user->email));
 
 		$request_url = "https://us17.api.mailchimp.com/3.0/lists/8877904eb6/members/".$email_hash;
-		$data = array('status'=>'subscribed', 'merge_fields' => array('FNAME' => $user->sloth->title), 'interests' => array('4a5a3da9d8' => ($user->sloth->is_captain == true), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
+		$data = array('status'=>'subscribed', 'merge_fields' => array('FNAME' => $user->sloth->title), 'interests' => array('4a5a3da9d8' => ($user->sloth->is_captain || $user->sloth->is_divs_captain), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
 		$data_json = json_encode($data);
 
 		$ch = curl_init($request_url);
@@ -123,7 +123,7 @@ class MailChimpAPI
 		$email_hash = md5(strtolower($user->email));
 
 		$request_url = "https://us17.api.mailchimp.com/3.0/lists/8877904eb6/members/".$email_hash;
-		$data = array('interests' => array('4a5a3da9d8' => ($user->sloth->is_captain == true), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
+		$data = array('interests' => array('4a5a3da9d8' => ($user->sloth->is_captain || $user->sloth->is_divs_captain), '45123ca490' => ($user->sloth->team_id != null || $user->sloth->team_id > 0)));
 		$data_json = json_encode($data);
 
 		$ch = curl_init($request_url);
