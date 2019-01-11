@@ -1,6 +1,6 @@
 <?php namespace Rikki\Heroeslounge\Components;
 
- 
+
 use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Team as Teams;
 
@@ -37,11 +37,9 @@ class ManageMatches extends ComponentBase
             $this->team = Teams::where('slug', $this->param('slug'))->first();
             if ($this->team) {
                 $this->matches = $this->team->matches()->where(function ($q) {
-                    $q->whereNull('wbp')->orWhere(function ($q) {
-                        $q->whereNotNull('wbp')->where('winner_id', null);
-                    });
+                    $q->where('is_played', false)
                 })->get();
-              
+
                 $component = $this->addComponent(
                             'Rikki\Heroeslounge\Components\UpdateMatch',
                             'updateMatch',
@@ -49,14 +47,14 @@ class ManageMatches extends ComponentBase
                                                    'deferredBinding'   => true,
                             ]
                 );
-                                       
+
                 $component = $this->addComponent(
                             'Rikki\Heroeslounge\Components\ScheduleMatch',
                             'scheduleMatch',
                             [
                                 'deferredBinding'   => true,
                             ]
-                                       
+
                 );
             }
         }

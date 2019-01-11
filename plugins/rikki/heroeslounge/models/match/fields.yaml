@@ -21,6 +21,10 @@ secondaryTabs:
             readOnly: true
             tab: Misc
             type: datepicker
+        is_played:
+          label: 'Is played'
+          type: checkbox
+          tab: Misc
         winner:
             label: 'Winning Team'
             type: relation
