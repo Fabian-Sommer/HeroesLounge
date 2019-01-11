@@ -81,7 +81,7 @@ amateur_sloths:
                     select: username
                     span: left
                 is_captain:
-                    label: Is Amatuer Series Captain
+                    label: Is Amateur Series Captain
                     type: checkbox
                     default: false
                     span: right
