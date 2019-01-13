@@ -6,21 +6,15 @@ maxEntries = 2
 {% if user.sloth.team  and user.sloth.team.active_divisions | length > 0 %}
 <div class="col-md-6 col-12">
     <h3>Standings</h3>
-    <ul class="nav nav-tabs">
     {% for div in user.sloth.team.active_divisions %}
-        <li class="nav-item">
-            <a class="nav-link {% if loop.first %}active{% endif %}" href="#sd-{{div.id}}" data-toggle="tab" role="tab">
-                {{div.title}}
-            </a>
-        </li>
+        {% if div.season %}
+        <h4><a href="{{ 'season/division'|page({slug: div.season.slug, divslug: div.slug})}}"> {{div.title}}</a></h4>
+        {% elseif div.playoff %}
+        <h4><a href="{{ 'playoff/view'|page({'playoff-title': div.playoff.title})}}"> {{div.title}}</a></h4>
+        {% else %}
+        <h4> {{div.title}} </h4>
+        {% endif %}
+        {% component 'DivisionTable' id = div.id teamId = user.sloth.team.id%}
     {% endfor %}
-    </ul>
-    <div class="tab-content">
-        {% for div in user.sloth.team.active_divisions %}
-            <div class="tab-pane {% if loop.first %}active{% endif %}" id="sd-{{div.id}}" role="tabpanel">
-                {% component 'DivisionTable' id = div.id teamId = user.sloth.team.id%}
-            </div>
-        {% endfor %}
-    </div>
 </div>
 {% endif %}
