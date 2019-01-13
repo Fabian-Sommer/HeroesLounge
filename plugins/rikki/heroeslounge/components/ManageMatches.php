@@ -37,7 +37,7 @@ class ManageMatches extends ComponentBase
             $this->team = Teams::where('slug', $this->param('slug'))->first();
             if ($this->team) {
                 $this->matches = $this->team->matches()->where(function ($q) {
-                    $q->where('is_played', false)
+                    $q->where('is_played', false);
                 })->get();
 
                 $component = $this->addComponent(
