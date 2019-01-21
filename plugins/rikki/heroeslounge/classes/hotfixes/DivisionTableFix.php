@@ -7,6 +7,7 @@ use Rikki\Heroeslounge\Models\Game;
 
 use Carbon\Carbon;
 use Db;
+use Log;
 
 class DivisionTableFix
 {
@@ -18,16 +19,17 @@ class DivisionTableFix
             $teams = $div->teams()->get();
 
             foreach ($teams as $team) {
-                $matchIds = Db::table('rikki_heroeslounge_team_match')->where('team_id', $team->id)->lists('match_id');
-
-
+                $matchIds = $team->matches->map(function($match) {
+                    return $match->id;
+                });
+                
                 $freeWinCount = 0;
                 foreach ($matchIds as $matchId) {
                     $freeWin = (Db::table('rikki_heroeslounge_games')->where('id', $matchId)->where('map_id', 1)->count() == 2);
 
                     $freeWinFekkerPlebId = Db::table('rikki_heroeslounge_match')->where('id', $matchId)->value('winner_id');
-
-                    if ($freeWin && $team->id == $freeWinFekkerPlebId) {
+                    $correctDivision = Db::table('rikki_heroeslounge_match')->where('id', $matchId)->where('div_id', $div->id)->count();
+                    if ($freeWin && $team->id == $freeWinFekkerPlebId && $correctDivision == 1) {
                         $freeWinCount += 1;
                     }
                 }
