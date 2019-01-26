@@ -240,7 +240,7 @@ class Match extends Model
         } elseif ($t1wins > $t2wins) {
             $this->winner_id = $this->teams[0]->id;
         } else {
-            $this->winner_id = 0;
+            $this->winner_id = null;
         }
         $this->is_played = true;
         $this->save();
