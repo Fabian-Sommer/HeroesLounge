@@ -46,7 +46,7 @@ class Team extends Controller
         $dis = post('Team[disbanded]');
         if($dis == true) {
             $team = $model;
-            $team->sloths->each(function($sloth){
+            $team->sloths->each(function($sloth) use ($team) {
                 if($sloth->is_captain && $team->type == 1) {
                     $sloth->is_captain = false;
                     if (!$sloth->is_divs_captain) {
