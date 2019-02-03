@@ -59,10 +59,10 @@ class PlayoffOverview extends ComponentBase
                 $this->total_height = 43.9375;
                 $this->total_width = 45;
             } else if ($this->playoff->type == 'se32') {
-                $this->total_height = 43.9375;
+                $this->total_height = 78;
                 $this->total_width = 75;
             } else if ($this->playoff->type == 'se64') {
-                $this->total_height = 43.9375;
+                $this->total_height = 153;
                 $this->total_width = 90;
             } else if ($this->playoff->type == 'playoffv3') {
                 $this->total_height = 43.9375;

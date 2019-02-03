@@ -1,0 +1,75 @@
+description = "Plain layout for sections"
+
+[staticPage]
+
+[Navigation]
+
+[googleTracker]
+
+[SideNav]
+
+[session]
+security = "all"
+==
+<?php
+use RainLab\Translate\Models\Message;
+use Rikki\Heroeslounge\Models\Sloth;
+
+function onStart() {
+    $this['baseUrl'] = Config::get('app.url');
+    Message::setContext(App::getLocale(), $this->page->url);
+}
+
+function onTimezoneDetection() {
+
+    if (isset($_POST['timezone'])) {
+        $timezoneName = $_POST['timezone'];
+        $user = Auth::getUser();
+        if ($user) {
+            if ($user->sloth->timezone == '') {
+                $user->sloth->timezone = $timezoneName;
+                $user->sloth->save();
+            }
+        }
+    }
+    
+}
+?>
+==
+<!DOCTYPE html>
+<html lang="{{ this.theme.site_locale }}">
+{% put scripts %}
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery.request('onTimezoneDetection', {
+        data: {timezone: Intl.DateTimeFormat().resolvedOptions().timeZone}
+    })
+});
+</script>
+{% endput %}
+<head>
+    {% partial 'assets/head' %}
+</head>
+
+<body class="{{ this.page.id }} page page-{{ this.page.id }} layout-{{ this.layout.id }} {% placeholder bodyclass title='Body class' %}">
+
+    {% partial 'base/head' %} 
+    <div class="sticky-top float-left" style="top:90px">
+        {% component 'SideNav' %}
+    </div>
+    <div class="section page-content bg-white">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    {% partial 'base/page' %} 
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% partial 'base/foot' %} 
+    {% placeholder modal %}
+    
+</body>
+
+</html>

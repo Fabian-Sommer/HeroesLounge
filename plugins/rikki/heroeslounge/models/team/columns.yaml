@@ -4,9 +4,10 @@ columns:
         type: text
         searchable: true
         sortable: true
-    disbanded:
-        label: 'Disband'
-        type: switch
+    type:
+        label: 'Type (1 - Amateur, 2 - S)'
+        type: text
+        searchable: true
         sortable: true
     slug:
         label: Slug
@@ -37,3 +38,7 @@ columns:
         sortable: false
         relation: sloths_count
         valueFrom: count
+    disbanded:
+        label: 'Disbanded'
+        type: switch
+        sortable: true

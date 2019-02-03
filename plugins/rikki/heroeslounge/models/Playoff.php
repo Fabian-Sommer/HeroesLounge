@@ -237,9 +237,9 @@ class Playoff extends Model
             ];
         } else if ($this->type == 'playoffv2') {
             $timezone = 'Europe/Berlin';
-            $year = 2018;
-            $month = 10;
-            $day = 12;
+            $year = 2019;
+            $month = 3;
+            $day = 2;
 
             $a1 = $this->teams()->where('seed', 1)->firstOrFail();
             $a2 = $this->teams()->where('seed', 5)->firstOrFail();
@@ -272,7 +272,7 @@ class Playoff extends Model
                 3 => ['title' => 'Group D', 'slug' => 'group-d',
                         'teams' => [0 =>$d1,1 => $d2,2 => $d3,3 => $d4]]
             ];
-            $groups_until = Carbon::create($year, $month, $day, 23, 59, 59, $timezone)->subDays(1);
+            $groups_until = Carbon::create($year, $month, $day, 23, 59, 59, $timezone)->subDays(2);
             foreach ($groups as $key => $groupe) {
                 $gr = new Division;
                 $gr->playoff = $playoff;
@@ -343,9 +343,9 @@ class Playoff extends Model
             $matchArray[3]['wbp'] = $otherTime;
         } else if ($this->type == 'playoffv3') {
             $timezone = 'Europe/Berlin';
-            $year = 2018;
-            $month = 10;
-            $day = 12;
+            $year = 2019;
+            $month = 3;
+            $day = 3;
 
             $a1 = $this->teams()->where('seed', 1)->firstOrFail();
             $a2 = $this->teams()->where('seed', 3)->firstOrFail();
@@ -363,7 +363,7 @@ class Playoff extends Model
                 1 => ['title' => 'Group B', 'slug' => 'group-b',
                         'teams' => [0 =>$b1,1 => $b2,2 => $b3,3 => $b4]]
             ];
-            $groups_until = Carbon::create($year, $month, $day, 23, 59, 59, $timezone)->subDays(1);
+            $groups_until = Carbon::create($year, $month, $day, 23, 59, 59, $timezone)->subDays(3);
             foreach ($groups as $key => $groupe) {
                 $gr = new Division;
                 $gr->playoff = $playoff;
@@ -475,20 +475,20 @@ class Playoff extends Model
                     ];
             $matchArray = $this->createSEMatches(3, $times);
         } else if ($this->type == 'se32') {
-            $times = [  0 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone),
-                        1 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone),
-                        2 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone),
-                        3 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone),
-                        4 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone)
+            $times = [  0 => Carbon::create(2019, 2, 3, 1, 0, 0, $timezone),
+                        1 => Carbon::create(2019, 2, 3, 1, 0, 0, $timezone),
+                        2 => Carbon::create(2019, 2, 3, 1, 0, 0, $timezone),
+                        3 => Carbon::create(2019, 2, 4, 2, 0, 0, $timezone),
+                        4 => Carbon::create(2019, 2, 4, 2, 0, 0, $timezone)
                     ];
             $matchArray = $this->createSEMatches(5, $times);
         } else if ($this->type == 'se64') {
-            $times = [  0 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone),
-                        1 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone),
-                        2 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone),
-                        3 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone),
-                        4 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone),
-                        5 => Carbon::create(2018, 2, 17, 18, 15, 0, $timezone)
+            $times = [  0 => Carbon::create(2019, 2, 2, 19, 0, 0, $timezone),
+                        1 => Carbon::create(2019, 2, 2, 20, 0, 0, $timezone),
+                        2 => Carbon::create(2019, 2, 2, 21, 0, 0, $timezone),
+                        3 => Carbon::create(2019, 2, 3, 20, 0, 0, $timezone),
+                        4 => Carbon::create(2019, 2, 3, 21, 0, 0, $timezone),
+                        5 => Carbon::create(2019, 2, 3, 22, 0, 0, $timezone)
                     ];
             $matchArray = $this->createSEMatches(6, $times);
         }
@@ -593,26 +593,77 @@ class Playoff extends Model
         } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64') {
             $tems = [];
             $teamcount = 16;
+            $seedToMatch = [];
             if ($this->type == 'se8' || $this->type == 'playoffv2') {
                 $teamcount = 8;
             }
             if ($this->type == 'se32') {
                 $teamcount = 32;
+                $seedToMatch = [1 => 1,
+                                2 => 9,
+                                3 => 13,
+                                4 => 5,
+                                5 => 7,
+                                6 => 15,
+                                7 => 11,
+                                8 => 3,
+                                9 => 4,
+                                10 => 12,
+                                11 => 16,
+                                12 => 8,
+                                13 => 6,
+                                14 => 14,
+                                15 => 10,
+                                16 => 2,
+                ];
             }
             if ($this->type == 'se64') {
                 $teamcount = 64;
+                $seedToMatch = [1   => 1,
+                                32  => 2,
+                                16  => 3,
+                                17  => 4,
+                                8   => 5,
+                                25  => 6,
+                                9   => 7,
+                                24  => 8,
+                                4   => 9,
+                                29  => 10,
+                                13  => 11,
+                                20  => 12,
+                                5   => 13,
+                                28  => 14,
+                                12  => 15,
+                                21  => 16,
+                                2   => 17,
+                                31  => 18,
+                                15  => 19,
+                                18  => 20,
+                                7   => 21,
+                                26  => 22,
+                                10  => 23,
+                                23  => 24,
+                                3   => 25,
+                                30  => 26,
+                                14  => 27,
+                                19  => 28,
+                                6   => 29,
+                                27  => 30,
+                                11  => 31,
+                                22  => 32,
+                ];
             }
             for ($i=1; $i <= $teamcount; $i++) { 
                 $team = $this->teams()->where('seed', $i)->first();
                 if ($team) {
                     $tems[$i] = $team;
                 } else {
-                    Log::info('Adding BYE '. $i);
+                    //Log::info('Adding BYE '. $i);
                     $tems[$i] = Team::where('title', 'BYE!')->firstOrFail();
                 }
             }
             for ($i=1; $i <= floor($teamcount/2); $i++) { 
-                $match = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(1,1,$i))->firstOrFail();
+                $match = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(1,1,$seedToMatch[$i]))->firstOrFail();
                 $team1 = $tems[$i];
                 $team2 = $tems[$teamcount+1-$i];
                 $match->teams()->detach();

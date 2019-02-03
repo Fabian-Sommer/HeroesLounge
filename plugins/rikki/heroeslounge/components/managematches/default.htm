@@ -1,4 +1,4 @@
-{% if __SELF__.user.sloth.team_id == __SELF__.team.id %}
+{% if __SELF__.user.sloth.team_id == __SELF__.team.id or __SELF__.user.sloth.divs_team_id == __SELF__.team.id %}
 
 {% for match in __SELF__.matches %} {% if loop.index0 is even %}
 <div class="row mb-3">
