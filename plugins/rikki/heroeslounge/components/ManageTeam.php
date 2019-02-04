@@ -252,9 +252,9 @@ class ManageTeam extends ComponentBase
         // // Promote user to captain
         $userToPromote = $this->players->where('title', post('promote'))->first();
         if ($this->team->type == 1) {
-            $currentCaptain->is_captain = 1;
+            $userToPromote->is_captain = 1;
         } else {
-            $currentCaptain->is_divs_captain = 1;
+            $userToPromote->is_divs_captain = 1;
         }
         $userToPromote->save();
         
