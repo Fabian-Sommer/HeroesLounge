@@ -12,3 +12,7 @@
 /plugins/rikki/heroeslounge/assets/partials/*
 /plugins/rikki/heroeslounge/assets/scss/*
 /themes/HeroesLounge-Theme/pages/test.htm
+
+!Vagrantfile
+!install_october.sh
+!install_hl.sh
