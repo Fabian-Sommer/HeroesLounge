@@ -50,21 +50,23 @@ class ManageTeam extends ComponentBase
             $this->addJs('/plugins/rikki/heroeslounge/assets/js/autocomplete.js');
             $this->team = Teams::where('slug', $this->param('slug'))->first();
             if ($this->team) {
+                $this->seasons = Seasons::where('is_active', 1)->where('region_id', $this->team->region_id)->get();
                 if ($this->team->type == 1) {
                     $this->players = Sloths::where('team_id', $this->team->id)->where('id', '!=', $this->user->sloth->id)->get();
+                    $id = $this->team->id;
+                    $lock = $this->seasons->filter(function ($season) use ($id) {
+                        if ($season->reg_open == 0) {
+                            if ($season->teams()->where('team_id', $id)->count() > 0) {
+                                return true;
+                            }
+                        }
+                    });
+                    $this->rosterLocked = $lock->count() > 0 ? true : false;
                 } else {
                     $this->players = Sloths::where('divs_team_id', $this->team->id)->where('id', '!=', $this->user->sloth->id)->get();
+                    $this->rosterLocked = $this->team->playoffs->count() > 0 ? true : false;
                 }
-                $this->seasons = Seasons::where('is_active', 1)->where('region_id', $this->team->region_id)->get();
-                $id = $this->team->id;
-                $lock = $this->seasons->filter(function ($season) use ($id) {
-                    if ($season->reg_open == 0) {
-                        if ($season->teams()->where('team_id', $id)->count() > 0) {
-                            return true;
-                        }
-                    }
-                });
-                $this->rosterLocked = $lock->count() > 0 ? true : false;
+                
 
                 $component = $this->addComponent(
                                 'Rikki\Heroeslounge\Components\ViewApps',
