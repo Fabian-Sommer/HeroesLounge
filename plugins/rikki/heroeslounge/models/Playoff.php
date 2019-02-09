@@ -475,22 +475,26 @@ class Playoff extends Model
                     ];
             $matchArray = $this->createSEMatches(3, $times);
         } else if ($this->type == 'se32') {
-            $times = [  0 => Carbon::create(2019, 2, 3, 1, 0, 0, $timezone),
-                        1 => Carbon::create(2019, 2, 3, 1, 0, 0, $timezone),
-                        2 => Carbon::create(2019, 2, 3, 1, 0, 0, $timezone),
-                        3 => Carbon::create(2019, 2, 4, 2, 0, 0, $timezone),
-                        4 => Carbon::create(2019, 2, 4, 2, 0, 0, $timezone)
+            $times = [  0 => Carbon::create(2019, 2, 10, 1, 0, 0, $timezone),
+                        1 => Carbon::create(2019, 2, 10, 2, 0, 0, $timezone),
+                        2 => Carbon::create(2019, 2, 10, 3, 0, 0, $timezone),
+                        3 => Carbon::create(2019, 2, 11, 1, 0, 0, $timezone),
+                        4 => Carbon::create(2019, 2, 11, 3, 0, 0, $timezone)
                     ];
+            $otherTime = Carbon::create(2019, 2, 1, 2, 0, 0, $timezone);
             $matchArray = $this->createSEMatches(5, $times);
+            $matchArray[29]['wbp'] = $otherTime;
         } else if ($this->type == 'se64') {
-            $times = [  0 => Carbon::create(2019, 2, 2, 19, 0, 0, $timezone),
-                        1 => Carbon::create(2019, 2, 2, 20, 0, 0, $timezone),
-                        2 => Carbon::create(2019, 2, 2, 21, 0, 0, $timezone),
-                        3 => Carbon::create(2019, 2, 3, 20, 0, 0, $timezone),
-                        4 => Carbon::create(2019, 2, 3, 21, 0, 0, $timezone),
-                        5 => Carbon::create(2019, 2, 3, 22, 0, 0, $timezone)
+            $times = [  0 => Carbon::create(2019, 2, 9, 18, 0, 0, $timezone),
+                        1 => Carbon::create(2019, 2, 9, 19, 0, 0, $timezone),
+                        2 => Carbon::create(2019, 2, 9, 20, 0, 0, $timezone),
+                        3 => Carbon::create(2019, 2, 9, 21, 0, 0, $timezone),
+                        4 => Carbon::create(2019, 2, 10, 18, 0, 0, $timezone),
+                        5 => Carbon::create(2019, 2, 10, 20, 0, 0, $timezone)
                     ];
+            $otherTime = Carbon::create(2019, 2, 10, 19, 0, 0, $timezone);
             $matchArray = $this->createSEMatches(6, $times);
+            $matchArray[61]['wbp'] = $otherTime;
         }
         
         foreach ($matchArray as $key => $matchEntry) {
@@ -505,7 +509,7 @@ class Playoff extends Model
                 $match->teams()->add($team);
             }
         }
-        $this->teams()->detach();
+        //$this->teams()->detach();
     }
 
     public function createSEMatches($rounds, $timeArray)
@@ -593,9 +597,22 @@ class Playoff extends Model
         } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64') {
             $tems = [];
             $teamcount = 16;
-            $seedToMatch = [];
+            $seedToMatch = [1 => 1,
+                            8 => 2,
+                            4 => 3,
+                            5 => 4,
+                            2 => 5,
+                            7 => 6,
+                            3 => 7,
+                            6 => 8,
+                ];
             if ($this->type == 'se8' || $this->type == 'playoffv2') {
                 $teamcount = 8;
+                $seedToMatch = [1 => 1,
+                                4 => 2,
+                                2 => 3,
+                                3 => 4,
+                ];
             }
             if ($this->type == 'se32') {
                 $teamcount = 32;
