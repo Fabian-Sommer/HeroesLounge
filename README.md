@@ -38,6 +38,8 @@ All checks should pass so read the license agreement, "Agree & Continue",
  "Database Name" `hl`, "MySQL Login" `root`, no password, "Administrator >",
  "Admin Password" [whatever you want], "Continue", "Start from scratch"
 
+(This admin user and password will be replaced when you import the db dump later on, but you need them for now.)
+
 Then login to the backend with the user "admin" and the password you selected:
 
 http://localhost:8080/hl/backend/system/updates
