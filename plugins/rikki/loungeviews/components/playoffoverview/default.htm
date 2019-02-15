@@ -42,7 +42,7 @@
                                             {% if sloth.role  %} {%  set path = 'assets/img/roles/' ~sloth.role.title|replace({' ':'-'})|lower ~ '.svg'  %}
                                                     <img src="{{path | theme}}" class="mr-2 rounded" title="{{sloth.role.title}}" alt="{{sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:#2e93cd"/>
                                             {% endif %}
-                                            {% if sloth.is_captain %}
+                                            {% if team.type == 2 and sloth.is_divs_captain or team.type == 1 and sloth.is_captain %}
                                                 <i class="fa fa-star blue-icon" title="Captain"></i>
                                             {% endif %}
                                             {{sloth.title}}
