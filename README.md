@@ -19,6 +19,8 @@ On OS X, install with Brew: https://brew.sh/
 
 On Linux you should be able to figure this out yourself. ;)
 
+Now run the Virtualbox UI and make sure that the Virtualbox Guest Additions are up to date with the Virtualbox version (it should prompt you automaticallly if not).
+
 
 Download the database zip from the link you should have received and put it in this directory.
 
