@@ -90,11 +90,11 @@ class Plugin extends PluginBase
 
         $schedule->call(function () {
             MMR\MMRFetcher::updateMMRs();
-        })->dailyAt('3:00');
+        })->weekly()->fridays()->at('3:00');
 
         $schedule->call(function () {
             hotslogs\IDFetcher::fetchIDs();
-        })->dailyAt('3:30');
+        })->weekly()->wednesdays()->at('3:30');
 
         $schedule->call(function () {
             classes\Discord\Attendance::migrateDiscordTagsToIds();
@@ -103,7 +103,7 @@ class Plugin extends PluginBase
         $schedule->call(function () {
             Deployment::updateHeroprotocol();
         })->dailyAt('1:30');
-            
+        
         $schedule->call(function () {
             $hu = new HeroUpdater;
             $hu->updateHeroes();
