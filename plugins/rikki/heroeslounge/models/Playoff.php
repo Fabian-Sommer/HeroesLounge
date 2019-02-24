@@ -462,10 +462,10 @@ class Playoff extends Model
                         'wbp' => $Time4]
             ];
         } else if ($this->type == 'se16') {
-            $times = [  0 => Carbon::create(2019, 2, 17, 1, 0, 0, $timezone),
-                        1 => Carbon::create(2019, 2, 17, 2, 0, 0, $timezone),
-                        2 => Carbon::create(2019, 2, 17, 1, 0, 0, $timezone),
-                        3 => Carbon::create(2019, 2, 17, 3, 0, 0, $timezone)
+            $times = [  0 => Carbon::create(2019, 2, 24, 1, 0, 0, $timezone),
+                        1 => Carbon::create(2019, 2, 24, 2, 0, 0, $timezone),
+                        2 => Carbon::create(2019, 2, 25, 1, 0, 0, $timezone),
+                        3 => Carbon::create(2019, 2, 25, 3, 0, 0, $timezone)
                     ];
             $matchArray = $this->createSEMatches(4, $times);
         } else if ($this->type == 'se8') {
@@ -475,13 +475,13 @@ class Playoff extends Model
                     ];
             $matchArray = $this->createSEMatches(3, $times);
         } else if ($this->type == 'se32') {
-            $times = [  0 => Carbon::create(2019, 2, 17, 1, 0, 0, $timezone),
-                        1 => Carbon::create(2019, 2, 17, 2, 0, 0, $timezone),
-                        2 => Carbon::create(2019, 2, 17, 3, 0, 0, $timezone),
-                        3 => Carbon::create(2019, 2, 18, 1, 0, 0, $timezone),
-                        4 => Carbon::create(2019, 2, 18, 3, 0, 0, $timezone)
+            $times = [  0 => Carbon::create(2019, 2, 23, 18, 0, 0, $timezone),
+                        1 => Carbon::create(2019, 2, 23, 19, 0, 0, $timezone),
+                        2 => Carbon::create(2019, 2, 23, 20, 0, 0, $timezone),
+                        3 => Carbon::create(2019, 2, 24, 19, 0, 0, $timezone),
+                        4 => Carbon::create(2019, 2, 24, 21, 0, 0, $timezone)
                     ];
-            $otherTime = Carbon::create(2019, 2, 18, 2, 0, 0, $timezone);
+            $otherTime = Carbon::create(2019, 2, 24, 20, 0, 0, $timezone);
             $matchArray = $this->createSEMatches(5, $times);
             $matchArray[29]['wbp'] = $otherTime;
         } else if ($this->type == 'se64') {
@@ -495,6 +495,20 @@ class Playoff extends Model
             $otherTime = Carbon::create(2019, 2, 17, 20, 0, 0, $timezone);
             $matchArray = $this->createSEMatches(6, $times);
             $matchArray[61]['wbp'] = $otherTime;
+        } else if ($this->type == 'de16') {
+            $times = [  0 => Carbon::create(2019, 2, 16, 18, 0, 0, $timezone),
+                        1 => Carbon::create(2019, 2, 16, 19, 0, 0, $timezone),
+                        2 => Carbon::create(2019, 2, 16, 20, 0, 0, $timezone),
+                        3 => Carbon::create(2019, 2, 16, 21, 0, 0, $timezone),
+                        4 => Carbon::create(2019, 2, 17, 19, 0, 0, $timezone),
+                        5 => Carbon::create(2019, 2, 17, 21, 0, 0, $timezone),
+                        6 => Carbon::create(2019, 2, 17, 21, 0, 0, $timezone),
+                        7 => Carbon::create(2019, 2, 17, 21, 0, 0, $timezone),
+                        8 => Carbon::create(2019, 2, 17, 21, 0, 0, $timezone),
+                        9 => Carbon::create(2019, 2, 17, 21, 0, 0, $timezone),
+                        10 => Carbon::create(2019, 2, 17, 21, 0, 0, $timezone),
+                    ];
+            $matchArray = $this->createDEMatches(4, $times);
         }
         
         foreach ($matchArray as $key => $matchEntry) {
@@ -531,6 +545,71 @@ class Playoff extends Model
                 $x++;
             }
         }
+        return $matchArray;
+    }
+
+    public function createDEMatches($rounds, $timeArray)
+    {
+        $matchArray = [];
+        $MAI = 0;
+
+        //upper bracket
+        for ($roundnumber = 0; $roundnumber < $rounds; $roundnumber++) {
+            $time = $timeArray[$roundnumber];
+            for ($i = 0; $i < 2**($rounds - $roundnumber - 1); $i++) {
+                $wn = Match::encodePlayoffPosition(1,$roundnumber+2,floor($i/2)+1);
+                if ($roundnumber+1 == $rounds) {
+                    $wn = Match::encodePlayoffPosition(3,1,1);
+                }
+                $ln = null;
+                if ($roundnumber == 0) {
+                    $ln = Match::encodePlayoffPosition(2,1,floor($i/2)+1);
+                } else if ($roundnumber%2 == 0) {
+                    $ln = Match::encodePlayoffPosition(2,2*$roundnumber,$i+1);
+                } else {
+                    $ln = Match::encodePlayoffPosition(2,2*$roundnumber,2**($rounds - $roundnumber - 1) - $i);
+                }
+
+                $matchArray[$MAI] = ['pos' => Match::encodePlayoffPosition(1,$roundnumber+1,$i+1), 
+                                    'wn' => $wn, 
+                                    'ln' => $ln, 
+                                    'teams' => [], 
+                                    'wbp' => $time];
+                $MAI++;
+            }
+        }
+
+        //lower bracket
+
+        for ($roundnumber = 0; $roundnumber < 2*($rounds-1); $roundnumber++) {
+            $time = $timeArray[$rounds+$roundnumber];                
+            for ($i = 0; $i < 2**($rounds - floor($roundnumber/2) - 2); $i++) {
+                $wn = Match::encodePlayoffPosition(2,$roundnumber+2,floor($i/2)+1);
+                if ($roundnumber%2 == 0) {
+                    //next round will have the same number of matches
+                    $wn = Match::encodePlayoffPosition(2,$roundnumber+2,$i+1);
+                }
+                if ($roundnumber+1 == 2*($rounds-1)) {
+                    $wn = Match::encodePlayoffPosition(3,1,1);
+                }
+
+                $matchArray[$MAI] = ['pos' => Match::encodePlayoffPosition(2,$roundnumber+1,$i+1), 
+                                    'wn' => $wn, 
+                                    'ln' => null, 
+                                    'teams' => [], 
+                                    'wbp' => $time];
+                $MAI++;
+            }
+        }
+
+        //finals
+        $time = $timeArray[$rounds + 2*($rounds-1)];
+        $matchArray[$MAI] = ['pos' => Match::encodePlayoffPosition(3,1,1), 
+                            'wn' => null, 
+                            'ln' => null, 
+                            'teams' => [], 
+                            'wbp' => $time];
+        $MAI++;
         return $matchArray;
     }
 
@@ -669,6 +748,9 @@ class Playoff extends Model
                                 11  => 31,
                                 22  => 32,
                 ];
+            }
+            if ($this->type == 'de16') {
+                //same as default
             }
             for ($i=1; $i <= $teamcount; $i++) { 
                 $team = $this->teams()->where('seed', $i)->first();
