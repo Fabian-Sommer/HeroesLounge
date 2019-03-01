@@ -377,3 +377,6 @@
 1.0.132:
     - 'Updated table rikki_heroeslounge_teams'
     - builder_table_update_rikki_heroeslounge_teams_7.php
+1.0.133:
+    - 'Updated table rikki_heroeslounge_seasons'
+    - builder_table_update_rikki_heroeslounge_seasons_4.php

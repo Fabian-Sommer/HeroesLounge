@@ -19,6 +19,12 @@ fields:
         required: 1
         nameFrom: title
         type: relation
+    type:
+        label: Type
+        type: number
+        required: 1
+        default: 1
+        comment: '1 - Amateur, 2 - Div S'
     logo:
         label: Logo
         span: auto

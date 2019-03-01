@@ -10,6 +10,7 @@
         <div class="col-md-12">
            {% component 'divisionTable' id=__SELF__.div.id %}
         </div>
+        {% if __SELF__.div.season.current_round > 0 %}
         <div class="col-md-12">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand">Round</a>
@@ -37,6 +38,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
     </div>
  
     <div class="col-md-4 sidebar">

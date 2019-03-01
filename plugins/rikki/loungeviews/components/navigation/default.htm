@@ -40,27 +40,37 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Division S</a>
-                        <div class="dropdown-menu" aria-labelledby="divsnav" role="menu">
+                        <ul role="menu" class="dropdown-menu pull-right">
                             <a class="dropdown-item" href="{{ 'divisionS/general' | page }}">Overview</a>
-                            <a class="dropdown-item" href="{{ 'divisionS/standings' | page }}">Standings</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-1'})}}"></i> [EU] Qualifier 1</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-2'})}}"></i> [EU] Qualifier 2</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-3'})}}"></i> [EU] Qualifier 3</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-4'})}}"></i> [EU] Qualifier 4</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-1'})}}"></i> [NA] Qualifier 1</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-2'})}}"></i> [NA] Qualifier 2</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-3'})}}"></i> [NA] Qualifier 3</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-4'})}}"></i> [NA] Qualifier 4</a>
-                            <a class="dropdown-item" href="{{ 'divisionS/ruleset' | page }}">Ruleset</a> 
-                            <!-- <a class="dropdown-item" href="{{ 'divisionS/faq' | page }}">FAQ</a> -->
+                            <li class="nav-item dropdown-submenu">
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_9" href="{{ 'season/' |page({slug:'eu-division-s-season-1'})}}"> [EU] Season 1</a>
+                                <div class="dropdown-menu" aria-labelledby="#season_9">
+                                    <a class="dropdown-item" href="{{ 'season/division'|page({slug: 'eu-division-s-season-1', divslug: 'eu-division-s-season-1'})}} "> Standings</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-1'})}}"></i> Qualifier 1</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-2'})}}"></i> Qualifier 2</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-3'})}}"></i> Qualifier 3</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-4'})}}"></i> Qualifier 4</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown-submenu">
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_10" href="{{ 'season/' |page({slug:'na-division-s-season-1'})}}"> [NA] Season 1</a>
+                                <div class="dropdown-menu" aria-labelledby="#season_10">
+                                    <a class="dropdown-item" href="{{ 'season/division'|page({slug: 'na-division-s-season-1', divslug: 'na-division-s-season-1'})}} "> Standings</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-1'})}}"></i> Qualifier 1</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-2'})}}"></i> Qualifier 2</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-3'})}}"></i> Qualifier 3</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-4'})}}"></i> Qualifier 4</a>
+                                </div>
+                            </li>
+                            <a class="dropdown-item" href="{{ 'divisionS/ruleset' | page }}">Ruleset</a>
                             <a class="dropdown-item" href="{{ 'divisionS/crew' | page }}">Crew</a>
                             <a class="dropdown-item" href="http://crowdfunding.heroeslounge.gg"></i> Crowdfunding</a>
-                        </div>
+                        </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="seasons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Amateur Series</a>
                         <ul role="menu" class="dropdown-menu pull-right">
-                            {% for season in __SELF__.seasons %} {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
+                            {% for season in __SELF__.amateurseasons %} {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
                             <li class="nav-item dropdown-submenu">
                                 <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_{{season.id}}" href="{{ 'season/' |page({slug:season.slug})}}"><i class="fa fa-tags" aria-hidden="true"></i> {{season.title}}</a>
                                 <div class="dropdown-menu" aria-labelledby="#season_{{season.id}}">

@@ -32,7 +32,8 @@ class Navigation extends UserAccount
 
     public $user = null;
     public $sloth = null;
-    public $seasons = null;
+    public $amateurseasons = null;
+    public $divsseasons = null;
 
     public function init()
     {
@@ -40,7 +41,8 @@ class Navigation extends UserAccount
 
 
         $this->user = Auth::getUser();
-        $this->seasons = Season::orderBy('created_at','desc')->get();
+        $this->amateurseasons = Season::where('type', 1)->orderBy('created_at','desc')->get();
+        $this->divsseasons = Season::where('type', 2)->orderBy('created_at','desc')->get();
         if ($this->user != null) {
             $this->sloth = SlothModel::getFromUser($this->user);
         }
