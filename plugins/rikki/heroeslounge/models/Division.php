@@ -122,10 +122,16 @@ class Division extends Model
             
             foreach($match->games as $game) {
                 if ($game->winner) {
-                    $teams->where('id', $game->winner->id)->first()->map_score += 1;
-                    $teams->where('id', $match->teams->first(function ($team, $key) use ($game) {
+                    $winningTeam = $teams->where('id', $game->winner->id)->first();
+                    if ($winningTeam) {
+                        $winningTeam->map_score += 1;    
+                    }
+                    $losingTeam = $teams->where('id', $match->teams->first(function ($team, $key) use ($game) {
                             return $team->id != $game->winner->id;
-                        })->id)->first()->map_score -= 1;
+                        })->id)->first();
+                    if ($losingTeam) {
+                        $losingTeam->map_score -= 1;
+                    }
                 }
                 
             }
