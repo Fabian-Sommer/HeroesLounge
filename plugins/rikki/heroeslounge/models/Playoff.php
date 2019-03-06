@@ -673,7 +673,7 @@ class Playoff extends Model
                     $match->save();
                 }
             }
-        } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64') {
+        } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64' || $this->type == 'de16') {
             $tems = [];
             $teamcount = 16;
             $seedToMatch = [1 => 1,
