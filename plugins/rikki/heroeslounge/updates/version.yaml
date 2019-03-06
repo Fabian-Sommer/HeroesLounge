@@ -380,3 +380,6 @@
 1.0.133:
     - 'Updated table rikki_heroeslounge_seasons'
     - builder_table_update_rikki_heroeslounge_seasons_4.php
+1.0.134:
+    - 'Updated table rikki_heroeslounge_divisions'
+    - builder_table_update_rikki_heroeslounge_divisions_2.php

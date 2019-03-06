@@ -16,6 +16,11 @@ secondaryTabs:
                 type: slug
             type: text
             tab: General
+        overview_display_title:
+            label: Overview Display Title
+            span: auto
+            type: text
+            tab: General
         logo:
             label: Logo
             oc.commentPosition: ''
