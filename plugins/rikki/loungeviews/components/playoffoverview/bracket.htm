@@ -39,7 +39,7 @@
                         {% endif %}
                     </div>
                 </div>
-                {% if not match['model'].is_played %}
+                {% if not match['model'].is_played and match['model'].wbp is not null %}
                 <div class="state">
                     <time datetime="{{match['model'].wbp | date('m/d/Y', timezone)}}" dateformat="custom_medium" timeformat="none">{{match['model'].wbp | date('d M', timezone)}}</time>
                     <div class="time"><time datetime="{{match['model'].wbp | date('m/d/Y', timezone)}}" dateformat="none" timeformat="short">{{match['model'].wbp | date('H:i', timezone)}}</time></div>
