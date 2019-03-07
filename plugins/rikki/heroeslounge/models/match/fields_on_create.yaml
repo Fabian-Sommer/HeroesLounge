@@ -18,6 +18,9 @@ secondaryTabs:
             mode: datetime
             span: auto
             type: datepicker
+        round:
+            label: 'Round'
+            type: number
         division:
             label: 'Division'
             oc.commentPosition: ''

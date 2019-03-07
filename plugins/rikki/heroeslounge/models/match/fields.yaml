@@ -21,6 +21,9 @@ secondaryTabs:
             readOnly: true
             tab: Misc
             type: datepicker
+        round:
+            label: 'Round'
+            type: number
         is_played:
           label: 'Is played'
           type: checkbox
