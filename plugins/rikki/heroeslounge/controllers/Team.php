@@ -49,14 +49,8 @@ class Team extends Controller
             $team->sloths->each(function($sloth) use ($team) {
                 if($sloth->is_captain && $team->type == 1) {
                     $sloth->is_captain = false;
-                    if (!$sloth->is_divs_captain) {
-                        $sloth->removeDiscordCaptainRole();
-                    }
                 } else if ($sloth->is_divs_captain && $team->type == 2) {
                     $sloth->is_divs_captain = false;
-                    if (!$sloth->is_captain) {
-                        $sloth->removeDiscordCaptainRole();
-                    }
                 }
                 if ($team->type == 1) {
                     $sloth->team()->dissociate();

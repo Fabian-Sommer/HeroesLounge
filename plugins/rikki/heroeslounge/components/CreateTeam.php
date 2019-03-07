@@ -95,8 +95,6 @@ class CreateTeam extends ComponentBase
                         $model->save();
                     });
 
-                    $this->user->sloth->addDiscordCaptainRole();
-
                     Flash::success('Team sucessfully created!');
                     return Redirect::to('team/manage/'.$this->team->slug);
                 }
