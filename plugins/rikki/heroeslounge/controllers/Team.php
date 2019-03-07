@@ -50,12 +50,12 @@ class Team extends Controller
                 if($sloth->is_captain && $team->type == 1) {
                     $sloth->is_captain = false;
                     if (!$sloth->is_divs_captain) {
-                        Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "Captains");
+                        $sloth->removeDiscordCaptainRole();
                     }
                 } else if ($sloth->is_divs_captain && $team->type == 2) {
                     $sloth->is_divs_captain = false;
                     if (!$sloth->is_captain) {
-                        Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "Captains");
+                        $sloth->removeDiscordCaptainRole();
                     }
                 }
                 if ($team->type == 1) {

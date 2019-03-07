@@ -264,4 +264,14 @@ class Sloth extends Model
             }
         }
     }
+
+    public function addDiscordCaptainRole()
+    {
+        Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "Captains");
+    }
+
+    public function removeDiscordCaptainRole()
+    {
+        Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "Captains");
+    }
 }
