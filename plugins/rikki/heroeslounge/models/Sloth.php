@@ -218,6 +218,17 @@ class Sloth extends Model
         }
     }
 
+    public function afterSave()
+    {
+        if ($this->isDirty('is_captain') || $this->isDirty('is_divs_captain')) {
+            if ($this->is_captain || $this->is_divs_captain) {
+                $this->addDiscordCaptainRole();
+            } else {
+                $this->removeDiscordCaptainRole();
+            }
+        }
+    }
+
     public function beforeDelete()
     {
         $this->_saveTimelineEntry('Sloth.Deleted');
@@ -263,5 +274,15 @@ class Sloth extends Model
                 case 'Sloth.Created':
             }
         }
+    }
+
+    public function addDiscordCaptainRole()
+    {
+        Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "Captains");
+    }
+
+    public function removeDiscordCaptainRole()
+    {
+        Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "Captains");
     }
 }

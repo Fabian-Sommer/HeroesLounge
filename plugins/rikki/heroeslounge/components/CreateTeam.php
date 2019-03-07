@@ -95,8 +95,6 @@ class CreateTeam extends ComponentBase
                         $model->save();
                     });
 
-                    Discord\RoleManagement::UpdateUserRole("PUT", $this->user->sloth->discord_id, "Captains");
-
                     Flash::success('Team sucessfully created!');
                     return Redirect::to('team/manage/'.$this->team->slug);
                 }

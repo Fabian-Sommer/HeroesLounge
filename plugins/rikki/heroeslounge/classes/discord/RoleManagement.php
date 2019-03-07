@@ -22,7 +22,8 @@ class RoleManagement
 
     $auth_header = AuthCode::getCode();
     $headers = [
-      "Content-Type:application/x-www-form-urlencoded",
+      "Content-Type: application/x-www-form-urlencoded",
+      "Content-Length: 0",
       $auth_header,
       "User-Agent: HeroesLounge (http://heroeslounge.gg, 0.1)"
     ];
