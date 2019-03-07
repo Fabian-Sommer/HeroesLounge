@@ -4,6 +4,14 @@ Core plugins and theme for https://heroeslounge.gg.
 
 To be used with https://octobercms.com/ 
 
+To understand basic project structure, have a look at the OctoberCMS documentation: https://octobercms.com/docs/cms/themes
+
+This repository contains one theme and three plugins:
+
+- LoungeViews: Contains (frontend) components that do not process user input
+- LoungeStatistics: Contains (frontend) components that render statistics
+- Heroeslounge: Contains most features: migrations, models, (backend) controllers, helper classes, (fronend) components that process user input, API endpoints.
+
 
 ## Installation
 
