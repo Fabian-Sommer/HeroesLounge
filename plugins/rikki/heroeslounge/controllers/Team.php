@@ -70,6 +70,7 @@ class Team extends Controller
                 }
 
             });
+            $team->seasons()->detach();
         }
     }
 
