@@ -53,7 +53,7 @@ class CreateApp extends ComponentBase
 
         $appliedTo = Db::table('rikki_heroeslounge_team_apps')->where('user_id', '=', $this->sloth->user_id)->lists('team_id');
 
-        $this->teams = Db::table('rikki_heroeslounge_teams')->where("accepting_apps", "=", 1)->whereNotIn('id', $appliedTo)->get();
+        $this->teams = Db::table('rikki_heroeslounge_teams')->where("accepting_apps", "=", 1)->where('region_id', "=", $this->sloth->region_id)->whereNotIn('id', $appliedTo)->orderBy('title')->get();
     }
 
     public function onApplicationSend()
@@ -67,13 +67,11 @@ class CreateApp extends ComponentBase
             if ($user != null) {
                 $this->sloth = SlothModel::getFromUser($user);
                 $appliedTo = Db::table('rikki_heroeslounge_team_apps')->where('user_id', '=', $this->sloth->user_id)->lists('team_id');
-                $this->teams = Db::table('rikki_heroeslounge_teams')->where("accepting_apps", "=", 1)->whereNotIn('id', $appliedTo)->get();
+                $this->teams = Db::table('rikki_heroeslounge_teams')->where("accepting_apps", "=", 1)->where('region_id', "=", $this->sloth->region_id)->whereNotIn('id', $appliedTo)->orderBy('title')->get();
+                $team = Teams::find(post('team_id'));
 
-                foreach ($this->teams as $team) {
-                  if ($team->id == post('team_id') && $team->accepting_apps === 1) {
+                if ($team->accepting_apps) {
                     $acceptsApps = true;
-                    break;
-                  }
                 }
 
                 if ($acceptsApps == false) {
