@@ -40,7 +40,8 @@ class IDFetcher
 
             if ($data != null) {
                 if (array_key_exists("PlayerID", $data)) {
-                    SlothModel::where('id', $sloth->id)->update(['hotslogs_id' => $data["PlayerID"]]);
+                    $sloth->hotslogs_id = $data["PlayerID"];
+                    $sloth->save();
                 }
             }
         }
