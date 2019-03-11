@@ -26,6 +26,8 @@ use Rikki\Heroeslounge\Models\SlothRole;
 use Rikki\Heroeslounge\Models\Timeline;
 use Rikki\Heroeslounge\classes\Mailchimp\MailChimpAPI;
 use Rikki\Heroeslounge\Models\Region as Region;
+use Rikki\Heroeslounge\classes\hotslogs\IDFetcher;
+use Rikki\Heroeslounge\classes\mmr\MMRFetcher;
 
 class SlothAccount extends UserAccount
 {
