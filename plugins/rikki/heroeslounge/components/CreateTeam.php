@@ -49,27 +49,35 @@ class CreateTeam extends ComponentBase
 
     public function onCreateTeam()
     {
-        if (empty(post('team_name'))) {
+        $data = post();
+
+        if (empty($data['team_name'])) {
             Flash::error('A team name is required!');
             return Redirect::refresh();
-        } else if (strpos(post('team_slug'), '%') !== false || strpos(post('team_slug'), '$') !== false) {
+        } else if (strpos($data['team_slug'], '%') !== false || strpos($data['team_slug'], '$') !== false) {
             Flash::error('The team abbreviation must not contain special characters!');
             return Redirect::refresh();
         } else {
             try {
                 $this->team = new Teams;
 
-                $validation = Validator::make(['title'=>post('team_name'), 'slug'=>post('team_slug')], $this->team->rules);
+                $createValidation = [
+                    'title' => $data['team_name'],
+                    'slug' => $data['team_slug'],
+                    'type' => $data['type']
+                ];
+
+                $validation = Validator::make($createValidation, $this->team->rules);
                 if ($validation->fails()) {
                     Flash::error($validation->messages()->first());
                 } else {
-                    $this->team->title = post('team_name');
-                    $this->team->slug = post('team_slug');
-                    $this->team->region_id = post('region_id');
-                    $this->team->type = post('type');
+                    $this->team->title = $data['team_name'];
+                    $this->team->slug = $data['team_slug'];
+                    $this->team->region_id = $data['region_id'];
+                    $this->team->type = $data['type'];
                     $this->team->disbanded = false;
                     $this->team->save();
-                    if (post('type') == 1) {
+                    if ($data['type'] == 1) {
                         $this->user->sloth->team_id = $this->team->id;
                         $this->user->sloth->is_captain = 1;
                     } else {

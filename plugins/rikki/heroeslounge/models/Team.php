@@ -30,7 +30,8 @@ class Team extends Model
         'facebook_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?facebook\.com\/[A-Za-z0-9\.]{3,}(\/)?$/u'],
         'twitter_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?twitter\.com\/([a-zA-Z0-9_]+)(\/)?$/u'],
         'youtube_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?youtube\.com\/(channel|user|c)\/([a-zA-Z0-9_\-]+)(\/)?$/u'],
-        'website_url' => ['url', 'regex:/^((?!porn).)*$/u']
+        'website_url' => ['url', 'regex:/^((?!porn).)*$/u'],
+        'type' => 'required|regex:/[1-2]/'
     ];
 
     protected $slugs = ['slug' => 'title'];
