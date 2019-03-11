@@ -54,7 +54,7 @@
     <div class="form-group">
         <label for="registerRegion">Region</label><br>
         <select name="region_id" id="registerRegion" required>
-          <option value="0">select region</option selected>
+          <option value="0">Select Region</option selected>
             {% for region in __SELF__.regions %}
                 <option value="{{region.id}}">{{region.title}}</option>
             {% endfor %}
