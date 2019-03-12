@@ -231,6 +231,16 @@ class Match extends Model
         }
     }
 
+    public function afterDelete()
+    {
+        $this->teams()->detach();
+        $this->casters()->detach();
+        
+        foreach ($this->games as $game) {
+            $game->delete();
+        }
+    }
+
     public function determineWinnerAndSave()
     {
         $t1wins = $this->games->where('winner_id', $this->teams[0]->id)->count();
