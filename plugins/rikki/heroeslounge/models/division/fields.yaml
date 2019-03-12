@@ -45,11 +45,3 @@ secondaryTabs:
             span: auto
             type: relation
             tab: General
-        teams:
-            label: 'Assigned Teams'
-            oc.commentPosition: ''
-            nameFrom: title
-            span: auto
-            descriptionFrom: description
-            type: relation
-            tab: Teams

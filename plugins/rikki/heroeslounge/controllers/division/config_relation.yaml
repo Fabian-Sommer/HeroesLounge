@@ -1,3 +1,15 @@
+teams:
+    label: Teams
+    view:
+        list:
+            columns:
+                title:
+                    label: title
+                type:
+                    label: type
+        toolbarPartial: teams_toolbar
+    manage:
+        showSearch: true
 timeline:
     label: Timeline Entries
     view:

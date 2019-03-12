@@ -5,7 +5,11 @@ teams:
             columns:
                 title:
                     label: title
+                type:
+                    label: type
         toolbarPartial: teams_toolbar
+    manage:
+        showSearch: true
 games:
     label: Games
     view: 
