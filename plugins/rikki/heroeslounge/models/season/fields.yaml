@@ -51,7 +51,7 @@ fields:
         label: 'Current Round'
         oc.commentPosition: ''
         span: auto
-        disabled: 1
+        disabled: 0
         type: number
     divisions:
         label: 'Assigned Divisions'
