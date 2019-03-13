@@ -19,7 +19,7 @@ class IDFetcher
     {
         $battletag = $sloth->battle_tag;
         
-        SlothModel::where('id', $sloth->id)->update(['hotslogs_id' => null]);
+        $sloth->hotslogs_id = null;
         $battletagReformatted = str_replace("#", "_", $battletag);
 
         $region = "2";
@@ -41,9 +41,9 @@ class IDFetcher
             if ($data != null) {
                 if (array_key_exists("PlayerID", $data)) {
                     $sloth->hotslogs_id = $data["PlayerID"];
-                    $sloth->save();
                 }
             }
         }
+        $sloth->save();
     }
 }
