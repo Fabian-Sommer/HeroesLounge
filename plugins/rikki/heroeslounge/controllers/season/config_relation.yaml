@@ -27,3 +27,15 @@ timeline:
                     nameFrom: title
                     type: relation
         list: $/rikki/heroeslounge/models/timeline/columns.yaml
+teams:
+    label: Teams
+    view:
+        list:
+            columns:
+                title:
+                    label: title
+                type:
+                    label: type
+        toolbarPartial: teams_toolbar
+    manage:
+        showSearch: true
