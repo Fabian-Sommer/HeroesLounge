@@ -1,10 +1,14 @@
- 
-
 {% if __SELF__.div is null%}
-    
+Unknown Division
 {% else %}
 <h1>{{__SELF__.div.season.title}}</h1>
+
+{% if __SELF__.div.overview_display_title is null %}
 <h2>{{__SELF__.div.title}}</h2>
+{% else %}
+<h2>{{__SELF__.div.overview_display_title}}</h2>
+{% endif %}
+
 <div class="row">
     <div class="col-md-8">
         <div class="col-md-12">

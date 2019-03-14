@@ -30,3 +30,8 @@ columns:
         type: text
         searchable: true
         sortable: true
+    overview_display_title:
+        label: Overview Display Title
+        type: text
+        searchable: true
+        sortable: true
