@@ -1,4 +1,4 @@
-secondaryTabs:
+Tabs:
     fields:
         title:
             label: Title
@@ -96,3 +96,4 @@ secondaryTabs:
             tab: Timeline
             type: partial
             path: ~/plugins/rikki/heroeslounge/controllers/team/_timelineTab.htm
+            

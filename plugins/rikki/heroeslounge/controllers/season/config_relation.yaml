@@ -1,3 +1,33 @@
+divisions:
+    label: Divisions
+    view:
+        list:
+            columns:
+                title:
+                    label: Division
+                teams_count:
+                    label: '# of Teams'
+                    type: number
+                    sortable: true
+                    relation: teams_count
+                    valueFrom: count
+        toolbarButtons: create|add|remove|delete
+    manage:
+        form: $/rikki/heroeslounge/models/division/season_division_fields.yaml
+teams:
+    label: Teams
+    view:
+        list:
+            columns:
+                title:
+                    label: Title
+                type:
+                    label: Type
+        toolbarButtons: add|remove
+    manage:
+        showSearch: true
+        recordsPerPage: 20
+        list: $/rikki/heroeslounge/models/team/relation_columns.yaml
 timeline:
     label: Timeline Entries
     view:
@@ -6,8 +36,7 @@ timeline:
                 created_at:
                     label: Date
                 type:
-                    label: type
-        form: $/rikki/heroeslounge/models/timeline/fields.yaml
+                    label: Type
         toolbarPartial: timeline_toolbar
     manage:
         form:
@@ -26,18 +55,3 @@ timeline:
                     oc.commentPosition: ''
                     nameFrom: title
                     type: relation
-        list: $/rikki/heroeslounge/models/timeline/columns.yaml
-teams:
-    label: Teams
-    view:
-        list:
-            columns:
-                title:
-                    label: title
-                type:
-                    label: type
-        toolbarPartial: teams_toolbar
-    manage:
-        showSearch: true
-        recordsPerPage: 20
-        list: $/rikki/heroeslounge/models/team/relation_columns.yaml
