@@ -10,6 +10,9 @@ teams:
         toolbarPartial: teams_toolbar
     manage:
         showSearch: true
+        recordsPerPage: 20
+        list: $/rikki/heroeslounge/models/team/relation_columns.yaml
+            
 games:
     label: Games
     view: 
