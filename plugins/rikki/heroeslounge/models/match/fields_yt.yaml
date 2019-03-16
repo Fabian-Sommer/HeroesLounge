@@ -1,11 +1,10 @@
 fields:
     yt_playlist:
         label: 'Playlist URL'
-        oc.commentPosition: ''
         span: auto
         type: text
         tab: 'Tab 1'
     games:
         span: auto
-        path: ~/plugins/rikki/heroeslounge/controllers/match/_game.htm
         type: partial
+        path: ~/plugins/rikki/heroeslounge/controllers/match/_game.htm

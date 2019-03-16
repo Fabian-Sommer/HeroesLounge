@@ -2,10 +2,8 @@ fields:
     title:
         label: 'Channel Name'
         span: auto
-        oc.commentPosition: ''
         type: text
     url:
         label: 'URL'
         span: auto
-        oc.commentPosition: ''
         type: text

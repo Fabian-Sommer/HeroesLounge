@@ -1,20 +1,18 @@
-secondaryTabs:
+Tabs:
     fields:
         title:
             label: Title
-            oc.commentPosition: ''
             span: auto
-            required: 1
             type: text
+            required: 1
             tab: General
         slug:
             label: Slug
-            oc.commentPosition: ''
             span: auto
+            type: text
             preset:
                 field: title
                 type: slug
-            type: text
             tab: General
         overview_display_title:
             label: Overview Display Title
@@ -23,30 +21,38 @@ secondaryTabs:
             tab: General
         logo:
             label: Logo
-            oc.commentPosition: ''
+            span: auto
+            type: fileupload
             mode: file
             useCaption: true
             thumbOptions:
                 mode: crop
                 extension: auto
-            span: auto
-            type: fileupload
             tab: General
         season:
             label: 'Belongs to Season'
-            oc.commentPosition: ''
+            span: auto
+            type: relation
             nameFrom: title
             descriptionFrom: description
             placeholder: 'null'
-            span: auto
-            type: relation
             tab: General
         playoff:
             label: 'Belongs to Tournament'
-            oc.commentPosition: ''
+            span: auto
+            type: relation
             nameFrom: title
             descriptionFrom: description
             placeholder: 'null'
-            span: auto
-            type: relation
             tab: General
+        teams:
+            label: Teams
+            span: full
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/division/_teams.htm
+            tab: Teams
+        timeline:
+            label: Timeline
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/division/_timeline.htm
+            tab: Timeline

@@ -2,25 +2,23 @@ fields:
     title:
         label: Title
         span: auto
-        required: 1
         type: text
+        required: 1
     slug:
         label: Slug
         span: auto
+        type: text
         preset:
             field: title
             type: slug
-        type: text
     overview_display_title:
         label: Overview Display Title
-        span: auto
-        type: text
     logo:
         label: Logo
+        span: auto
+        type: fileupload
         mode: file
         useCaption: true
         thumbOptions:
             mode: crop
             extension: auto
-        span: auto
-        type: fileupload

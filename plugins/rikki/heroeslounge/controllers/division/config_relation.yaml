@@ -7,7 +7,7 @@ teams:
                     label: title
                 type:
                     label: type
-        toolbarPartial: teams_toolbar
+        toolbarButtons: add|remove
     manage:
         showSearch: true
 timeline:

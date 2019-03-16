@@ -2,27 +2,25 @@ Tabs:
     fields:
         title:
             label: Title
-            oc.commentPosition: ''
             span: auto
-            required: 1
             type: text
+            required: 1
             tab: General
         slug:
             label: Slug
-            oc.commentPosition: ''
             span: auto
+            type: text
             required: 1
             preset:
                 field: title
                 type: slug
-            type: text
             tab: General
         region:
             label: Region
             span: left
+            type: relation
             required: 1
             nameFrom: title
-            type: relation
             tab: General
         type:
             label: Type
@@ -34,65 +32,62 @@ Tabs:
             tab: General
         logo:
             label: Logo
-            oc.commentPosition: ''
             mode: file
+            type: fileupload
             useCaption: true
             thumbOptions:
                 mode: crop
                 extension: auto
-            type: fileupload
             tab: General
         round_length:
             label: 'Round Length'
-            oc.commentPosition: ''
             span: auto
-            required: 1
             type: number
+            required: 1
             tab: General
         current_round:
             label: 'Current Round'
-            oc.commentPosition: ''
             span: auto
-            disabled: 0
             type: number
+            disabled: 0
             tab: General
         is_active:
             label: 'Is Active'
             span: auto
-            required: 0
             type: switch
+            required: 0
             comment: 'Only Active Seasons will be factored into Matchmaking if Round_length > Current_Round. Has to be active for people to sign up.'
             tab: General
         reg_open:
             label: 'Registration Open'
             span: auto
+            type: checkbox
             trigger:
                 action: empty
                 field: is_active
                 condition: unchecked
-            type: checkbox
             comment: 'When checked FAs & Teams can signup for'
             tab: General
         mm_active:
             label: 'Matchmaking Active'
             span: auto
+            type: checkbox
             trigger:
                 action: empty
                 field: reg_open
                 condition: checked
-            type: checkbox
             comment: 'When checked, matchmaking will run ever sunday midnight if current round < round_length'
             tab: General
         divisions:
             type: partial
-            tab: Divisions
             path: ~/plugins/rikki/heroeslounge/controllers/season/_divisions.htm
+            tab: Divisions
         teams:
             type: partial
-            tab: Teams
             path: ~/plugins/rikki/heroeslounge/controllers/season/_teams.htm
+            tab: Teams
         timeline:
             type: partial
-            tab: Timeline
             path: ~/plugins/rikki/heroeslounge/controllers/season/_timeline.htm
+            tab: Timeline
             

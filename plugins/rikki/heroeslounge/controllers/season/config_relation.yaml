@@ -11,9 +11,9 @@ divisions:
                     sortable: true
                     relation: teams_count
                     valueFrom: count
-        toolbarButtons: create|add|remove|delete
+        toolbarButtons: create|add|remove
     manage:
-        form: $/rikki/heroeslounge/models/division/season_division_fields.yaml
+        form: $/rikki/heroeslounge/models/division/create_fields.yaml
 teams:
     label: Teams
     view:

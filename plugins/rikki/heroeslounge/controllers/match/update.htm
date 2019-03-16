@@ -11,26 +11,9 @@
 <?= Form::open(['class' => 'layout']) ?>
      
     <div class="layout-row">
-
-    
         <?= $this->formRender() ?>
-
     </div>
-    <div class="callout fade in callout-info no-subheader">
-        <div class="header">
-            <i class="icon-info"></i>
-            <h3> After creating a game with a replay, remember to manually parse that replay.</h3>
-        </div>
-    </div>
-    <div id="castersPartial"> <?= $this->makePartial('casters') ?> </div>
-        <?= $this->relationRender('channel', ['readOnly' => false]) ?>
-        <div class="callout fade in callout-info no-subheader">
-            <div class="header">
-                <i class="icon-info"></i>
-                <h3> After creating a <strong>Timeline entry</strong>, edit it by clicking on the newest record.</h3>
-            </div>
-        </div>
-        <div id="timelinePartial"> <?= $this->makePartial('timeline') ?> </div>
+        
     <div class="form-buttons">
         <div class="loading-indicator-container">
             <button type="submit" data-request="onSave" data-request-data="redirect:0" data-hotkey="ctrl+s, cmd+s" data-load-indicator="<?= e(trans('backend::lang.form.saving')) ?>"

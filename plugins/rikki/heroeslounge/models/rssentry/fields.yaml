@@ -1,10 +1,9 @@
 fields:
     title:
         label: Title
-        oc.commentPosition: ''
         span: auto
-        required: 1
         type: text
+        required: 1
     media:
         label: Media
         span: auto
@@ -13,16 +12,16 @@ fields:
     description:
         label: 'Description'
         span: auto
-        required: 1
         type: textarea
+        required: 1
     blog:
         label: 'Related Blog'
-        nameFrom: title
         span: auto
         type: relation
+        nameFrom: title
     publication_date:
         label: 'Publication Date'
-        mode: datetime
-        type: datepicker
         span: auto
+        type: datepicker
+        mode: datetime
         required: 1

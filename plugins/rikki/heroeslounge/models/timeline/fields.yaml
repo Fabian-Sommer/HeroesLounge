@@ -9,30 +9,25 @@ fields:
     teams:
         label: 'Associated Teams'
         span: auto
-        oc.commentPosition: ''
-        nameFrom: title
         type: relation
+        nameFrom: title
     sloths:
         label: 'Associated Users'
         span: auto
-        oc.commentPosition: ''
-        select: title
         type: relation
+        select: title
     seasons:
         label: 'Associated Seasons'
         span: auto
-        oc.commentPosition: ''
-        nameFrom: title
         type: relation
+        nameFrom: title
     divisions:
         label: 'Associated Divisions'
         span: auto
-        oc.commentPosition: ''
-        nameFrom: title
         type: relation
+        nameFrom: title
     matches:
         label: 'Associated Matches'
         span: auto
-        oc.commentPosition: ''
-        select: wbp
         type: relation
+        select: wbp

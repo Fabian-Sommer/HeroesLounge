@@ -2,24 +2,23 @@ Tabs:
     fields:
         title:
             label: Title
-            oc.commentPosition: ''
             span: auto
-            required: 1
             type: text
+            required: 1
             tab: General
         slug:
             label: Slug
-            oc.commentPosition: ''
             span: auto
+            type: text
             disabled: 0
             required: 1
             preset:
                 field: title
                 type: slug
-            type: text
             tab: General
         type:
             label: Type
+            span: auto
             type: text
             required: 1
             preset: "1"
@@ -27,57 +26,56 @@ Tabs:
             tab: General
         region:
             label: Region
+            span: auto
+            type: relation
             required: 1
             nameFrom: title
-            type: relation
             tab: General
         server_preference:
             label: Server Preference
+            span: left
             type: text
             tab: General
         disbanded:
             label: 'Disbanded'
-            span: auto
-            required: 1
+            span: left
             type: switch
+            required: 1
             comment: 'Disband to remove all players and lock the team for view'
             tab: General
         slothrating:
             label: SlothRating
-            oc.commentPosition: ''
-            span: auto
+            span: left
+            type: number
             disabled: 1
             required: 0
-            type: number
             tab: General
         banner:
             label: Banner
-            oc.commentPosition: ''
+            span: left
+            type: fileupload
             mode: image
             useCaption: true
             thumbOptions:
                 mode: crop
                 extension: auto
             span: auto
-            type: fileupload
             tab: General
         logo:
             label: Logo
-            oc.commentPosition: ''
+            span: auto
+            type: fileupload
             mode: image
             useCaption: true
             thumbOptions:
                 mode: crop
                 extension: auto
-            span: auto
-            type: fileupload
             tab: General
         short_description:
             label: 'Short Description'
-            size: large
-            oc.commentPosition: ''
             span: full
             type: richeditor
+            size: large
             tab: General
         accepting_apps:
             label: 'Accepting Applications'
@@ -85,15 +83,15 @@ Tabs:
             type: switch
             tab: General
         divisions:
-            tab: Divisions
             type: partial
             path: ~/plugins/rikki/heroeslounge/controllers/team/_divisions.htm
+            tab: Divisions
         sloths:
-            tab: Roster
             type: partial
             path: ~/plugins/rikki/heroeslounge/controllers/team/_roster.htm
+            tab: Roster
         timeline:
-            tab: Timeline
             type: partial
             path: ~/plugins/rikki/heroeslounge/controllers/team/_timelineTab.htm
+            tab: Timeline
             
