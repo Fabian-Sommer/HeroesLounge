@@ -97,18 +97,12 @@ navigation:
                     - rikki.heroeslounge.timeline
     manage-matches:
         label: 'Manage Matches'
-        url: rikki/heroeslounge/vod
+        url: rikki/heroeslounge/match
         icon: icon-futbol-o
         permissions:
             - rikki.heroeslounge.matches
         order: '3'
         sideMenu:
-            manage-vods:
-                label: 'Manage Vods'
-                url: rikki/heroeslounge/vod
-                icon: icon-youtube-square
-                permissions:
-                    - rikki.heroeslounge.vod
             manage-matches:
                 label: 'Manage Matches'
                 url: rikki/heroeslounge/match
@@ -116,9 +110,6 @@ navigation:
                 permissions:
                     - rikki.heroeslounge.match
 permissions:
-    rikki.heroeslounge.vod:
-        tab: 'rikki.heroeslounge::lang.plugin.name'
-        label: 'Manage Vods'
     rikki.heroeslounge.match:
         tab: 'rikki.heroeslounge::lang.plugin.name'
         label: 'Manage Matches'
