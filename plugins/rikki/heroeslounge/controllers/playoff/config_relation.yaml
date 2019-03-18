@@ -22,3 +22,20 @@ teams:
                 pivot[seed]:
                     label: Seed
     emptyMessage: There are no teams lined up to be assigned.
+divisions:
+    label: Groups
+    view:
+        list:
+            columns:
+                title:
+                    label: Group
+                teams_count:
+                    label: '# of Teams'
+                    type: number
+                    sortable: true
+                    relation: teams_count
+                    valueFrom: count
+        toolbarButtons: create|add|remove
+    manage:
+        form: $/rikki/heroeslounge/models/division/create_fields.yaml
+        

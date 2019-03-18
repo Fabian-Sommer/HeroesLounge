@@ -1,5 +1,0 @@
-title: Season
-modelClass: Rikki\Heroeslounge\Models\Season
-nameFrom: title
-toolbar:
-    buttons: reorder_toolbar

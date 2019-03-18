@@ -1,11 +1,10 @@
 fields:
     title:
         label: 'Map title'
-        oc.commentPosition: ''
         span: left
-        placeholder: 'map name'
-        required: 1
         type: text
+        placeholder: 'Map name'
+        required: 1
     enabled:
         label: Enabled
         span: right

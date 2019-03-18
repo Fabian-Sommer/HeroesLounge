@@ -1,41 +1,57 @@
-secondaryTabs:
+Tabs:
     fields:
         wbp:
             label: 'Schedule for'
-            oc.commentPosition: ''
-            mode: datetime
             span: auto
             type: datepicker
-            tab: Misc
+            mode: datetime
+            tab: General
         schedule_date:
             label: 'Has to be scheduled until'
-            mode: datetime
             span: auto
-            readOnly: true
-            tab: Misc
             type: datepicker
+            mode: datetime
+            readOnly: true
+            tab: General
         tbp:
             label: 'To be played until'
-            mode: datetime
             span: auto
-            readOnly: true
-            tab: Misc
             type: datepicker
+            mode: datetime
+            readOnly: true
+            tab: General
         round:
             label: 'Round'
+            span: left
             type: number
+            tab: General
         is_played:
-          label: 'Is played'
-          type: checkbox
-          tab: Misc
+            label: 'Is played'
+            type: checkbox
+            tab: General
         winner:
             label: 'Winning Team'
+            span: left
             type: relation
             select: title
             emptyOption: '-- no team --'
-            tab: Misc
-        games:
-            span: full
-            path: ~/plugins/rikki/heroeslounge/controllers/match/_game.htm
+            tab: General
+        casters:
+            label: Casters
             type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/match/_casters.htm
+            tab: Casting
+        channel:
+            label: Channel
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/match/_channel.htm
+            tab: Casting
+        games:
+            span: auto
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/match/_game.htm
             tab: Games
+        timeline:
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/match/_timeline.htm
+            tab: Timeline

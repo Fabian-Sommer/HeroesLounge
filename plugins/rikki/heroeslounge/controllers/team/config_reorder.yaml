@@ -1,5 +1,0 @@
-title: Team
-modelClass: Rikki\Heroeslounge\Models\Team
-nameFrom: title
-toolbar:
-    buttons: reorder_toolbar

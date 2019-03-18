@@ -7,7 +7,6 @@ recordsPerPage: '40'
 showSetup: true
 showCheckboxes: false
 toolbar:
-    buttons: list_toolbar
     search:
         prompt: 'backend::lang.list.search_prompt'
 filter: config_filter.yaml
