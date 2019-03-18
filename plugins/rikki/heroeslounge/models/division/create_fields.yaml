@@ -13,6 +13,7 @@ fields:
             type: slug
     overview_display_title:
         label: Overview Display Title
+        comment: Equal to division title if empty
     logo:
         label: Logo
         span: auto
