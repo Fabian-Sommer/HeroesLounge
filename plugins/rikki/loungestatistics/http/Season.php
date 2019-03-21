@@ -26,6 +26,6 @@ class Season extends Controller
         $response['matchesCast'] = $cs->totalGamesCast;
         $response['coverage'] = $cs->totalGamesPercentage;
         $response['dataByRound'] = $cs->castsPerRound;
-        return json_encode($response);
+        return $response;
     }
 }
