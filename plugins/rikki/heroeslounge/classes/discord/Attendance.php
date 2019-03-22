@@ -111,7 +111,7 @@ class Attendance
 
     public static function migrateDiscordTagsToIds()
     {
-      $sloths = SlothModel::all();
+      $sloths = SlothModel::where('discord_id', '=', "")->get();
       $presentUsers = Attendance::FetchUsers();
 
       if ($presentUsers) {
