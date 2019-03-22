@@ -201,3 +201,9 @@ i.website-white:hover
     top: -3px;
     font-size: 16px;
 }
+
+.input-group-btn .sync-icon {
+    position: relative;
+    top: -3px;
+    font-size: 16px;
+}

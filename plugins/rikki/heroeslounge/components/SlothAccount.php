@@ -448,7 +448,6 @@ class SlothAccount extends UserAccount
         $sloth->twitter_url = URLHelper::makeTwitterURL($data['twitter_url']);
         $sloth->website_url = URLHelper::makeWebsiteURL($data['website_url']);
         $sloth->youtube_url = URLHelper::makeYoutubeURL($data['youtube_url']);
-        $sloth->discord_tag = $data['discord_tag'];
         $sloth->region_id = $data['region_id'];
         $sloth->save();
 
@@ -458,6 +457,32 @@ class SlothAccount extends UserAccount
         Flash::success('Social information was updated successfully!');
         if ($redirect = $this->makeRedirection()) {
             return $redirect;
+        }
+    }
+
+    public function onSyncDiscord()
+    {
+        if (!$user = $this->user()) {
+            return;
+        }
+
+        $sloth = SlothModel::getFromUser($user);
+
+        $newTag = Discord\Attendance::getDiscordTag($sloth->discord_id);
+
+        if (!empty($newTag)) {
+            $sloth->discord_tag = $newTag;
+            $sloth->save();
+
+            Flash::success('Discord tag was updated successfully!');
+            if ($redirect = $this->makeRedirection()) {
+                return $redirect;
+            }
+        } else {
+            Flash::error(`Could not update Discord tag!`);
+            if ($redirect = $this->makeRedirection()) {
+                return $redirect;
+            }
         }
     }
 
