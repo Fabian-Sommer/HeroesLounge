@@ -1,16 +1,16 @@
 fields:
-    schedule_date:
-        label: 'Has to be scheduled until'
-        span: auto
-        type: datepicker
-        readOnly: false
-        mode: datetime
     tbp: 
-        label: 'To be played until'
+        label: 'To be played before'
         span: auto
         type: datepicker
         mode: datetime
         readOnly: false
+    schedule_date:
+        label: 'To be scheduled before'
+        span: auto
+        type: datepicker
+        readOnly: false
+        mode: datetime
     wbp:
         label: 'Schedule for'
         span: auto
