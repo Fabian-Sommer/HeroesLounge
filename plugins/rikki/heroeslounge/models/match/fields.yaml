@@ -1,40 +1,43 @@
 Tabs:
     fields:
-        wbp:
-            label: 'Schedule for'
+        tbp:
+            label: To be played before
             span: auto
             type: datepicker
+            disabled: true
             mode: datetime
             tab: General
         schedule_date:
-            label: 'Has to be scheduled until'
+            label: To be scheduled before
+            span: auto
+            type: datepicker
+            disabled: true
+            mode: datetime
+            tab: General
+        wbp:
+            label: Schedule for
             span: auto
             type: datepicker
             mode: datetime
-            readOnly: true
-            tab: General
-        tbp:
-            label: 'To be played until'
-            span: auto
-            type: datepicker
-            mode: datetime
-            readOnly: true
-            tab: General
-        round:
-            label: 'Round'
-            span: left
-            type: number
             tab: General
         is_played:
-            label: 'Is played'
+            label: Is played
             type: checkbox
             tab: General
-        winner:
-            label: 'Winning Team'
+        teams:
+            label: Participating Teams
             span: left
             type: relation
             select: title
-            emptyOption: '-- no team --'
+            disabled: true
+            tab: General
+        winner:
+            label: Winning Team
+            span: left
+            type: dropdown
+            options: listWinnerOptions
+            showSearch: false
+            emptyOption: -- No Team --
             tab: General
         casters:
             label: Casters

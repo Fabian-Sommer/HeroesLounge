@@ -82,6 +82,11 @@ class Match extends Model
         ]
     ];
 
+    public function listWinnerOptions($fieldname, $value, $formData)
+    {
+        return [$formData["teams"][0]['id'] => $formData["teams"][0]['title'], $formData["teams"][1]['id'] => $formData["teams"][1]['title']];
+    }
+
     public function getCasterIds()
     {
         return $this->casters
