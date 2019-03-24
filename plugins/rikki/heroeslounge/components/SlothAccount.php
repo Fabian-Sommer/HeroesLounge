@@ -468,18 +468,25 @@ class SlothAccount extends UserAccount
 
         $sloth = SlothModel::getFromUser($user);
 
-        $newTag = Discord\Attendance::getDiscordTag($sloth->discord_id);
+        if (!empty($sloth->discord_id)) {
+            $newTag = Discord\Attendance::getDiscordTag($sloth->discord_id);
 
-        if (!empty($newTag)) {
-            $sloth->discord_tag = $newTag;
-            $sloth->save();
-
-            Flash::success('Discord tag was updated successfully!');
-            if ($redirect = $this->makeRedirection()) {
-                return $redirect;
+            if (!empty($newTag)) {
+                $sloth->discord_tag = $newTag;
+                $sloth->save();
+    
+                Flash::success('Discord tag was updated successfully!');
+                if ($redirect = $this->makeRedirection()) {
+                    return $redirect;
+                }
+            } else {
+                Flash::error(`Could not update Discord tag!`);
+                if ($redirect = $this->makeRedirection()) {
+                    return $redirect;
+                }
             }
         } else {
-            Flash::error(`Could not update Discord tag!`);
+            Flash::error(`Could not update Discord tag, please contact a moderator for assistance.`);
             if ($redirect = $this->makeRedirection()) {
                 return $redirect;
             }
