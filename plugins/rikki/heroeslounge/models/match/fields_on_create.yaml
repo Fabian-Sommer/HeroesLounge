@@ -1,29 +1,29 @@
 fields:
     tbp: 
-        label: 'To be played before'
+        label: To be played before
         span: auto
         type: datepicker
         mode: datetime
         readOnly: false
     schedule_date:
-        label: 'To be scheduled before'
+        label: To be scheduled before
         span: auto
         type: datepicker
         readOnly: false
         mode: datetime
     wbp:
-        label: 'Schedule for'
+        label: Schedule for
         span: auto
         type: datepicker
         mode: datetime
+    division:
+        label: Division
+        span: left
+        type: dropdown
+        options: divisionsLongTitleDropdown
+        showSearch: false
+        emptyOption: -- No Division --
     round:
         label: 'Round'
-        span: left
+        span: auto
         type: number
-    division:
-        label: 'Division'
-        span: left
-        type: relation
-        placeholder: 'null'
-        nameFrom: title
-            

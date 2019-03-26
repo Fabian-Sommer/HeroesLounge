@@ -85,10 +85,21 @@ class Division extends Model
     {
         if ($this->season != null) {
             return $this->season->title . ' - ' . $this->title;
-        } else if ($this->playoff != null && $this->playoff->season != null) {
-            return $this->playoff->season->title . ' - ' . $this->playoff->title;
+        } else if ($this->playoff != null) {
+            return $this->playoff->longTitle . ' - ' . $this->title;
         }
         return $this->title;
+    }
+
+    public static function listDivisionsWithLongTitle()
+    {
+        $divisions = Division::all();
+        $list = [];
+
+        foreach ($divisions as $division) {
+            $list[$division->id] = $division->longTitle;
+        }
+        return $list;
     }
 
     public function getActiveTeamsAttribute()
