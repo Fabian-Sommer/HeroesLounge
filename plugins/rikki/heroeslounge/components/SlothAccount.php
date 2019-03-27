@@ -480,7 +480,7 @@ class SlothAccount extends UserAccount
                     return $redirect;
                 }
             } else {
-                Flash::error(`Could not update Discord tag!`);
+                Flash::error(`Could not update Discord tag, please try again later.`);
                 if ($redirect = $this->makeRedirection()) {
                     return $redirect;
                 }
