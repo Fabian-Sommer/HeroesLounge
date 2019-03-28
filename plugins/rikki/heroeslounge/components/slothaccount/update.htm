@@ -225,7 +225,11 @@
                             />
                         </svg>
                     </div>
+                    {% if __SELF__.sloth.discord_id %}
                     <input class="form-control" placeholder="DiscordTag" title="Discord Tag" type="text" name="discord_tag" disabled value="{{ __SELF__.sloth.discord_tag }}">
+                    {% else %}
+                    <input class="form-control" placeholder="DiscordTag" title="Discord Tag" type="text" name="discord_tag" value="{{ __SELF__.sloth.discord_tag }}">
+                    {% endif %}                    
                     <div class="input-group-btn">
                             <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
                                     data-request="{{ __SELF__ }}::onSyncDiscord"
