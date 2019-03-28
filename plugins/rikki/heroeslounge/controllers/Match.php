@@ -30,16 +30,11 @@ class Match extends Controller
         $form->addFields([
             'division@create' => [
                 'label' => 'Division',
-                'span' => 'left',
+                'span' => 'right',
                 'type' => 'dropdown',
                 'options' => Division::listDivisionsWithLongTitle(),
                 'showSearch' => false,
                 'emptyOption' => '-- No Division --'
-            ],
-            'round@create' => [
-                'label' => 'Round',
-                'span' => 'auto',
-                'type' => 'number'
             ]
             ]);
     }

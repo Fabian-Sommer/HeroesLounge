@@ -16,3 +16,7 @@ fields:
         span: auto
         type: datepicker
         mode: datetime
+    round:
+        label: Round
+        span: left
+        type: number
