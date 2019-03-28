@@ -73,13 +73,13 @@ class ScheduleMatch extends ComponentBase
             if ($date != null) {
                 try {
                     $x = new DateTime($date, new DateTimeZone($timezone));
-                    $x->setTimezone(new DateTimeZone('Europe/Berlin'));
+                    $x->setTimezone(new DateTimeZone('UTC'));
                     $match->wbp = $x->format('Y-m-d H:i:s');
                     if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp)) {
                         $match->save();
                         Flash::success('Match has been successfully scheduled for '.$date);
                     } else {
-                        $y = new DateTime($match->tbp, new DateTimeZone('Europe/Berlin'));
+                        $y = new DateTime($match->tbp, new DateTimeZone('UTC'));
                         $y->setTimezone(new DateTimeZone($timezone));
                         Flash::error('The match has to be played before ' . $y->format('d M Y H:i'));
                     }
