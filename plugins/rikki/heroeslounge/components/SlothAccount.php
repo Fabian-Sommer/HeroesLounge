@@ -443,12 +443,22 @@ class SlothAccount extends UserAccount
         $data = post();
         $sloth = SlothModel::getFromUser($user);
 
+        if (isset($data['discord_tag'])) {
+            $userDiscordId = Discord\Attendance::GetDiscordUserId($data['discord_tag']);
+
+            if (!empty($userDiscordId)) {
+                $sloth->discord_id = $userDiscordId;
+                $sloth->discord_tag = $data['discord_tag'];
+            } else {
+                Flash::error("Could not find user in discord server. Verify the entered information or contact a moderator.");
+            }
+        }
+
         $sloth->twitch_url = URLHelper::makeTwitchURL($data['twitch_url']);
         $sloth->facebook_url = URLHelper::makeFacebookURL($data['facebook_url']);
         $sloth->twitter_url = URLHelper::makeTwitterURL($data['twitter_url']);
         $sloth->website_url = URLHelper::makeWebsiteURL($data['website_url']);
         $sloth->youtube_url = URLHelper::makeYoutubeURL($data['youtube_url']);
-        $sloth->discord_tag = $data['discord_tag'];
         $sloth->region_id = $data['region_id'];
         $sloth->save();
 
@@ -458,6 +468,39 @@ class SlothAccount extends UserAccount
         Flash::success('Social information was updated successfully!');
         if ($redirect = $this->makeRedirection()) {
             return $redirect;
+        }
+    }
+
+    public function onSyncDiscord()
+    {
+        if (!$user = $this->user()) {
+            return;
+        }
+
+        $sloth = SlothModel::getFromUser($user);
+
+        if (!empty($sloth->discord_id)) {
+            $newTag = Discord\Attendance::getDiscordTag($sloth->discord_id);
+
+            if (!empty($newTag)) {
+                $sloth->discord_tag = $newTag;
+                $sloth->save();
+    
+                Flash::success('Discord tag was updated successfully!');
+                if ($redirect = $this->makeRedirection()) {
+                    return $redirect;
+                }
+            } else {
+                Flash::error(`Could not update Discord tag, please try again later.`);
+                if ($redirect = $this->makeRedirection()) {
+                    return $redirect;
+                }
+            }
+        } else {
+            Flash::error(`Could not update Discord tag, please contact a moderator for assistance.`);
+            if ($redirect = $this->makeRedirection()) {
+                return $redirect;
+            }
         }
     }
 

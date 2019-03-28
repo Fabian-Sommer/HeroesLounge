@@ -111,7 +111,7 @@ class Attendance
 
     public static function migrateDiscordTagsToIds()
     {
-      $sloths = SlothModel::all();
+      $sloths = SlothModel::where('discord_id', '=', "")->get();
       $presentUsers = Attendance::FetchUsers();
 
       if ($presentUsers) {
@@ -126,6 +126,36 @@ class Attendance
           }
         }
       }
+    }
 
+    public static function getDiscordTag($discordId)
+    {
+      $url = 'https://discordapp.com/api/guilds/200267155479068672/members/' . $discordId;
+
+      $auth_header = AuthCode::getCode();
+      $headers = [
+        "Content-Type:application/x-www-form-urlencoded",
+        $auth_header,
+        "User-Agent: HeroesLounge (http://heroeslounge.gg, 0.1)"
+      ];
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+      $output = curl_exec($ch);
+
+      if (curl_errno($ch)) {
+          return "";
+      }
+
+      $memberData = json_decode($output, true);
+      curl_close($ch);
+
+      if (isset($memberData)) {
+        return $memberData["user"]["username"] . '#' . $memberData["user"]["discriminator"];
+      } else {
+        return "";
+      }
     }
 }
