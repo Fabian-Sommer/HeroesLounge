@@ -7,6 +7,7 @@ use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Timeline;
 use Rikki\Heroeslounge\Models\Match as MatchModel;
 use Rikki\Heroeslounge\Models\Game;
+use Rikki\Heroeslounge\Models\Division;
 
 class Match extends Controller
 {
@@ -22,6 +23,20 @@ class Match extends Controller
         parent::__construct();
 
         BackendMenu::setContext('Rikki.Heroeslounge', 'manage-matches','manage-matches');
+    }
+
+    public static function formExtendFields($form)
+    {
+        $form->addFields([
+            'division@create' => [
+                'label' => 'Division',
+                'span' => 'right',
+                'type' => 'dropdown',
+                'options' => Division::listDivisionsWithLongTitle(),
+                'showSearch' => false,
+                'emptyOption' => '-- No Division --'
+            ]
+            ]);
     }
 
     public function onRelationButtonApprove()

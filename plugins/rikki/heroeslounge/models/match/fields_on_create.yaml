@@ -1,29 +1,22 @@
 fields:
-    schedule_date:
-        label: 'Has to be scheduled until'
-        span: auto
-        type: datepicker
-        readOnly: false
-        mode: datetime
     tbp: 
-        label: 'To be played until'
+        label: To be played before
         span: auto
         type: datepicker
         mode: datetime
         readOnly: false
+    schedule_date:
+        label: To be scheduled before
+        span: auto
+        type: datepicker
+        readOnly: false
+        mode: datetime
     wbp:
-        label: 'Schedule for'
+        label: Schedule for
         span: auto
         type: datepicker
         mode: datetime
     round:
-        label: 'Round'
+        label: Round
         span: left
         type: number
-    division:
-        label: 'Division'
-        span: left
-        type: relation
-        placeholder: 'null'
-        nameFrom: title
-            
