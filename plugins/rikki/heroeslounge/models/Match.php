@@ -9,7 +9,6 @@ use Rikki\Heroeslounge\classes\hotfixes as hotfixes;
 use Rikki\Heroeslounge\Models\Season as Season;
 use Rikki\Heroeslounge\Models\Playoff;
 use Rikki\Heroeslounge\Models\Team;
-use Rikki\Heroeslounge\Models\Division;
 use Carbon\Carbon;
 use Log;
 /**
@@ -83,14 +82,9 @@ class Match extends Model
         ]
     ];
 
-    public function listWinnerOptions($fieldname, $value, $formData)
+    public function listParticipatingTeamsForBackend($fieldname, $value, $formData)
     {
         return [$formData["teams"][0]['id'] => $formData["teams"][0]['title'], $formData["teams"][1]['id'] => $formData["teams"][1]['title']];
-    }
-
-    public function divisionsLongTitleDropdown()
-    {
-        return Division::listDivisionsWithLongTitle();
     }
 
     public function getCasterIds()

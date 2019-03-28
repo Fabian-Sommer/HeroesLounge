@@ -24,6 +24,11 @@ Tabs:
             label: Is played
             type: checkbox
             tab: General
+        round:
+            label: 'Round'
+            span: left
+            type: number
+            tab: General
         teams:
             label: Participating Teams
             span: left
@@ -35,7 +40,7 @@ Tabs:
             label: Winning Team
             span: left
             type: dropdown
-            options: listWinnerOptions
+            options: listParticipatingTeamsForBackend
             showSearch: false
             emptyOption: -- No Team --
             tab: General

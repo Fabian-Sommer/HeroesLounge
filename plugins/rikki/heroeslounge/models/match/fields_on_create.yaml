@@ -16,14 +16,3 @@ fields:
         span: auto
         type: datepicker
         mode: datetime
-    division:
-        label: Division
-        span: left
-        type: dropdown
-        options: divisionsLongTitleDropdown
-        showSearch: false
-        emptyOption: -- No Division --
-    round:
-        label: 'Round'
-        span: auto
-        type: number
