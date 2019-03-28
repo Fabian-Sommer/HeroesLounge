@@ -8,6 +8,7 @@ use Rikki\Heroeslounge\Models\Map;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Match;
 use Rikki\Heroeslounge\classes\ReplayParsing\ReplayParsing;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Auth;
 use Input;
 use Redirect;
@@ -24,6 +25,7 @@ class UpdateMatch extends ComponentBase
     public $ownTeam = null;
     public $winner = null;
     public $t = null;
+
     public function componentDetails()
     {
         return [
@@ -31,7 +33,6 @@ class UpdateMatch extends ComponentBase
             'description' => 'Allows Captains to save their matches'
         ];
     }
-
 
     public function onRender()
     {
@@ -51,9 +52,7 @@ class UpdateMatch extends ComponentBase
                 $this->match = null;
                 return;
             }
-            
-        
-    
+
             $this->opp = $this->match->teams()->where('team_id', '!=', $this->user->sloth->team_id)->where('team_id', '!=', $this->user->sloth->divs_team_id)->first();
             $this->ownTeam = ($this->opp->id == $this->match->teams[0]->id ? $this->match->teams[1] : $this->match->teams[0]);
             $tc1 = $this->match->games->where('winner_id', $teamids[0])->count();
@@ -66,25 +65,18 @@ class UpdateMatch extends ComponentBase
 
     public function onMyRender()
     {
-        $timezoneoffset = (int)$_POST['time'];
-        $timezoneName = "Europe/Berlin";
-        if (isset($_POST['timezone'])) {
-            $timezoneName = $_POST['timezone'];
-        }
-        
         $this->match = Match::find($_POST['match_id']);
-
-        if (!in_array($timezoneName, timezone_identifiers_list())) {
-            $timezoneName = "Europe/Berlin";
-        }
 
         $containerId = "#deadline".$this->match->id;
         return [
-            $containerId => $this->renderPartial('@deadline', ['timezone' => $timezoneName, 'match' => $this->match])
+            $containerId => $this->renderPartial(
+                '@deadline', [
+                    'timezone' => TimezoneHelper::getTimezone(),
+                    'match' => $this->match
+                ])
         ];
         
     }
-
 
     public function onGameSave()
     {
@@ -116,8 +108,6 @@ class UpdateMatch extends ComponentBase
             Flash::error($validationResult[1]);
             return Redirect::refresh();
         }
-
-
 
         $game = new Game;
         $game->match_id = post('match');
@@ -161,6 +151,6 @@ class UpdateMatch extends ComponentBase
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'The MatchID property can contain only numeric symbols'
             ]
-            ];
+        ];
     }
 }

@@ -14,30 +14,22 @@ security = "all"
 <?php
 use RainLab\Translate\Models\Message;
 use Rikki\Heroeslounge\Models\Sloth;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 
 function onStart() {
     $this['baseUrl'] = Config::get('app.url');
     Message::setContext(App::getLocale(), $this->page->url);
+    $this['hasTimezone'] = TimezoneHelper::hasTimezone();
 }
 
 function onTimezoneDetection() {
-
-    if (isset($_POST['timezone'])) {
-        $timezoneName = $_POST['timezone'];
-        $user = Auth::getUser();
-        if ($user) {
-            if ($user->sloth->timezone == '') {
-                $user->sloth->timezone = $timezoneName;
-                $user->sloth->save();
-            }
-        }
-    }
-    
+    TimezoneHelper::setTimezone();
 }
 ?>
 ==
 <!DOCTYPE html>
 <html lang="{{ this.theme.site_locale }}">
+{% if not hasTimezone %}
 {% put scripts %}
 <script type="text/javascript">
 jQuery(document).ready(function() {
@@ -47,7 +39,7 @@ jQuery(document).ready(function() {
 });
 </script>
 {% endput %}
-
+{% endif %}
 <head>
     {% partial 'assets/head' %}
 </head>

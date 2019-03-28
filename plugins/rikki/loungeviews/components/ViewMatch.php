@@ -7,6 +7,7 @@ use Rikki\Heroeslounge\Models\Game;
 use Rikki\Heroeslounge\Models\Map;
 use Rikki\Heroeslounge\Models\Match;
 use Rikki\Heroeslounge\Models\Sloth;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Auth;
 use Input;
 use Redirect;
@@ -45,27 +46,19 @@ class ViewMatch extends ComponentBase
         }
     }
 
-
     public function onMyRender()
     {
         $this->match = Match::find($this->param('id'));
-        $timezoneoffset = (int)$_POST['time'];
-        $timezoneName = "Europe/Berlin";
-        if (isset($_POST['timezone'])) {
-            $timezoneName = $_POST['timezone'];
-        }
-
-        if (!in_array($timezoneName, timezone_identifiers_list())) {
-            $timezoneName = "Europe/Berlin";
-        }
 
         $containerId = "#matchtime";
         return [
-            $containerId => $this->renderPartial('@matchtime', ['timezone' => $timezoneName])
+            $containerId => $this->renderPartial(
+                '@matchtime', [
+                    'timezone' => TimezoneHelper::getTimezone()
+                ])
         ];
     }
 
-    
     public function defineProperties()
     {
         return [

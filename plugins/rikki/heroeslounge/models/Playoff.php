@@ -3,8 +3,10 @@
 use Model;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Carbon\Carbon;
 use Log;
+
 class Playoff extends Model
 {
     public $table = 'rikki_heroeslounge_playoffs';
@@ -16,12 +18,12 @@ class Playoff extends Model
             'Rikki\Heroeslounge\Models\Season',
             'key' => 'season_id',
             'otherKey' => 'id'
-		],
+        ],
         'region' => ['Rikki\Heroeslounge\Models\Region']
     ];
 
     public $hasMany = [
-    	'divisions' => ['Rikki\Heroeslounge\Models\Division'],
+        'divisions' => ['Rikki\Heroeslounge\Models\Division'],
         'matches' => ['Rikki\Heroeslounge\Models\Match']
     ];
 
@@ -47,10 +49,8 @@ class Playoff extends Model
     public function createMatches()
     {
         $playoff = $this;
-        $timezone = 'Europe/Berlin';
+        $timezone = TimezoneHelper::defaultTimezone();
         if ($this->type == 'playoffv1') {
-            //TODO configure dates and timezone from backend
-            $timezone = 'Europe/Berlin';
             $year0 = 2018;
             $month0 = 10;
             $day0 = 12;
@@ -236,7 +236,6 @@ class Playoff extends Model
                         'wbp' => $Time8]
             ];
         } else if ($this->type == 'playoffv2') {
-            $timezone = 'Europe/Berlin';
             $year = 2019;
             $month = 3;
             $day = 2;
@@ -261,7 +260,6 @@ class Playoff extends Model
             $d3 = $this->teams()->where('seed', 12)->firstOrFail();
             $d4 = $this->teams()->where('seed', 16)->firstOrFail();
 
-            
             $groups = [
                 0 => ['title' => 'Group A', 'slug' => 'group-a',
                         'teams' => [0 =>$a1,1 => $a2,2 => $a3,3 => $a4]],
@@ -342,7 +340,6 @@ class Playoff extends Model
             $matchArray[2]['wbp'] = $otherTime;
             $matchArray[3]['wbp'] = $otherTime;
         } else if ($this->type == 'playoffv3') {
-            $timezone = 'Europe/Berlin';
             $year = 2019;
             $month = 3;
             $day = 3;
@@ -510,7 +507,7 @@ class Playoff extends Model
                     ];
             $matchArray = $this->createDEMatches(4, $times);
         }
-        
+
         foreach ($matchArray as $key => $matchEntry) {
             $match = new Match;
             $match->playoff_id = $playoff->id;
@@ -580,7 +577,6 @@ class Playoff extends Model
         }
 
         //lower bracket
-
         for ($roundnumber = 0; $roundnumber < 2*($rounds-1); $roundnumber++) {
             $time = $timeArray[$rounds+$roundnumber];                
             for ($i = 0; $i < 2**($rounds - floor($roundnumber/2) - 2); $i++) {
@@ -778,7 +774,6 @@ class Playoff extends Model
 
     public function getSeedsFromGroups()
     {
-
         if ($this->type == 'playoffv1') {
             $this->teams()->detach();
             $ga = $this->divisions()->where('title', 'Group A')->firstOrFail();
