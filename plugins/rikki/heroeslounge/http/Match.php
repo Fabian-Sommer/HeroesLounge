@@ -34,7 +34,7 @@ class Match extends Controller
         {
             $retVal[] = $g->replay;
         });
-      return json_encode($retVal);
+      return $retVal;
     }
 
     public function games($id)
@@ -73,25 +73,25 @@ class Match extends Controller
 
             $retVal[] = $gameData;
         });
-        return json_encode($retVal);
+        return $retVal;
     }
     
     public function getTodaysMatches()
     {
-        return json_encode(MatchModel::whereDate('wbp','=',date(Carbon::today()))->where('is_played',false)->get());
+        return MatchModel::whereDate('wbp','=',date(Carbon::today()))->where('is_played',false)->get();
     }
 
     public function caster($id)
     {
-        return json_encode(Matchmodel::findOrFail($id)->casters);
+        return Matchmodel::findOrFail($id)->casters;
     }
 
     public function withApprovedCastBetween($startdate, $enddate)
     {
-        return json_encode(MatchModel::whereDate('wbp','>=',date($startdate))->whereDate('wbp','<=',date($enddate))->get()->filter(function ($match) {
+        return MatchModel::whereDate('wbp','>=',date($startdate))->whereDate('wbp','<=',date($enddate))->get()->filter(function ($match) {
             return !$match->getAcceptedCasters()->isEmpty();
         })->each(function ($match, $key) {
             return [$match, $match->channel, $match->division, $match->playoff, $match->teams, $match->getAcceptedCasters()];
-        }));
+        });
     }
 }

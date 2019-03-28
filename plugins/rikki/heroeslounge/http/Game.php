@@ -55,6 +55,6 @@ class Game extends Controller
 
             $retVal[] = $gameData;
         });
-        return json_encode($retVal);
+        return $retVal;
     }
 }
