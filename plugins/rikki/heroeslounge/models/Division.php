@@ -93,13 +93,7 @@ class Division extends Model
 
     public static function listDivisionsWithLongTitle()
     {
-        $divisions = Division::all();
-        $list = [];
-
-        foreach ($divisions as $division) {
-            $list[$division->id] = $division->longTitle;
-        }
-        return $list;
+        return Division::all()->keyBy('id')->map(function ($division) { return $division->longTitle; })->toArray();
     }
 
     public function getActiveTeamsAttribute()
