@@ -6,15 +6,17 @@ use Session;
 
 class TimezoneHelper
 {
+    private const DEFAULT_TIMEZONE = 'UTC';
     private const TIMEZONE_KEY = 'timezone';
 
-    public static $defaultTimezone;
+    private static $defaultTimezone;
 
     private static function defaultTimezone()
     {
         if (!self::$defaultTimezone)
         {
-            self::$defaultTimezone = Config::get('app.timezone', 'Europe/Berlin');
+            self::$defaultTimezone =
+                Config::get('app.timezone', self::DEFAULT_TIMEZONE);
         }
         return self::$defaultTimezone;
     }
@@ -35,14 +37,6 @@ class TimezoneHelper
             $timezoneName = self::defaultTimezone();
         }
         Session::put(self::TIMEZONE_KEY, $timezoneName);
-
-        $user = Auth::getUser();
-        if ($user) {
-            if ($user->sloth->timezone == '') {
-                $user->sloth->timezone = TimezoneHelper::getTimezone();
-                $user->sloth->save();
-            }
-        }
     }
 
     public static function hasTimezone()

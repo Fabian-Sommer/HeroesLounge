@@ -39,13 +39,19 @@ class Navigation extends UserAccount
     {
         parent::init();
 
-
-        $this->user = Auth::getUser();
         $this->amateurseasons = Season::where('type', 1)->orderBy('created_at','desc')->get();
         $this->divsseasons = Season::where('type', 2)->orderBy('created_at','desc')->get();
+
+        $this->user = Auth::getUser();
         if ($this->user != null) {
             $this->sloth = SlothModel::getFromUser($this->user);
+
+            if ($this->sloth->timezone == '') {
+                $this->sloth->timezone = TimezoneHelper::getTimezone();
+                $this->sloth->save();
+            }
         }
+
         $component = $this->addComponent(
             'RainLab\Pages\Components\StaticMenu',
             'staticMenuGuides',
@@ -66,16 +72,10 @@ class Navigation extends UserAccount
         );
     }
 
-
-
-
-
     public function onRun()
     {
         return parent::onRun();
     }
-
-
 
     public function onSignIn()
     {
@@ -100,7 +100,6 @@ class Navigation extends UserAccount
             if ($validation->fails()) {
                 throw new ValidationException($validation);
             }
-
 
             /*
              * Authenticate user
@@ -140,10 +139,6 @@ class Navigation extends UserAccount
             }
         }
     }
-
-
- 
-
 
     public function defineProperties()
     {
