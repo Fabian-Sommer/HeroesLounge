@@ -18,6 +18,8 @@ use RainLab\User\facades\Auth;
 
 class UpcomingMatches extends ComponentBase
 {
+    public $user = null;
+    public $timezone = null;
     public $groupMatches = null;
     public $showLogo = false;
     public $showName = false;
@@ -47,19 +49,16 @@ class UpcomingMatches extends ComponentBase
         $this->showCasters = ($this->property('showCasters') == true) ? true : false;
         $this->idApp = $this->property("casterFilter");
         $this->eid = $this->property('id');
-        
+
+        $this->user = Auth::getUser();
+        $this->timezone = TimezoneHelper::getTimezone();
+        $this->collectMatches($this->timezone, $this->eid);
     }
 
     public function collectMatches($timezoneName, $id)
     {
-        $this->showLogo = ($this->property('showLogo') == true) ? true : false;
-        $this->showName = ($this->property('showName') == true) ? true : false;
-        $this->showCasters = ($this->property('showCasters') == true) ? true : false;
-        $this->idApp = $this->property("casterFilter");
         $type = $this->property('type');
-        
         $daysInFuture = $this->property('daysInFuture');
-        $casterFilter = $this->property('casterFilter');
         $myData = null;
         $myEntity = null;
         switch ($type) {
@@ -83,11 +82,11 @@ class UpcomingMatches extends ComponentBase
             if ($type == 'all') {
                 $myData = Matches::with('teams', 'teams.logo', 'casters')->where('winner_id', null)->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->orderBy('wbp', 'asc')->get();
             } elseif ($type == 'caster') {
-                if ($casterFilter == 'denied') {
+                if ($this->idApp == 'denied') {
                     $myData = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '2')->where('winner_id', null)->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
-                } elseif ($casterFilter == 'accepted') {
+                } elseif ($this->idApp == 'accepted') {
                     $myData = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '1')->where('winner_id', null)->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
-                } elseif ($casterFilter == 'pending') {
+                } elseif ($this->idApp == 'pending') {
                     $myData = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '0')->where('winner_id', null)->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
                 } else {
                     $myData = $myEntity->castMatches()->orderBy('wbp', 'asc')->where('winner_id', null)->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
@@ -102,71 +101,6 @@ class UpcomingMatches extends ComponentBase
                                 }
             );
             $this->groupMatches = $matches;
-        }
-    }
-
-    public function onMyRender()
-    {
-        $id = 0;
-        if (isset($_POST['id'])) {
-            $id = $_POST['id'];
-        }
-
-        $this->idApp = $this->property("casterFilter");
-
-        if ($this->idApp != "accepted" && $this->idApp != "denied") {
-            $timezoneName = TimezoneHelper::getTimezone();
-            $this->collectMatches($timezoneName, $id);
-
-            $containerId = "#upcomingMatches".$this->idApp;
-            return [
-                $containerId => $this->renderPartial(
-                    '@calendar', [
-                        'user' => Auth::getUser(),
-                        'groupMatches' => $this->groupMatches,
-                        'timezone' => $timezoneName
-                    ])
-            ];
-        }
-    }
-
-    public function onMyRenderAcceptedCasts()
-    {
-        $this->idApp = $this->property("casterFilter");
-
-        if ($this->idApp == "accepted") {
-            $timezoneName = TimezoneHelper::getTimezone();
-            $this->collectMatches($timezoneName, $_POST['id']);
-
-            $containerId = "#upcomingMatches".$this->idApp;
-            return [
-                $containerId => $this->renderPartial(
-                    '@calendar', [
-                        'user' => Auth::getUser(),
-                        'groupMatches' => $this->groupMatches,
-                        'timezone' => $timezoneName
-                    ])
-            ];
-        }
-    }
-
-    public function onMyRenderDeniedCasts()
-    {
-        $this->idApp = $this->property("casterFilter");
-
-        if ($this->idApp == "denied") {
-            $timezoneName = TimezoneHelper::getTimezone();
-            $this->collectMatches($timezoneName, $_POST['id']);
-
-            $containerId = "#upcomingMatches".$this->idApp;
-            return [
-                $containerId => $this->renderPartial(
-                    '@calendar', [
-                        'user' => Auth::getUser(),
-                        'groupMatches' => $this->groupMatches,
-                        'timezone' => $timezoneName
-                    ])
-            ];
         }
     }
 

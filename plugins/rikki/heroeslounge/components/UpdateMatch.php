@@ -24,7 +24,7 @@ class UpdateMatch extends ComponentBase
     public $opp = null;
     public $ownTeam = null;
     public $winner = null;
-    public $t = null;
+    public $timezone = null;
 
     public function componentDetails()
     {
@@ -54,28 +54,18 @@ class UpdateMatch extends ComponentBase
             }
 
             $this->opp = $this->match->teams()->where('team_id', '!=', $this->user->sloth->team_id)->where('team_id', '!=', $this->user->sloth->divs_team_id)->first();
-            $this->ownTeam = ($this->opp->id == $this->match->teams[0]->id ? $this->match->teams[1] : $this->match->teams[0]);
-            $tc1 = $this->match->games->where('winner_id', $teamids[0])->count();
-            $tc2 = $this->match->games->where('winner_id', $teamids[1])->count();
-            if ($tc1 != $tc2) {
-                $this->winner =  $tc1 > $tc2 ? $this->match->teams[0] : $this->match->teams[1];
+            // no opponent will be found if you are on both teams, best to avoid the exception
+            if ($this->opp) {
+                $this->ownTeam = ($this->opp->id == $this->match->teams[0]->id ? $this->match->teams[1] : $this->match->teams[0]);
+                $tc1 = $this->match->games->where('winner_id', $teamids[0])->count();
+                $tc2 = $this->match->games->where('winner_id', $teamids[1])->count();
+                if ($tc1 != $tc2) {
+                    $this->winner =  $tc1 > $tc2 ? $this->match->teams[0] : $this->match->teams[1];
+                }
             }
         }
-    }
 
-    public function onMyRender()
-    {
-        $this->match = Match::find($_POST['match_id']);
-
-        $containerId = "#deadline".$this->match->id;
-        return [
-            $containerId => $this->renderPartial(
-                '@deadline', [
-                    'timezone' => TimezoneHelper::getTimezone(),
-                    'match' => $this->match
-                ])
-        ];
-        
+        $this->timezone = TimezoneHelper::getTimezone();
     }
 
     public function onGameSave()

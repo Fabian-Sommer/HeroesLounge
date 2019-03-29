@@ -41,21 +41,7 @@ class ScheduleMatch extends ComponentBase
         if ($this->match) {
             $this->opp = $this->match->teams()->where('team_id', '!=', $this->user->sloth->team_id)->where('team_id', '!=', $this->user->sloth->divs_team_id)->first();
         }
-    }
-
-    public function onMyRender()
-    {
-        $this->match = Match::find($_POST['match_id']);
-
-        $containerId = "#schedulebox".$this->match->id;
-        return [
-            $containerId => $this->renderPartial(
-                '@schedulebox', [
-                    'timezone' => TimezoneHelper::getTimezone(),
-                    'match' => $this->match
-                ])
-        ];
-        
+        $this->timezone = TimezoneHelper::getTimezone();
     }
 
     public function onSaveDate()
