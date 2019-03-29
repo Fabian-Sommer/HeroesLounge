@@ -25,7 +25,7 @@ class Match extends Controller
         BackendMenu::setContext('Rikki.Heroeslounge', 'manage-matches','manage-matches');
     }
 
-    public static function formExtendFields($form)
+    public function formExtendFields($form)
     {
         $form->addFields([
             'division@create' => [
@@ -37,6 +37,16 @@ class Match extends Controller
                 'emptyOption' => '-- No Division --'
             ]
             ]);
+    }
+
+    public function listExtendColumns($list)
+    {
+        $list->addColumns([
+            'region' => [
+                'label' => 'Region',
+                'type' => 'text'
+            ]
+        ]);
     }
 
     public function onRelationButtonApprove()
