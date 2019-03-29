@@ -10,7 +10,7 @@ This repository contains one theme and three plugins:
 
 - LoungeViews: Contains (frontend) components that do not process user input
 - LoungeStatistics: Contains (frontend) components that render statistics
-- Heroeslounge: Contains most features: migrations, models, (backend) controllers, helper classes, (fronend) components that process user input, API endpoints.
+- Heroeslounge: Contains most features: migrations, models, (backend) controllers, helper classes, (frontend) components that process user input, API endpoints.
 
 
 ## Installation
@@ -27,10 +27,10 @@ On OS X, install with Brew: https://brew.sh/
 
 On Linux you should be able to figure this out yourself. ;)
 
-Now run the Virtualbox UI and make sure that the Virtualbox Guest Additions are up to date with the Virtualbox version (it should prompt you automaticallly if not).
+Now run the Virtualbox UI and make sure that the Virtualbox Guest Additions are up to date with the Virtualbox version (it should prompt you automatically if not).
 
 
-Download the database zip from the link you should have received and put it in this directory.
+Download the database zip from the link you should have received (discord pins/email from team) and put it in this directory (after cloning this repo locally).
 
 Run Vagrant:
 
@@ -83,3 +83,6 @@ You can't register a new user locally because the dicord integration will not wo
 Verify your own user information like this:
 
     SELECT * FROM users AS u LEFT JOIN rikki_heroeslounge_sloths AS s ON s.user_id=u.id WHERE u.username='YOUR_USERNAME';
+
+You might want to set your backend timezone:
+http://localhost:8080/hl/backend/backend/preferences
