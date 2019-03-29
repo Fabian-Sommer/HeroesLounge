@@ -39,16 +39,6 @@ class Match extends Controller
             ]);
     }
 
-    public function listExtendColumns($list)
-    {
-        $list->addColumns([
-            'region' => [
-                'label' => 'Region',
-                'type' => 'text'
-            ]
-        ]);
-    }
-
     public function onRelationButtonApprove()
     {
         if (($checkedIds = post('checked')) && is_array($checkedIds)) {
