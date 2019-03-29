@@ -28,12 +28,11 @@
                     {{user.sloth.team.slug}}
                 </a>
                 <ul class="collapse list-unstyled" id="teamMenu">
-                {% if user.sloth.is_captain == true %}
                     <li>
-                        <a href="{{ 'team/manage' | page({slug: user.sloth.team.slug}) }}" title="Manage {{user.sloth.team.title}}">
-                        <i class="fa fa-cogs" aria-hidden="true"></i>
-                        Manage
-                    </a>
+                        <a href="{{'team/view' | page({slug: user.sloth.team.slug}) }}">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                View
+                        </a>
                     </li>
                     <li>
                         <a href="{{ 'team/manageMatch' | page({slug: user.sloth.team.slug}) }}" title="Manage Matches">
@@ -41,19 +40,14 @@
                             Matches
                         </a>
                     </li>
+                {% if user.sloth.is_captain %}
                     <li>
-                        <a href="{{'team/view' | page({slug: user.sloth.team.slug}) }}">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                View
-                        </a>
+                        <a href="{{ 'team/manage' | page({slug: user.sloth.team.slug}) }}" title="Manage {{user.sloth.team.title}}">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                        Manage
+                    </a>
                     </li>
                 {% else %}
-                    <li>
-                        <a href="{{'team/view' | page({slug: user.sloth.team.slug}) }}">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                            View
-                        </a>
-                    </li>
                     <li>
                         <a role="button" href="" data-toggle="modal" data-target="#leaveTeamModal">
                             <i class="fa fa-ban" aria-hidden="true"></i>
@@ -71,12 +65,11 @@
                     {{user.sloth.divs_team.slug}}
                 </a>
                 <ul class="collapse list-unstyled" id="divsTeamMenu">
-                {% if user.sloth.is_divs_captain == true %}
                     <li>
-                        <a href="{{ 'team/manage' | page({slug: user.sloth.divs_team.slug}) }}" title="Manage {{user.sloth.divs_team.title}}">
-                        <i class="fa fa-cogs" aria-hidden="true"></i>
-                        Manage
-                    </a>
+                        <a href="{{'team/view' | page({slug: user.sloth.divs_team.slug}) }}">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            View
+                        </a>
                     </li>
                     <li>
                         <a href="{{ 'team/manageMatch' | page({slug: user.sloth.divs_team.slug}) }}" title="Manage Matches">
@@ -84,19 +77,14 @@
                             Matches
                         </a>
                     </li>
+                {% if user.sloth.is_divs_captain %}
                     <li>
-                        <a href="{{'team/view' | page({slug: user.sloth.divs_team.slug}) }}">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                View
-                        </a>
+                        <a href="{{ 'team/manage' | page({slug: user.sloth.divs_team.slug}) }}" title="Manage {{user.sloth.divs_team.title}}">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                        Manage
+                    </a>
                     </li>
-                {% else %}
-                    <li>
-                        <a href="{{'team/view' | page({slug: user.sloth.divs_team.slug}) }}">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                            View
-                        </a>
-                    </li>
+                {% else %}  
                     <li>
                         <a role="button" href="" data-toggle="modal" data-target="#leaveDivSTeamModal">
                             <i class="fa fa-ban" aria-hidden="true"></i>
