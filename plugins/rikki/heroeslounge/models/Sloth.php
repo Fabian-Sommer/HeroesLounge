@@ -177,10 +177,15 @@ class Sloth extends Model
     public function isCaptain($team)
     {
         if ($team->type == 1) {
-            return $this->is_captain;
+            if ($team->id == $this->team_id) {
+                return $this->is_captain;
+            }
         } else {
-            return $this->is_divs_captain;
+            if ($team->id == $this->divs_team_id) {
+                return $this->is_divs_captain;
+            }
         }
+        return false;
     }
     
     public function afterCreate()
