@@ -4,7 +4,7 @@
 <div class="row mb-3">
     {% endif %} 
     {% if match.wbp == null %}
-    {% if __SELF__.user.sloth.is_captain or __SELF__.user.sloth.is_divs_captain %}
+    {% if __SELF__.user.sloth.isCaptain(__SELF__.team) %}
     {% component 'scheduleMatch' class="mb-3"  id=match.id %}
     {% endif %}
     {% else %} 
