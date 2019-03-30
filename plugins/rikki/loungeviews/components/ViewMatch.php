@@ -19,6 +19,8 @@ class ViewMatch extends ComponentBase
 {
     public $match = null;
     public $decoded_playoff_position = null;
+    public $timezone = null;
+
     public function componentDetails()
     {
         return [
@@ -44,19 +46,7 @@ class ViewMatch extends ComponentBase
         if ($this->match->playoff_position != null) {
             $this->decoded_playoff_position = Match::decodePlayoffPosition($this->match->playoff_position);
         }
-    }
-
-    public function onMyRender()
-    {
-        $this->match = Match::find($this->param('id'));
-
-        $containerId = "#matchtime";
-        return [
-            $containerId => $this->renderPartial(
-                '@matchtime', [
-                    'timezone' => TimezoneHelper::getTimezone()
-                ])
-        ];
+        $this->timezone = TimezoneHelper::getTimezone();
     }
 
     public function defineProperties()

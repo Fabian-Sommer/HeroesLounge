@@ -24,6 +24,7 @@ class PlayoffOverview extends ComponentBase
     public $playoff = null;
     public $matches = null;
     public $user = null;
+    public $timezone = null;
     public $userTeamSignedUp = true;
     public $polylines = null;
     public $match_height = 3.875;
@@ -126,15 +127,9 @@ class PlayoffOverview extends ComponentBase
         ];
     }
 
-    public function onMyRender()
+    public function onRender()
     {
-        $containerId = "#knockout";
-        return [
-            $containerId => $this->renderPartial(
-                '@bracket', [
-                    'timezone' => TimezoneHelper::getTimezone()
-                ])
-        ];
+        $this->timezone = TimezoneHelper::getTimezone();
     }
 
     //gets offsets in rem for a playoff_position $pp
