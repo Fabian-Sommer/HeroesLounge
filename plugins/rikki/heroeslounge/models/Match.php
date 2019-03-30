@@ -87,6 +87,16 @@ class Match extends Model
         return [$formData["teams"][0]['id'] => $formData["teams"][0]['title'], $formData["teams"][1]['id'] => $formData["teams"][1]['title']];
     }
 
+    public function getRegionAttribute()
+    {
+        $match = Match::with('teams')->find($this->id);
+
+        if (isset($match->teams[0])) {
+            return $match->teams[0]->region->title;
+        }
+        return null;
+    }
+
     public function getCasterIds()
     {
         return $this->casters

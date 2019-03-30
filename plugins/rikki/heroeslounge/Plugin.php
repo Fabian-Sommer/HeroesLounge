@@ -225,6 +225,20 @@ class Plugin extends PluginBase
             $model->hasOne['sloth'] = ['Rikki\Heroeslounge\Models\Sloth', 'delete' => true];
         });
 
+        UsersController::extendListColumns(function ($list, $model)
+        {
+            if (!$model instanceof UserModel) {
+                return;
+            }
+    
+            $list->addColumns([
+                'sloth[region][title]' => [
+                    'label' => 'Region',
+                    'type' => 'text'
+                ]
+            ]);
+        });
+
         UsersController::extendFormFields(function ($form, $model, $context) {
             if (!$model instanceof UserModel) {
                 return;

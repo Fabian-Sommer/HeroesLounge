@@ -3,33 +3,30 @@ columns:
         label: Title
         type: text
         searchable: true
-        sortable: true
+    region[title]:
+        label: Region
+        type: text
     type:
-        label: 'Type (1 - Amateur, 2 - S)'
+        label: Type (1 - Amateur, 2 - S)
         type: text
         searchable: true
-        sortable: true
     slug:
         label: Slug
         type: text
         searchable: true
-        sortable: true
     accepting_apps:
-        label: 'Accepting Applications'
+        label: Accepting Applications
         type: switch
-        sortable: true
     divisions:
         label: Divisions
         type: text
         searchable: true
-        sortable: true
         select: title
         relation: divisions
     seasons:
         label: Seasons
         type: text
         searchable: true
-        sortable: true
         select: title
         relation: seasons
     sloths_count:
@@ -41,4 +38,3 @@ columns:
     disbanded:
         label: 'Disbanded'
         type: switch
-        sortable: true

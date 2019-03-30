@@ -4,6 +4,9 @@ columns:
         type: text
         searchable: true
         sortable: true
+    region[title]:
+        label: Region
+        type: text
     round_length:
         label: 'Round Length'
         type: number

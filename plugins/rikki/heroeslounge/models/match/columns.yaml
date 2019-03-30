@@ -27,3 +27,7 @@ columns:
         type: text
         select: title
         relation: channel
+    region:
+        label: Region
+        type: text
+        

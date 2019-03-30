@@ -25,7 +25,7 @@ class Match extends Controller
         BackendMenu::setContext('Rikki.Heroeslounge', 'manage-matches','manage-matches');
     }
 
-    public static function formExtendFields($form)
+    public function formExtendFields($form)
     {
         $form->addFields([
             'division@create' => [
