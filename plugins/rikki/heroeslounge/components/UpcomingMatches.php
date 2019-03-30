@@ -8,6 +8,7 @@ use Rikki\Heroeslounge\Models\Season as Seasons;
 use Rikki\Heroeslounge\Models\Division as Divisions;
 use Rikki\Heroeslounge\Models\Match as Matches;
 use Rikki\Heroeslounge\Models\Sloth as Sloths;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 
 use Input;
 use Request;
@@ -106,75 +107,65 @@ class UpcomingMatches extends ComponentBase
 
     public function onMyRender()
     {
-        $timezoneoffset = (int)$_POST['time'];
-        $timezoneName = "Europe/Berlin";
-        if (isset($_POST['timezone'])) {
-            $timezoneName = $_POST['timezone'];
-        }
-
         $id = 0;
         if (isset($_POST['id'])) {
             $id = $_POST['id'];
         }
 
-        if (!in_array($timezoneName, timezone_identifiers_list())) {
-            $timezoneName = "Europe/Berlin";
-        }
         $this->idApp = $this->property("casterFilter");
+
         if ($this->idApp != "accepted" && $this->idApp != "denied") {
+            $timezoneName = TimezoneHelper::getTimezone();
             $this->collectMatches($timezoneName, $id);
 
-        
             $containerId = "#upcomingMatches".$this->idApp;
             return [
-                $containerId => $this->renderPartial('@calendar', ['user' => Auth::getUser(), 'groupMatches' => $this->groupMatches, 'timezone' => $timezoneName])
+                $containerId => $this->renderPartial(
+                    '@calendar', [
+                        'user' => Auth::getUser(),
+                        'groupMatches' => $this->groupMatches,
+                        'timezone' => $timezoneName
+                    ])
             ];
         }
     }
 
     public function onMyRenderAcceptedCasts()
     {
-        $timezoneoffset = (int)$_POST['time'];
-        $timezoneName = "Europe/Berlin";
-        if (isset($_POST['timezone'])) {
-            $timezoneName = $_POST['timezone'];
-        }
-
-        if (!in_array($timezoneName, timezone_identifiers_list())) {
-            $timezoneName = "Europe/Berlin";
-        }
         $this->idApp = $this->property("casterFilter");
+
         if ($this->idApp == "accepted") {
+            $timezoneName = TimezoneHelper::getTimezone();
             $this->collectMatches($timezoneName, $_POST['id']);
-        
-        
+
             $containerId = "#upcomingMatches".$this->idApp;
             return [
-                $containerId => $this->renderPartial('@calendar', ['user' => Auth::getUser(), 'groupMatches' => $this->groupMatches, 'timezone' => $timezoneName])
+                $containerId => $this->renderPartial(
+                    '@calendar', [
+                        'user' => Auth::getUser(),
+                        'groupMatches' => $this->groupMatches,
+                        'timezone' => $timezoneName
+                    ])
             ];
         }
     }
 
     public function onMyRenderDeniedCasts()
     {
-        $timezoneoffset = (int)$_POST['time'];
-        $timezoneName = "Europe/Berlin";
-        if (isset($_POST['timezone'])) {
-            $timezoneName = $_POST['timezone'];
-        }
-
-        if (!in_array($timezoneName, timezone_identifiers_list())) {
-            $timezoneName = "Europe/Berlin";
-        }
         $this->idApp = $this->property("casterFilter");
 
         if ($this->idApp == "denied") {
-
+            $timezoneName = TimezoneHelper::getTimezone();
             $this->collectMatches($timezoneName, $_POST['id']);
-        
+
             $containerId = "#upcomingMatches".$this->idApp;
             return [
-                $containerId => $this->renderPartial('@calendar', ['user' => Auth::getUser(), 'groupMatches' => $this->groupMatches, 'timezone' => $timezoneName])
+                $containerId => $this->renderPartial(
+                    '@calendar', [
+                        'user' => Auth::getUser(),
+                        'groupMatches' => $this->groupMatches,
+                        'timezone' => $timezoneName
+                    ])
             ];
         }
     }

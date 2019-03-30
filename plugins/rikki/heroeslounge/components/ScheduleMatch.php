@@ -10,6 +10,7 @@ use DateTime;
 use DateTimeZone;
 use Flash;
 use Carbon\Carbon;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 
 class ScheduleMatch extends ComponentBase
 {
@@ -44,46 +45,38 @@ class ScheduleMatch extends ComponentBase
 
     public function onMyRender()
     {
-        $timezoneoffset = (int)$_POST['time'];
-        $timezoneName = "Europe/Berlin";
-        if (isset($_POST['timezone'])) {
-            $timezoneName = $_POST['timezone'];
-        }
-        
         $this->match = Match::find($_POST['match_id']);
-
-        if (!in_array($timezoneName, timezone_identifiers_list())) {
-            $timezoneName = "Europe/Berlin";
-        }
 
         $containerId = "#schedulebox".$this->match->id;
         return [
-            $containerId => $this->renderPartial('@schedulebox', ['timezone' => $timezoneName, 'match' => $this->match])
+            $containerId => $this->renderPartial(
+                '@schedulebox', [
+                    'timezone' => TimezoneHelper::getTimezone(),
+                    'match' => $this->match
+                ])
         ];
         
     }
-
 
     public function onSaveDate()
     {
         $match = Match::find(post('match_id'));
         if ($match) {
             $date = post('date');
-            $timezone = post('timezoneName');
+            $timezone = TimezoneHelper::getTimezone();
             if ($date != null) {
                 try {
                     $x = new DateTime($date, new DateTimeZone($timezone));
-                    $x->setTimezone(new DateTimeZone('UTC'));
+                    $x->setTimezone(new DateTimeZone(TimezoneHelper::defaultTimezone()));
                     $match->wbp = $x->format('Y-m-d H:i:s');
                     if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp)) {
                         $match->save();
                         Flash::success('Match has been successfully scheduled for '.$date);
                     } else {
-                        $y = new DateTime($match->tbp, new DateTimeZone('UTC'));
+                        $y = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
                         $y->setTimezone(new DateTimeZone($timezone));
                         Flash::error('The match has to be played before ' . $y->format('d M Y H:i'));
                     }
-                    
                 } catch (Exception $e) {
                     Flash::error($e->getMessage());
                 } finally {
@@ -94,8 +87,6 @@ class ScheduleMatch extends ComponentBase
             }
         }
     }
-
-
 
     public function defineProperties()
     {

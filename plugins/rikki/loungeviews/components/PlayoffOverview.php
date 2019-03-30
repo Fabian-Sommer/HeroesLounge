@@ -5,6 +5,7 @@ use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Match;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Playoff;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Redirect;
 use Flash;
 use Log;
@@ -127,19 +128,12 @@ class PlayoffOverview extends ComponentBase
 
     public function onMyRender()
     {
-        $timezoneoffset = (int)$_POST['time'];
-        $timezoneName = "Europe/Berlin";
-        if (isset($_POST['timezone'])) {
-            $timezoneName = $_POST['timezone'];
-        }
-        
-        if (!in_array($timezoneName, timezone_identifiers_list())) {
-            $timezoneName = "Europe/Berlin";
-        }
-
         $containerId = "#knockout";
         return [
-            $containerId => $this->renderPartial('@bracket', ['timezone' => $timezoneName])
+            $containerId => $this->renderPartial(
+                '@bracket', [
+                    'timezone' => TimezoneHelper::getTimezone()
+                ])
         ];
     }
 
