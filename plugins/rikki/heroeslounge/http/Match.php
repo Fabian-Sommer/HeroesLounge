@@ -5,6 +5,8 @@ use Rikki\Heroeslounge\Models\Match as MatchModel;
 use Rikki\Heroeslounge\Models\Game as GameModel;
 use Log;
 use Carbon\Carbon;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
+
 /**
  * Match Back-end Controller
  */
@@ -75,10 +77,26 @@ class Match extends Controller
         });
         return $retVal;
     }
-    
-    public function getTodaysMatches()
+
+    public function getTodaysMatches($date, $tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
     {
-        return MatchModel::whereDate('wbp','=',date(Carbon::today()))->where('is_played',false)->get();
+        if ($tz2) {
+            $timezone = $tz1 . '/' . $tz2;
+        } else {
+            $timezone = $tz1;
+        }
+
+        // get today in a given timezone
+        if ($date == 'today') {
+            $start = Carbon::today($timezone);
+        } else {
+            $start = Carbon::createFromFormat('Y-m-d', $date, $timezone);
+        }
+
+        // now convert back to default/server timezone for db query
+        $start->setTime(0,0,0)->setTimezone(TimezoneHelper::DEFAULT_TIMEZONE);
+        $end = $start->copy()->addDay();
+        return MatchModel::whereBetween('wbp', [$start, $end])->where('is_played',false)->get();
     }
 
     public function caster($id)
