@@ -6,7 +6,7 @@ use Session;
 
 class TimezoneHelper
 {
-    private const DEFAULT_TIMEZONE = 'UTC';
+    public const DEFAULT_TIMEZONE = 'UTC';
     private const TIMEZONE_KEY = 'timezone';
 
     private static $defaultTimezone;
