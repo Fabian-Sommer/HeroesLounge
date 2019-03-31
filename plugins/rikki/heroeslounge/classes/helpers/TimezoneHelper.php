@@ -3,6 +3,8 @@
 use Auth;
 use Config;
 use Session;
+use Redirect;
+use Log;
 
 class TimezoneHelper
 {
@@ -36,6 +38,7 @@ class TimezoneHelper
             $timezoneName = self::defaultTimezone();
         }
         Session::put(self::TIMEZONE_KEY, $timezoneName);
+        return Redirect::refresh();
     }
 
     public static function hasTimezone()
