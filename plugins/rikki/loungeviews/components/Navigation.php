@@ -19,6 +19,7 @@ use Exception;
 use RainLab\User\Components\Account as UserAccount;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Rikki\Heroeslounge\Models\Season;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 
 class Navigation extends UserAccount
 {

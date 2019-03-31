@@ -11,10 +11,9 @@ class TimezoneHelper
 
     private static $defaultTimezone;
 
-    private static function defaultTimezone()
+    public static function defaultTimezone()
     {
-        if (!self::$defaultTimezone)
-        {
+        if (!self::$defaultTimezone) {
             self::$defaultTimezone =
                 Config::get('app.timezone', self::DEFAULT_TIMEZONE);
         }

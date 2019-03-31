@@ -65,6 +65,7 @@ class ScheduleMatch extends ComponentBase
                     }
                 } catch (Exception $e) {
                     Flash::error($e->getMessage());
+                    Log::info($e->getMessage());
                 } finally {
                     return Redirect::refresh();
                 }
