@@ -27,5 +27,12 @@ class Twitchchannel extends Model
      */
     public $table = 'rikki_heroeslounge_twitchchannel';
 
-    public $hasMany = ['matches' => ['Rikki\Heroeslounge\Models\Match', 'key' => 'channel_id', 'otherKey' => 'id']];
+    public $belongsToMany = [
+        'matches' => [
+            'Rikki\Heroeslounge\Models\Match',
+            'key' => 'channel_id',
+            'otherKey' => 'match_id',
+            'table' => 'rikki_heroeslounge_match_channel'
+        ]
+    ];
 }

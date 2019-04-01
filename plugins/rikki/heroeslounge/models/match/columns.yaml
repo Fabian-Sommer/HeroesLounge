@@ -22,11 +22,10 @@ columns:
     round:
         label: round
         type: number
-    channel:
-        label: 'Twitch channel'
-        type: text
+    channels:
+        label: 'Twitch channels'
+        relation: channels
         select: title
-        relation: channel
     region:
         label: Region
         type: text

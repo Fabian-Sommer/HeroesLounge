@@ -383,3 +383,9 @@
 1.0.134:
     - 'Updated table rikki_heroeslounge_divisions'
     - builder_table_update_rikki_heroeslounge_divisions_2.php
+1.0.135:
+    - 'Created table rikki_heroeslounge_match_channel'
+    - builder_table_create_rikki_heroeslounge_match_channel.php
+1.0.136:
+    - 'Updated table rikki_heroeslounge_match'
+    - builder_table_update_rikki_heroeslounge_match_6.php

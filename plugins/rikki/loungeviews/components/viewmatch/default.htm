@@ -31,11 +31,11 @@
     {% for caster in __SELF__.match.getAcceptedCasters %}
         {{caster.title}}{% if not loop.last %}, {%endif%}
     {% endfor %}
-    {% if __SELF__.match.channel %}
+    {% for channel in __SELF__.match.channels %}
     <span class="facebook">
-    <a href="{{__SELF__.match.channel.url}}" style="display:inline" rel="noopener" target="_blank" ><i class="fa fa-twitch"  aria-hidden="true"></i></a>
+    <a href="{{channel.url}}" style="display:inline" rel="noopener" target="_blank" ><i class="fa fa-twitch"  aria-hidden="true"></i></a>
     </span>
-    {% endif %}
+    {% endfor %}
 </h4>
 {% endif %}
 

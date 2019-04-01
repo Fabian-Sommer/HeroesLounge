@@ -21,12 +21,12 @@
                         {% endif %}
                     </span>
                     <span title="{{match.division.title}}" class="hideOverflow">{{match.division.title}}</span>
+                    <span>@{{match.wbp | date('H:i', __SELF__.timezone)}}</span>
+                    {%  for channel in match.channels  %}
                     <span class="event-list--time facebook">
-                        @{{match.wbp | date('H:i', __SELF__.timezone)}}
-                        {%  if match.channel  %}
-                        <a href="{{match.channel.url}}" style="display:inline" rel="noopener" target="_blank"><i class="fa fa-twitch"  aria-hidden="true" title="{{match.channel.title}}"></i></a>
-                        {% endif %}
+                        <a href="{{channel.url}}" style="display:inline" rel="noopener" target="_blank"><i class="fa fa-twitch"  aria-hidden="true" title="{{channel.title}}"></i></a>
                     </span>
+                    {% endfor %}
                 </div>
 
                 <div class="event-list--team row col-sm-12 col-md-3 row no-gutters">

@@ -37,10 +37,10 @@ class Casterscheduling extends Controller
     {
         $match = Match::findOrFail(post('match_id'));
         if (post('channel_id') == 0) {
-            $match->channel()->dissociate();
+            $match->channels()->detach();
         } else {
             $channel = Twitchchannel::findOrFail(post('channel_id'));
-            $match->channel = $channel;
+            $match->channels()->add($channel);
         }
         $match->save();
     }

@@ -17,7 +17,7 @@ columns:
     round:
         label: round
         type: number
-    channel:
+    channels:
         label: 'Twitch channel'
         type: partial
         path: ~/plugins/rikki/heroeslounge/models/match/casterscheduling/_channel_column.htm

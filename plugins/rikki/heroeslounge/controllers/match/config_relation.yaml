@@ -69,11 +69,12 @@ casters:
                 pivot[approved]:
                     label: approved
     emptyMessage: This match has no casters yet.
-channel:
-    label: Twitch channel
+channels:
+    label: Twitch channels
     view:
         form: $/rikki/heroeslounge/models/twitchchannel/fields.yaml
-        toolbarPartial: twitch_toolbar
+        list: $/rikki/heroeslounge/models/twitchchannel/columns.yaml
+        toolbarButtons: add|remove
     manage:
         form: $/rikki/heroeslounge/models/twitchchannel/fields.yaml
         list: $/rikki/heroeslounge/models/twitchchannel/columns.yaml

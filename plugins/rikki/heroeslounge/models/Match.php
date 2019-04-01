@@ -50,11 +50,6 @@ class Match extends Model
             'Rikki\Heroeslounge\Models\Playoff',
             'key' => 'playoff_id',
             'otherKey' => 'id'
-        ],
-        'channel' => [
-            'Rikki\Heroeslounge\Models\Twitchchannel',
-            'key' => 'channel_id',
-            'otherKey' => 'id'
         ]
     ];
 
@@ -79,6 +74,12 @@ class Match extends Model
             'otherKey' => 'caster_id',
             'table' => 'rikki_heroeslounge_match_caster',
             'pivot' => ['approved']
+        ],
+        'channels' => [
+            'Rikki\Heroeslounge\Models\Twitchchannel',
+            'key' => 'match_id',
+            'otherKey' => 'channel_id',
+            'table' => 'rikki_heroeslounge_match_channel'
         ]
     ];
 
@@ -95,6 +96,11 @@ class Match extends Model
             return $match->teams[0]->region->title;
         }
         return null;
+    }
+
+    public function getChannelAttribute()
+    {
+        return $this->channels->count() > 0 ? $this->channels->first() : null;
     }
 
     public function getCasterIds()
