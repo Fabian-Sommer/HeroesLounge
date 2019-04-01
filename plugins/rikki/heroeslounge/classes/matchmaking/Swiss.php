@@ -127,8 +127,8 @@ class Swiss
             $match->tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 23:55')+$timeoffset);
 
             $match->save();
-            $match->teams()->save(Teams::find($pairing[0]));
-            $match->teams()->save(Teams::find($pairing[1]));
+            $match->teams()->save($teamA);
+            $match->teams()->save($teamB);
 
 
             //In case it's a BYE assign the win
@@ -152,12 +152,12 @@ class Swiss
                 $match->save();
 
                 DB::table('rikki_heroeslounge_team_division')
-          ->where('team_id', $winner->id)
-          ->where('div_id', $div->id)
-          ->increment('free_win_count');
+                  ->where('team_id', $winner->id)
+                  ->where('div_id', $div->id)
+                  ->increment('free_win_count');
             }
 
-            Log::debug("Created a match between team IDs " . $teamA->id ." and " . $teamB->id . " in division " . $div->slug);
+            Log::info("Created a match between team IDs " . $teamA->id ." and " . $teamB->id . " in division " . $div->slug);
         }
     }
 
