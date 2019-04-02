@@ -33,6 +33,7 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::get('matches/{id}/replays','Rikki\Heroeslounge\Http\Match@replays');
     Route::get('matches/today/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getTodaysMatches');
     Route::get('matches/byDate/{date}/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getMatchesByDate');
+    Route::get('matches/{id}/channels', 'Rikki\Heroeslounge\Http\Match@channels');
 
     Route::resource('matches', 'Rikki\Heroeslounge\Http\Match');
     Route::get('matchesAll','Rikki\Heroeslounge\Http\Match@indexAll');

@@ -23,6 +23,11 @@ class Match extends Controller
         return MatchModel::all();
     }
 
+    public function channels($id)
+    {
+        return MatchModel::findOrFail($id)->channels;
+    }
+
     public function teams($id)
     {
         return MatchModel::findOrFail($id)->teams;
