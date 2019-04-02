@@ -78,7 +78,7 @@ class Match extends Controller
         return $retVal;
     }
 
-    public function getTodaysMatches($date, $tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
+    public function getTodaysMatches($tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
     {
         if ($tz2) {
             $timezone = $tz1 . '/' . $tz2;
@@ -86,17 +86,28 @@ class Match extends Controller
             $timezone = $tz1;
         }
 
-        // get today in a given timezone
-        if ($date == 'today') {
-            $start = Carbon::today($timezone);
-        } else {
-            $start = Carbon::createFromFormat('Y-m-d', $date, $timezone);
-        }
+        $start = Carbon::today($timezone);
 
         // now convert back to default/server timezone for db query
         $start->setTime(0,0,0)->setTimezone(TimezoneHelper::DEFAULT_TIMEZONE);
         $end = $start->copy()->addDay();
         return MatchModel::whereBetween('wbp', [$start, $end])->where('is_played',false)->get();
+    }
+
+    public function getMatchesByDate($date, $tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
+    {
+        if ($tz2) {
+            $timezone = $tz1 . '/' . $tz2;
+        } else {
+            $timezone = $tz1;
+        }
+
+        $start = Carbon::createFromFormat('Y-m-d', $date, $timezone);
+
+        // now convert back to default/server timezone for db query
+        $start->setTime(0,0,0)->setTimezone(TimezoneHelper::DEFAULT_TIMEZONE);
+        $end = $start->copy()->addDay();
+        return MatchModel::whereBetween('wbp', [$start, $end])->get();
     }
 
     public function caster($id)

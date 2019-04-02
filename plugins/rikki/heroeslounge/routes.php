@@ -31,8 +31,8 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::get('matches/withApprovedCastBetween/{startdate}/{enddate}','Rikki\Heroeslounge\Http\Match@withApprovedCastBetween');
     Route::get('matches/{id}/games','Rikki\Heroeslounge\Http\Match@games');
     Route::get('matches/{id}/replays','Rikki\Heroeslounge\Http\Match@replays');
-    Route::get('matches/{date}/{tz1}/{tz2?}','Rikki\Heroeslounge\Http\Match@getTodaysMatches')->where('date', 'today|\d{4}-\d{2}-\d{2}');
-    Route::get('matches/{date}','Rikki\Heroeslounge\Http\Match@getTodaysMatches')->where('date', 'today|\d{4}-\d{2}-\d{2}');
+    Route::get('matches/today/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getTodaysMatches');
+    Route::get('matches/byDate/{date}/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getMatchesByDate');
 
     Route::resource('matches', 'Rikki\Heroeslounge\Http\Match');
     Route::get('matchesAll','Rikki\Heroeslounge\Http\Match@indexAll');
