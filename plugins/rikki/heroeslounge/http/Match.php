@@ -83,36 +83,40 @@ class Match extends Controller
         return $retVal;
     }
 
-    public function getTodaysMatches($tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
+    private function formatTimezone($tz1, $tz2)
     {
         if ($tz2) {
-            $timezone = $tz1 . '/' . $tz2;
+            return $tz1 . '/' . $tz2;
         } else {
-            $timezone = $tz1;
+            return $tz1;
         }
+    }
 
-        $start = Carbon::today($timezone);
-
-        // now convert back to default/server timezone for db query
+    private function getMatchesForDate($start, $isPlayed)
+    {
+        // Convert to default/server timezone for db query
         $start->setTime(0,0,0)->setTimezone(TimezoneHelper::DEFAULT_TIMEZONE);
         $end = $start->copy()->addDay();
-        return MatchModel::whereBetween('wbp', [$start, $end])->where('is_played',false)->get();
+
+        if (!$isPlayed) {
+            return MatchModel::whereBetween('wbp', [$start, $end])->where('is_played',false)->get();
+        } else {
+            return MatchModel::whereBetween('wbp', [$start, $end])->get();
+        }
+    }
+
+    public function getTodaysMatches($tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
+    {
+        $date = Carbon::today(Self::formatTimezone($tz1, $tz2));
+
+        return getMatchesByDate($date, false);
     }
 
     public function getMatchesByDate($date, $tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
     {
-        if ($tz2) {
-            $timezone = $tz1 . '/' . $tz2;
-        } else {
-            $timezone = $tz1;
-        }
+        $date = Carbon::createFromFormat('Y-m-d', $date, Self::formatTimezone($tz1, $tz2));
 
-        $start = Carbon::createFromFormat('Y-m-d', $date, $timezone);
-
-        // now convert back to default/server timezone for db query
-        $start->setTime(0,0,0)->setTimezone(TimezoneHelper::DEFAULT_TIMEZONE);
-        $end = $start->copy()->addDay();
-        return MatchModel::whereBetween('wbp', [$start, $end])->get();
+        return getMatchesByDate($date);
     }
 
     public function caster($id)
