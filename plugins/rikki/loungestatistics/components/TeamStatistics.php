@@ -5,7 +5,7 @@ use Rikki\Heroeslounge\Models\Hero;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Map;
 use Rikki\Heroeslounge\Models\Season;
-use Rikki\Heroeslounge\Models\GameParticipation as GP;
+use Rikki\Heroeslounge\Models\GameParticipation;
 
 use October\Rain\Support\Collection;
 use Db;
@@ -24,18 +24,39 @@ class TeamStatistics extends ComponentBase
     public $team = null;
     public $heroes = null;
     public $maps = null;
-    public $allseasons = null;
+    public $participatedSeasons = null;
+    public $selectedSeason = null;
 
     public function init()
     {
         $this->addJs('assets/js/datatables.min.js');
         $this->addJs('assets/js/loungestatistics.js');
         $this->addCss('assets/css/datatables.min.css');
+
         $this->team = Team::where('id', $this->property('team_id'))
                         ->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan', 'matches.games.teamOneThirdBan', 'matches.games.teamTwoThirdBan')
                         ->first();
-        $this->allseasons = Season::where('reg_open', false)->get()->sortByDesc('created_at');
-        $this->calculateStats($this->allseasons->first());
+
+        $teamSeasonsSet = [];
+        foreach ($this->team->matches as $match) {
+            foreach ($match->associatedSeasons() as $season) {
+                if ($season) {
+                    $teamSeasonsSet[$season->id] = $season;
+
+                    if ($season->is_active && ($this->selectedSeason == null || $season->created_at < $this->selectedSeason->created_at)) {
+                        $this->selectedSeason = $season;
+                    }
+                }
+            }
+        }
+
+        $this->participatedSeasons = array_values($teamSeasonsSet);
+        usort($this->participatedSeasons, function($a, $b) {
+            if ($a->created_at == $b->created_at) return 0;
+            return $a->created_at > $b->created_at ? 1 : -1;
+        });
+
+        $this->calculateStats($this->selectedSeason);
     }
 
     public function calculateStats($season)
@@ -152,11 +173,13 @@ class TeamStatistics extends ComponentBase
 
     public function onSeasonChange()
     {
-        if (input('season_id') == -1) {
-            $this->calculateStats(null);
+        $season_id = input('season_id');
+        if ($season_id == -1) {
+            $this->selectedSeason = null;
         } else {
-            $this->calculateStats(Season::find(input('season_id')));
+            $this->selectedSeason = Season::find($season_id);
         }
+        $this->calculateStats($this->selectedSeason);
         return [
             '#teamstatistics' => $this->renderPartial('@stats')
         ];

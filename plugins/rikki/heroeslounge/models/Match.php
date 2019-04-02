@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\DB;
 use October\Rain\Database\Model;
 use Rikki\Heroeslounge\Models\Timeline;
 use October\Rain\Exception\SystemException;
-use Rikki\Heroeslounge\classes\hotfixes as hotfixes;
-use Rikki\Heroeslounge\Models\Season as Season;
+use Rikki\Heroeslounge\classes\hotfixes;
+use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Playoff;
 use Rikki\Heroeslounge\Models\Team;
 use Carbon\Carbon;
@@ -148,6 +148,14 @@ class Match extends Model
             || ($this->division != null && $this->division->playoff != null && $this->division->playoff->season != null && $this->division->playoff->season->id == $season->id));
     }
 
+    public function associatedSeasons()
+    {
+        return [
+            $this->division != null ? $this->division->season : null,
+            $this->playoff != null ? $this->playoff->season : null,
+            $this->division != null && $this->division->playoff != null ? $this->division->playoff->season : null
+        ];
+    }
 
     public function beforeUpdate()
     {
