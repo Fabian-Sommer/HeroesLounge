@@ -12,111 +12,17 @@ use Log;
 
 class Swiss
 {
-    public $pairings; //Stores potential matches
     public $byeId; //Stores the ID of the BYE team
     public $matchesToHandle; //Stores unscheduled/unplayed matches to take care off after deporting teams
     public $currentRound;
-    public $currentStandings;
+    private static $pythonPath = 'python2.7 ';
 
-   //Function for checking if a key exists in a twodimensional array
-    public function in_array_r($needle, $haystack, $strict = false)
-    {
-        foreach ($haystack as $item) {
-            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $strict))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    //Function to permutate a list of pairs for all possible options
-    function pairedPerms($arr){
-        $val1=$arr[0];
-        $pairs_per_set=sizeof($arr)/2;
-        foreach($arr as $v1){  // $arr is preserved/static
-            $arr=array_slice($arr,1);  // modify/reduce second foreach's $arr
-            foreach($arr as $v2){
-                if($val1==$v1){
-                    $first[]=[$v1,$v2];  // unique pairs as 2-d array containing first element
-                }else{
-                    $other[]=[$v1,$v2]; // unique pairs as 2-d array not containing first element
-                }
-            }
-        }
-
-        for($i=0; $i<$pairs_per_set; ++$i){  // add one new set of pairs per iteration
-            if($i==0){
-                foreach($first as $pair){
-                    $perms[]=[$pair]; // establish an array of sets containing just one pair
-                }
-            }else{
-                $expanded_perms=[];
-                foreach($perms as $set){
-                    $values_in_set=[];  // clear previous data from exclusion array
-                    array_walk_recursive($set,function($v)use(&$values_in_set){$values_in_set[]=$v;}); // exclude pairs containing these values
-                    $candidates=array_filter($other,function($a)use($values_in_set){
-                        return !in_array($a[0],$values_in_set) && !in_array($a[1],$values_in_set);
-                    });
-                    if($i<$pairs_per_set-1){
-                        $candidates=array_slice($candidates,0,sizeof($candidates)/2);  // omit duplicate causing candidates
-                    }
-                    foreach($candidates as $cand){
-                        $expanded_perms[]=array_merge($set,[$cand]); // add one set for every new qualifying pair
-                    }
-                }
-                $perms=$expanded_perms;  // overwrite earlier $perms data with new forked data
-            }
-        }
-        return $perms;
-    }
-
-    //Repair division table if matchmaking had to be rolled back
-    public function repairDivTable($div){
-        $teams = $div->teams()->get();
-
-        foreach ($teams as $team) {
-            $matchIds = Db::table('rikki_heroeslounge_team_match')->where('team_id', $team->id)->lists('match_id');
-
-
-            $freeWinCount = 0;
-            foreach ($matchIds as $matchId) {
-                $freeWin = (Db::table('rikki_heroeslounge_games')->where('id', $matchId)->where('map_id', 1)->count() == 2);
-
-                $freeWinFekkerPlebId = Db::table('rikki_heroeslounge_match')->where('id', $matchId)->value('winner_id');
-
-                if ($freeWin && $team->id == $freeWinFekkerPlebId) {
-                    $freeWinCount += 1;
-                }
-            }
-
-            $gameCount = DB::table('rikki_heroeslounge_match')
-                ->whereIn('id', $matchIds)
-                ->where('is_played', 1)
-                ->where('div_id', $div->id)
-                ->count();
-
-            $winCount = DB::table('rikki_heroeslounge_match')
-                ->whereIn('id', $matchIds)
-                ->where('winner_id', $team->id)
-                ->where('div_id', $div->id)
-                ->count();
-
-            DB::table('rikki_heroeslounge_team_division')
-                ->where('team_id', $team->id)
-                ->where('div_id', $div->id)
-                ->update(['win_count' => $winCount, 'match_count' => $gameCount, 'free_win_count' => $freeWinCount]);
-        }
-
-        Log::debug("Repaired division table for " . $div->slug);
-    }
-
-    //Creates a match from a pairing (two team IDs)
+    //Creates a match from a pairing
     public function createMatch($pairing, $div)
     {
         if ($pairing[0] != null && $pairing[1] != null) {
-            $teamA = Teams::find($pairing[0]);
-            $teamB = Teams::find($pairing[1]);
+            $teamA = $pairing[0];
+            $teamB = $pairing[1];
 
             $timeoffset = ($teamA->region_id - 1)*36000;
 
@@ -162,13 +68,8 @@ class Swiss
     }
 
     //Checks if pairing is valid
-    public function isValidPairing($tId, $oppId, $div, $skipPairingCheck = false)
+    public function isValidPairing($tId, $oppId, $div)
     {
-        //Check if team would play itself
-        if($tId == $oppId){
-            return false;
-        }
-
         //Check if teams played each other before
         foreach (Teams::find($tId)->matches()->get() as $match) {
             if (count($match->teams()->where('team_id', $oppId)->get())==1) {
@@ -176,30 +77,7 @@ class Swiss
             }
         }
 
-        //See if pairing check has to be skipped in case we're fixing broken pairs
-        if (!$skipPairingCheck) {
-            //Check if potential opponent is already paired for this round
-            foreach ($this->pairings as $pairing) {
-                if ($pairing[0] == $oppId || $pairing[1] == $oppId) {
-                    return false;
-                }
-            }
-        }
-
         return true;
-    }
-
-    //Check potential pairings
-    public function checkPairings($orgTeam, $div)
-    {
-        //Iterate over list of teams to find potential opponents, sorted from best to worst team
-        foreach ($this->currentStandings as $team) {
-            if ($this->isValidPairing($orgTeam->id, $team->id, $div)) {
-                return $team->id;
-            }
-        }
-
-        return null;
     }
 
     //Sorts team from best to worst by default, unless $order is ASC
@@ -240,74 +118,163 @@ class Swiss
         }
 
         Log::info("Selected " . $byeReceiver->title . " [" . $byeReceiver->id . "] to receive a BYE in " . $div->slug);
-        return [$byeReceiver->id, $byeTeam->id];
+        return $byeReceiver;
     }
 
-    //In case matchmaking ends with an impossible pair, iterate backwards over the pairs to find a pairing to break up which allows for a full set of proper pairs
-    public function repairPairs($brokenPair, $div)
-    {
-        Log::debug('No match found for team IDs ' . $brokenPair[0] . ' and ' . $brokenPair[1] . '. Breaking up matchups to create new match.');
+    public function findMatching($div, $teams) {
+        $matches = $div->matches;
+        $teams = array_values($teams);
+        defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+        $graph_file_path = 'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'matchmaking'.DS.'matching.txt';
+        $file = fopen($graph_file_path, "w");
 
-        $foundSolution = false;
+        $vertex_count = count($teams);
 
-        $teamsToShuffle = [$brokenPair[0], $brokenPair[1]]; //Holds teams to create new pairs from
-        $keysToRemove = []; //Holds the keys of the pairs that were mixed up, old pairs have to be removed
-
-        end($this->pairings); //Move the internal pointer to the last item in the array;
-
-        while($foundSolution == false){
-            $currentPair = current($this->pairings); //Get the current pair the pointer is at
-            $keysToRemove[] = key($this->pairings); //Get the key so we can remove the pair later
-
-            //Add the teams of the pair to the list of teams
-            $teamsToShuffle[] = $currentPair[0];
-            $teamsToShuffle[] = $currentPair[1];
-
-            //Create permutations of the pairs
-            $pairPerms = $this->pairedPerms($teamsToShuffle);
-
-            //Go over all the sets of pairs
-            foreach($pairPerms as $sets){
-                $setIsValid = true;
-
-                //Go over each pair
-                foreach($sets as $pairs){
-                    //Check if the pair is valid or not, if not skip to the next set
-                    if(!$this->isValidPairing($pairs[0], $pairs[1], $div, true)){
-                        $setIsValid = false;
-                        break;
-                    }
+        for ($i = 0; $i < $vertex_count; $i++) {
+            $teamMatches = $matches->filter(function ($match) use ($teams, $i)  {
+                return $match->teams->contains(function ($team) use ($teams, $i) {
+                    return $teams[$i]['id'] == $team->id;
+                });
+            });
+            for ($j = $i+1; $j < $vertex_count; $j++) {
+                //check if the teams already played
+                $weight = 0;
+                $teamsPlayed = $teamMatches->contains(function ($match) use ($teams, $j) {
+                    return $match->teams->contains(function ($team) use ($teams, $j) {
+                        return $teams[$j]['id'] == $team->id;
+                    });
+                });
+                if ($teamsPlayed) {
+                    $weight += 1000000;
+                }
+                if ($this->currentRound <= 2) {
+                    $weight += abs($teams[$i]['slothrating'] - $teams[$j]['slothrating']);
+                } else {
+                    $winDifference = abs($teams[$i]['pivot']['win_count'] - $teams[$j]['pivot']['win_count']);
+                    $lossDifference = abs(($teams[$i]['pivot']['match_count'] - $teams[$i]['pivot']['win_count']) - ($teams[$j]['pivot']['match_count'] - $teams[$j]['pivot']['win_count'])); 
+                    $weight += pow(10, $winDifference);
+                    $weight += pow(9, $lossDifference);
                 }
 
-                if($setIsValid){ //The set is valid
-                    //Remove all the old pairs that were used for new ones
-                    foreach($keysToRemove as $key){
-                        unset($this->pairings[$key]);
-                    }
-
-                    //Create all the new ones
-                    foreach($sets as $pairs){
-                        $this->pairings[] = [$pairs[0], $pairs[1]];
-                    }
-
-                    //Stop the while loop
-                    $foundSolution = true;
-                    break;
-                }
-
+                fwrite($file, $i." ".$j." ".$weight."\n");
             }
-
-            prev($this->pairings); //Move the pointer back
         }
 
-        if(!$foundSolution){
-            Log::error("Didn't find a solution for the broken pair [" . $brokenPair[0] . ", " . $brokenPair[1] . "] in division " . $div->slug);
+        fclose($file);
+        
+        exec(Swiss::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'matchmaking'.DS.'matching.py '.$graph_file_path.' 2>&1', $output, $state);
+        $matching = json_decode($output[0]);
+        $team_pairs = [];
+        foreach ($matching as $key => $m) {
+            $team_pairs[] = [$teams[$m[0]] , $teams[$m[1]]];
         }
-
-        return $foundSolution;
+        unlink($graph_file_path);
+        return $team_pairs;
     }
 
-    //Do memes OSsloth
+    public function makeMatches($div)
+    {
+        Log::info('Starting matchmaking for division ' . $div->slug);
+        $pairings = [];
+        $unmatchedTeams = [];
+        $pairsCorrect = true;
+
+        $teams = $this->sortedTeams($div);
+        $teamCount = count($teams);
+
+        Log::info("There are " . $teamCount . " teams in division " . $div->slug);
+
+        if (count($teams) % 2 == 1) {
+            $teamWithBye = $this->selectBye($div);
+        }
+
+        //remove bye team from teams
+        $teams->reject(function ($team) use ($teamWithBye) {
+            return $team->id == $teamWithBye->id;
+        })
+
+        $pairings = $this->findMatching($div, $teams);
+        $byeTeam = Teams::where("title", "BYE!")->firstOrFail();
+        $pairings[] = [$teamWithBye , $byeTeam];
+        foreach ($pairings as $pairing) {
+            $this->createMatch($pairing, $div);
+        }
+
+        Log::info("Successfully made pairings for " . $div->slug);
+    }
+
+    public function saveUnsavedMatches($div)
+    {
+        foreach ($div->matches()->where('is_played', false)->get() as $match) {
+            if ($match->games()->count() > 0) {
+                $match->determineWinnerAndSave();
+            }
+        }
+    }
+
+    //Current Round hasn't been updated yet
+    public function findInactiveTeams($div, $r)
+    {
+        $inactiveTeamCount = 0;
+        $logMessage = "";
+        $matchesToHandle = [];
+
+        foreach ($div->teams()->where('active', 1)->get() as $team) {
+            //Games is now two weeks old
+            $prevWeekMatch = $team->matches()->where('div_id', $div->id)->where('round', $r-1)->first();
+            $remove = false;
+            if ($prevWeekMatch && false == $prevWeekMatch->is_played) {
+                $matchesToHandle[] = $prevWeekMatch;
+                $remove = true;
+                $team->save();
+                $inactiveTeamCount += 1;
+                $logMessage .= 'Team '.$team->title.' was set inactive due to not playing a match within two weeks. Match ID: ' . $prevWeekMatch->id . "\n";
+            }
+            //Game is now one week old
+            $schedulePrevMatch = $team->matches()->where('div_id', $div->id)->where('round', $r)->first();
+            if ($schedulePrevMatch && null == $schedulePrevMatch->wbp) {
+                $matchesToHandle[] = $schedulePrevMatch;
+                $remove = true;
+                $team->save();
+                $inactiveTeamCount += 1;
+                $logMessage .= 'Team '.$team->title.' was set inactive due to not scheduling a match within one week.' . $schedulePrevMatch->id . "\n";
+            }
+            if ($remove == true) {
+                $team->pivot->active = false;
+                $team->pivot->save();
+            }
+        }
+
+        $logMessage .= "\n" . $inactiveTeamCount . ' teams were set inactive due to not scheduling/playing on time in division ' . $div->slug;
+
+
+        Log::info($logMessage);
+
+        if (!empty($matchesToHandle)) {
+            Log::debug("Handling unplayed/unscheduled matches: " . implode("\n", $this->matchesToHandle));
+            foreach ($matchesToHandle as $match) {
+                $match->is_played = 1;
+                $match->winner_id = null;
+                $match->games->each(function ($game) {
+                    $game->delete();
+                });
+                $g1 = new Game;
+                $g1->winner_id = $match->teams[0]->id;
+                $g1->match_id = $match->id;
+                $g1->map_id = 1;
+                $g1->save();
+                $g2 = new Game;
+                $g2->map_id = 1;
+                $g2->winner_id = $match->teams[1]->id;
+                $g2->match_id = $match->id;
+                $g2->save();
+
+                $match->save();
+            }
+        }
+    }
+
+    //MM for entire season
     public function prepare($s)
     {
             set_time_limit(600);
@@ -333,7 +300,6 @@ class Swiss
             }
             $s->save();
 
-
             foreach ($divs as $div) {
                 $this->makeMatches($div);
             }
@@ -347,155 +313,5 @@ class Swiss
         Log::info('Selected BYE team id: ' . $this->byeId);
         $this->currentRound = $s->current_round;
         $this->makeMatches($div);
-    }
-
-    public function makeMatches($div)
-    {
-        Log::info('Starting matchmaking for division ' . $div->slug);
-        $this->pairings = [];
-        $unmatchedTeams = [];
-        $pairsCorrect = true;
-
-        $this->currentStandings = $this->sortedTeams($div);
-        $teams = $this->currentStandings;
-        $teamCount = count($teams);
-
-        Log::info("There are " . $teamCount . " teams in division " . $div->slug);
-
-        if (count($teams) % 2 == 1) {
-            $this->pairings[] = $this->selectBye($div);
-            $teamCount += 1;
-        }
-
-        foreach ($teams as $team) {
-            if (!$this->in_array_r($team->id, $this->pairings)) {
-                $matchedId = $this->checkPairings($team, $div);
-
-                if ($matchedId != null) {
-                    $this->pairings[] = [$team->id, $matchedId];
-                } else {
-                    $unmatchedTeams[] = $team->id;
-                }
-            }
-        }
-
-        if ($teamCount / 2 != count($this->pairings)) {
-            $brokenPair = [$unmatchedTeams[0], $unmatchedTeams[1]];
-
-            $pairsCorrect = $this->repairPairs($brokenPair, $div);
-        }
-
-        if(!$pairsCorrect){
-            Log::error("Couldn't create proper pairs for division ". $div->slug .". No matches have been created!");
-        } else {
-
-
-            try{
-                foreach ($this->pairings as $pairing) {
-                    $this->createMatch($pairing, $div);
-                }
-
-                Log::info("Successfully made pairings for " . $div->slug);
-            } catch(\Exception $e){
-                Db::rollback();
-                $this->repairDivTable($div);
-
-                Log::error("Transaction failed for " . $div->slug);
-
-                throw $e;
-            } catch(\Throwable $e){
-                Db::rollback();
-                $this->repairDivTable($div);
-
-                Log::error("Transaction failed for " . $div->slug);
-
-                throw $e;
-            }
-
-
-        }
-
-
-    }
-
-    public function saveUnsavedMatches($div)
-    {
-        foreach ($div->matches()->where('is_played', false)->get() as $match) {
-            if ($match->games()->count() > 0) {
-                $match->determineWinnerAndSave();
-            }
-        }
-    }
-
-    //Current Round hasn't been updated yet
-    public function findInactiveTeams($div, $r)
-    {
-        $inactiveTeamCount = 0;
-        $logMessage = "";
-
-        foreach ($div->teams()->where('active', 1)->get() as $team) {
-            //Games is now two weeks old
-            $prevWeekMatch = $team->matches()->where('div_id', $div->id)->where('round', $r-1)->first();
-            $remove = false;
-            if ($prevWeekMatch && false == $prevWeekMatch->is_played) {
-                $this->handleMatch($prevWeekMatch);
-                $remove = true;
-                $team->save();
-                $inactiveTeamCount += 1;
-                $logMessage .= 'Team '.$team->title.' was set inactive due to not playing a match within two weeks. Match ID: ' . $prevWeekMatch->id . "\n";
-            }
-            //Game is now one week old
-            $schedulePrevMatch = $team->matches()->where('div_id', $div->id)->where('round', $r)->first();
-            if ($schedulePrevMatch && null == $schedulePrevMatch->wbp) {
-                $this->handleMatch($schedulePrevMatch);
-                $remove = true;
-                $team->save();
-                $inactiveTeamCount += 1;
-                $logMessage .= 'Team '.$team->title.' was set inactive due to not scheduling a match within one week.' . $schedulePrevMatch->id . "\n";
-            }
-            if ($remove == true) {
-                $team->pivot->active = false;
-                $team->pivot->save();
-            }
-        }
-
-        $logMessage .= "\n" . $inactiveTeamCount . ' teams were set inactive due to not scheduling/playing on time in division ' . $div->slug;
-
-
-        Log::info($logMessage);
-
-        $this->handleMatches();
-    }
-
-    private function handleMatch($match)
-    {
-        $this->matchesToHandle[] = $match;
-    }
-
-    private function handleMatches()
-    {
-        if (is_array($this->matchesToHandle) && !empty($this->matchesToHandle)) {
-            Log::debug("Handling unplayed/unscheduled matches: " . implode("\n", $this->matchesToHandle));
-            foreach ($this->matchesToHandle as $match) {
-                $match->is_played = 1;
-                $match->winner_id = null;
-                $match->games->each(function ($game) {
-                    $game->delete();
-                });
-                $g1 = new Game;
-                $g1->winner_id = $match->teams[0]->id;
-                $g1->match_id = $match->id;
-                $g1->map_id = 1;
-                $g1->save();
-                $g2 = new Game;
-                $g2->map_id = 1;
-                $g2->winner_id = $match->teams[1]->id;
-                $g2->match_id = $match->id;
-                $g2->save();
-
-                $match->save();
-            }
-        }
-        $this->matchesToHandle = []; // Resets the matchesToHandle array after a division has been handled.
     }
 }
