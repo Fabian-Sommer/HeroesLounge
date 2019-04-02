@@ -56,6 +56,13 @@ class TeamStatistics extends ComponentBase
             return $a->created_at > $b->created_at ? 1 : -1;
         });
 
+        if ($this->selectedSeason == null) {
+            $participatedSeasonsCount = count($this->participatedSeasons);
+            if ($participatedSeasonsCount > 0) {
+                $this->selectedSeason = $this->participatedSeasons[$participatedSeasonsCount - 1];
+            }
+        }
+
         $this->calculateStats($this->selectedSeason);
     }
 
