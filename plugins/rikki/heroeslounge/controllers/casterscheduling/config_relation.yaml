@@ -52,11 +52,12 @@ casters:
                         1: Approved
                         2: Denied
     emptyMessage: This match has no casters yet.
-channel:
-    label: Twitch channel
+channels:
+    label: Twitch channels
     view:
         form: $/rikki/heroeslounge/models/twitchchannel/fields.yaml
-        toolbarPartial: twitch_toolbar
+        list: $/rikki/heroeslounge/models/twitchchannel/columns.yaml
+        toolbarButtons: Add|Remove
     manage:
         form: $/rikki/heroeslounge/models/twitchchannel/fields.yaml
         list: $/rikki/heroeslounge/models/twitchchannel/columns.yaml
