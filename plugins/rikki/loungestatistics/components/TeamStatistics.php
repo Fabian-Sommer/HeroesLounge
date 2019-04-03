@@ -34,34 +34,18 @@ class TeamStatistics extends ComponentBase
         $this->addCss('assets/css/datatables.min.css');
 
         $this->team = Team::where('id', $this->property('team_id'))
-                        ->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan', 'matches.games.teamOneThirdBan', 'matches.games.teamTwoThirdBan')
-                        ->first();
+            ->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan', 'matches.games.teamOneThirdBan', 'matches.games.teamTwoThirdBan')
+            ->first();
 
-        $teamSeasonsSet = [];
-        foreach ($this->team->matches as $match) {
-            foreach ($match->associatedSeasons() as $season) {
-                if ($season) {
-                    $teamSeasonsSet[$season->id] = $season;
+        $this->participatedSeasons = $this->team->matches
+            ->map(function ($match) { return $match->season; })
+            ->filter(function ($season) { return $season != null; })
+            ->groupBy('id')->map(function ($group) { return $group[0]; })  // unique does not work on these
+            ->sortByDesc('created_at')->values();
 
-                    if ($season->is_active && ($this->selectedSeason == null || $season->created_at < $this->selectedSeason->created_at)) {
-                        $this->selectedSeason = $season;
-                    }
-                }
-            }
-        }
-
-        $this->participatedSeasons = array_values($teamSeasonsSet);
-        usort($this->participatedSeasons, function($a, $b) {
-            if ($a->created_at == $b->created_at) return 0;
-            return $a->created_at > $b->created_at ? 1 : -1;
-        });
-
-        if ($this->selectedSeason == null) {
-            $participatedSeasonsCount = count($this->participatedSeasons);
-            if ($participatedSeasonsCount > 0) {
-                $this->selectedSeason = $this->participatedSeasons[$participatedSeasonsCount - 1];
-            }
-        }
+        $this->selectedSeason = $this->participatedSeasons
+            ->filter(function ($season) { return $season->is_active; })
+            ->last() ?? $this->participatedSeasons->first();
 
         $this->calculateStats($this->selectedSeason);
     }

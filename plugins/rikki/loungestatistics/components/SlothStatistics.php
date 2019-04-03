@@ -34,37 +34,19 @@ class SlothStatistics extends ComponentBase
         $this->addCss('assets/css/datatables.min.css');
 
         $this->sloth = Sloth::where('id', $this->property('sloth_id'))
-                        ->with('gameParticipations', 'gameParticipations.team', 'gameParticipations.game', 'gameParticipations.game.map', 'gameParticipations.game.match', 'gameParticipations.hero', 'gameParticipations.game.teamOneFirstBan', 'gameParticipations.game.teamOneSecondBan', 'gameParticipations.game.teamTwoFirstBan', 'gameParticipations.game.teamTwoSecondBan')
-                        ->first();
+            ->with('gameParticipations', 'gameParticipations.team', 'gameParticipations.game', 'gameParticipations.game.map', 'gameParticipations.game.match', 'gameParticipations.hero', 'gameParticipations.game.teamOneFirstBan', 'gameParticipations.game.teamOneSecondBan', 'gameParticipations.game.teamTwoFirstBan', 'gameParticipations.game.teamTwoSecondBan')
+            ->first();
 
-        $slothSeasonsSet = [];
-        foreach ($this->sloth->gameParticipations as $gP) {
-            if ($gP->hero == null || $gP->game == null || $gP->game->match == null) {
-                continue;
-            }
-            foreach ($gP->game->match->associatedSeasons() as $season) {
-                if ($season) {
-                    $slothSeasonsSet[$season->id] = $season;
+        $this->participatedSeasons = $this->sloth->gameParticipations
+            ->filter(function ($gP) { return $gP->hero != null && $gP->game != null && $gP->game->match != null; })
+            ->map(function ($gP) { return $gP->game->match->season; })
+            ->filter(function ($season) { return $season != null; })
+            ->groupBy('id')->map(function ($group) { return $group[0]; })  // unique does not work on these
+            ->sortByDesc('created_at')->values();
 
-                    if ($season->is_active && ($this->selectedSeason == null || $season->created_at < $this->selectedSeason->created_at)) {
-                        $this->selectedSeason = $season;
-                    }
-                }
-            }
-        }
-
-        $this->participatedSeasons = array_values($slothSeasonsSet);
-        usort($this->participatedSeasons, function($a, $b) {
-            if ($a->created_at == $b->created_at) return 0;
-            return $a->created_at > $b->created_at ? 1 : -1;
-        });
-
-        if ($this->selectedSeason == null) {
-            $participatedSeasonsCount = count($this->participatedSeasons);
-            if ($participatedSeasonsCount > 0) {
-                $this->selectedSeason = $this->participatedSeasons[$participatedSeasonsCount - 1];
-            }
-        }
+        $this->selectedSeason = $this->participatedSeasons
+            ->filter(function ($season) { return $season->is_active; })
+            ->last() ?? $this->participatedSeasons->first();
 
         $this->calculateStats($this->selectedSeason);
     }
@@ -221,7 +203,7 @@ class SlothStatistics extends ComponentBase
         }
         $this->calculateStats($this->selectedSeason);
         return [
-            '#teamstatistics' => $this->renderPartial('@stats')
+            '#slothstatistics' => $this->renderPartial('@stats')
         ];
     }
 
