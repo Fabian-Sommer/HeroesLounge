@@ -32,10 +32,10 @@ Displaying stats of
             });
         jQuery('.dataTables_wrapper').removeClass('container-fluid');">
 <select name="season_id">
-  {% for season in __SELF__.allseasons %}
-  <option value="{{season.id}}">{{season.title}}</option>
+  {% for season in __SELF__.participatedSeasons %}
+  <option value="{{season.id}}"{% if __SELF__.selectedSeason.id==season.id%}selected="selected"{%endif%}>{{season.title}}</option>
   {% endfor %}
-  <option  value="-1" >all time</option>
+  <option value="-1" >all time</option>
 </select>
 <button type="submit">Update</button>
 </form>
@@ -82,5 +82,4 @@ Displaying stats of
     });
 
 </script>
-
 {% endput %}

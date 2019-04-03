@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\DB;
 use October\Rain\Database\Model;
 use Rikki\Heroeslounge\Models\Timeline;
 use October\Rain\Exception\SystemException;
-use Rikki\Heroeslounge\classes\hotfixes as hotfixes;
-use Rikki\Heroeslounge\Models\Season as Season;
+use Rikki\Heroeslounge\classes\hotfixes;
+use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Playoff;
 use Rikki\Heroeslounge\Models\Team;
 use Carbon\Carbon;
@@ -103,6 +103,18 @@ class Match extends Model
         return $this->channels->count() > 0 ? $this->channels->first() : null;
     }
 
+    public function getSeasonAttribute()
+    {
+        if ($this->division != null && $this->division->season != null) {
+            return $this->division->season;
+        } elseif ($this->playoff != null && $this->playoff->season != null) {
+            return $this->playoff->season;
+        } elseif ($this->division != null && $this->division->playoff != null && $this->division->playoff->season != null) {
+            return $this->division->playoff->season;
+        }
+        return null;
+    }
+
     public function getCasterIds()
     {
         return $this->casters
@@ -143,11 +155,8 @@ class Match extends Model
 
     public function belongsToSeason($season)
     {
-        return (($this->division != null && $this->division->season != null && $this->division->season->id == $season->id)
-            || ($this->playoff != null && $this->playoff->season != null && $this->playoff->season->id == $season->id)
-            || ($this->division != null && $this->division->playoff != null && $this->division->playoff->season != null && $this->division->playoff->season->id == $season->id));
+        return $this->season && $this->season->id == $season->id;
     }
-
 
     public function beforeUpdate()
     {

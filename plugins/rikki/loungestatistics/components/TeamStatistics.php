@@ -5,7 +5,7 @@ use Rikki\Heroeslounge\Models\Hero;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Map;
 use Rikki\Heroeslounge\Models\Season;
-use Rikki\Heroeslounge\Models\GameParticipation as GP;
+use Rikki\Heroeslounge\Models\GameParticipation;
 
 use October\Rain\Support\Collection;
 use Db;
@@ -24,18 +24,30 @@ class TeamStatistics extends ComponentBase
     public $team = null;
     public $heroes = null;
     public $maps = null;
-    public $allseasons = null;
+    public $participatedSeasons = null;
+    public $selectedSeason = null;
 
     public function init()
     {
         $this->addJs('assets/js/datatables.min.js');
         $this->addJs('assets/js/loungestatistics.js');
         $this->addCss('assets/css/datatables.min.css');
+
         $this->team = Team::where('id', $this->property('team_id'))
-                        ->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan', 'matches.games.teamOneThirdBan', 'matches.games.teamTwoThirdBan')
-                        ->first();
-        $this->allseasons = Season::where('reg_open', false)->get()->sortByDesc('created_at');
-        $this->calculateStats($this->allseasons->first());
+            ->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan', 'matches.games.teamOneThirdBan', 'matches.games.teamTwoThirdBan')
+            ->first();
+
+        $this->participatedSeasons = $this->team->matches
+            ->map(function ($match) { return $match->season; })
+            ->filter(function ($season) { return $season != null; })
+            ->groupBy('id')->map(function ($group) { return $group[0]; })  // unique does not work on these
+            ->sortByDesc('created_at')->values();
+
+        $this->selectedSeason = $this->participatedSeasons
+            ->filter(function ($season) { return $season->is_active; })
+            ->last() ?? $this->participatedSeasons->first();
+
+        $this->calculateStats($this->selectedSeason);
     }
 
     public function calculateStats($season)
@@ -152,11 +164,13 @@ class TeamStatistics extends ComponentBase
 
     public function onSeasonChange()
     {
-        if (input('season_id') == -1) {
-            $this->calculateStats(null);
+        $season_id = input('season_id');
+        if ($season_id == -1) {
+            $this->selectedSeason = null;
         } else {
-            $this->calculateStats(Season::find(input('season_id')));
+            $this->selectedSeason = Season::find($season_id);
         }
+        $this->calculateStats($this->selectedSeason);
         return [
             '#teamstatistics' => $this->renderPartial('@stats')
         ];
