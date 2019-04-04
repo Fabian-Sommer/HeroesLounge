@@ -6,6 +6,8 @@ use Rikki\Heroeslounge\Models\Game as GameModel;
 use Log;
 use Carbon\Carbon;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
+use InvalidArgumentException;
+use Response;
 
 /**
  * Match Back-end Controller
@@ -107,14 +109,22 @@ class Match extends Controller
 
     public function getMatchesForToday($tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
     {
-        $start = Carbon::today(self::formatTimezone($tz1, $tz2));
-        return self::getDbDayMatches($start, true);
+        try {
+            $start = Carbon::today(self::formatTimezone($tz1, $tz2));
+            return self::getDbDayMatches($start, true);
+        } catch (InvalidArgumentException $e) {
+            return Response::make('Invalid timezone: ' . $e->getMessage(), 400);
+        }
     }
 
     public function getMatchesForDate($date, $tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
     {
-        $start = Carbon::createFromFormat('Y-m-d', $date, self::formatTimezone($tz1, $tz2));
-        return self::getDbDayMatches($start, false);
+        try {
+            $start = Carbon::createFromFormat('Y-m-d', $date, self::formatTimezone($tz1, $tz2));
+            return self::getDbDayMatches($start, false);
+        } catch (InvalidArgumentException $e) {
+            return Response::make('Invalid date or timezone: ' . $e->getMessage(), 400);
+        }
     }
 
     public function caster($id)
