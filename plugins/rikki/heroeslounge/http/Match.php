@@ -92,23 +92,29 @@ class Match extends Controller
         }
     }
 
-    private static function getDbDateMatches($start)
+    private static function getDbDayMatches($start, $isWithNotPlayed)
     {
         // Convert to default/server timezone for db query
         $start->setTime(0,0,0)->setTimezone(TimezoneHelper::DEFAULT_TIMEZONE);
         $end = $start->copy()->addDay();
 
-        return MatchModel::whereBetween('wbp', [$start, $end])->where('is_played',false)->get();
+        if ($isWithNotPlayed) {
+            return MatchModel::whereBetween('wbp', [$start, $end])->where('is_played',false)->get();
+        } else {
+            return MatchModel::whereBetween('wbp', [$start, $end])->get();
+        }
     }
 
     public function getMatchesForToday($tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
     {
-        return self::getDbDateMatches(Carbon::today(self::formatTimezone($tz1, $tz2)));
+        $start = Carbon::today(self::formatTimezone($tz1, $tz2));
+        return self::getDbDayMatches($start, true);
     }
 
     public function getMatchesForDate($date, $tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
     {
-        return self::getDbDateMatches(Carbon::createFromFormat('Y-m-d', $date, self::formatTimezone($tz1, $tz2)));
+        $start = Carbon::createFromFormat('Y-m-d', $date, self::formatTimezone($tz1, $tz2));
+        return self::getDbDayMatches($start, false);
     }
 
     public function caster($id)
