@@ -25,6 +25,7 @@ class UpdateMatch extends ComponentBase
     public $ownTeam = null;
     public $winner = null;
     public $timezone = null;
+    public $timezoneOffset = null;
 
     public function componentDetails()
     {
@@ -66,6 +67,7 @@ class UpdateMatch extends ComponentBase
         }
 
         $this->timezone = TimezoneHelper::getTimezone();
+        $this->timezoneOffset = TimezoneHelper::getTimezoneOffset();
     }
 
     public function onGameSave()

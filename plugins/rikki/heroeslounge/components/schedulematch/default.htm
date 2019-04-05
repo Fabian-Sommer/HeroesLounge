@@ -20,7 +20,7 @@
                 </div>
             </div>
             {{form_close()}}
-            <p class="card-text">Timezone: {{__SELF__.timezone}}</p>
+            <p class="card-text">Timezone: {{__SELF__.timezone}} {{__SELF__.timezoneOffset}}</p>
             <p class="card-text">This match has to be scheduled before: {{__SELF__.match.schedule_date | date('d M Y H:i', __SELF__.timezone)}}</p>
             <p class="card-text"><small class="text-muted">If you fail to schedule the game before the required time, your team will be marked inactive, and you will not get assigned a game the next round of matchmaking.</small></p>
             <p class="card-text">This match has to be played before: {{__SELF__.match.tbp | date('d M Y H:i', __SELF__.timezone)}}</p>
