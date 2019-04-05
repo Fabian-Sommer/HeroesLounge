@@ -6,6 +6,8 @@ use Rikki\Heroeslounge\Models\Game as GameModel;
 use Log;
 use Carbon\Carbon;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
+use InvalidArgumentException;
+use Response;
 
 /**
  * Match Back-end Controller
@@ -21,6 +23,11 @@ class Match extends Controller
     public function indexAll()
     {
         return MatchModel::all();
+    }
+
+    public function channels($id)
+    {
+        return MatchModel::findOrFail($id)->channels;
     }
 
     public function teams($id)
@@ -78,25 +85,46 @@ class Match extends Controller
         return $retVal;
     }
 
-    public function getTodaysMatches($date, $tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
+    private static function formatTimezone($tz1, $tz2)
     {
         if ($tz2) {
-            $timezone = $tz1 . '/' . $tz2;
+            return $tz1 . '/' . $tz2;
         } else {
-            $timezone = $tz1;
+            return $tz1;
         }
+    }
 
-        // get today in a given timezone
-        if ($date == 'today') {
-            $start = Carbon::today($timezone);
-        } else {
-            $start = Carbon::createFromFormat('Y-m-d', $date, $timezone);
-        }
-
-        // now convert back to default/server timezone for db query
+    private static function getDbDayMatches($start, $isWithNotPlayed)
+    {
+        // Convert to default/server timezone for db query
         $start->setTime(0,0,0)->setTimezone(TimezoneHelper::DEFAULT_TIMEZONE);
         $end = $start->copy()->addDay();
-        return MatchModel::whereBetween('wbp', [$start, $end])->where('is_played',false)->get();
+
+        if ($isWithNotPlayed) {
+            return MatchModel::whereBetween('wbp', [$start, $end])->where('is_played',false)->get();
+        } else {
+            return MatchModel::whereBetween('wbp', [$start, $end])->get();
+        }
+    }
+
+    public function getMatchesForToday($tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
+    {
+        try {
+            $start = Carbon::today(self::formatTimezone($tz1, $tz2));
+            return self::getDbDayMatches($start, true);
+        } catch (InvalidArgumentException $e) {
+            return Response::make('Invalid timezone: ' . $e->getMessage(), 400);
+        }
+    }
+
+    public function getMatchesForDate($date, $tz1 = TimezoneHelper::DEFAULT_TIMEZONE, $tz2 = "")
+    {
+        try {
+            $start = Carbon::createFromFormat('Y-m-d', $date, self::formatTimezone($tz1, $tz2));
+            return self::getDbDayMatches($start, false);
+        } catch (InvalidArgumentException $e) {
+            return Response::make('Invalid date or timezone: ' . $e->getMessage(), 400);
+        }
     }
 
     public function caster($id)
