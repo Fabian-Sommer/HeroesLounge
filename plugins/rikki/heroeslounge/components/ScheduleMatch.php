@@ -26,6 +26,7 @@ class ScheduleMatch extends ComponentBase
     public $opp = null;
     public $user = null;
     public $timezone = null;
+    public $timezoneOffset = null;
 
     public function init()
     {
@@ -42,6 +43,7 @@ class ScheduleMatch extends ComponentBase
             $this->opp = $this->match->teams()->where('team_id', '!=', $this->user->sloth->team_id)->where('team_id', '!=', $this->user->sloth->divs_team_id)->first();
         }
         $this->timezone = TimezoneHelper::getTimezone();
+        $this->timezoneOffset = TimezoneHelper::getTimezoneOffset();
     }
 
     public function onSaveDate()

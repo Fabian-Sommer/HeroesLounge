@@ -25,6 +25,7 @@ class PlayoffOverview extends ComponentBase
     public $matches = null;
     public $user = null;
     public $timezone = null;
+    public $timezoneOffset = null;
     public $userTeamSignedUp = true;
     public $polylines = null;
     public $match_height = 3.875;
@@ -130,6 +131,7 @@ class PlayoffOverview extends ComponentBase
     public function onRender()
     {
         $this->timezone = TimezoneHelper::getTimezone();
+        $this->timezoneOffset = TimezoneHelper::getTimezoneOffset();
     }
 
     //gets offsets in rem for a playoff_position $pp

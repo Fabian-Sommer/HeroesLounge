@@ -5,6 +5,8 @@ use Config;
 use Session;
 use Redirect;
 use Log;
+use DateTime;
+use DateTimeZone;
 
 class TimezoneHelper
 {
@@ -25,6 +27,11 @@ class TimezoneHelper
     public static function getTimezone()
     {
         return Session::get(self::TIMEZONE_KEY, self::defaultTimezone());
+    }
+
+    public static function getTimezoneOffset()
+    {
+        return (new DateTime('now', new DateTimeZone(self::getTimezone())))->format('P');
     }
 
     public static function setTimezone()

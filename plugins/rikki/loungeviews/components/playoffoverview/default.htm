@@ -148,6 +148,7 @@
                                 <div class="state">
                                     <time datetime="{{match['model'].wbp | date('m/d/Y', __SELF__.timezone)}}" dateformat="custom_medium" timeformat="none">{{match['model'].wbp | date('d M', __SELF__.timezone)}}</time>
                                     <div class="time"><time datetime="{{match['model'].wbp | date('m/d/Y', __SELF__.timezone)}}" dateformat="none" timeformat="short">{{match['model'].wbp | date('H:i', __SELF__.timezone)}}</time></div>
+                                    <div>Timezone: {{__SELF__.timezone}} {{__SELF__.timezoneOffset}}</div>
                                 </div>
                                 {% endif %}
                             </div>

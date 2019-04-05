@@ -20,6 +20,7 @@ class UpcomingMatches extends ComponentBase
 {
     public $user = null;
     public $timezone = null;
+    public $timezoneOffset = null;
     public $groupMatches = null;
     public $showLogo = false;
     public $showName = false;
@@ -52,6 +53,7 @@ class UpcomingMatches extends ComponentBase
 
         $this->user = Auth::getUser();
         $this->timezone = TimezoneHelper::getTimezone();
+        $this->timezoneOffset = TimezoneHelper::getTimezoneOffset();
         $this->collectMatches($this->timezone, $this->eid);
     }
 

@@ -15,7 +15,10 @@
 
                     <div class="alert alert-danger" role="alert" id="deadline{{__SELF__.match.id}}">
                         Please remember to save (<i class="fa fa-floppy-o" aria-hidden="true" ></i>) after uploading all games.
-                        Results need to be reported until {{__SELF__.match.tbp| date('d M Y H:i', __SELF__.timezone)}}, otherwise it will result in a tie and render BOTH teams inactive.
+                        Results need to be reported before
+                        {{__SELF__.match.tbp| date('d M Y H:i', __SELF__.timezone)}}
+                        ({{__SELF__.timezone}} {{__SELF__.timezoneOffset}}),
+                        otherwise it will result in a tie and render BOTH teams inactive.
                     </div>
             <h4>Games
                 <button type="button" class="close" data-toggle="modal" data-target="#new_{{__SELF__.match.id}}" title="Add Game">
