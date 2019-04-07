@@ -76,7 +76,7 @@ class Plugin extends PluginBase
             $ss = Seasons::where('is_active', 1)->where('reg_open', 0)->where('mm_active', 1)->where('region_id', 1)->get();
             $ss->each(function ($s) {
                 $mm = new Swiss;
-                $mm->prepare($s);
+                $mm->doMM($s);
             });
         })->weekly()->mondays()->at('01:00');
 
@@ -84,7 +84,7 @@ class Plugin extends PluginBase
             $ss = Seasons::where('is_active', 1)->where('reg_open', 0)->where('mm_active', 1)->where('region_id', 2)->get();
             $ss->each(function ($s) {
                 $mm = new Swiss;
-                $mm->prepare($s);
+                $mm->doMM($s);
             });
         })->weekly()->mondays()->at('10:00');
 

@@ -29,8 +29,8 @@ class Swiss
             $match = new Match;
             $match->div_id = $div->id;
             $match->round = $div->season->current_round;
-            $match->schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 23:55')+$timeoffset);
-            $match->tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 23:55')+$timeoffset);
+            $match->schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 21:55')+$timeoffset);
+            $match->tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 21:55')+$timeoffset);
 
             $match->save();
             $match->teams()->save($teamA);
@@ -123,17 +123,18 @@ class Swiss
 
     public function findMatching($div, $teams) {
         $matches = $div->matches;
-        $teams = array_values($teams);
+        $teams = $teams->values();
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         $graph_file_path = 'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'matchmaking'.DS.'matching.txt';
         $file = fopen($graph_file_path, "w");
 
-        $vertex_count = count($teams);
+        $vertex_count = $teams->count();
 
         for ($i = 0; $i < $vertex_count; $i++) {
             $teamMatches = $matches->filter(function ($match) use ($teams, $i)  {
                 return $match->teams->contains(function ($team) use ($teams, $i) {
-                    return $teams[$i]['id'] == $team->id;
+                    return $teams[$i]->id == $team->id;
                 });
             });
             for ($j = $i+1; $j < $vertex_count; $j++) {
@@ -141,17 +142,17 @@ class Swiss
                 $weight = 0;
                 $teamsPlayed = $teamMatches->contains(function ($match) use ($teams, $j) {
                     return $match->teams->contains(function ($team) use ($teams, $j) {
-                        return $teams[$j]['id'] == $team->id;
+                        return $teams[$j]->id == $team->id;
                     });
                 });
                 if ($teamsPlayed) {
                     $weight += 1000000;
                 }
                 if ($this->currentRound <= 2) {
-                    $weight += abs($teams[$i]['slothrating'] - $teams[$j]['slothrating']);
+                    $weight += abs($teams[$i]->slothrating - $teams[$j]->slothrating);
                 } else {
-                    $winDifference = abs($teams[$i]['pivot']['win_count'] - $teams[$j]['pivot']['win_count']);
-                    $lossDifference = abs(($teams[$i]['pivot']['match_count'] - $teams[$i]['pivot']['win_count']) - ($teams[$j]['pivot']['match_count'] - $teams[$j]['pivot']['win_count'])); 
+                    $winDifference = abs($teams[$i]->pivot->win_count - $teams[$j]->pivot->win_count);
+                    $lossDifference = abs(($teams[$i]->pivot->match_count - $teams[$i]->pivot->win_count) - ($teams[$j]->pivot->match_count - $teams[$j]->pivot->win_count)); 
                     $weight += pow(10, $winDifference);
                     $weight += pow(9, $lossDifference);
                 }
@@ -183,24 +184,30 @@ class Swiss
         $teamCount = count($teams);
 
         Log::info("There are " . $teamCount . " teams in division " . $div->slug);
+        $byeTeam = Teams::where("title", "BYE!")->firstOrFail();
 
+        $byePair = null;
         if (count($teams) % 2 == 1) {
             $teamWithBye = $this->selectBye($div);
-        }
-
-        //remove bye team from teams
-        $teams->reject(function ($team) use ($teamWithBye) {
-            return $team->id == $teamWithBye->id;
-        })
+            $teams->reject(function ($team) use ($teamWithBye) {
+                return $team->id == $teamWithBye->id;
+            });
+            $byePair = [$teamWithBye , $byeTeam];
+        }      
 
         $pairings = $this->findMatching($div, $teams);
-        $byeTeam = Teams::where("title", "BYE!")->firstOrFail();
-        $pairings[] = [$teamWithBye , $byeTeam];
+        
+        if ($byePair != null) {
+            $pairings[] = $byePair;
+        }
+
+        Log::info("Matching for " . $div->slug . " : " . json_encode($pairings));
+
         foreach ($pairings as $pairing) {
             $this->createMatch($pairing, $div);
         }
 
-        Log::info("Successfully made pairings for " . $div->slug);
+        Log::info("Successfully ran MM for " . $div->slug);
     }
 
     public function saveUnsavedMatches($div)
@@ -275,13 +282,12 @@ class Swiss
     }
 
     //MM for entire season
-    public function prepare($s)
+    public function doMM($s)
     {
             set_time_limit(600);
             Log::info('Starting matchmaking for season ' . $s->slug . ', round ' . ($s->current_round + 1));
 
             $this->byeId = Teams::where("title", "BYE!")->first()->id;
-            Log::info('Selected BYE team id: ' . $this->byeId);
 
             $divs = $s->divisions()->get();
 
