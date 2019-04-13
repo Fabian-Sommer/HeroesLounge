@@ -1,18 +1,23 @@
 {% if __SELF__.user.sloth.team_id == __SELF__.team.id or __SELF__.user.sloth.divs_team_id == __SELF__.team.id %}
 
-{% for match in __SELF__.matches %} {% if loop.index0 is even %}
-<div class="row mb-3">
-    {% endif %} 
-    {% if match.wbp == null %}
-    {% if __SELF__.user.sloth.isCaptain(__SELF__.team) %}
-    {% component 'scheduleMatch' class="mb-3"  id=match.id %}
+{% for match in __SELF__.matches %}
+    {% if loop.index0 is even %}
+    <div class="row mb-3">
     {% endif %}
-    {% else %} 
-    {%  component 'updateMatch' class="mb-3" id=match.id %}
-    {% endif %} 
+
+    {% if match.wbp == null %}
+        {% if __SELF__.user.sloth.isCaptain(__SELF__.team) %}
+            {% component 'scheduleMatch' class="mb-3" id=match.id %}
+        {% endif %}
+    {% else %}
+        {%  component 'updateMatch' class="mb-3" id=match.id %}
+    {% endif %}
+
     {% if loop.index0 is odd %}
-</div>
-{% endif %} {% endfor %}
+    </div>
+    {% endif %}
+{% endfor %}
+
 {% else %}
 <p>This is not your team!</p>
 {% endif %}

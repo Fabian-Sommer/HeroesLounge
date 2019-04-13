@@ -1,7 +1,7 @@
 {% if __SELF__.match is not null %}
 
 <div class="col-md-6 mb-2">
-       
+
     <div class="card">
         <div class="card-img-top text-center">
             <a href="{{ 'team/view' | page({slug:__SELF__.opp.slug})}}">
@@ -11,26 +11,34 @@
 
         <div class="card-body">
             <h4 class="card-title text-center">VS <a href="{{ 'team/view' | page({slug:__SELF__.opp.slug})}}"><strong>{{__SELF__.opp.title |upper}}</strong></a></h4>
-          
 
-                    <div class="alert alert-danger" role="alert" id="deadline{{__SELF__.match.id}}">
-                        Please remember to save (<i class="fa fa-floppy-o" aria-hidden="true" ></i>) after uploading all games.
-                        Results need to be reported before
-                        {{__SELF__.match.tbp| date('d M Y H:i', __SELF__.timezone)}}
-                        ({{__SELF__.timezone}} {{__SELF__.timezoneOffset}}),
-                        otherwise it will result in a tie and render BOTH teams inactive.
-                    </div>
+            <div id="matchtime">
+                {% if __SELF__.match.wbp %}
+                <h3>Scheduled for {{__SELF__.match.wbp | date(__SELF__.datetimeFormat, __SELF__.timezone)}}</h3>
+                ({{__SELF__.timezone}} {{__SELF__.timezoneOffset}})
+                {% else %}
+                <h3>Match not yet scheduled!</h3>
+                {% endif %}
+            </div>
+
+            <div class="alert alert-danger" role="alert" id="deadline{{__SELF__.match.id}}">
+                Please remember to save (<i class="fa fa-floppy-o" aria-hidden="true" ></i>) after uploading all games.
+                Results need to be reported before
+                {{__SELF__.match.tbp| date(__SELF__.datetimeFormat, __SELF__.timezone)}}
+                ({{__SELF__.timezone}} {{__SELF__.timezoneOffset}}),
+                otherwise it will result in a tie and render BOTH teams inactive.
+            </div>
+
             <h4>Games
                 <button type="button" class="close" data-toggle="modal" data-target="#new_{{__SELF__.match.id}}" title="Add Game">
                     <i class="fa fa-plus-circle green" aria-hidden="true"></i>
                 </button> {% if __SELF__.match.games | length > 0 %}
                 <button class="close" type="button" data-toggle="modal" data-target="#save_{{__SELF__.match.id}}" title="Save Match">
-                        <i class="fa fa-floppy-o blue mr-2" aria-hidden="true" ></i>
-                    </button> {% endif %}
+                    <i class="fa fa-floppy-o blue mr-2" aria-hidden="true" ></i>
+                </button> {% endif %}
             </h4>
 
-            <hr class="separator"> {% for game in __SELF__.match.games %} {% set path = 'assets/img/maps/bg_' ~game.map.title|replace({' ':'-'})|lower
-            ~ '.jpg' %}
+            <hr class="separator"> {% for game in __SELF__.match.games %} {% set path = 'assets/img/maps/bg_' ~game.map.title | replace({' ':'-'}) | lower ~'.jpg' %}
             <div class="row mb-2">
                 <div class="col-md-6">
                     <a href="{{game.replay.path}}">

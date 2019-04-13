@@ -1,16 +1,17 @@
 <div id="upcomingMatches{{__SELF__.idApp}}">
-    {% if __SELF__.groupMatches | length > 0 %}
+    {% if __SELF__.datesToMatches | length > 0 %}
+    <div>All times in {{__SELF__.timezone}} {{__SELF__.timezoneOffset}}</div><br/>
     <ul class="event-list">
-        {% for groupMatch in __SELF__.groupMatches %}
+        {% for dateMatches in __SELF__.datesToMatches %}
         <li>
-            <time datetime="{{groupMatch.wbp | date('m/d/Y', __SELF__.timezone)}}">
-                <span class="weekday">{{groupMatch[0].wbp | date('l', __SELF__.timezone)}}</span>
-                <span class="day">{{groupMatch[0].wbp | date('d', __SELF__.timezone)}}</span>
-                <span class="month">{{groupMatch[0].wbp | date('M', __SELF__.timezone)}}</span>
-                <span class="year">{{groupMatch[0].wbp | date('y', __SELF__.timezone)}}</span>
+            <time datetime="{{dateMatches.wbp | date('m/d/Y', __SELF__.timezone)}}">
+                <span class="weekday">{{dateMatches[0].wbp | date('l', __SELF__.timezone)}}</span>
+                <span class="day">{{dateMatches[0].wbp | date('d', __SELF__.timezone)}}</span>
+                <span class="month">{{dateMatches[0].wbp | date('M', __SELF__.timezone)}}</span>
+                <span class="year">{{dateMatches[0].wbp | date('y', __SELF__.timezone)}}</span>
             </time>
             <div class="info">
-                {% for match in groupMatch %}
+                {% for match in dateMatches %}
                 <div class="event-list--game row no-gutters">
                 <div class="event-list--division col-sm-12 col-md-3">
                     <span class="event-list--region">
@@ -21,7 +22,7 @@
                         {% endif %}
                     </span>
                     <span title="{{match.division.title}}" class="hideOverflow">{{match.division.title}}</span>
-                    <span>@{{match.wbp | date('H:i', __SELF__.timezone)}}</span>
+                    <span>@{{match.wbp | date(__SELF__.timeFormat, __SELF__.timezone)}}</span>
                     {%  for channel in match.channels  %}
                     <span class="event-list--time facebook">
                         <a href="{{channel.url}}" style="display:inline" rel="noopener" target="_blank"><i class="fa fa-twitch"  aria-hidden="true" title="{{channel.title}}"></i></a>
@@ -63,7 +64,6 @@
         </li>
         {% endfor %}
     </ul>
-    <div>All times in {{__SELF__.timezone}} {{__SELF__.timezoneOffset}}</div>
     {% else %}
     <div class="jumbotron">
         <h3 class="text-truncate">Hello {{__SELF__.user.username}}!</h1>
