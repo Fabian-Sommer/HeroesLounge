@@ -1,0 +1,32 @@
+<div>
+    <span>Show Spoilers</span>
+    <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+    </label>
+</div>
+
+{% put scripts %}
+<script type="text/javascript">
+function callCallback(data) {
+    {% if __SELF__.callbackName %}
+    if (typeof {{__SELF__.callbackName}} === "function") {
+        {{__SELF__.callbackName}}(data.showSpoilers);
+    }
+    {% endif %}
+}
+
+jQuery(document).ready(function() {
+    var checkbox = jQuery('.switch input');
+    checkbox.prop('checked', {{__SELF__.showSpoilers}} > 0);
+    callCallback({showSpoilers: {{__SELF__.showSpoilers}}});
+
+    checkbox.click(function() {
+        jQuery.request('onSetShowSpoilers', {
+            data: {showSpoilers: jQuery(this).is(':checked') ? 1 : 0},
+            success: callCallback
+        });
+    });
+});
+</script>
+{% endput %}

@@ -124,9 +124,9 @@
                                         {%endif%}
                                         {% if match['model'].is_played %}
                                             {% if match['model'].winner.id == match['model'].teams[0].id %}
-                                                <div class="result win">{{match['model'].teams[0].pivot.team_score}}</div>
+                                                <div class="result win spoiler">{{match['model'].teams[0].pivot.team_score}}</div>
                                             {% else %}
-                                                <div class="result loss">{{match['model'].teams[0].pivot.team_score}}</div>
+                                                <div class="result loss spoiler">{{match['model'].teams[0].pivot.team_score}}</div>
                                             {% endif %}
                                         {% endif %}
                                     </div>
@@ -137,9 +137,9 @@
                                         {%endif%}
                                         {% if match['model'].is_played %}
                                             {% if match['model'].winner.id == match['model'].teams[1].id %}
-                                                <div class="result win">{{match['model'].teams[1].pivot.team_score}}</div>
+                                                <div class="result win spoiler">{{match['model'].teams[1].pivot.team_score}}</div>
                                             {% else %}
-                                                <div class="result loss">{{match['model'].teams[1].pivot.team_score}}</div>
+                                                <div class="result loss spoiler">{{match['model'].teams[1].pivot.team_score}}</div>
                                             {% endif %}
                                         {% endif %}
                                     </div>

@@ -4,5 +4,21 @@ layout = "plain"
 is_hidden = 0
 
 [SeasonOverview]
+
+[SpoilersToggle]
 ==
+{% put scripts %}
+<script type="text/javascript">
+function showHideSpoilersSeasonView(showSpoilers) {
+    var f100s = jQuery('span.f100');
+    if (showSpoilers > 0) {
+        f100s.removeClass('spoiler');
+    } else {
+        f100s.addClass('spoiler');
+    }
+}
+</script>
+{% endput %}
+{% component 'SpoilersToggle' callback='showHideSpoilersSeasonView' %}
+
 {% component 'SeasonOverview' %}

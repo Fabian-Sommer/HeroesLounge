@@ -4,5 +4,24 @@ layout = "plain"
 is_hidden = 0
 
 [PlayoffOverview]
+
+[SpoilersToggle]
 ==
+{% put scripts %}
+<script type="text/javascript">
+function showHideSpoilersSeasonPlayoff(showSpoilers) {
+    var results = jQuery('div.result');
+    var f100s = jQuery('span.f100');
+    if (showSpoilers > 0) {
+        results.removeClass('spoiler');
+        f100s.removeClass('spoiler');
+    } else {
+        results.addClass('spoiler');
+        f100s.addClass('spoiler');
+    }
+}
+</script>
+{% endput %}
+{% component 'SpoilersToggle' callback='showHideSpoilersSeasonPlayoff' %}
+
 {% component 'PlayoffOverview' %}

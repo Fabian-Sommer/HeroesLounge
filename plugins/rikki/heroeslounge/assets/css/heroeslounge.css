@@ -401,6 +401,10 @@
 .match.format-mini>.record>.opponent>.result.loss {
     color: #e61a1a
 }
+.spoiler {
+    color: gray !important;
+    background-color: gray !important;
+}
 .match.format-mini>.state {
     color: gray
 }

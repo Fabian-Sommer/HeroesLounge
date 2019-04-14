@@ -30,6 +30,7 @@ class Plugin extends PluginBase
             'Rikki\LoungeViews\Components\BlogPage' => 'BlogPage',
             'Rikki\LoungeViews\Components\BlogFeatured' => 'BlogFeatured',
             'Rikki\LoungeViews\Components\SetTimezone' => 'SetTimezone',
+            'Rikki\LoungeViews\Components\SpoilersToggle' => 'SpoilersToggle',
         ];
     }
 
