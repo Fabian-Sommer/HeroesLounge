@@ -29,10 +29,8 @@ class Plugin extends PluginBase
             'Rikki\LoungeViews\Components\DivisionTable' => 'DivisionTable',
             'Rikki\LoungeViews\Components\ExtendedDivisionTable' => 'ExtendedDivisionTable',
             'Rikki\LoungeViews\Components\BlogPage' => 'BlogPage',
-            'Rikki\LoungeViews\Components\BlogFeatured' => 'BlogFeatured'
-            
-            
-        
+            'Rikki\LoungeViews\Components\BlogFeatured' => 'BlogFeatured',
+            'Rikki\LoungeViews\Components\SetTimezone' => 'SetTimezone',
         ];
     }
 

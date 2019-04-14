@@ -6,41 +6,12 @@ description = "Clean layout"
 
 [SideNav]
 
+[SetTimezone]
+
 [session]
 security = "all"
 ==
-<?php
-use RainLab\Translate\Models\Message;
-use Rikki\Heroeslounge\Models\Sloth;
-use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
-
-function onStart() {
-    $this['baseUrl'] = Config::get('app.url');
-    Message::setContext(App::getLocale(), $this->page->url);
-    $this['hasTimezone'] = TimezoneHelper::hasTimezone();
-}
-
-function onTimezoneDetection() {
-    return TimezoneHelper::setTimezone();
-}
-?>
-==
-<!DOCTYPE html>
-<html lang="{{ this.theme.site_locale }}">
-{% if not hasTimezone %}
-{% put scripts %}
-<script type="text/javascript">
-jQuery(document).ready(function() {
-    jQuery.request('onTimezoneDetection', {
-        data: {timezone: Intl.DateTimeFormat().resolvedOptions().timeZone}
-    })
-});
-</script>
-{% endput %}
-{% endif %}
-<head>
-    {% partial 'assets/head' %}
-</head>
+{% partial 'base/start' %}
 
 <body class="{{ this.page.id }} page page-{{ this.page.id }} layout-{{ this.layout.id }} {% placeholder bodyclass %}">
 
