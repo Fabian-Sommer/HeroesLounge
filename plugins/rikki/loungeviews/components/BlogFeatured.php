@@ -14,8 +14,8 @@ class BlogFeatured extends ComponentBase
             'description' => 'Shows all featured Blogposts'
         ];
     }
+
     public $posts;
-    
 
     public function onRun()
     {
@@ -24,7 +24,6 @@ class BlogFeatured extends ComponentBase
 
     protected function listPosts()
     {
-
         $posts = ItemPost::with('categories')->where('featured',true)->listFrontEnd([
             'page'     => 1,
             'perPage'  => 5
@@ -36,7 +35,4 @@ class BlogFeatured extends ComponentBase
 
         return $posts;
     }
-
-
-
 }

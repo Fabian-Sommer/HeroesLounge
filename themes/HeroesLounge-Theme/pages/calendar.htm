@@ -16,11 +16,10 @@ use Rikki\Heroeslounge\Models\Division;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Match;
 
-
 function onStart()
 {
     $this['data'] = Match::find(1);
-    }
+}
 ?>
 ==
 {% component 'UpcomingMatches' %}

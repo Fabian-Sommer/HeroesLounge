@@ -13,13 +13,12 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-			'Rikki\LoungeStatistics\Components\Statistics' => 'Statistics',
+            'Rikki\LoungeStatistics\Components\Statistics' => 'Statistics',
             'Rikki\LoungeStatistics\Components\CasterStatistics' => 'CasterStatistics',
             'Rikki\LoungeStatistics\Components\GameStatistics' => 'GameStatistics',
             'Rikki\LoungeStatistics\Components\TeamStatistics' => 'TeamStatistics',
             'Rikki\LoungeStatistics\Components\SlothStatistics' => 'SlothStatistics',
-        	'Rikki\LoungeStatistics\Components\HeroDetails' => 'HeroDetails'
-			
+            'Rikki\LoungeStatistics\Components\HeroDetails' => 'HeroDetails'
         ];
     }
 
@@ -29,22 +28,16 @@ class Plugin extends PluginBase
 
     public function registerPermissions()
     {
-     
     }
 
     public function register(){
-	
     }
 
-	public function registerSchedule($schedule)
-	{
-
-	}
-
+    public function registerSchedule($schedule)
+    {
+    }
 
     public function boot()
-	{
-
+    {
     }
-
 }

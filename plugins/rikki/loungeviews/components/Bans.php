@@ -24,12 +24,9 @@ class Bans extends ComponentBase
         $this->literals = Ban::whereNotNull('literal')->whereNull('hero_id')->whereNull('talent_id')->get();
     }
 
-
-
     public function defineProperties()
     {
         return [
-
         ];
     }
 }

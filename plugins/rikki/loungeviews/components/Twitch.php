@@ -19,6 +19,7 @@ class Twitch extends ComponentBase
     public $chan = null;
     public $height = null;
     public $width = null;
+
     public function onRun()
     {
         $this->chan = $this->property('channel');
@@ -27,6 +28,7 @@ class Twitch extends ComponentBase
         
         $this->addJs('https://player.twitch.tv/js/embed/v1.js');
     }
+
     public function defineProperties()
     {
         return [
@@ -50,7 +52,6 @@ class Twitch extends ComponentBase
                 'default' => 80,
                 'type' => 'string',
             ],
-
         ];
     }
 }
