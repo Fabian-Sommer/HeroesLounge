@@ -34,6 +34,21 @@ class TimezoneHelper
         return (new DateTime('now', new DateTimeZone(self::getTimezone())))->format('P');
     }
 
+    public static function getTimeFormatString()
+    {
+        $tz = self::getTimezone();
+        if (substr($tz, 0, 8) === "America/") {
+            return 'g:i a';
+        } else {
+            return 'H:i';
+        }
+    }
+
+    public static function getDateTimeFormatString()
+    {
+        return 'd M Y ' . self::getTimeFormatString();
+    }
+
     public static function setTimezone()
     {
         if (isset($_POST[self::TIMEZONE_KEY])) {

@@ -27,6 +27,7 @@ class ScheduleMatch extends ComponentBase
     public $user = null;
     public $timezone = null;
     public $timezoneOffset = null;
+    public $datetimeFormat = null;
 
     public function init()
     {
@@ -44,6 +45,7 @@ class ScheduleMatch extends ComponentBase
         }
         $this->timezone = TimezoneHelper::getTimezone();
         $this->timezoneOffset = TimezoneHelper::getTimezoneOffset();
+        $this->datetimeFormat = TimezoneHelper::getDateTimeFormatString();
     }
 
     public function onSaveDate()
