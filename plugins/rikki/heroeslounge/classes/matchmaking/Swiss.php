@@ -12,59 +12,62 @@ use Log;
 
 class Swiss
 {
-    public $byeId; //Stores the ID of the BYE team
+    public $byeId = 204; //Stores the ID of the BYE team
     public $matchesToHandle; //Stores unscheduled/unplayed matches to take care off after deporting teams
     public $currentRound;
     private static $pythonPath = 'python2.7 ';
 
+    public function createMatches($pairings, $div) {
+        $timeoffset = ($pairings[0][0]->region_id - 1)*36000;
+        $schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 21:55')+$timeoffset);
+        $tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 21:55')+$timeoffset);
+        $created_at = date('Y-m-d H:i:s' , strtotime('now'));
+        foreach ($pairings as $pairing) {
+            $this->createMatch($pairing, $div, $div->season->current_round, $created_at, $schedule_date, $tbp);
+        }
+    }
+
     //Creates a match from a pairing
-    public function createMatch($pairing, $div)
+    public function createMatch($pairing, $div, $round, $created_at, $schedule_date, $tbp)
     {
-        if ($pairing[0] != null && $pairing[1] != null) {
-            $teamA = $pairing[0];
-            $teamB = $pairing[1];
+        $teamA = $pairing[0];
+        $teamB = $pairing[1];
 
-            $timeoffset = ($teamA->region_id - 1)*36000;
+        $mid = Db::select('select MAX(ID) as id from rikki_heroeslounge_match');
+        $match_id = $mid[0]->id + 1;
+        Db::insert('insert into rikki_heroeslounge_match (id , div_id , round , created_at , updated_at , schedule_date , tbp) values (?,?,?,?,?,?,?)' , [$match_id , $div->id , $round , $created_at , $created_at , $schedule_date , $tbp]);
 
-            $match = new Match;
-            $match->div_id = $div->id;
-            $match->round = $div->season->current_round;
-            $match->schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 21:55')+$timeoffset);
-            $match->tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 21:55')+$timeoffset);
+        $match = Match::find($match_id);
+        $match->teams()->save($teamA);
+        $match->teams()->save($teamB);
 
-            $match->save();
-            $match->teams()->save($teamA);
-            $match->teams()->save($teamB);
+        //In case it's a BYE assign the win
+        if ($teamA->id == $this->byeId || $teamB->id == $this->byeId) {
+            $winner = ($teamA->id == $this->byeId) ? $teamB : $teamA;
+            $match->winner = $winner;
+            $match->is_played = 1;
+            $match->wbp = date('Y-m-d H:i:s', strtotime('yesterday 12:00'));
 
+            for ($i = 0; $i < 2;$i++) {
+                $m = rand(1, 13);
+                $g = new Game;
+                $g->match_id = $match->id;
+                $g->map_id = $m;
 
-            //In case it's a BYE assign the win
-            if ($teamA->id == $this->byeId || $teamB->id == $this->byeId) {
-                $winner = ($teamA->id == $this->byeId) ? $teamB : $teamA;
-                $match->winner = $winner;
-                $match->is_played = 1;
-                $match->wbp = date('Y-m-d H:i:s', strtotime('yesterday 12:00'));
+                $g->winner_id = $winner->id;
 
-                for ($i = 0; $i < 2;$i++) {
-                    $m = rand(1, 13);
-                    $g = new Game;
-                    $g->match_id = $match->id;
-                    $g->map_id = $m;
-
-                    $g->winner_id = $winner->id;
-
-                    $g->save();
-                }
-
-                $match->save();
-
-                DB::table('rikki_heroeslounge_team_division')
-                  ->where('team_id', $winner->id)
-                  ->where('div_id', $div->id)
-                  ->increment('free_win_count');
+                $g->save();
             }
 
-            Log::info("Created a match between team IDs " . $teamA->id ." and " . $teamB->id . " in division " . $div->slug);
+            $match->save();
+
+            DB::table('rikki_heroeslounge_team_division')
+              ->where('team_id', $winner->id)
+              ->where('div_id', $div->id)
+              ->increment('free_win_count');
         }
+
+        Log::info("Created a match between team IDs " . $teamA->id ." and " . $teamB->id . " in division " . $div->slug);
     }
 
     //Checks if pairing is valid
@@ -189,7 +192,7 @@ class Swiss
         $byePair = null;
         if (count($teams) % 2 == 1) {
             $teamWithBye = $this->selectBye($div);
-            $teams->reject(function ($team) use ($teamWithBye) {
+            $teams = $teams->reject(function ($team) use ($teamWithBye) {
                 return $team->id == $teamWithBye->id;
             });
             $byePair = [$teamWithBye , $byeTeam];
@@ -203,9 +206,7 @@ class Swiss
 
         Log::info("Matching for " . $div->slug . " : " . json_encode($pairings));
 
-        foreach ($pairings as $pairing) {
-            $this->createMatch($pairing, $div);
-        }
+        $this->createMatches($pairings, $div);
 
         Log::info("Successfully ran MM for " . $div->slug);
     }
@@ -258,7 +259,7 @@ class Swiss
         Log::info($logMessage);
 
         if (!empty($matchesToHandle)) {
-            Log::debug("Handling unplayed/unscheduled matches: " . implode("\n", $this->matchesToHandle));
+            Log::debug("Handling unplayed/unscheduled matches: " . implode("\n", $matchesToHandle));
             foreach ($matchesToHandle as $match) {
                 $match->is_played = 1;
                 $match->winner_id = null;
@@ -284,39 +285,36 @@ class Swiss
     //MM for entire season
     public function doMM($s)
     {
-            set_time_limit(600);
-            Log::info('Starting matchmaking for season ' . $s->slug . ', round ' . ($s->current_round + 1));
+        set_time_limit(600);
+        Log::info('Starting matchmaking for season ' . $s->slug . ', round ' . ($s->current_round + 1));
 
-            $this->byeId = Teams::where("title", "BYE!")->first()->id;
+        $this->byeId = Teams::where("title", "BYE!")->first()->id;
 
-            $divs = $s->divisions()->get();
+        $divs = $s->divisions()->get();
 
-            foreach ($divs as $div) {
-                $this->saveUnsavedMatches($div);
-                $this->findInactiveTeams($div, $s->current_round);
-            }
+        foreach ($divs as $div) {
+            $this->saveUnsavedMatches($div);
+            $this->findInactiveTeams($div, $s->current_round);
+        }
 
-            $s->current_round += 1;
-            $this->currentRound = $s->current_round;
-            Log::info("Updated current_round to " . $s->current_round);
+        $s->current_round += 1;
+        $this->currentRound = $s->current_round;
+        Log::info("Updated current_round to " . $s->current_round);
 
-            if ($s->current_round == $s->round_length) {
-                $s->mm_active = 0;
-                Log::info('Reached last round. Matchmaking for ' . $s->slug . ' turned off');
-            }
-            $s->save();
+        if ($s->current_round == $s->round_length) {
+            $s->mm_active = 0;
+            Log::info('Reached last round. Matchmaking for ' . $s->slug . ' turned off');
+        }
+        $s->save();
 
-            foreach ($divs as $div) {
-                $this->makeMatches($div);
-            }
-
-
+        foreach ($divs as $div) {
+            $this->makeMatches($div);
+        }
     }
 
     public function doMMSingleDivision($s, $div){
         set_time_limit(600);
         $this->byeId = Teams::where("title", "BYE!")->first()->id;
-        Log::info('Selected BYE team id: ' . $this->byeId);
         $this->currentRound = $s->current_round;
         $this->makeMatches($div);
     }

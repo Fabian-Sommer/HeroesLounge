@@ -18,6 +18,7 @@ class RoundMatches extends ComponentBase
             'description' => 'Allows users to view Recent Results'
         ];
     }
+
     public $matches = null;
     public $showLogo = false;
     public $showName = false;
@@ -58,12 +59,10 @@ class RoundMatches extends ComponentBase
         } else {
             $data = $myData->matches()->with('teams', 'teams.logo', 'division')->orderBy('created_at', 'DESC')->get();
             $this->matches = $data->groupBy(function ($match) {
-                                    return $match->division ? $match->division->longTitle : ($match->playoff ? $match->playoff->longTitle : null);
-                                });
+                return $match->division ? $match->division->longTitle : ($match->playoff ? $match->playoff->longTitle : null);
+            });
         }
-        
     }
-
 
     public function defineProperties()
     {

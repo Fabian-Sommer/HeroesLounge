@@ -21,6 +21,7 @@ class ViewMatch extends ComponentBase
     public $decoded_playoff_position = null;
     public $timezone = null;
     public $timezoneOffset = null;
+    public $datetimeFormat = null;
 
     public function componentDetails()
     {
@@ -49,6 +50,7 @@ class ViewMatch extends ComponentBase
         }
         $this->timezone = TimezoneHelper::getTimezone();
         $this->timezoneOffset = TimezoneHelper::getTimezoneOffset();
+        $this->datetimeFormat = TimezoneHelper::getDateTimeFormatString();
     }
 
     public function defineProperties()

@@ -26,51 +26,45 @@ function onStart() {
 
 <body class="{{ this.page.id }} page page-{{ this.page.id }} {% placeholder bodyclass %}" style="background:black url({{'assets/img/Teaser.gif' |theme}}) no-repeat fixed center">
 
-    {% partial 'modules/header' %}                   {% partial 'base/page' %} 
+    {% partial 'modules/header' %}
+    {% partial 'base/page' %}
     {% partial 'modules/elevator' %}
 
     <script type="text/javascript" src="{{ 'assets/js/jquery.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/jquery-migrate.min.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/jquery.form.min.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/jquery.blockUI.min.js' | theme }}"></script>
-        <script type="text/javascript" src="{{ 'assets/js/jquery-ui.min.js' | theme }}"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.4/umd/popper.min.js"></script>
-        <script type="text/javascript" src="{{ 'assets/js/bootstrap.min.js' | theme }}"></script>
+    <script type="text/javascript" src="{{ 'assets/js/jquery-ui.min.js' | theme }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.4/umd/popper.min.js"></script>
+    <script type="text/javascript" src="{{ 'assets/js/bootstrap.min.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/wow.min.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/vega-wp-anim.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/parallax.min.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/vega-wp.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/errorHelper.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/jquery.smartmenus.min.js' | theme }}"></script>
-    	<script src="{{'assets/js/flipclock.min.js' |theme}}"></script>
-    	<script>
-		jQuery(document).ready(function() {
-			
-			var curDate = new Date();
-			var futDate = new Date("2017-06-11T17:00:00Z");
-			var diff = futDate.getTime() / 1000 - curDate.getTime() /1000;
-					var clock = jQuery('.clock').FlipClock(diff,
-					{
-						clockFace: 'DailyCounter',
-						countdown:true
-					});
-			
-		});
-
-	</script>
-
-
+    <script src="{{'assets/js/flipclock.min.js' |theme}}"></script>
+    <script>
+    jQuery(document).ready(function() {
+        var curDate = new Date();
+        var futDate = new Date("2017-06-11T17:00:00Z");
+        var diff = futDate.getTime() / 1000 - curDate.getTime() / 1000;
+        var clock = jQuery('.clock').FlipClock(diff,
+        {
+            clockFace: 'DailyCounter',
+            countdown: true
+        });
+    });
+    </script>
 
     <script type="text/javascript">
-        /* <![CDATA[ */
+    /* <![CDATA[ */
         var jpfbembed = { "appid": "249643311490", "locale": "en_US" };
     /* ]]> */
-
     </script>
     <script type="text/javascript" src="{{ 'assets/js/jetpack/facebook-embed.js' | theme }}"></script>
     <script type="text/javascript" src="{{ 'assets/js/wp-embed.min.js' | theme }}"></script>
-    {% framework extras %} {% scripts %}
-
+    {% framework extras %}
+    {% scripts %}
 </body>
-
 </html>

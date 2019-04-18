@@ -1,6 +1,5 @@
 <?php namespace Rikki\LoungeViews\Components;
 
- 
 use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Match;
 use Rikki\Heroeslounge\Models\Team as Teams;
@@ -18,13 +17,13 @@ class RecentResults extends ComponentBase
             'description' => 'Allows users to view Recent Results'
         ];
     }
+
     public $matches = null;
-
-
 
     public function onRun()
     {
     }
+
     public function onRender()
     {
         $type = $this->property('type');
@@ -50,7 +49,6 @@ class RecentResults extends ComponentBase
         }
         $this->matches = $myData->matches()->where('is_played', 1)->with('teams', 'teams.logo')->orderBy('updated_at', 'desc')->take($this->property('maxItems'))->get();
     }
-
 
     public function defineProperties()
     {

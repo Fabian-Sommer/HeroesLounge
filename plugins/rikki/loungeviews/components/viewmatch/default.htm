@@ -41,7 +41,7 @@
 
 {% if __SELF__.match.wbp %}
 <div id="matchtime">
-    <h3>Scheduled for {{__SELF__.match.wbp | date('d M Y H:i', __SELF__.timezone)}}</h3>
+    <h3>Scheduled for {{__SELF__.match.wbp | date(__SELF__.datetimeFormat, __SELF__.timezone)}}</h3>
     ({{__SELF__.timezone}} {{__SELF__.timezoneOffset}})
 </div>
 {% else %}

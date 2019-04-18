@@ -1,6 +1,5 @@
 <?php namespace Rikki\LoungeViews\Components;
 
- 
 use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Season;
 
@@ -13,12 +12,13 @@ class SeasonOverview extends ComponentBase
             'description' => 'Displays a SeasonOverview'
         ];
     }
+
     public $season = null;
     public $user = null;
+
     public function init()
     {
         $this->season = Season::where('slug',$this->param('slug'))->first();
-        
         if ($this->season) 
         {
             $this->page->title = $this->season->title;
@@ -34,16 +34,13 @@ class SeasonOverview extends ComponentBase
             }
             else
             {
-
             }
         }
     }
 
     public function onRun()
     {
-
     }
-
 
     public function defineProperties()
     {

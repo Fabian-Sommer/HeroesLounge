@@ -20,6 +20,7 @@ use RainLab\User\Components\Account as UserAccount;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Team;
+
 class SideNav extends UserAccount
 {
     public function componentDetails()
@@ -39,15 +40,12 @@ class SideNav extends UserAccount
     {
         parent::init();
 
-
         $this->user = Auth::getUser();
         $this->seasons = Season::all();
         if ($this->user != null) 
         {
             $this->sloth = SlothModel::getFromUser($this->user);
         }
-      
-
     }
 
     public function onLeaveTeam()
@@ -69,11 +67,6 @@ class SideNav extends UserAccount
         Auth::logout();
         return Redirect::refresh();
     }
-
-
- 
-
-
 
     public function defineProperties()
     {

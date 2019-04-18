@@ -30,9 +30,8 @@ use BackendAuth;
 
 class Plugin extends PluginBase
 {
-
     public $require = ['Indikator.Content'];
-    
+
     public function registerComponents()
     {
         return [
@@ -55,8 +54,6 @@ class Plugin extends PluginBase
     public function registerSettings()
     {
     }
-
-  
 
     public function register()
     {
@@ -108,9 +105,7 @@ class Plugin extends PluginBase
             $hu = new HeroUpdater;
             $hu->updateHeroes();
         })->weekly()->thursdays()->at('4:00');
-        
     }
-
 
     public function boot()
     {
@@ -118,7 +113,6 @@ class Plugin extends PluginBase
             $msg = NotificationHelper::generateMessages($user);
             Session::put('notifications',$msg);
         });
-
 
         Event::listen('offline.sitesearch.query', function ($query) {
             $items = SlothModel::where('title', 'like', "%${query}%")->get();
@@ -138,6 +132,7 @@ class Plugin extends PluginBase
                 'results' => $results
             ];
         });
+
         Event::listen('offline.sitesearch.query', function ($query) {
             $items = Teams::where('title', 'like', "%${query}%")->get();
             $results = $items->map(function ($item) use ($query) {
@@ -156,6 +151,7 @@ class Plugin extends PluginBase
                 'results' => $results
             ];
         });
+
         Event::listen('offline.sitesearch.query', function ($query) {
             $items = Maps::where('title', 'like', "%${query}%")->get();
             $results = $items->map(function ($item) use ($query) {
@@ -174,10 +170,6 @@ class Plugin extends PluginBase
             ];
         });
 
-
-    
-
-
         Event::listen('eloquent.saved: System\Models\File', function ($event) {
             if ($event->field == 'logo') {
                 switch ($event->attachment_type) {
@@ -190,9 +182,9 @@ class Plugin extends PluginBase
                 }
             }
         });
+
         Blog::extend(function($model)
         {
-
             $model->addDynamicMethod('findAuthor',function() use ($model)
             {
                 $m = BackendAuth::createUserModel();
@@ -205,22 +197,20 @@ class Plugin extends PluginBase
             $model->addDynamicMethod('nextPost',function() use ($model)
             {
                 return Blog::isPublished()
-                ->where('id', '>' , $model->id)
-                ->orderBy('id', 'asc')
-                ->first();
+                    ->where('id', '>' , $model->id)
+                    ->orderBy('id', 'asc')
+                    ->first();
             });
 
             $model->addDynamicMethod('previousPost',function() use ($model)
             {
                 return Blog::isPublished()
-                ->where('id', '<' , $model->id)
-                ->orderBy('id', 'desc')
-                ->first();
-          
+                    ->where('id', '<' , $model->id)
+                    ->orderBy('id', 'desc')
+                    ->first();
             });
         });
 
-      
         UserModel::extend(function ($model) {
             $model->hasOne['sloth'] = ['Rikki\Heroeslounge\Models\Sloth', 'delete' => true];
         });
@@ -230,7 +220,7 @@ class Plugin extends PluginBase
             if (!$model instanceof UserModel) {
                 return;
             }
-    
+
             $list->addColumns([
                 'sloth[region][title]' => [
                     'label' => 'Region',
@@ -253,23 +243,23 @@ class Plugin extends PluginBase
             $form->addTabFields([
                 'sloth[title]' => [
                     'label' => 'Title',
-                     'tab' => 'Sloth',
-                     'type' => 'text'
+                    'tab' => 'Sloth',
+                    'type' => 'text'
                 ],
                 'sloth[region_id]' => [
                     'label' => 'Region (1=EU,2=NA - ONLY ENTER NUMBERS)',
-                     'tab' => 'Sloth',
-                     'type' => 'text'
+                    'tab' => 'Sloth',
+                    'type' => 'text'
                 ],
                 'sloth[discord_tag]' => [
                     'label' => 'Discord Tag',
-                     'tab' => 'Sloth',
-                     'type' => 'text'
+                    'tab' => 'Sloth',
+                    'type' => 'text'
                 ],
                 'sloth[battle_tag]' => [
                     'label' => 'BattleTag',
-                     'tab' => 'Sloth',
-                     'type' => 'text'
+                    'tab' => 'Sloth',
+                    'type' => 'text'
                 ],
                 'sloth[team]' => [
                     'label' => 'Team',
@@ -298,9 +288,9 @@ class Plugin extends PluginBase
                 ],
                 'sloth[birthday]' => [
                     'label' => 'Birthday',
-                     'tab' => 'Sloth',
-                     'type' => 'datepicker',
-                     'mode' => 'date'
+                    'tab' => 'Sloth',
+                    'type' => 'datepicker',
+                    'mode' => 'date'
                 ],
                 'sloth[banner]' => [
                     'label' => 'Banner',
@@ -309,35 +299,35 @@ class Plugin extends PluginBase
                 ],
                 'sloth[short_description]' => [
                     'label' => 'Short Description',
-                     'tab' => 'Sloth',
-                     'type' => 'textarea'
+                    'tab' => 'Sloth',
+                    'type' => 'textarea'
                 ],
                 'sloth[twitch_url]' => [
                     'label' => 'Twitch URL',
-                     'tab' => 'Sloth',
-                     'type' => 'text'
+                    'tab' => 'Sloth',
+                    'type' => 'text'
                 ],
                 'sloth[twitter_url]' => [
                     'label' => 'Twitter URL',
-                     'tab' => 'Sloth',
-                     'type' => 'text'
+                    'tab' => 'Sloth',
+                    'type' => 'text'
                 ],
                 'sloth[facebook_url]' => [
                     'label' => 'Facebook URL',
-                     'tab' => 'Sloth',
-                     'type' => 'text'
+                    'tab' => 'Sloth',
+                    'type' => 'text'
                 ],
                 'sloth[youtube_url]' => [
                     'label' => 'YouTube URL',
-                     'tab' => 'Sloth',
-                     'type' => 'text'
-                 ],
+                    'tab' => 'Sloth',
+                    'type' => 'text'
+                ],
                 'sloth[website_url]' => [
                     'label' => 'Website URL',
-                     'tab' => 'Sloth',
-                     'type' => 'text'
-                 ]
-                ]);
+                    'tab' => 'Sloth',
+                    'type' => 'text'
+                ]
+            ]);
         });
     }
 
