@@ -69,7 +69,7 @@ class CasterSchedule extends ComponentBase
     {
         return [
             'daysInFuture' => [
-                  'title' => 'Days in Future',
+                'title' => 'Days in Future',
                 'description' => 'Number of days to grab Matches from',
                 'default' => 50,
                 'type' => 'string',

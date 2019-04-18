@@ -2,23 +2,22 @@
 
 use System\Classes\PluginBase;
 
-
 use Flash;
 
 class Plugin extends PluginBase
 {
     public $require = ['Rikki.Heroeslounge'];
-    
+
     public function registerComponents()
     {
         return [
-            'Rikki\LoungeViews\Components\DivisionOverview' => 'DivisionOverview',    
+            'Rikki\LoungeViews\Components\DivisionOverview' => 'DivisionOverview',
             'Rikki\LoungeViews\Components\RecentResults' => 'RecentResults',
-            'Rikki\LoungeViews\Components\PlayoffOverview' => 'PlayoffOverview',    
-            'Rikki\LoungeViews\Components\Bans' => 'Bans',            
+            'Rikki\LoungeViews\Components\PlayoffOverview' => 'PlayoffOverview',
+            'Rikki\LoungeViews\Components\Bans' => 'Bans',
             'Rikki\LoungeViews\Components\SeasonOverview' => 'SeasonOverview',
-            'Rikki\LoungeViews\Components\ViewTeam' => 'ViewTeam',   
-            'Rikki\LoungeViews\Components\ViewMatch' => 'ViewMatch',            
+            'Rikki\LoungeViews\Components\ViewTeam' => 'ViewTeam',
+            'Rikki\LoungeViews\Components\ViewMatch' => 'ViewMatch',
             'Rikki\LoungeViews\Components\Twitch' => 'Twitch',
             'Rikki\LoungeViews\Components\Profile' => 'Profile',
             'Rikki\LoungeViews\Components\Navigation' => 'Navigation',
@@ -29,10 +28,7 @@ class Plugin extends PluginBase
             'Rikki\LoungeViews\Components\DivisionTable' => 'DivisionTable',
             'Rikki\LoungeViews\Components\ExtendedDivisionTable' => 'ExtendedDivisionTable',
             'Rikki\LoungeViews\Components\BlogPage' => 'BlogPage',
-            'Rikki\LoungeViews\Components\BlogFeatured' => 'BlogFeatured'
-            
-            
-        
+            'Rikki\LoungeViews\Components\BlogFeatured' => 'BlogFeatured',
         ];
     }
 
@@ -53,9 +49,7 @@ class Plugin extends PluginBase
 
     public function registerSchedule($schedule)
     {
-       
     }
-
 
     public function boot()
     {
@@ -63,8 +57,5 @@ class Plugin extends PluginBase
 
     public function registerMarkupTags()
     {
-      
     }
-
-  
 }

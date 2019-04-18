@@ -47,7 +47,6 @@ jQuery(document).ready(function() {
 <body class="{{ this.page.id }} page page-{{ this.page.id }} layout-{{ this.layout.id }} {% placeholder bodyclass title='Body class' %}">
 
     {% partial 'base/head' %} 
-    
     <div class="sticky-top float-left" style="top:90px">
         {% component 'SideNav' %}
     </div>
@@ -68,11 +67,6 @@ jQuery(document).ready(function() {
         </div>
     </div>
     {% partial 'base/foot' %} 
-    
-    
     {% placeholder modal %}
-    
 </body>
-
 </html>
-

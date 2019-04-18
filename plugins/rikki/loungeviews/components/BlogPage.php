@@ -14,7 +14,6 @@ class BlogPage extends origin
         ];
     }
 
-
     public function previousPost()
     {
         return $this->getPostSibling(-1);
@@ -47,6 +46,4 @@ class BlogPage extends origin
 
         return $post;
     }
-
-
 }
