@@ -15,10 +15,13 @@ daysInFuture = 7
 <script type="text/javascript">
 function showHideSpoilersSeasonDivision(showSpoilers) {
     var f100s = jQuery('span.f100');
+    var scores = jQuery('td.score');
     if (showSpoilers > 0) {
         f100s.removeClass('spoiler');
+        scores.removeClass('notext');
     } else {
         f100s.addClass('spoiler');
+        scores.addClass('notext');
     }
 }
 </script>

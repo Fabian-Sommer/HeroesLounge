@@ -44,11 +44,11 @@
             </td>
             <td><a href="{{ 'team/view'|page({ slug: team.slug }) }}" style="color:#34495e;text-decoration:underline">{{team.title}}</a></td>
             {% if __SELF__.showScore %}
-            <td>{{team.score}}</td>
-            <td>{{team.map_score}}</td>
+            <td class="score notext">{{team.score}}</td>
+            <td class="score notext">{{team.map_score}}</td>
             {% else %}
-            <td>{{team.game_wins}}</td>
-            <td>{{team.pivot.win_count}}</td>
+            <td class="score notext">{{team.game_wins}}</td>
+            <td class="score notext">{{team.pivot.win_count}}</td>
             {% endif %}
             <td>{{team.pivot.match_count}}</td>
         </tr>

@@ -405,6 +405,12 @@
     color: gray !important;
     background-color: gray !important;
 }
+.spoiler > img {
+    display: none;
+}
+.notext {
+    color: transparent !important;
+}
 .match.format-mini>.state {
     color: gray
 }

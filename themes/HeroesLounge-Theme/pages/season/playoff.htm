@@ -12,12 +12,37 @@ is_hidden = 0
 function showHideSpoilersSeasonPlayoff(showSpoilers) {
     var results = jQuery('div.result');
     var f100s = jQuery('span.f100');
+    var scores = jQuery('td.score');
+    var names = jQuery('div.opponent .name').not('.disabled');
+    var logos = names.siblings('.logo');
+
     if (showSpoilers > 0) {
         results.removeClass('spoiler');
         f100s.removeClass('spoiler');
+        scores.removeClass('notext');
+        names.removeClass('spoiler');
+        logos.removeClass('spoiler');
     } else {
         results.addClass('spoiler');
         f100s.addClass('spoiler');
+        scores.addClass('notext');
+
+        // allow first time names to be shown on first load when all names are spoilers
+        names.removeClass('spoiler');
+        logos.removeClass('spoiler');
+
+        // find all first instances teams and hide subsequent instances of the team names and logos
+        var seenTeams = [];
+        names.each(function () {
+            var elem = jQuery(this);
+            var name = elem.text();
+            if (seenTeams.includes(name)) {
+                elem.addClass('spoiler');
+                elem.siblings('.logo').addClass('spoiler');
+            } else if (name != 'BYE!') {
+                seenTeams.push(name);
+            }
+        });
     }
 }
 </script>

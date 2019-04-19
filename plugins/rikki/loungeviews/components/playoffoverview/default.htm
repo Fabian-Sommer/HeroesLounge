@@ -117,11 +117,8 @@
                                 <div class="record">
                                     <div class="opponent opponent-1">
                                         {%if match['model'].teams[0] %}
-                                        {%if match['model'].teams[0].logo is not null%}<div class="logo"><img src="{{match['model'].teams[0].logo.path | resize(64,64)}}" style="position: relative; padding-top:0px;"title="{{match['model'].teams[0].title}}"></div>{%endif%}
-                                        <div class="name">{{match['model'].teams[0].title}}</div>
-                                        {%else%}
-                                        <div class="name disabled">TBD</div>
-                                        {%endif%}
+                                        <div class="logo spoiler">{%if match['model'].teams[0].logo is not null%}<img src="{{match['model'].teams[0].logo.path | resize(64,64)}}" style="position: relative; padding-top:0px;"title="{{match['model'].teams[0].title}}">{%endif%}</div>
+                                        <div class="name spoiler">{{match['model'].teams[0].title}}</div>{%else%}<div class="name disabled">TBD</div>{%endif%}
                                         {% if match['model'].is_played %}
                                             {% if match['model'].winner.id == match['model'].teams[0].id %}
                                                 <div class="result win spoiler">{{match['model'].teams[0].pivot.team_score}}</div>
@@ -132,9 +129,8 @@
                                     </div>
                                     <div class="opponent opponent-2">
                                         {%if match['model'].teams[1] %}
-                                        {%if match['model'].teams[1].logo is not null%}<div class="logo"><img src="{{match['model'].teams[1].logo.path | resize(64,64)}}" title="{{match['model'].teams[1].title}}"></div>{%endif%}
-                                        <div class="name">{{match['model'].teams[1].title}}</div>{%else%}<div class="name disabled">TBD</div>
-                                        {%endif%}
+                                        <div class="logo spoiler">{%if match['model'].teams[1].logo is not null%}<img src="{{match['model'].teams[1].logo.path | resize(64,64)}}" title="{{match['model'].teams[1].title}}">{%endif%}</div>
+                                        <div class="name spoiler">{{match['model'].teams[1].title}}</div>{%else%}<div class="name disabled">TBD</div>{%endif%}
                                         {% if match['model'].is_played %}
                                             {% if match['model'].winner.id == match['model'].teams[1].id %}
                                                 <div class="result win spoiler">{{match['model'].teams[1].pivot.team_score}}</div>
