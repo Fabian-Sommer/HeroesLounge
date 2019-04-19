@@ -1,0 +1,22 @@
+description = "Page Start"
+
+[SetTimezone]
+==
+<?php
+use RainLab\Translate\Models\Message;
+
+function onStart() {
+    $this['baseUrl'] = Config::get('app.url');
+    Message::setContext(App::getLocale(), $this->page->url);
+}
+
+// can't put ajax on* handlers here because this is a partial and they aren't supported here :(
+//  https://octobercms.com/docs/cms/partials#life-cycle-limitations
+?>
+==
+<!DOCTYPE html>
+<html lang="{{ this.theme.site_locale }}">
+    {% component 'SetTimezone' %}
+<head>
+    {% partial 'assets/head' %}
+</head>

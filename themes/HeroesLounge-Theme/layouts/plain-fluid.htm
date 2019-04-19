@@ -8,24 +8,12 @@ description = "Plain Fluid layout"
 
 [SideNav]
 
+[SetTimezone]
+
 [session]
 security = "all"
 ==
-<?php
-use RainLab\Translate\Models\Message;
-
-function onStart() {
-    $this['baseUrl'] = Config::get('app.url');
-    Message::setContext(App::getLocale(), $this->page->url);
-}
-?>
-==
-<!DOCTYPE html>
-<html lang="{{ this.theme.site_locale }}">
-
-<head>
-    {% partial 'assets/head' %}
-</head>
+{% partial 'base/start' %}
 
 <body class="{{ this.page.id }} page page-{{ this.page.id }} layout-{{ this.layout.id }} {% placeholder bodyclass title='Body class' %}">
 
