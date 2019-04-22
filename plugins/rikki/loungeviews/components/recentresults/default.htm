@@ -27,7 +27,7 @@
             </div>
             <div class="col-4">
                 <a href="{{ 'match/view' | page({id:match.id})}}">
-                    <span class="f100 badge {{class1}}">
+                    <span class="f100 badge {{class1}} spoiler">
                         {{ team1.pivot.team_score }}
                     </span>
                 </a>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-4">
                     <a href="{{ 'match/view' | page({id:match.id})}}">
-                        <span class="f100 badge {{class2}}">
+                        <span class="f100 badge {{class2}} spoiler">
                             {{ team2.pivot.team_score }}
                         </span>
                     </a>
