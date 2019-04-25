@@ -6,5 +6,28 @@ is_hidden = 0
 [ViewTeam]
 maxItems = 5
 daysInFuture = 50
+
+[SpoilersToggle]
 ==
+{% put scripts %}
+<script type="text/javascript">
+function showHideSpoilersTeamView(showSpoilers) {
+    var results = jQuery('div.result');
+    var f100s = jQuery('span.f100');
+    var scores = jQuery('td.score');
+
+    if (showSpoilers > 0) {
+        results.removeClass('spoiler');
+        f100s.removeClass('spoiler');
+        scores.removeClass('notext');
+    } else {
+        results.addClass('spoiler');
+        f100s.addClass('spoiler');
+        scores.addClass('notext');
+    }
+}
+</script>
+{% endput %}
+{% component 'SpoilersToggle' callback='showHideSpoilersTeamView' %}
+
 {% component 'ViewTeam'%}
