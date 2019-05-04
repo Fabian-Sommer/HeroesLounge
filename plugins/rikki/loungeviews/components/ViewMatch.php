@@ -45,7 +45,7 @@ class ViewMatch extends ComponentBase
     public function onRender()
     {
         $this->match = Match::find($this->param('id'));
-        if ($this->match->playoff_position != null) {
+        if ($this->match != null && $this->match->playoff_position != null) {
             $this->decoded_playoff_position = Match::decodePlayoffPosition($this->match->playoff_position);
         }
         $this->timezone = TimezoneHelper::getTimezone();
