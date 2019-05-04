@@ -91,12 +91,13 @@ class SlothStatistics extends ComponentBase
                 if ($game == null or $team == null) {
                     continue;
                 }
-                $gamecount = $gamecount + 1;
+                
                 //find out which team we are
                 $winner = ($game->winner_id == $team->id);
                 $tO = ($game->team_one_id == $team->id);
 
                 if ($game->map && $game->replay) {
+                    $gamecount = $gamecount + 1;
                     if ($team->title == $game->getSecondPickTeam()) {
                         $mapArray[$game->map->title]['picks_by']++;
                     } else {

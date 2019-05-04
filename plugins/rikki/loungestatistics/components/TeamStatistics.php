@@ -76,13 +76,13 @@ class TeamStatistics extends ComponentBase
         foreach ($this->team->matches as $match) {
             if ($season == null or $match->belongsToSeason($season)) {
                 foreach ($match->games as $game) {
-                    $game_count++;
 
                     //find out which team we are
                     $winner = ($game->winner_id == $this->team->id);
                     $tO = ($game->team_one_id == $this->team->id);
 
                     if ($game->map && $game->replay) {
+                        $game_count++;
                         if ($this->team->title == $game->getSecondPickTeam()) {
                             $mapArray[$game->map->title]['picks_by']++;
                         } else {
