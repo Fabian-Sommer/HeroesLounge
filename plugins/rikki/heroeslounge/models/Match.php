@@ -98,6 +98,21 @@ class Match extends Model
         return null;
     }
 
+    public function getLoserAttribute()
+    {
+        if (!$this->winner) {
+            return null;
+        }
+        if ($this->teams->count() != 2) {
+            return null;
+        }
+        $winner_id = $this->winner_id;
+        return $this->teams->first(
+            function ($team, $key) use ($winner_id) {
+                return $team->id != $winner_id;
+            });
+    }
+
     public function getChannelAttribute()
     {
         return $this->channels->count() > 0 ? $this->channels->first() : null;

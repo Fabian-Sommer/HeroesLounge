@@ -86,7 +86,19 @@ class Game extends Model
         ]
     ];
 
-
+    public function getLoserAttribute()
+    {
+        if (!$this->winner) {
+            return null;
+        }
+        if ($this->winner_id == $this->team_one_id) {
+            return $this->teamTwo;
+        }
+        if ($this->winner_id == $this->team_two_id) {
+            return $this->teamOne;
+        }
+        return null;
+    }
 
     public function beforeUpdate()
     {

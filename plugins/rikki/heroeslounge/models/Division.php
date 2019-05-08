@@ -131,14 +131,13 @@ class Division extends Model
                     if ($winningTeam) {
                         $winningTeam->map_score += 1;    
                     }
-                    $losingTeam = $teams->where('id', $match->teams->first(function ($team, $key) use ($game) {
-                            return $team->id != $game->winner->id;
-                        })->id)->first();
+                }
+                if ($game->loser) {
+                    $losingTeam = $teams->where('id', $game->loser->id)->first();
                     if ($losingTeam) {
                         $losingTeam->map_score -= 1;
                     }
                 }
-                
             }
 
             
