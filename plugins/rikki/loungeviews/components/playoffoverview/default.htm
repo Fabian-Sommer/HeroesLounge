@@ -5,7 +5,7 @@
     {% if __SELF__.playoff.reg_open %}
         <div class="col-md-12">
             {% if __SELF__.user and not __SELF__.user.sloth.divs_team %}
-                You need to be part of a Division S Team in order to participate!
+                You need to be part of a Tournament Team in order to participate!
                 <a class="nav-link" href="{{ 'team/create' | page}}">Create Team</a>
             {% endif %}
             {% if __SELF__.user and __SELF__.user.sloth.is_divs_captain and __SELF__.user.sloth.divs_team and not __SELF__.userTeamSignedUp and __SELF__.user.sloth.divs_team.region_id == __SELF__.playoff.region_id %}
