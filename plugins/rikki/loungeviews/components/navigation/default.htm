@@ -32,38 +32,29 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{  url('blog')}}">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ 'playoff/view' | page({'playoff-title': 'nut-cup'})}}">Nut Cup</a>
-                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Division S</a>
+                        <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Division S</a>
                         <ul role="menu" class="dropdown-menu pull-right">
                             <a class="dropdown-item" href="{{ 'divisionS/general' | page }}">Overview</a>
                             <a class="dropdown-item" href="{{ 'divisionS/schedule' | page }}">Schedule</a>
                             <li class="nav-item dropdown-submenu">
-                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_9" href="{{ 'season/' |page({slug:'eu-division-s-season-1'})}}"> [EU] Season 1</a>
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_9" href="{{ 'season/' |page({slug:'eu-division-s-season-1'})}}">[EU] Season 1</a>
                                 <div class="dropdown-menu" aria-labelledby="#season_9">
-                                    <a class="dropdown-item" href="{{ 'season/division'|page({slug: 'eu-division-s-season-1', divslug: 'eu-division-s-season-1'})}} "> Standings</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-1'})}}"></i> Qualifier 1</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-2'})}}"></i> Qualifier 2</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-3'})}}"></i> Qualifier 3</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-4'})}}"></i> Qualifier 4</a>
+                                    <a class="dropdown-item" href="{{ 'season/division'|page({slug: 'eu-division-s-season-1', divslug: 'eu-division-s-season-1'})}} ">Standings</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-1'})}}"></i>Qualifier 1</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-2'})}}"></i>Qualifier 2</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-3'})}}"></i>Qualifier 3</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-4'})}}"></i>Qualifier 4</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown-submenu">
-                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_10" href="{{ 'season/' |page({slug:'na-division-s-season-1'})}}"> [NA] Season 1</a>
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_10" href="{{ 'season/' |page({slug:'na-division-s-season-1'})}}">[NA] Season 1</a>
                                 <div class="dropdown-menu" aria-labelledby="#season_10">
-                                    <a class="dropdown-item" href="{{ 'season/division'|page({slug: 'na-division-s-season-1', divslug: 'na-division-s-season-1'})}} "> Standings</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-1'})}}"></i> Qualifier 1</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-2'})}}"></i> Qualifier 2</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-3'})}}"></i> Qualifier 3</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-4'})}}"></i> Qualifier 4</a>
+                                    <a class="dropdown-item" href="{{ 'season/division'|page({slug: 'na-division-s-season-1', divslug: 'na-division-s-season-1'})}} ">Standings</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-1'})}}"></i>Qualifier 1</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-2'})}}"></i>Qualifier 2</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-3'})}}"></i>Qualifier 3</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-4'})}}"></i>Qualifier 4</a>
                                 </div>
                             </li>
                             <a class="dropdown-item" href="{{ 'divisionS/ruleset' | page }}">Ruleset</a>
@@ -72,41 +63,102 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="seasons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Amateur Series</a>
+                        <a class="nav-link dropdown-toggle" id="seasons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Amateur Series</a>
                         <ul role="menu" class="dropdown-menu pull-right">
-                            {% for season in __SELF__.amateurseasons %} {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
-                            <li class="nav-item dropdown-submenu">
-                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_{{season.id}}" href="{{ 'season/' |page({slug:season.slug})}}"><i class="fa fa-tags" aria-hidden="true"></i> {{season.title}}</a>
-                                <div class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
-                                    {% for division in season.divisions %}
-                                    <a class="dropdown-item" href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} "><i class="fa fa-tag" aria-hidden="true"></i> {{division.title}}</a>
-                                    {% endfor %}
-                                    {% for playoff in season.playoffs %}
-                                    <a class="dropdown-item" href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} "><i class="fa fa-star" aria-hidden="true"></i> {{playoff.title}}</a>
+                            {% for season in __SELF__.current_amateurseasons %} 
+                                {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
+                                    <li class="dropdown-item dropdown-submenu">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" id="season_{{season.id}}">{{season.title}}</a>
+                                        <div class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
+                                            {% for division in season.divisions %}
+                                                <a class="dropdown-item" href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} ">{{division.title}}</a>
+                                            {% endfor %}
+                                            {% for playoff in season.playoffs %}
+                                                <a class="dropdown-item" href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} ">{{playoff.title}}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </li>
+                                {% else %}
+                                    <a class="dropdown-item" href="{{ 'season/view' |page({slug:season.slug})}}">{{season.title}}</a>
+                                {% endif %} 
+                            {% endfor %}
+
+                            <hr>
+
+                            <a class="dropdown-item" href="{{ 'faq' |page}}">FAQ</a>
+
+                            <a class="dropdown-item" href="{{ 'general/ruleset' | page}}">Ruleset</a>
+                            {% for item in staticMenuGeneral.menuItems %}
+                                <a class="dropdown-item" href="{{ item.url }}">{{item.title}}</a>
+                            {% endfor %}
+
+                            {% for item in staticMenuGuides.menuItems %}
+                            <li class="dropdown-item dropdown-submenu">
+                                <a class="dropdown-toggle" data-toggle="dropdown">{{item.title}}</a>
+                                <div class="dropdown-menu">
+                                    {% for child in item.items %}
+                                    <a class="dropdown-item" href="{{ child.url }}">{{child.title}}</a>
                                     {% endfor %}
                                 </div>
                             </li>
-                            {% else %}
-                            <a class="dropdown-item" href="{{ 'season/view' |page({slug:season.slug})}}"><i class="fa fa-tags" aria-hidden="true"></i> {{season.title}}</a>                            {% endif %} {% endfor %}
+                            {% endfor %}
+
+                            <hr>
+
+                            {% if can('cast_matches') %}
+                            <a class="dropdown-item" href="{{ 'general/casterstatistics' | page}}">Caster Statistics</a>
+                            {% endif %}
+
+                            <a class="dropdown-item" href="{{ 'general/staff' | page }}">Staff</a>
+
+                            <li class="dropdown-item dropdown-submenu">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="previous_seasons">Archive</a>
+                                <ul role="menu" class="dropdown-menu pull-right" aria-labelledby="#previous_seasons">
+                                    {% for season in __SELF__.past_amateurseasons %} 
+                                        {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
+                                            <li class="dropdown-item dropdown-submenu">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" id="season_{{season.id}}">{{season.title}}</a>
+                                                <div role="menu" class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
+                                                    {% for division in season.divisions %}
+                                                        <a class="dropdown-item" href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} ">{{division.title}}</a>
+                                                    {% endfor %}
+                                                    {% for playoff in season.playoffs %}
+                                                        <a class="dropdown-item" href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} ">{{playoff.title}}</a>
+                                                    {% endfor %}
+                                                </div>
+                                            </li>
+                                        {% else %}
+                                            <a class="dropdown-item" href="{{ 'season/view' |page({slug:season.slug})}}">{{season.title}}</a>
+                                        {% endif %} 
+                                    {% endfor %}
+                                </ul>
+                            </li>
                         </ul>
                     </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Events</a>
+                        <ul role="menu" class="dropdown-menu pull-right">
+                            <li class="nav-item dropdown-submenu">
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">Emim <br> Heroes Cup</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/heroes-cup-emim"></i>Overview</a>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'emim-heroes-cup-stage-1'})}}"></i>Sign Up</a>
+                                </div>
+                            </li>
+                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'nut-cup'})}}">Nut Cup</a>
+                        </ul>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ 'calendar' | page}}">Calendar</a>
                     </li>
                
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navGeneral" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">General</a>
-                        <div class="dropdown-menu" aria-labelledby="navGeneral" role="menu">
-                            <a class="dropdown-item" href="{{ 'general/ruleset' | page}}"><i class="fa fa-book" aria-hidden="true"></i> Ruleset</a>
-                            {% for item in staticMenuGeneral.menuItems %}
-                                <a class="dropdown-item" href="{{ item.url }}"><i class="fa fa-circle" aria-hidden="true"></i> {{item.title}}</a>
-                            {% endfor %}
-                            <a class="dropdown-item" href="{{ 'general/staff' | page }}"><i class="fa fa-users" aria-hidden="true"></i> Staff</a>
-                            {% if can('cast_matches') %}
-                            <a class="dropdown-item" href="{{ 'general/casterstatistics' | page}}"><i class="fa fa-table" aria-hidden="true"></i> Caster Statistics</a>
-                            {% endif %}
-                        </div>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{  url('blog')}}">Blog</a>
                     </li>
+
                     {% if user %} 
                         {% if __SELF__.sloth.team_id == 0 or __SELF__.sloth.divs_team_id == 0 %}
                         <li class="nav-item">
@@ -115,7 +167,7 @@
                         {% endif %}
                     {% else %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navSignIn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">SignIn</a>
+                        <a class="nav-link dropdown-toggle" id="navSignIn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
                         <div class="dropdown-menu p-3" aria-labelledby="navSignIn">
                             {{ form_open({request: 'onSignIn'}) }}
                             <div class="form-group">
@@ -136,19 +188,6 @@
                         </div>
                     </li>
                     {% endif %} 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ 'faq' |page}}">FAQ</a>
-                    </li>
-                    {% for item in staticMenuGuides.menuItems %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navGuides" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{item.title}}</a>
-                        <div class="dropdown-menu" aria-labelledby="navBarUser" role="menu">
-                            {% for child in item.items %}
-                            <a class="dropdown-item" href="{{ child.url }}"><i class="fa fa-info-circle" aria-hidden="true"></i> {{child.title}}</a>
-                            {% endfor %}
-                        </div>
-                    </li>
-                    {% endfor %}
 
             </ul>
         </div>
