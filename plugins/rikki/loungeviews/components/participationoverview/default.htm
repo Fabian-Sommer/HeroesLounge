@@ -1,5 +1,24 @@
- {% if __SELF__.season is null %} {% else %}
+{% if __SELF__.season is null %} {% else %}
 <h1>{{__SELF__.season.title}} Participation</h1>
+<div class="col-md-12">
+    {% if __SELF__.user and __SELF__.user.sloth.is_captain and __SELF__.user.sloth.team and not __SELF__.signedUp and __SELF__.user.sloth.team.region_id == __SELF__.season.region_id %}
+        Your team is not signed up for the tournament.<br>
+        <button type="button" 
+                class="btn btn-sm btn-secondary center"
+                onclick="$(this).data('request-data')"
+                data-request="onTeamSignup">
+            Sign up now!
+        </button>
+    {% elseif __SELF__.user and not __SELF__.user.sloth.team and not __SELF__.signedUp and __SELF__.user.sloth.region_id == __SELF__.season.region_id %}
+        You are not signed up for the tournament.<br>
+        <button type="button" 
+                class="btn btn-sm btn-secondary center"
+                onclick="$(this).data('request-data')"
+                data-request="onSlothSignup">
+            Sign up as a free agent!
+        </button>
+    {% endif %}
+</div>
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="navbar-header">
         <a class="navbar-brand d-lg-none">Teams & Free Agents</a>
