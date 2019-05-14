@@ -111,7 +111,9 @@
                                         <div class="bracket format-standard" style="width: {{__SELF__.total_width}}rem; height: {{__SELF__.total_height}}rem;">
                     <div class="bracket-nodes">
                     {% for match in __SELF__.matches %}
-                        <div style="position: absolute; left: {{match['offset_left']}}rem; top: {{match['offset_top']}}rem; width: {{__SELF__.match_width}}rem; height: {{__SELF__.match_height}}rem;"><a href="{{ 'match/view' | page({id: match['model'].id})}}">
+                        <div class="bracket-{{match['position_bracket_name']}}"
+                            style="position: absolute; left: {{match['offset_left']}}rem; top: {{match['offset_top']}}rem; width: {{__SELF__.match_width}}rem; height: {{__SELF__.match_height}}rem;"
+                        ><a href="{{ 'match/view' | page({id: match['model'].id})}}">
                             <div class="match format-mini hover">
                                 <div class="header" style="display: none;"></div>
                                 <div class="record">
