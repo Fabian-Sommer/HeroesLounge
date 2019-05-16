@@ -42,7 +42,7 @@ function showHideSpoilersSeasonPlayoff(showSpoilers) {
                 elem.siblings('.logo').addClass('spoiler');
             } else if (name == 'BYE!') {
                 var index = seenTeams.indexOf(lastName);
-                if (index > -1) {
+                if (index > -1 && elem.closest("div.bracket-losers").length < 1) {
                     seenTeams.splice(index, 1);
                 }
                 elem.parent().parent().find('.result').removeClass('spoiler');

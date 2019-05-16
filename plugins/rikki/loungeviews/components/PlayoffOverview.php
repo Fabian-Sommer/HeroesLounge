@@ -83,16 +83,20 @@ class PlayoffOverview extends ComponentBase
                 $offset_left = 30;
                 $offset_top = 2.6875;
                 //for now, special case only
-                $offsets = $this->getOffsetsForMatch($match->playoff_position);
+                $decoded_playoff_position = Match::decodePlayoffPosition($match->playoff_position);
+                $array['position_bracket_name'] = $this->getBracketName($decoded_playoff_position);
+                $offsets = $this->getOffsetsForMatch($decoded_playoff_position);
                 $array['offset_left'] = $offsets['left'];
                 $array['offset_top'] = $offsets['top'];
-                $this->matches[] = $array;
                 if ($match->playoff_winner_next) {
-                    $this->addWinnerLinkBetweenMatches($match->playoff_position, $match->playoff_winner_next);
+                    $decoded_playoff_winner_next = Match::decodePlayoffPosition($match->playoff_winner_next);
+                    $this->addWinnerLinkBetweenMatches($decoded_playoff_position, $decoded_playoff_winner_next);
                 }
                 if ($match->playoff_loser_next) {
-                    $this->addLoserLinkToMatch($match->playoff_loser_next);
+                    $decoded_playoff_loser_next = Match::decodePlayoffPosition($match->playoff_loser_next);
+                    $this->addLoserLinkToMatch($decoded_playoff_loser_next);
                 }
+                $this->matches[] = $array;
             }
         }
 
@@ -123,6 +127,7 @@ class PlayoffOverview extends ComponentBase
         $this->addJs('/plugins/rikki/heroeslounge/assets/js/ElementQueries.js');
         $this->addCss('/plugins/rikki/heroeslounge/assets/css/heroeslounge.css');
     }
+
     public function defineProperties()
     {
         return [
@@ -136,13 +141,20 @@ class PlayoffOverview extends ComponentBase
         $this->timeFormat = TimezoneHelper::getTimeFormatString();
     }
 
-    //gets offsets in rem for a playoff_position $pp
-    public function getOffsetsForMatch($pp)
+    private function getBracketName($dec_position)
+    {
+        if ($dec_position['bracket'] == 1) return 'winners';
+        if ($dec_position['bracket'] == 2) return 'losers';
+        if ($dec_position['bracket'] == 3) return 'finals';
+        return 'badbracket';
+    }
+
+    //gets offsets in rem for a decoded playoff_position
+    public function getOffsetsForMatch($dec_position)
     {
         $left = 0;
         $top = 0;
         $round_width = $this->match_width + $this->width_between_matches;
-        $dec_position = Match::decodePlayoffPosition($pp);
         if ($this->playoff->type == 'playoffv1') {
             if ($dec_position['bracket'] == 1) {
                 //winners bracket
@@ -262,10 +274,10 @@ class PlayoffOverview extends ComponentBase
         return ['left' => $left, 'top' => $top];
     }
 
-    public function addWinnerLinkBetweenMatches($pp1, $pp2)
+    public function addWinnerLinkBetweenMatches($dec_position1, $dec_position2)
     {
-        $offsets1 = $this->getOffsetsForMatch($pp1);
-        $offsets2 = $this->getOffsetsForMatch($pp2);
+        $offsets1 = $this->getOffsetsForMatch($dec_position1);
+        $offsets2 = $this->getOffsetsForMatch($dec_position2);
         $fourth_x = $offsets2['left'] * 1000;
         $fourth_y = ($offsets2['top'] + (0.5 * $this->match_height)) * 1000;
         $first_x = ($offsets1['left'] + $this->match_width) * 1000;
@@ -280,9 +292,9 @@ class PlayoffOverview extends ComponentBase
         $this->polylines[] = $line;
     }
 
-    public function addLoserLinkToMatch($pp) 
+    public function addLoserLinkToMatch($dec_position)
     {
-        $offsets = $this->getOffsetsForMatch($pp);
+        $offsets = $this->getOffsetsForMatch($dec_position);
         //1 rem is 1000
         $third_x = $offsets['left'] * 1000;
         $third_y = ($offsets['top'] + (0.5 * $this->match_height)) * 1000;
