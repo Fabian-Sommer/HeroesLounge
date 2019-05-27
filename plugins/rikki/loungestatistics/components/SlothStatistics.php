@@ -165,7 +165,7 @@ class SlothStatistics extends ComponentBase
                 $hero_array['healing'] = '-';
                 $hero_array['xp'] = '-';
             }
-            if ($this->sloth->gameParticipations->count() > 0) {
+            if ($this->sloth->gameParticipations->count() > 0 && $gamecount > 0) {
                 $hero_array['pick_popularity'] = round($hero_array['picks'] / (0.01 * $gamecount),1);
                 $hero_array['bat_popularity'] = round($hero_array['bans_against_team'] / (0.01 * $gamecount),1);
                 $hero_array['bbt_popularity'] = round($hero_array['bans_by_team'] / (0.01 * $gamecount),1);
