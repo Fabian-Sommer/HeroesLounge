@@ -18,6 +18,7 @@ use Rikki\Heroeslounge\classes\Matchmaking\Swiss;
 use Rikki\Heroeslounge\classes\MMR as MMR;
 use Rikki\Heroeslounge\classes\hotslogs as hotslogs;
 use Rikki\Heroeslounge\classes\Mailchimp;
+use Rikki\Heroeslounge\classes\ReplayParsing;
 use Rikki\Heroeslounge\classes\Heroes\HeroUpdater;
 use Rikki\Heroeslounge\classes\deployment\Deployment;
 use Rikki\Heroeslounge\classes\helpers\NotificationHelper;

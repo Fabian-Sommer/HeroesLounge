@@ -110,6 +110,7 @@ class ReplayParsing
             return;
         }
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         exec(ReplayParsing::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'replayparsing'.DS.'parseReplay.py --details --json ' . $this->replay->getLocalPath(), $output);
         if (is_array($output) && array_key_exists(0, $output)) {
             $this->decodedDetails = json_decode($output[0], true);
@@ -135,6 +136,7 @@ class ReplayParsing
             return;
         }
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         exec(ReplayParsing::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'replayparsing'.DS.'parseReplay.py --attributeevents --json ' . $this->replay->getLocalPath(), $output);
         if (is_array($output) && array_key_exists(0, $output)) {
             $this->decodedAttributeEvents = json_decode($output[0], true);
@@ -153,6 +155,7 @@ class ReplayParsing
             return;
         }
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         exec(ReplayParsing::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'replayparsing'.DS.'parseReplay.py --header --json ' . $this->replay->getLocalPath(), $output);
         if (is_array($output) && array_key_exists(0, $output)) {
             $this->decodedHeader = json_decode($output[0], true);
@@ -171,6 +174,7 @@ class ReplayParsing
             return;
         }
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         exec(ReplayParsing::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'replayparsing'.DS.'parseReplay.py --trackerevents --json ' . $this->replay->getLocalPath(), $output);
         if (is_array($output) && array_key_exists(0, $output)) {
             $this->decodedTrackerEvents = [];
@@ -337,7 +341,11 @@ class ReplayParsing
                 $hero = Hero::where('title', $playerDetails["m_hero"])->first();
                 if (!$hero) {
                     //game client might be localized, try translations
-                    $hero = Hero::where('translations', 'LIKE', '%'.$playerDetails["m_hero"].'%')->first();
+                    if ($playerDetails["m_hero"] == "Ана") {
+                        $hero = Hero::where('title', "Ana")->first();
+                    } else {
+                        $hero = Hero::where('translations', 'LIKE', '%'.$playerDetails["m_hero"].'%')->first();
+                    }
                 }
                 if (!$hero) {
                     Log::error("Hero not found: " . $playerDetails["m_hero"]);
@@ -391,8 +399,13 @@ class ReplayParsing
         $this->game->teamOneSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4025"][0]["value"])->first();
         $this->game->teamTwoFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4028"][0]["value"])->first();
         $this->game->teamTwoSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4030"][0]["value"])->first();
-        $this->game->teamOneThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4043"][0]["value"])->first();
-        $this->game->teamTwoThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4045"][0]["value"])->first();
+        if (array_key_exists("4043", $this->decodedAttributeEvents["scopes"]["16"])) {
+            $this->game->teamOneThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4043"][0]["value"])->first();
+            $this->game->teamTwoThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4045"][0]["value"])->first();
+        } else {
+            $this->game->teamOneThirdBan = null;
+            $this->game->teamTwoThirdBan = null;
+        }
         $this->game->save();
     }
 
@@ -445,7 +458,11 @@ class ReplayParsing
                 $hero = Hero::where('title', $heroName)->first();
                 if (!$hero) {
                     //game client might be localized, try translations
-                    $hero = Hero::where('translations', 'LIKE', '%'.$heroName.'%')->first();
+                    if ($heroName == "Ана") {
+                        $hero = Hero::where('title', "Ana")->first();
+                    } else {
+                        $hero = Hero::where('translations', 'LIKE', '%'.$heroName.'%')->first();
+                    }
                 }
                 if (!$hero) {
                     Log::error("Hero not found: " . $playerDetails["m_hero"]);
@@ -492,6 +509,7 @@ class ReplayParsing
                 		if (array_key_exists(0, $t) && !array_key_exists(1, $t)) {
                 			$talent = Talent::find($t[0]->id);
                 		} else {
+                            /*
                 			$decoded_hero = HeroUpdater::updateTalentsForHero($participationList[$listIndex]->hero, $this->decodedHeader['m_dataBuildNum']);
                 			//try again
                             if ($decoded_hero != null) {
@@ -500,6 +518,7 @@ class ReplayParsing
                                     $talent = Talent::find($t[0]->id);
                                 }
                             }
+                            */
                 		}
                 		if ($talent != null) {
                 			$talent->replay_title = $decodedTrackerEvent['m_stringData'][0]['m_value'];
@@ -606,8 +625,8 @@ class ReplayParsing
         }
         set_time_limit(30);
         $replayParser = new ReplayParsing;
-        $replayParser->replay = $game->replay;
         $replayParser->game = $game;
+        $replayParser->replay = $game->replay;
         $replayParser->match = $game->match;
         //used from backend, so skip validation
         $replayParser->saveResult($modify_winner);
