@@ -387,24 +387,26 @@ class ReplayParsing
             }
         }
         
-        if ($this->decodedAttributeEvents == null) {
-            $this->parseAttributeEvents();
+        if ($this->game->map->title != "Lost Cavern") {
             if ($this->decodedAttributeEvents == null) {
-                return;
+                $this->parseAttributeEvents();
+                if ($this->decodedAttributeEvents == null) {
+                    return;
+                }
             }
-        }
 
-        //get bans from attributeevents
-        $this->game->teamOneFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4023"][0]["value"])->first();
-        $this->game->teamOneSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4025"][0]["value"])->first();
-        $this->game->teamTwoFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4028"][0]["value"])->first();
-        $this->game->teamTwoSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4030"][0]["value"])->first();
-        if (array_key_exists("4043", $this->decodedAttributeEvents["scopes"]["16"])) {
-            $this->game->teamOneThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4043"][0]["value"])->first();
-            $this->game->teamTwoThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4045"][0]["value"])->first();
-        } else {
-            $this->game->teamOneThirdBan = null;
-            $this->game->teamTwoThirdBan = null;
+            //get bans from attributeevents
+            $this->game->teamOneFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4023"][0]["value"])->first();
+            $this->game->teamOneSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4025"][0]["value"])->first();
+            $this->game->teamTwoFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4028"][0]["value"])->first();
+            $this->game->teamTwoSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4030"][0]["value"])->first();
+            if (array_key_exists("4043", $this->decodedAttributeEvents["scopes"]["16"])) {
+                $this->game->teamOneThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4043"][0]["value"])->first();
+                $this->game->teamTwoThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4045"][0]["value"])->first();
+            } else {
+                $this->game->teamOneThirdBan = null;
+                $this->game->teamTwoThirdBan = null;
+            }
         }
         $this->game->save();
     }
