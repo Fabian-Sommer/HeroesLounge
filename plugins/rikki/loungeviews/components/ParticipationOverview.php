@@ -4,11 +4,16 @@
 use Cms\Classes\ComponentBase;
 use Auth;
 use Rikki\Heroeslounge\Models\Season as Seasons;
+use Rikki\Heroeslounge\Models\Team;
+use Log;
+use Redirect;
+use Flash;
 
 class ParticipationOverview extends ComponentBase
 {
     
     public $user = null;
+    public $userCaptainedTeams = null;
     public $season = null;
     public $signedUp = false;
 
@@ -26,13 +31,19 @@ class ParticipationOverview extends ComponentBase
     {
         $this->user = Auth::getUser();
         $this->season = Seasons::find($this->property('id'));
+        if ($this->user && $this->season) {
+            $this->userCaptainedTeams = $this->user->sloth->getCaptainedTeams();
+            foreach ($this->user->sloth->teams as $key => $team) {
+                if ($this->season->teams->contains($team)) {
+                    $this->signedUp = true;
+                }
+            }
+            if ($this->season->free_agents->contains($this->user->sloth)) {
+                $this->signedUp = true;
+            }
+        }
         if ($this->season) {
             $this->page->title = $this->season->title.' Participation';
-            if ($this->user && $this->user->sloth->team && $this->season->teams->contains($this->user->sloth->team)) {
-                $signedUp = true;
-            } else if ($this->user && $this->season->free_agents->contains($this->user->sloth)) {
-                $signedUp = true;
-            }
         }
     }
 
@@ -60,27 +71,35 @@ class ParticipationOverview extends ComponentBase
 
     public function onTeamSignup()
     {
+        $this->user = Auth::getUser();
+        $this->season = Seasons::find($_POST['season_id']);
         if ($this->user != null) {
-            $team = $this->user->sloth->team;
-            if ($team != null && $this->user->sloth->is_captain && $team->region_id == $this->region_id && !$this->season->teams->contains($team)) {
-                $this->season->teams()->add($team);
-                Flash::success('Your team is now signed up for '.$this->season->title);
-                return Redirect::refresh();
+            $team = $this->user->sloth->teams->where('id', $_POST['team_id'])->first();
+            if ($team != null && $team->pivot->is_captain && $team->region_id == $this->season->region_id && !$this->season->teams->contains($team)) {
+                $eligible = $team->isEligibleForSeason($this->season);
+                if ($eligible === true) {
+                    $this->season->teams()->add($team);
+                    Flash::success('Your team is now signed up for '.$this->season->title);
+                    return Redirect::refresh();
+                } else {
+                    //$eligible holds a sloth that is already participating with another team
+                    Flash::error('A member of this team is already participating with another team: '.$eligible->title);
+                    return Redirect::refresh();
+                }
+                
             }
         }
     }
 
     public function onSlothSignup()
     {
+        $this->user = Auth::getUser();
+        $this->season = Seasons::find($_POST['season_id']);
         if ($this->user != null) {
             $sloth = $this->user->sloth;
-            if ($sloth != null && $sloth->team != null) {
-                Flash::error('You cannot be part of a team to sign up as a free agent!');
-                return Redirect::refresh();
-            }
-            if ($sloth != null && $sloth->team == null && $sloth->region_id == $this->region_id && !$this->season->free_agents->contains($sloth)) {
+            if ($sloth != null && $sloth->region_id == $this->season->region_id && !$this->season->free_agents->contains($sloth)) {
                 $this->season->free_agents()->add($sloth);
-                Flash::success('You are now signed up for '.$this->season->title);
+                Flash::success('You are now signed up for '.$this->season->title.' as a free agent.');
                 return Redirect::refresh();
             }
         }

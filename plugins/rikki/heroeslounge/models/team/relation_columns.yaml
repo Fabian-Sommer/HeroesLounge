@@ -4,10 +4,6 @@ columns:
         type: text
         searchable: true
         sortable: true
-    type:
-        label: 'Type (1 - Amateur, 2 - S)'
-        type: text
-        sortable: true
     disbanded:
         label: 'Disbanded'
         type: switch

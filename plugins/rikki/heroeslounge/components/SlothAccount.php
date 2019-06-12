@@ -92,7 +92,7 @@ class SlothAccount extends UserAccount
                         );
             $this->sloth = SlothModel::getFromUser($user);
             $this->seasons = Seasons::where('is_active', 1)->where('region_id', $this->sloth->region_id)->get();
-            $this->appsCount = $component->apps->count();
+            $this->appsCount = $component->slothApps->count();
         }
     }
     public function onRun()

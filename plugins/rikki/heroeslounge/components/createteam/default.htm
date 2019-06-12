@@ -1,4 +1,4 @@
-{% if __SELF__.user != null and (__SELF__.user.sloth.team_id == 0 or __SELF__.user.sloth.divs_team_id == 0) %} {{form_open({request: 'onCreateTeam', files:true})}}
+{% if __SELF__.user != null %} {{form_open({request: 'onCreateTeam', files:true})}}
 <div class="col-12">
     <div class="row">
         <!-- START TEAMNAME -->
@@ -13,21 +13,11 @@
             <h3>Abbreviation</h3>
             <label for="Abbreviation" class="sr-only">Abbreviation</label>
             <input class="form-control" placeholder="Abbreviation" type="text" maxlength="20" name="team_slug">
-            <small class="text-muted">Your teams abbreviation will be used by Casters. Once your team is created it is not possible to change the abbreviation!</small>
         </div>
         <!-- END ABBREVIATION -->
 
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <h3>Type</h3>
-            <label for="registerType" class="sr-only">Type</label>
-            <select name="type" id="registerType" required>
-                <option value="0">Select Type</option selected>
-                {% if __SELF__.user.sloth.team_id == 0 %}<option value="1">Amateur Series</option>{%endif%}
-                {% if __SELF__.user.sloth.divs_team_id == 0 %}<option value="2">Tournament</option>{%endif%}
-            </select>
-        </div>
         <div class="col-md-6">
             <h3>Region</h3>
             <label for="registerRegion" class="sr-only">Region</label>
@@ -58,7 +48,7 @@
             <small id="shortLogoBlock" class="text-muted">
                 The Logo will be used to recognize your team even if no team name is shown.<br />
                 Image must be a PNG, under 100MB, and under 1280x1280 pixels.<br />
-                We suggest to take a square image e.g. 128x128 Pixel.
+                We suggest to take a square image, e.g. 128x128 Pixel.
                 </small>
         </div>
 
@@ -79,7 +69,7 @@
             <small id="shortBannerBlock" class="text-muted">
                 The Banner will be used to spice up your Teams Profile Page.<br />
                 Image must be a PNG and under 100MB in size.<br />
-                We suggest to take a rectangular image e.g. 1000x250 Pixel.
+                We suggest to take a rectangular image, e.g. 1000x250 Pixel.
                 </small>
         </div>
         <!-- END BANNER -->
@@ -93,8 +83,8 @@
         <textarea class="form-control" placeholder="Say something about your team!" name="short_description" maxlength="255" style="height:75px"
             aria-describedby="shortDescBlock"></textarea>
         <small id="shortDescBlock" class="text-muted">
-                Can be 255 characters long.
-            </small>
+            Can be 255 characters long.
+        </small>
     </div>
 
     <hr class="separator">
@@ -137,17 +127,9 @@
 
 {{form_close()}} {%  else  %}
 <div class="jumbotron">
-    <h1 class="display-3">Hello {{__SELF__.user.username}}!</h1>
-    {% if __SELF__.user.sloth.team_id > 0 %}
     <p class="lead">
-        You already belong to a team, so you cannot create one.
-    </p>
-
-    {% else %}
-    <p class="lead">
-        You need to authenticate/register first before creating a Team!
+        You need to sign into your account before creating a team!
         <a href="{{'user/account' | page}}" class="btn btn-primary">Sign Up</a>
     </p>
-    {% endif %}
 </div>
 {%  endif  %}

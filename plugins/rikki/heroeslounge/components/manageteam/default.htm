@@ -1,4 +1,4 @@
-{% if __SELF__.user.sloth.isCaptain(__SELF__.team) %}
+{% if __SELF__.user.sloth.isCaptainOfTeam(__SELF__.team) %}
 <nav class="navbar navbar-expand-lg navbar-light col-12">
     <div class="navbar-header">
         <a class="navbar-brand d-lg-none">Manage Team</a>
@@ -49,47 +49,6 @@
 <div class="tab-content col-12">
     <!-- START GENERAL TAB -->
     <div class="tab-pane active" id="general" role="tabpanel">
-        <!-- START PARTICIPATION -->
-        <h3>Participation</h3>
-        {%   if __SELF__.team.type == 1 %}
-        <form>
-            {% if __SELF__.team.region_id == 2 %}
-            <div>
-                <select name="server_preference" id="registerServer">
-                    <option value="NA West" {% if __SELF__.team.server_preference=="NA West"%}selected="selected"{%endif%}>NA West</option>
-                    <option value="NA Central" {% if __SELF__.team.server_preference=="NA Central"%}selected="selected"{%endif%}>NA Central</option>
-                </select>
-            </div>
-            {% endif %}
-            {% set checked = '0' %} 
-                {% for season in __SELF__.seasons %} 
-                    {% for team in season.teams %} 
-                        {% if team.id == __SELF__.team.id %} 
-                            {% set checked = '1' %} 
-                        {% endif %} 
-                    {% endfor %}
-            <div class="form-check{% if season.reg_open == 0 or user.sloth.team.sloths | length == 1%} disabled has-danger{% endif %}">
-                <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" {% if season.reg_open == 0 or user.sloth.team.sloths | length  == 1%}disabled{% endif %} name="part_seas_{{season.id}}"  {% if checked == '1' %}checked{% endif %} >
-                {{season.title}}
-                </label> 
-                {% if season.reg_open == 0 or user.sloth.team.sloths | length == 1  %}
-                <small class="form-control-feedback">
-                {% if user.sloth.team.sloths | length == 1 %}
-                    You need more than 1 member to be eligible to sign up for {{season.title}}!
-                {% else %}
-                Registration for {{season.title}} is closed!
-                {% endif %}
-            </small> {% endif %}
-            </div>
-            {% set checked = '0' %} {% endfor %}
-            <button type="submit" class="btn btn-primary mt-2" data-request="{{__SELF__}}::onParticipationSave">Update Participation</button>
-        </form>
-        {% else %}
-            To participate in Division S, go to the qualifier tournament page.
-        {% endif %}
-        <hr class="separator">
-        <!-- END PARTICIPATION -->
 
         <!-- START ROSTER -->
         <h3>Roster</h3>

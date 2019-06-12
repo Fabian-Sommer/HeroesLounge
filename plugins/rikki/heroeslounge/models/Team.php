@@ -30,8 +30,7 @@ class Team extends Model
         'facebook_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?facebook\.com\/[A-Za-z0-9\.]{3,}(\/)?$/u'],
         'twitter_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?twitter\.com\/([a-zA-Z0-9_]+)(\/)?$/u'],
         'youtube_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?youtube\.com\/(channel|user|c)\/([a-zA-Z0-9_\-]+)(\/)?$/u'],
-        'website_url' => ['url', 'regex:/^((?!porn).)*$/u'],
-        'type' => 'required|regex:/[1-2]/'
+        'website_url' => ['url', 'regex:/^((?!porn).)*$/u']
     ];
 
     protected $slugs = ['slug' => 'title'];
@@ -49,9 +48,7 @@ class Team extends Model
     ];
 
     public $hasMany = [
-            'amateur_sloths' => ['Rikki\Heroeslounge\Models\Sloth', 'key' => 'team_id', 'order' => 'is_captain desc'],
-            'divs_sloths' => ['Rikki\Heroeslounge\Models\Sloth', 'key' => 'divs_team_id', 'order' => 'is_divs_captain desc'],
-            'sloths_count' => ['Rikki\Heroeslounge\Models\Sloth', 'count' => true],
+            //'sloths_count' => ['Rikki\Heroeslounge\Models\Sloth', 'count' => true],
             'apps' => ['Rikki\Heroeslounge\Models\Apps'],
             'gameParticipants' => ['Rikki\Heroeslounge\Models\GameParticipation']
             ];
@@ -72,6 +69,14 @@ class Team extends Model
     ];
 
     public $belongsToMany = [
+        'sloths' =>
+        [
+            'Rikki\Heroeslounge\Models\Sloth',
+            'key' => 'team_id',
+            'otherKey' => 'sloth_id',
+            'table' => 'rikki_heroeslounge_sloth_team',
+            'pivot' => ['is_captain'],
+        ],
         'divisions' =>
         [
             'Rikki\Heroeslounge\Models\Division',
@@ -144,33 +149,41 @@ class Team extends Model
         $query->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan');
     }
 
-    public function getSlothsAttribute()
+    //only for signups
+    public function isEligibleForSeason($season)
     {
-        if ($this->type == 1) {
-            return $this->amateur_sloths;
-        } else {
-            return $this->divs_sloths;
+        foreach ($this->sloths as $key => $sloth) {
+            if ($sloth->isSignedUpForSeason($season)) {
+                return $sloth;
+            }
         }
+        return true;
+    }
+
+    //only for signups
+    public function isEligibleForPlayoff($playoff)
+    {
+        foreach ($this->sloths as $key => $sloth) {
+            if ($sloth->isSignedUpForPlayoff($playoff)) {
+                return $sloth;
+            }
+        }
+        return true;
     }
 
     public function getCaptainAttribute()
     {
-        if ($this->type == 1) {
-            return $this->sloths->where('is_captain', true)->first();
-        } else {
-            return $this->sloths->where('is_divs_captain', true)->first();
-        }
+        return $this->sloths->filter(function ($sloth) {
+            return $sloth->pivot->is_captain;
+        })->first();
     }
   
     public function getSlothratingAttribute()
-    {
-        $slothsMmr = '';
-        if ($this->type == 1) {
-            $slothsMmr = SlothModel::where('team_id', $this->id)->lists('mmr');
-        } else {
-            $slothsMmr = SlothModel::where('divs_team_id', $this->id)->lists('mmr');
-        }
-        
+    {       
+        $slothsMmr = $this->sloths->map(function ($sloth) {
+            return $sloth->mmr;
+        })->toArray();
+
         $usedMmr = array_filter($slothsMmr, function ($v) {
             return ($v != 0);
         });
@@ -180,12 +193,9 @@ class Team extends Model
 
     public function getSlothratingMedianAttribute()
     {
-        $slothsMmr = '';
-        if ($this->type == 1) {
-            $slothsMmr = SlothModel::where('team_id', $this->id)->lists('mmr');
-        } else {
-            $slothsMmr = SlothModel::where('divs_team_id', $this->id)->lists('mmr');
-        }
+        $slothsMmr = $this->sloths->map(function ($sloth) {
+            return $sloth->mmr;
+        })->toArray();
 
         $usedMmr = array_filter($slothsMmr, function ($v) {
             return ($v != 0);
@@ -204,26 +214,12 @@ class Team extends Model
 
     public function getHighestMMRAttribute()
     {
-        $slothsMmr = '';
-        if ($this->type == 1) {
-            $slothsMmr = SlothModel::where('team_id', $this->id)->orderBy('mmr', 'desc')->first();
-        } else {
-            $slothsMmr = SlothModel::where('divs_team_id', $this->id)->orderBy('mmr', 'desc')->first();
-        }
-
-        return $slothMmr->mmr;
+        return $slothsMmr = $this->sloths->sortByDesc('mmr')->first()->mmr;
     }
 
     public function getLowestMMRAttribute()
     {
-        $slothsMmr = '';
-        if ($this->type == 1) {
-            $slothsMmr = SlothModel::where('team_id', $this->id)->where('mmr', '<>', 0)->orderBy('mmr', 'asc')->first();
-        } else {
-            $slothsMmr = SlothModel::where('divs_team_id', $this->id)->where('mmr', '<>', 0)->orderBy('mmr', 'asc')->first();
-        }
-
-        return $slothMmr->mmr;
+        return $slothsMmr = $this->sloths->sortBy('mmr')->first()->mmr;
     }
 
     public function getNumOfPlayersAttribute()
@@ -242,7 +238,7 @@ class Team extends Model
     {
         return $this->seasons->sortByDesc('created_at')->first();
     }
-
+    
     public function beforeUpdate()
     {
         if ($this->isDirty('disbanded')) {
@@ -257,7 +253,7 @@ class Team extends Model
     {
         $this->_saveTimelineEntry('Team.Deleted');
     }
-
+    
     private function _saveTimelineEntry($timelineEntryType)
     {
         $timeline = new Timeline();

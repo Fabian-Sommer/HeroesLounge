@@ -52,7 +52,7 @@ class ManageTeam extends ComponentBase
             if ($this->team) {
                 $this->seasons = Seasons::where('is_active', 1)->where('region_id', $this->team->region_id)->get();
                 if ($this->team->type == 1) {
-                    $this->players = Sloths::where('team_id', $this->team->id)->where('id', '!=', $this->user->sloth->id)->get();
+                    $this->players = $this->team->sloths->where('id', '!=', $this->user->sloth->id);
                     $id = $this->team->id;
                     $lock = $this->seasons->filter(function ($season) use ($id) {
                         if ($season->reg_open == 0) {
@@ -63,7 +63,7 @@ class ManageTeam extends ComponentBase
                     });
                     $this->rosterLocked = $lock->count() > 0 ? true : false;
                 } else {
-                    $this->players = Sloths::where('divs_team_id', $this->team->id)->where('id', '!=', $this->user->sloth->id)->get();
+                    $this->players = $this->team->sloths->where('id', '!=', $this->user->sloth->id);
                     $this->rosterLocked = $this->team->playoffs->count() > 0 ? true : false;
                 }
                 
@@ -73,7 +73,7 @@ class ManageTeam extends ComponentBase
                                 'ViewApps',
                                 []
                             );
-                $this->appsCount = $component->apps->count();
+                $this->appsCount = $component->slothApps->count() + $component->teamApps->count();
             }
         }
     }
@@ -82,11 +82,7 @@ class ManageTeam extends ComponentBase
     public function onAutocomplete()
     {
         $term = implode(post());
-        $id_string = 'team_id';
-        if ($this->team->type == 2) {
-            $id_string = 'divs_team_id';
-        }
-        $queries = Sloths::where($id_string, 0)->where(function ($q) use ($term) {
+        $queries = Sloths::where(function ($q) use ($term) {
             $q->where('title', 'LIKE', '%'.$term.'%')->orWhere('battle_tag', 'LIKE', '%'.$term.'%')->orWhere('discord_tag', 'LIKE', '%'.$term.'%');
         })->take(5)->get()->pluck('title');
 
@@ -185,13 +181,7 @@ class ManageTeam extends ComponentBase
     private function handleRemovedPlayers($removedPlayers)
     {
         foreach ($removedPlayers as $player) {
-            if ($this->team->type == 1) {
-                $player->team_id = 0;
-            } else {
-                $player->divs_team_id = 0;
-            }
-            
-            $player->save();
+            $this->team->sloths()->remove($player);
             Flash::warning($player->title.' has been removed from your team');
         }
     }
@@ -199,7 +189,7 @@ class ManageTeam extends ComponentBase
 
     private function handleNewPlayers($newPlayers)
     {
-        $oldPlayersCount = Sloths::where('team_id', $this->team->id)->count();
+        $oldPlayersCount = $this->team->sloths->count();
         if (9-$oldPlayersCount >= count($newPlayers)) {
             foreach ($newPlayers as $player) {
                 $appAlreadyExists = Application::where('user_id', $player->user_id)->where('team_id', $this->team->id)->where('accepted', 0)->where('withdrawn', 0)->first();
@@ -230,37 +220,25 @@ class ManageTeam extends ComponentBase
     public function onMemberRemove()
     {
         $player = $this->players->where('title', post('remove'))->first();
-        if ($this->team->type == 1) {
-            $player->team_id = 0;
-        } else {
-            $player->divs_team_id = 0;
-        }
-        $player->save();
-        Flash::warning($player->title.' has been removed from your team');
+        $this->handleRemovedPlayers([$player]);
         return Redirect::refresh();
     }
 
     public function onPromoteMemberToCaptain()
     {
         // Demote current captain
-        $currentCaptain = $this->user->sloth;
-        if ($this->team->type == 1) {
-            $currentCaptain->is_captain = 0;
-        } else {
-            $currentCaptain->is_divs_captain = 0;
-        }
-        $currentCaptain->save();
+        $currentCaptain = $this->team->sloths->where('id', $this->user->sloth->id)->first();
+        $currentCaptain->pivot->is_captain = false;
+        $currentCaptain->pivot->save();
 
         // // Promote user to captain
-        $userToPromote = $this->players->where('title', post('promote'))->first();
-        if ($this->team->type == 1) {
-            $userToPromote->is_captain = 1;
-        } else {
-            $userToPromote->is_divs_captain = 1;
-        }
-        $userToPromote->save();
+        $slothToPromote = $this->team->sloths->where('title', post('promote'))->first();
+        $slothToPromote->pivot->is_captain = true;
+        $slothToPromote->pivot->save();
+        $slothToPromote->addDiscordCaptainRole();
+        $slothToPromote->save();
         
-        Flash::success($userToPromote->title.' has been promoted to Captain');
+        Flash::success($slothToPromote->title.' has been promoted to Captain');
         return Redirect::to('/team/view/'.$this->team->slug);
     }
 
@@ -278,12 +256,7 @@ class ManageTeam extends ComponentBase
 
             $newPlayers = [];
             foreach ($pArr as $title) {
-                $np = null;
-                if ($this->team->type == 1) {
-                    $np = Sloths::where('title', $title)->where('team_id', 0)->first();
-                } else {
-                    $np = Sloths::where('title', $title)->where('divs_team_id', 0)->first();
-                }
+                $np = Sloths::where('title', $title)->first();
                 
                 if (isset($np)) {
                     $newPlayers[] = $np;
@@ -291,14 +264,6 @@ class ManageTeam extends ComponentBase
             }
             $this->team->accepting_apps = post('accepting_apps') !== null ? 1 : 0;
             $this->team->save();
-            /*if (isset($this->players)) {
-                $removedPlayers = $this->players->filter(function ($player) use ($pArr) {
-                    if (!in_array($player->title, $pArr)) {
-                        return $player;
-                    }
-                });
-                $this->handleRemovedPlayers($removedPlayers);
-            }*/
             $this->handleNewPlayers($newPlayers);
 
 

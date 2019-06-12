@@ -6,10 +6,6 @@ columns:
     region[title]:
         label: Region
         type: text
-    type:
-        label: Type (1 - Amateur, 2 - S)
-        type: text
-        searchable: true
     slug:
         label: Slug
         type: text
@@ -29,12 +25,6 @@ columns:
         searchable: true
         select: title
         relation: seasons
-    sloths_count:
-        label: '# of Members'
-        type: number
-        sortable: false
-        relation: sloths_count
-        valueFrom: count
     disbanded:
         label: 'Disbanded'
         type: switch

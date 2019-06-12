@@ -14,6 +14,7 @@ use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use RainLab\User\Models\Settings as UserSettings;
 use Exception;
+use October\Rain\Support\Collection;
 
 use RainLab\User\Components\Account as UserAccount;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
@@ -24,12 +25,10 @@ use Rikki\Heroeslounge\Models\Timeline;
 class ViewApps extends ComponentBase
 {
     public $sloth;
-    public $apps;
-    public $divSApps;
-    public $teams;
-    public $divSTeams;
-    public $users;
-    public $divSUsers;
+    public $slothApps;
+    public $slothAppsTeams;
+    public $teamApps;
+    public $teamAppsUsers;
 
     public function componentDetails()
     {
@@ -42,105 +41,84 @@ class ViewApps extends ComponentBase
     public function init()
     {
         $user = Auth::getUser();
-
+        $this->teamApps = new Collection();
+        $this->teamAppsUsers = [];
         if ($user != null) {
             $this->sloth = SlothModel::getFromUser($user);
+            foreach ($this->sloth->teams as $key => $team) {
+                if ($team->pivot->is_captain) {
+                    $apps = Applications::where("team_id", "=", $team->id)->where('withdrawn', 0)->where('accepted', 0)->get();
+                    foreach ($apps as $key => $app) {
+                        $this->teamApps->push($app);
+                    }
 
-            if ($this->sloth->team_id != 0) {
-                $this->apps = Applications::where("team_id", "=", $this->sloth->team_id)->where('withdrawn', 0)->where('accepted', 0)->get();
-                $appsFrom = Db::table('rikki_heroeslounge_team_apps')->where('team_id', '=', $this->sloth->team_id)->where('withdrawn', 0)->where('accepted', 0)->lists('user_id');
-
-                foreach ($appsFrom as $uId) {
-                    $this->users[$uId] = SlothModel::where('user_id', $uId)->first();
-                }
-            } else {
-                $this->apps = Applications::where("user_id", "=", $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->get();
-                $appliedTo = Db::table('rikki_heroeslounge_team_apps')->where('user_id', '=', $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->lists('team_id');
-
-                foreach ($appliedTo as $tId) {
-                    $team = Teams::where('id', '=', $tId)->where('type', 1)->first();
-                    if ($team) {
-                        $this->teams[$tId] = $team;
+                    $appsFrom = Db::table('rikki_heroeslounge_team_apps')->where('team_id', '=', $team->id)->where('withdrawn', 0)->where('accepted', 0)->lists('user_id');
+                    foreach ($appsFrom as $uId) {
+                        $this->teamAppsUsers[$uId] = SlothModel::where('user_id', $uId)->first();
                     }
                 }
             }
 
-            if ($this->sloth->divs_team_id != 0) {
-                $this->divSApps = Applications::where("team_id", "=", $this->sloth->divs_team_id)->where('withdrawn', 0)->where('accepted', 0)->get();
-                $appsFrom = Db::table('rikki_heroeslounge_team_apps')->where('team_id', '=', $this->sloth->divs_team_id)->where('withdrawn', 0)->where('accepted', 0)->lists('user_id');
+            $this->slothApps = Applications::where("user_id", "=", $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->get();
+            $appliedTo = Db::table('rikki_heroeslounge_team_apps')->where('user_id', '=', $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->lists('team_id');
 
-                foreach ($appsFrom as $uId) {
-                    $this->divSUsers[$uId] = SlothModel::where('user_id', $uId)->first();
-                }
-            } else {
-                $this->divSApps = Applications::where("user_id", "=", $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->get();
-                $appliedTo = Db::table('rikki_heroeslounge_team_apps')->where('user_id', '=', $this->sloth->user_id)->where('withdrawn', 0)->where('accepted', 0)->lists('team_id');
-
-                foreach ($appliedTo as $tId) {
-                    $team = Teams::where('id', '=', $tId)->where('type', 2)->first();
-                    if ($team) {
-                        $this->divSTeams[$tId] = $team;
-                    }
+            foreach ($appliedTo as $tId) {
+                $team = Teams::where('id', '=', $tId)->first();
+                if ($team) {
+                    $this->slothAppsTeams[$tId] = $team;
                 }
             }
         }
-            
-        
     }
 
     public function onSendAccept()
     {
-        try {
-            $user = Auth::getUser();
+        $user = Auth::getUser();
 
-            if ($user != null) {
-                $this->sloth = SlothModel::getFromUser($user);
-            }
+        if ($user != null) {
+            $this->sloth = SlothModel::getFromUser($user);
+        }
 
-            $app = Applications::find(post("id"));
+        $app = Applications::find(post("id"));
 
-            if ($app->team_id == $this->sloth->team_id || $app->team_id == $this->sloth->divs_team_id) {
-                $app->approved = 1;
-                $app->save();
-                Flash::success("Application successfully accepted. The player can now join the team by accepting the invite on his Account page.");
-            }
-        } catch (Exception $e) {
-            Flash::error($e->getMessage());
-        } finally {
-            return Redirect::refresh();
+        if ($this->sloth->teams->contains(function ($team) use ($app) {
+            return $team->id == $app->team_id;
+        })) {
+            $app->approved = 1;
+            $app->save();
+            Flash::success("Application successfully accepted. The player can now join the team by accepting the invite on his Account page.");
+            Redirect::refresh();
         }
     }
 
     public function onAccept()
     {
-        try {
-            $user = Auth::getUser();
+        $user = Auth::getUser();
 
-            if ($user != null) {
-                $this->sloth = SlothModel::getFromUser($user);
-            }
+        if ($user != null) {
+            $this->sloth = SlothModel::getFromUser($user);
+        } else {
+            return;
+        }
 
-            $app = Applications::find(post("id"));
+        $app = Applications::find(post("id"));
 
-            if ($app->approved == 1) {
-                if ($app->user_id == $this->sloth->user_id) {
-                    $numOfPlayers = SlothModel::where("team_id", $app->team_id)->count();
-                    $team = Teams::find($app->team_id);
-                    if ($numOfPlayers < 9) {
-                        if ($team->type == 1) {
-                            $this->sloth->team_id = $app->team_id;
-                        } else {
-                            $this->sloth->divs_team_id = $app->team_id;
-                        }
-                        
+        if ($app->approved == 1) {
+            if ($app->user_id == $this->sloth->user_id) {
+                $team = Teams::find($app->team_id);
+                $sloth = $this->sloth;
+                if ($team->sloths->where(function ($s) use ($sloth) {
+                    return $s->id == $sloth->id;
+                })->count() > 0) {
+                    //sloth is already part of the team
+                    return;
+                }
+                $numOfPlayers = $team->sloths->count();
+                if ($numOfPlayers < 9) {
+                    //a sloth should not participate in two different teams in the same season or tournament
+                    if ($this->sloth->mayJoinTeam($team)) {
+                        $this->sloth->teams()->add($team);
                         $this->sloth->save();
-
-                        $otherApps = Applications::where("user_id", $this->sloth->user_id)->where("team_id", "!=", $app->team_id)->get();
-
-                        $otherApps->each(function ($model) {
-                            $model->withdrawn = 1;
-                            $model->save();
-                        });
 
                         $app->accepted = 1;
                         $app->save();
@@ -155,47 +133,42 @@ class ViewApps extends ComponentBase
                             });
                         }
 
-                        Flash::success("Application successfully accepted! All other applications have been deleted.");
+                        Flash::success("Application successfully accepted!");
                     } else {
-                        Flash::error("The team that invited you already has the maximum number of players.");
+                        Flash::error("The team that invited you already participates in a season or event that another one of your teams is already participating in.");
                     }
                 } else {
-                    Flash::error("Something went wrong accepting this invitation.");
+                    Flash::error("The team that invited you already has the maximum number of players.");
                 }
             } else {
-                Flash::error("You were not invited by the team.");
+                Flash::error("Something went wrong accepting this invitation.");
             }
-        } catch (Exception $e) {
-            Flash::error($e->getMessage());
-        } finally {
-            return Redirect::refresh();
+        } else {
+            Flash::error("You were not invited by the team.");
         }
+        Redirect::refresh();
     }
 
     public function onWithdraw()
     {
-        try {
-            $user = Auth::getUser();
+        $user = Auth::getUser();
 
-            if ($user != null) {
-                $this->sloth = SlothModel::getFromUser($user);
-            }
-
-            $app = Applications::find(post("id"));
-
-            if ($app->user_id == $this->sloth->user_id) {
-                $app->withdrawn = 1;
-                $app->save();
-            } elseif ($app->team_id == $this->sloth->team_id || $app->team_id == $this->sloth->divs_team_id) {
-                $app->withdrawn = 1;
-                $app->save();
-            }
-
-            Flash::success("Application successfully withdrawn");
-        } catch (Exception $e) {
-            Flash::error($e->getMessage());
-        } finally {
-            return Redirect::refresh();
+        if ($user != null) {
+            $this->sloth = $user->sloth;
         }
+
+        $app = Applications::find(post("id"));
+        $team = Teams::find($app->team_id);
+
+        if ($app->user_id == $this->sloth->user_id) {
+            $app->withdrawn = 1;
+            $app->save();
+        } elseif ($this->sloth->isCaptainOf($team)) {
+            $app->withdrawn = 1;
+            $app->save();
+        }
+
+        Flash::success("Application successfully withdrawn");
+        Redirect::refresh();
     }
 }

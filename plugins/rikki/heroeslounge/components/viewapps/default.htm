@@ -1,6 +1,5 @@
-<h2> Tournaments </h2>
+<h2> Your Applications </h2>
 
-{%  if __SELF__.sloth.divs_team_id <= 0  %}
 <table class="table">
 	
 	<thead>
@@ -13,9 +12,9 @@
 		</tr>
 	</thead>
 
-{%  for app in __SELF__.divSApps  %}
+{%  for app in __SELF__.slothApps  %}
 	<tr>
-		<td>{{ __SELF__.divSTeams[app.team_id].title }}</td>
+		<td>{{ __SELF__.slothAppsTeams[app.team_id].title }}</td>
 		<td>{%  if app.approved == 0  %}No{%  else  %}Yes{%  endif  %}</td>
 			<td><a href="{{ 'application/view' | page({id: app.id})}}">View Application</a></td>
 			<td>
@@ -36,79 +35,36 @@
 
 </table>
 
-{%  else  %}
-	<table class="table">
-		<thead>
-			<tr>
-			<th>Username</th>
-			<th>Status</th>
-			<th>View Application</th>
-			{%  if __SELF__.sloth.is_divs_captain == 1  %}
-			<th>Accept Application</th>
-			<th>Decline Application</th>
-			{%  endif  %}
-			</tr>
-		</thead>
+<h2> Applications To Your Team </h2>
 
-	{%  for app in __SELF__.divSApps  %}
-		<tr>
-			<td>{{ __SELF__.divSUsers[app.user_id].title }}</td>
-			<td>{%  if app.approved == 0  %}Unaccepted{%  else  %}Invite pending{%  endif  %}</td>
-				<td><a href="{{ 'application/view' | page({id: app.id})}}">View Application</a></td>
-				{%  if __SELF__.sloth.is_divs_captain == 1  %}
-				<td>
-					{%  if app.approved == 0  %}
-						<div data-request-data="id: {{ app.id }}">
-							<button data-request="onSendAccept" class="btn btn-primary">Accept Application</button>
-						</div>
-					{%  else  %}
-						<span>Application accepted</span>
-					{%  endif  %}
-				</td>
-				<td>
-					<div data-request-data="id: {{ app.id }}">
-						<button data-request="onWithdraw" class="btn btn-danger">Decline Application</button>
-					</div>
-				</td>
-				{%  endif  %}
-			</div>
-		</tr>
-	{%  endfor  %}
-
-	</table>
-
-{%  endif  %}
-
-<h2> Amateur Series </h2>
-
-{%  if __SELF__.sloth.team_id <= 0  %}
 <table class="table">
-	
 	<thead>
 		<tr>
-		<th>Team</th>
-		<th>Approved</th>
+		<th>Username</th>
+		<th>Status</th>
 		<th>View Application</th>
-		<th>Accept Invite</th>
-		<th>Withdraw Application</th>
+		<th>Accept Application</th>
+		<th>Decline Application</th>
 		</tr>
 	</thead>
 
-{%  for app in __SELF__.apps  %}
+{%  for app in __SELF__.teamApps  %}
 	<tr>
-		<td>{{ __SELF__.teams[app.team_id].title }}</td>
-		<td>{%  if app.approved == 0  %}No{%  else  %}Yes{%  endif  %}</td>
+		<td>{{ __SELF__.teamAppsUsers[app.user_id].title }}</td>
+		<td>{%  if app.approved == 0  %}Unaccepted{%  else  %}Invite pending{%  endif  %}</td>
 			<td><a href="{{ 'application/view' | page({id: app.id})}}">View Application</a></td>
 			<td>
-				{%  if app.approved == 1  %}
+				{%  if app.approved == 0  %}
 					<div data-request-data="id: {{ app.id }}">
-						<button data-request="onAccept" class="btn btn-primary">Accept Invite</button>
+						<button data-request="onSendAccept" class="btn btn-primary">Accept Application</button>
 					</div>
+				{%  else  %}
+					<span>Application accepted</span>
 				{%  endif  %}
 			</td>
 			<td>
 				<div data-request-data="id: {{ app.id }}">
-					<button data-request="onWithdraw" class="btn btn-warning">Withdraw Application</button>
+					<button data-request="onWithdraw" class="btn btn-danger">Decline Application</button>
 				</div>
 			</td>
 		</div>
@@ -117,45 +73,3 @@
 
 </table>
 
-{%  else  %}
-	<table class="table">
-		<thead>
-			<tr>
-			<th>Username</th>
-			<th>Status</th>
-			<th>View Application</th>
-			{%  if __SELF__.sloth.is_captain == 1  %}
-			<th>Accept Application</th>
-			<th>Decline Application</th>
-			{%  endif  %}
-			</tr>
-		</thead>
-
-	{%  for app in __SELF__.apps  %}
-		<tr>
-			<td>{{ __SELF__.users[app.user_id].title }}</td>
-			<td>{%  if app.approved == 0  %}Unaccepted{%  else  %}Invite pending{%  endif  %}</td>
-				<td><a href="{{ 'application/view' | page({id: app.id})}}">View Application</a></td>
-				{%  if __SELF__.sloth.is_captain == 1  %}
-				<td>
-					{%  if app.approved == 0  %}
-						<div data-request-data="id: {{ app.id }}">
-							<button data-request="onSendAccept" class="btn btn-primary">Accept Application</button>
-						</div>
-					{%  else  %}
-						<span>Application accepted</span>
-					{%  endif  %}
-				</td>
-				<td>
-					<div data-request-data="id: {{ app.id }}">
-						<button data-request="onWithdraw" class="btn btn-danger">Decline Application</button>
-					</div>
-				</td>
-				{%  endif  %}
-			</div>
-		</tr>
-	{%  endfor  %}
-
-	</table>
-
-{%  endif  %}

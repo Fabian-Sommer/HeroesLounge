@@ -54,11 +54,14 @@ class UpdateMatch extends ComponentBase
                 $this->match = null;
                 return;
             }
-
-            $this->opp = $this->match->teams()->where('team_id', '!=', $this->user->sloth->team_id)->where('team_id', '!=', $this->user->sloth->divs_team_id)->first();
-            // no opponent will be found if you are on both teams, best to avoid the exception
+            $sloth = $this->user->sloth;
+            $this->ownTeam = $this->match->teams->filter(function ($team) use ($sloth) {
+                return $team->sloths->contains($sloth);
+            })->first();
+            if ($this->ownTeam) {
+                $this->opp = $this->match->teams()->where('team_id', '!=', $this->ownTeam->id)->first();
+            }
             if ($this->opp) {
-                $this->ownTeam = ($this->opp->id == $this->match->teams[0]->id ? $this->match->teams[1] : $this->match->teams[0]);
                 $tc1 = $this->match->games->where('winner_id', $teamids[0])->count();
                 $tc2 = $this->match->games->where('winner_id', $teamids[1])->count();
                 if ($tc1 != $tc2) {

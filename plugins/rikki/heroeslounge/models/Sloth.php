@@ -9,6 +9,7 @@ use Rikki\Heroeslounge\classes\MMR\MMRFetcher;
 use Rikki\Heroeslounge\classes\Discord;
 use Rikki\Heroeslounge\classes\Mailchimp\MailChimpAPI;
 use Flash;
+use Log;
 /**
  * Model
  */
@@ -35,16 +36,6 @@ class Sloth extends Model
     public $table = 'rikki_heroeslounge_sloths';
 
     public $belongsTo = [
-            'team' => [
-                'Rikki\Heroeslounge\Models\Team',
-                'key' => 'team_id',
-                'otherKey' => 'id'
-            ],
-            'divs_team' => [
-                'Rikki\Heroeslounge\Models\Team',
-                'key' => 'divs_team_id',
-                'otherKey' => 'id'
-            ],
             'user' => ['RainLab\User\Models\User'],
             'role' => [
                 'Rikki\Heroeslounge\Models\SlothRole'
@@ -112,7 +103,15 @@ class Sloth extends Model
             'key' => 'sloth_id',
             'otherKey' => 'season_id',
             'table' => 'rikki_heroeslounge_season_freeagent'
-        ]
+        ],
+        'teams' =>
+        [
+            'Rikki\Heroeslounge\Models\Team',
+            'key' => 'sloth_id',
+            'otherKey' => 'team_id',
+            'table' => 'rikki_heroeslounge_sloth_team',
+            'pivot' => ['is_captain']
+        ],
     ];
 
     public static function getFromUser($user)
@@ -133,39 +132,48 @@ class Sloth extends Model
 
     public function leaveTeam($team)
     {
-        if($this->isCaptain($team) == false)
-        {
-            if ($team->type == 1) {
-                if($this->team_id > 0)
-                {
-                    $title = $team->title;
-                    $this->team_id = 0;
-                    $this->save();
-                    Flash::success('Succesfully left '.$title);
-                }
-                else
-                {
-                     Flash::error('You don\'t belong to this team!');
-                }
-            } else {
-                if($this->divs_team_id > 0)
-                {
-                    $title = $team->title;
-                    $this->divs_team_id = 0;
-                    $this->save();
-                    Flash::success('Succesfully left '.$title);
-                }
-                else
-                {
-                     Flash::error('You don\'t belong to this team!');
-                }
-            }
-            
-        }
-        else
-        {
+        if($this->isCaptainOfTeam($team) == false) {
+            $team->sloths()->remove($this);
+            Flash::success('Succesfully left '.$title);
+        } else {
             Flash::error('You are the captain of this team and cannot leave it');
         }
+    }
+
+    //checks if any of this users teams are signed up for the season.
+    //Just for signup phase of seasons.
+    public function isSignedUpForSeason($season) {
+        foreach ($this->teams as $key => $team) {
+            if ($team->seasons->contains($season)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //checks if any of this users teams are signed up for the tournament.
+    //Just for signup phase of tournaments.
+    public function isSignedUpForPlayoff($playoff) {
+        foreach ($this->teams as $key => $team) {
+            if ($team->playoffs->contains($playoff)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function mayJoinTeam($team) {
+        foreach ($team->seasons as $key => $season) {
+            if ($season->is_active && $this->isSignedUpForSeason($season)) {
+                return false;
+            }
+        }
+        foreach ($team->playoffs as $key => $playoff) {
+            if ($this->isSignedUpForPlayoff($playoff)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
@@ -174,21 +182,31 @@ class Sloth extends Model
         return $this->user->username;
     }
 
-    public function isCaptain($team)
+    //returns all teams that $this is the captain of
+    public function getCaptainedTeams()
+    {
+        return $this->teams->filter(function ($team) {
+                return $team->pivot->is_captain == true;
+            });
+    }
+
+    public function isCaptainOfTeam($team)
     {
         if (!$team) {
             return false;
         }
-        if ($team->type == 1) {
-            if ($team->id == $this->team_id) {
-                return $this->is_captain;
-            }
-        } else {
-            if ($team->id == $this->divs_team_id) {
-                return $this->is_divs_captain;
-            }
+        $relteam = $this->teams->where('id', $team->id)->first();
+        if ($relteam) {
+            return $relteam->pivot->is_captain;
         }
         return false;
+    }
+
+    public function isCaptain()
+    {
+        return $this->teams->reduce(function ($carry, $team) {
+            return $carry || $team->pivot->is_captain;
+        }, false);
     }
     
     public function afterCreate()
@@ -202,12 +220,6 @@ class Sloth extends Model
     public function beforeUpdate()
     {
         if ($this->isDirty('team_id')) {
-            if ($this->team_id == 0) {
-                $this->is_captain = false;
-            }
-            if ($this->divs_team_id == 0) {
-                $this->is_divs_captain = false;
-            }
             MailChimpAPI::patchExistingUser($this->user);
         }
         if ($this->isDirty('discord_tag') && !isset($this->discord_id)) {
@@ -223,17 +235,6 @@ class Sloth extends Model
                 Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "NA");
             }
             
-        }
-    }
-
-    public function afterSave()
-    {
-        if ($this->isDirty('is_captain') || $this->isDirty('is_divs_captain')) {
-            if ($this->is_captain || $this->is_divs_captain) {
-                $this->addDiscordCaptainRole();
-            } else {
-                $this->removeDiscordCaptainRole();
-            }
         }
     }
 

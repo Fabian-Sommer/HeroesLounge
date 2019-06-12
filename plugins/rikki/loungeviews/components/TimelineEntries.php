@@ -42,7 +42,7 @@ class TimelineEntries extends ComponentBase
             switch ($type) {
                 case 'season':
                     $timeline = new Collection([]);
-                    Timeline::with('seasons', 'divisions.season', 'matches.teams.divisions.season', 'teams.divisions.season', 'sloths.team.divisions.season', 'teams.logo')->orderBy('created_at', 'desc')->chunk(100, function ($someTimelines) use ($id, $timeline) {
+                    Timeline::with('seasons', 'divisions.season', 'matches.teams.divisions.season', 'teams.divisions.season', 'teams.logo')->orderBy('created_at', 'desc')->chunk(100, function ($someTimelines) use ($id, $timeline) {
                         foreach ($allTimelines as $timelineEntry) {
                             $include = false;
                             if (!empty($timelineEntry->seasons)) {
@@ -85,7 +85,7 @@ class TimelineEntries extends ComponentBase
                             }
                             if (!$include && !empty($timelineEntry->sloths)) {
                                 foreach ($timelineEntry->sloths as $sloth) {
-                                    if (isset($sloth->team)) {
+                                    foreach ($sloth->teams as $key => $team) {
                                         foreach ($sloth->team->divisions as $division) {
                                             if ($division->season->id == $id) {
                                                 $include = true;
@@ -107,7 +107,7 @@ class TimelineEntries extends ComponentBase
                     break;
                 case 'division':
                     $timeline = new Collection([]);
-                    Timeline::with('divisions', 'matches.teams.divisions', 'teams.divisions', 'sloths.team.divisions', 'teams.logo')->orderBy('created_at', 'desc')->chunk(100, function ($someTimelines) use ($id, $timeline) {
+                    Timeline::with('divisions', 'matches.teams.divisions', 'teams.divisions', 'sloths.teams', 'teams.logo')->orderBy('created_at', 'desc')->chunk(100, function ($someTimelines) use ($id, $timeline) {
                         foreach ($someTimelines as $timelineEntry) {
                             $include = false;
                             if (!empty($timelineEntry->divisions)) {
@@ -142,8 +142,8 @@ class TimelineEntries extends ComponentBase
                             }
                             if (!$include && !empty($timelineEntry->sloths)) {
                                 foreach ($timelineEntry->sloths as $sloth) {
-                                    if (isset($sloth->team)) {
-                                        foreach ($sloth->team->divisions as $division) {
+                                    foreach ($sloth->teams as $key => $team) {
+                                        foreach ($team->divisions as $division) {
                                             if ($division->id == $id) {
                                                 $include = true;
                                                 break(2);

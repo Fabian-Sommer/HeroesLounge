@@ -3,6 +3,7 @@
  
 use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Playoff;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
@@ -21,13 +22,14 @@ class PlayoffOverview extends ComponentBase
         ];
     }
     public $season = null;
+    public $userCaptainedTeams = null;
     public $playoff = null;
     public $matches = null;
     public $user = null;
     public $timezone = null;
     public $timezoneOffset = null;
     public $timeFormat = null;
-    public $userTeamSignedUp = true;
+    public $userTeamSignedUp = false;
     public $polylines = null;
     public $match_height = 3.875;
     public $match_width = 13;
@@ -49,8 +51,13 @@ class PlayoffOverview extends ComponentBase
         }
         
         if ($this->playoff) {
-            if ($this->user && $this->user->sloth->divs_team && !$this->playoff->teams->contains($this->user->sloth->divs_team)) {
-                $this->userTeamSignedUp = false;
+            if ($this->user) {
+                $this->userCaptainedTeams = $this->user->sloth->getCaptainedTeams();
+                foreach ($this->user->sloth->teams as $key => $team) {
+                    if ($this->playoff->teams->contains($team)) {
+                        $this->userTeamSignedUp = true;
+                    }
+                }
             }
 
             if ($this->playoff->type == 'playoffv1') {
@@ -310,17 +317,25 @@ class PlayoffOverview extends ComponentBase
 
     public function onTeamSignup()
     {
+        $this->user = Auth::getUser();
+        $this->playoff = Playoff::find($_POST['playoff_id']);
         if ($this->user != null) {
-            $team = $this->user->sloth->divs_team;
-            if ($team != null && $this->user->sloth->is_divs_captain && $team->region_id == $this->playoff->region_id && !$this->playoff->teams->contains($team)) {
-                if ($team->sloths->count() >= 5) {
+            $team = $this->user->sloth->teams->where('id', $_POST['team_id'])->first();
+            if ($team != null && $team->pivot->is_captain && $team->region_id == $this->playoff->region_id && !$this->playoff->teams->contains($team)) {
+                $eligible = $team->isEligibleForPlayoff($this->playoff);
+                if ($eligible === true && $team->sloths->count() >= 5) {
                     $this->playoff->teams()->add($team);
                     Flash::success('Your team is now signed up for '.$this->playoff->title);
                     return Redirect::refresh();
-                } else {
+                } elseif ($team->sloths->count() < 5) {
                     Flash::error('Your team must contain at least 5 players!');
                     return Redirect::refresh();
+                } else {
+                    //$eligible holds a sloth that is already participating with another team
+                    Flash::error('A member of this team is already participating with another team: '.$eligible->title);
+                    return Redirect::refresh();
                 }
+                
             }
         }
     }

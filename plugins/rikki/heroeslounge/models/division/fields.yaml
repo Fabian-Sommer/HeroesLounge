@@ -1,58 +1,57 @@
-Tabs:
-    fields:
-        title:
-            label: Title
-            span: auto
-            type: text
-            required: 1
-            tab: General
-        slug:
-            label: Slug
-            span: auto
-            type: text
-            preset:
-                field: title
-                type: slug
-            tab: General
-        overview_display_title:
-            label: Overview Display Title
-            span: auto
-            type: text
-            tab: General
-        logo:
-            label: Logo
-            span: auto
-            type: fileupload
-            mode: file
-            useCaption: true
-            thumbOptions:
-                mode: crop
-                extension: auto
-            tab: General
-        season:
-            label: 'Belongs to Season'
-            span: auto
-            type: relation
-            nameFrom: title
-            descriptionFrom: description
-            placeholder: 'null'
-            tab: General
-        playoff:
-            label: 'Belongs to Tournament'
-            span: auto
-            type: relation
-            nameFrom: title
-            descriptionFrom: description
-            placeholder: 'null'
-            tab: General
-        teams:
-            label: Teams
-            span: full
-            type: partial
-            path: ~/plugins/rikki/heroeslounge/controllers/division/_teams.htm
-            tab: Teams
-        timeline:
-            label: Timeline
-            type: partial
-            path: ~/plugins/rikki/heroeslounge/controllers/division/_timeline.htm
-            tab: Timeline
+fields:
+    title:
+        label: Title
+        span: auto
+        type: text
+        required: 1
+        tab: General
+    slug:
+        label: Slug
+        span: auto
+        type: text
+        preset:
+            field: title
+            type: slug
+        tab: General
+    overview_display_title:
+        label: Overview Display Title
+        span: auto
+        type: text
+        tab: General
+    logo:
+        label: Logo
+        span: auto
+        type: fileupload
+        mode: file
+        useCaption: true
+        thumbOptions:
+            mode: crop
+            extension: auto
+        tab: General
+    season:
+        label: 'Belongs to Season'
+        span: auto
+        type: relation
+        nameFrom: title
+        descriptionFrom: description
+        placeholder: 'null'
+        tab: General
+    playoff:
+        label: 'Belongs to Tournament'
+        span: auto
+        type: relation
+        nameFrom: title
+        descriptionFrom: description
+        placeholder: 'null'
+        tab: General
+    teams:
+        label: Teams
+        span: full
+        type: partial
+        path: ~/plugins/rikki/heroeslounge/controllers/division/_teams.htm
+        tab: Teams
+    timeline:
+        label: Timeline
+        type: partial
+        path: ~/plugins/rikki/heroeslounge/controllers/division/_timeline.htm
+        tab: Timeline

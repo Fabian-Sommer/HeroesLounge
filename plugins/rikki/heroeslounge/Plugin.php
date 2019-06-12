@@ -262,14 +262,6 @@ class Plugin extends PluginBase
                     'tab' => 'Sloth',
                     'type' => 'text'
                 ],
-                'sloth[team]' => [
-                    'label' => 'Team',
-                    'type' => 'recordfinder',
-                    'list' => '$/rikki/heroeslounge/models/team/columns.yaml',
-                    'prompt' => 'Click the %s button to find a team',
-                    'nameFrom' => 'title',
-                    'tab' => 'Sloth'
-                ],
                 'sloth[role]' => [
                     'label' => 'Role',
                     'type' => 'relation',

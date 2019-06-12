@@ -14,15 +14,16 @@ class NotificationHelper
 {
     public static function generateMessages($user)
     {
+        if ($user == null) {
+            return [];
+        }
         $sloth = $user->sloth;
-        $team = $sloth->team;
         $retVal = array();
         if (isset($sloth)) {
             NotificationHelper::checkHotSLogsProfileStatus($sloth, $retVal);
             NotificationHelper::checkApplications($user, $retVal);
             NotificationHelper::checkParticipation($sloth, $retVal);
-
-            if (isset($team)) {
+            foreach ($sloth->teams as $key => $team) {
                 NotificationHelper::checkRoster($team, $retVal);
                 NotificationHelper::checkMatches($user, $team, $retVal);
                 NotificationHelper::checkBans($user,$retVal);
@@ -37,7 +38,7 @@ class NotificationHelper
         if ($team->sloths->count() < 5) {
             $retVal[]=  [
                 'type' => 'info',
-                'message' => 'Your current roster consists of less than 5 members.',
+                'message' => 'The roster of '. $team->title .' consists of less than 5 members.',
                 'entity' => $team
                 ];
         }
@@ -45,9 +46,9 @@ class NotificationHelper
 
     public static function checkMatches($user, $team, &$retVal)
     {
-        if ($user->sloth->isCaptain($team) == true) {
+        if ($user->sloth->isCaptainOfTeam($team) == true) {
             NotificationHelper::generateScheduleMatchMessages($user->sloth, $team->matches()->whereNull('wbp')->whereNull('is_played')->get(), $retVal);
-            $repMatches = $user->sloth->team->matches()->where(function ($q) {
+            $repMatches = $team->matches()->where(function ($q) {
                 $q->whereNotNull('wbp')->where('winner_id', null);
             })->get();
             NotificationHelper::generateReportMatchMessages($user->sloth, $repMatches, $retVal);
@@ -79,7 +80,7 @@ class NotificationHelper
 
     public static function checkBans($user,&$retVal)
     {
-        if($user->sloth->is_captain || $user->sloth->is_divs_captain)
+        if($user->sloth->isCaptain())
         {
             NotificationHelper::generateBanMessages(Bans::with('hero','talent')->get(),$retVal);
         }
@@ -128,25 +129,22 @@ class NotificationHelper
 
     public static function checkApplications($user, &$retVal)
     {
-        $a = null;
-        if ($user->sloth->team_id > 0) {
-            //Only happens if some sloth applied for a team
-            $a = Apps::where('approved', 0)->where('accepted', 0)->where('withdrawn', 0)->whereHas('team', function ($q) use ($user) {
-                $q->where('team_id', $user->sloth->team_id);
+        foreach ($user->sloth->teams as $key => $team) {
+            $applicationsBySloth = Apps::where('approved', 0)->where('accepted', 0)->where('withdrawn', 0)->whereHas('team', function ($q) use ($user, $team) {
+                $q->where('team_id', $team->id);
             });
-        } else {
-            //only happens if someone invited sloth for a team
-            $a = Apps::where('approved', 1)->where('accepted', 0)->where('withdrawn', 0)->whereHas('sloth', function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            });
+            NotificationHelper::generateApplicationMessages($applicationsBySloth, $user->sloth, $retVal);
         }
-        NotificationHelper::generateApplicationMessages($a, $user->sloth, $retVal);
+        $applicationsToSloth = Apps::where('approved', 1)->where('accepted', 0)->where('withdrawn', 0)->whereHas('sloth', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        });
+        NotificationHelper::generateApplicationMessages($applicationsToSloth, $user->sloth, $retVal);
     }
 
     private static function generateApplicationMessages($a, $sloth, &$retVal)
     {
         foreach ($a as $application) {
-            if ($sloth->isCaptain($application->team)) {
+            if ($sloth->isCaptainOfTeam($application->team)) {
                 $retVal[] = [
                     'type' => 'info',
                     'message' => $application->sloth->title.' applied for your team!',
@@ -165,40 +163,27 @@ class NotificationHelper
 
     public static function checkParticipation($sloth, &$retVal)
     {
-        $s = null;
-        if ($sloth->team_id > 0) {
-            //Only get seasons which are activated, not already in progress and where team is not registered as participating
-            $s = Seasons::where('is_active', 1)->where('reg_open', 1)->where('region_id', $sloth->region_id)->whereDoesntHave('teams', function ($q) use ($sloth) {
-                $q->where('team_id', $sloth->team_id);
+        foreach ($sloth->teams as $key => $team) {
+            $s = Seasons::where('is_active', 1)->where('reg_open', 1)->where('region_id', $team->region_id)->whereDoesntHave('teams', function ($q) use ($sloth, $team) {
+                $q->where('team_id', $team->id);
             })->get();
-        } else {
-            //Only get seasons which are activated, not already in progress and where sloth is not registered as Free agents
-            $s = Seasons::where('is_active', 1)->where('reg_open', 1)->where('region_id', $sloth->region_id)->whereDoesntHave('free_agents', function ($q) use ($sloth) {
-                $q->where('sloth_id', $sloth->id);
-            })->get();
+            NotificationHelper::generateParticipationMessages($s, $team, $sloth, $retVal);
         }
-        NotificationHelper::generateParticipationMessages($s, $sloth, $retVal);
     }
 
-    private static function generateParticipationMessages($s, $sloth, &$retVal)
+    private static function generateParticipationMessages($s, $team, $sloth, &$retVal)
     {
         foreach ($s as $season) {
-            if ($sloth->is_captain == true) {
+            if ($sloth->isCaptainOfTeam($team)) {
                 $retVal[] = [
                     'type' => 'warning',
-                    'message' => 'Your team isn\'t listed to participate in '.$season->title.'. You can sign up your team on the team management page!',
-                    'entity' => $season->toArray()
-                    ];
-            } elseif ($sloth->team_id > 0) {
-                $retVal[] = [
-                    'type' => 'warning',
-                    'message' => 'Your team isn\'t listed to participate in '.$season->title.'. Your captain can sign up the team for it.',
+                    'message' => 'Your team ' . $team->title . ' isn\'t listed to participate in '.$season->title.'. You can sign up your team on the season page!',
                     'entity' => $season->toArray()
                     ];
             } else {
                 $retVal[] = [
                     'type' => 'warning',
-                    'message' => 'You are currently not listed to participate in '.$season->title.'. Join a team or sign up as free agent in your profile!',
+                    'message' => 'Your team ' . $team->title . ' isn\'t listed to participate in '.$season->title.'. Your captain can sign up the team for it.',
                     'entity' => $season->toArray()
                     ];
             }

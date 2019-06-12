@@ -1,4 +1,4 @@
-{% if __SELF__.user.sloth.team_id == __SELF__.team.id or __SELF__.user.sloth.divs_team_id == __SELF__.team.id %}
+{% if __SELF__.team.sloths.contains(__SELF__.user.sloth) %}
 
 {% for match in __SELF__.matches %}
     {% if loop.index0 is even %}
@@ -6,7 +6,7 @@
     {% endif %}
 
     {% if match.wbp == null %}
-        {% if __SELF__.user.sloth.isCaptain(__SELF__.team) %}
+        {% if __SELF__.user.sloth.isCaptainOfTeam(__SELF__.team) %}
             {% component 'scheduleMatch' class="mb-3" id=match.id %}
         {% endif %}
     {% else %}

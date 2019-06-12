@@ -1,97 +1,88 @@
-Tabs:
-    fields:
-        title:
-            label: Title
-            span: auto
-            type: text
-            required: 1
-            tab: General
-        slug:
-            label: Slug
-            span: auto
-            type: text
-            disabled: 0
-            required: 1
-            preset:
-                field: title
-                type: slug
-            tab: General
-        type:
-            label: Type
-            span: auto
-            type: text
-            required: 1
-            preset: "1"
-            comment: '1 - Amateur Series. 2 - Division S'
-            tab: General
-        region:
-            label: Region
-            span: auto
-            type: relation
-            required: 1
-            nameFrom: title
-            tab: General
-        server_preference:
-            label: Server Preference
-            span: left
-            type: text
-            tab: General
-        disbanded:
-            label: 'Disbanded'
-            span: left
-            type: switch
-            required: 1
-            comment: 'Disband to remove all players and lock the team for view'
-            tab: General
-        slothrating:
-            label: SlothRating
-            span: left
-            type: number
-            disabled: 1
-            required: 0
-            tab: General
-        banner:
-            label: Banner
-            span: left
-            type: fileupload
-            mode: image
-            useCaption: true
-            thumbOptions:
-                mode: crop
-                extension: auto
-            span: auto
-            tab: General
-        logo:
-            label: Logo
-            span: auto
-            type: fileupload
-            mode: image
-            useCaption: true
-            thumbOptions:
-                mode: crop
-                extension: auto
-            tab: General
-        short_description:
-            label: 'Short Description'
-            span: full
-            type: richeditor
-            size: large
-            tab: General
-        accepting_apps:
-            label: 'Accepting Applications'
-            span: auto
-            type: switch
-            tab: General
-        divisions:
-            type: partial
-            path: ~/plugins/rikki/heroeslounge/controllers/team/_divisions.htm
-            tab: Divisions
-        sloths:
-            type: partial
-            path: ~/plugins/rikki/heroeslounge/controllers/team/_roster.htm
-            tab: Roster
-        timeline:
-            type: partial
-            path: ~/plugins/rikki/heroeslounge/controllers/team/_timelineTab.htm
-            tab: Timeline
+fields:
+    title:
+        label: Title
+        span: auto
+        type: text
+        required: 1
+        tab: General
+    slug:
+        label: Slug
+        span: auto
+        type: text
+        disabled: 0
+        required: 1
+        preset:
+            field: title
+            type: slug
+        tab: General
+    region:
+        label: Region
+        span: auto
+        type: relation
+        required: 1
+        nameFrom: title
+        tab: General
+    server_preference:
+        label: Server Preference
+        span: left
+        type: text
+        tab: General
+    disbanded:
+        label: 'Disbanded'
+        span: left
+        type: switch
+        required: 1
+        comment: 'Disband to remove all players and lock the team for view'
+        tab: General
+    slothrating:
+        label: SlothRating
+        span: left
+        type: number
+        disabled: 1
+        required: 0
+        tab: General
+    banner:
+        label: Banner
+        span: left
+        type: fileupload
+        mode: image
+        useCaption: true
+        thumbOptions:
+            mode: crop
+            extension: auto
+        span: auto
+        tab: General
+    logo:
+        label: Logo
+        span: auto
+        type: fileupload
+        mode: image
+        useCaption: true
+        thumbOptions:
+            mode: crop
+            extension: auto
+        tab: General
+    short_description:
+        label: 'Short Description'
+        span: full
+        type: richeditor
+        size: large
+        tab: General
+    accepting_apps:
+        label: 'Accepting Applications'
+        span: auto
+        type: switch
+        tab: General
+    divisions:
+        type: partial
+        path: ~/plugins/rikki/heroeslounge/controllers/team/_divisions.htm
+        tab: Divisions
+    sloths:
+        type: partial
+        path: ~/plugins/rikki/heroeslounge/controllers/team/_roster.htm
+        tab: Roster
+    timeline:
+        type: partial
+        path: ~/plugins/rikki/heroeslounge/controllers/team/_timelineTab.htm
+        tab: Timeline
             

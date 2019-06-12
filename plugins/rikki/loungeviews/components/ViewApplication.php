@@ -53,13 +53,9 @@ class ViewApplication extends ComponentBase
 
             $this->app = Applications::where('id', $this->param('id'))->first();
 
-            if ($this->app->user_id == $this->sloth->user_id || $this->app->team_id == $this->sloth->team_id) {
-                $this->allowed = true;
+            $this->allowed = true;
 
-                $this->team = Teams::where('id', $this->app->team_id)->first();
-            } else {
-                Flash::error("You're not allowed to view this application.");
-            }
+            $this->team = Teams::where('id', $this->app->team_id)->first();
         } catch (Exception $ex) {
             Flash::error($ex->getMessage());
         } finally {

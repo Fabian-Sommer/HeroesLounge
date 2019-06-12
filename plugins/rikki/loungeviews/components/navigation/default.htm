@@ -140,11 +140,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Events</a>
                         <ul role="menu" class="dropdown-menu pull-right">
+                            <a class="dropdown-item" href="{{ 'season/view' |page({slug: 'eu-aram-league'})}}">[EU] Aram League</a>
                             <li class="nav-item dropdown-submenu">
                                 <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">Emim <br> Heroes Cup</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="/heroes-cup-emim"></i>Overview</a>
-                                    <a class="dropdown-item" href="https://challonge.com/tournaments/signup/nHqDfLrhGF.html"></i>Sign Up</a>
                                 </div>
                             </li>
                             <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'nut-cup'})}}">Nut Cup</a>
@@ -160,13 +160,7 @@
                         <a class="nav-link" href="{{  url('blog')}}">Blog</a>
                     </li>
 
-                    {% if user %} 
-                        {% if __SELF__.sloth.team_id == 0 or __SELF__.sloth.divs_team_id == 0 %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ 'team/create' | page}}">Create Team</a>
-                        </li>
-                        {% endif %}
-                    {% else %}
+                    {% if not user %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navSignIn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
                         <div class="dropdown-menu p-3" aria-labelledby="navSignIn">

@@ -46,16 +46,7 @@ class Team extends Controller
         if($dis == true) {
             $team = $model;
             $team->sloths->each(function($sloth) use ($team) {
-                if($sloth->is_captain && $team->type == 1) {
-                    $sloth->is_captain = false;
-                } else if ($sloth->is_divs_captain && $team->type == 2) {
-                    $sloth->is_divs_captain = false;
-                }
-                if ($team->type == 1) {
-                    $sloth->team()->dissociate();
-                } else {
-                    $sloth->divs_team()->dissociate();
-                }
+                $sloth->teams()->remove($team);
                 $sloth->save();
 
             });

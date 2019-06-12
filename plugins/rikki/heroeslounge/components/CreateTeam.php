@@ -63,8 +63,7 @@ class CreateTeam extends ComponentBase
 
                 $createValidation = [
                     'title' => $data['team_name'],
-                    'slug' => $data['team_slug'],
-                    'type' => $data['type']
+                    'slug' => $data['team_slug']
                 ];
 
                 $validation = Validator::make($createValidation, $this->team->rules);
@@ -74,17 +73,9 @@ class CreateTeam extends ComponentBase
                     $this->team->title = $data['team_name'];
                     $this->team->slug = $data['team_slug'];
                     $this->team->region_id = $data['region_id'];
-                    $this->team->type = $data['type'];
                     $this->team->disbanded = false;
                     $this->team->save();
-                    if ($data['type'] == 1) {
-                        $this->user->sloth->team_id = $this->team->id;
-                        $this->user->sloth->is_captain = 1;
-                    } else {
-                        $this->user->sloth->divs_team_id = $this->team->id;
-                        $this->user->sloth->is_divs_captain = 1;
-                    }
-                    $this->user->sloth->save();
+                    $this->team->sloths()->add($this->user->sloth, ['is_captain' => true]);
                     $timeline = new Timeline();
                     $timeline->type = 'Team.Created';
                     $timeline->save();
@@ -95,13 +86,6 @@ class CreateTeam extends ComponentBase
                     $this->onRosterSave();
                     $this->onDescriptionSave();
                     $this->onSocialSave();
-
-                    $pendingApps = Applications::where("user_id", $this->user->id)->where("team_id", "!=", $this->team->id)->get();
-
-                    $pendingApps->each(function ($model) {
-                        $model->withdrawn = 1;
-                        $model->save();
-                    });
 
                     Flash::success('Team sucessfully created!');
                     return Redirect::to('team/manage/'.$this->team->slug);

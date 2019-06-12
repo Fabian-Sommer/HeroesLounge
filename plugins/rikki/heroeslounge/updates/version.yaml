@@ -389,3 +389,12 @@
 1.0.136:
     - 'Updated table rikki_heroeslounge_match'
     - builder_table_update_rikki_heroeslounge_match_6.php
+1.0.137:
+    - 'Created table rikki_heroeslounge_sloth_team'
+    - builder_table_create_rikki_heroeslounge_sloth_team.php
+1.0.138:
+    - 'Updated table rikki_heroeslounge_teams'
+    - builder_table_update_rikki_heroeslounge_teams_8.php
+1.0.139:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths_16.php

@@ -41,7 +41,13 @@ class ScheduleMatch extends ComponentBase
         $this->user = Auth::getUser();
         $this->match = Match::find($this->property('id'));
         if ($this->match) {
-            $this->opp = $this->match->teams()->where('team_id', '!=', $this->user->sloth->team_id)->where('team_id', '!=', $this->user->sloth->divs_team_id)->first();
+            $sloth = $this->user->sloth;
+            $ownTeam = $this->match->teams->filter(function ($team) use ($sloth) {
+                return $team->sloths->contains($sloth);
+            })->first();
+            if ($ownTeam) {
+                $this->opp = $this->match->teams()->where('team_id', '!=', $ownTeam->id)->first();
+            }
         }
         $this->timezone = TimezoneHelper::getTimezone();
         $this->timezoneOffset = TimezoneHelper::getTimezoneOffset();
