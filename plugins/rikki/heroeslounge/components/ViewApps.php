@@ -107,7 +107,7 @@ class ViewApps extends ComponentBase
             if ($app->user_id == $this->sloth->user_id) {
                 $team = Teams::find($app->team_id);
                 $sloth = $this->sloth;
-                if ($team->sloths->where(function ($s) use ($sloth) {
+                if ($team->sloths->filter(function ($s) use ($sloth) {
                     return $s->id == $sloth->id;
                 })->count() > 0) {
                     //sloth is already part of the team
