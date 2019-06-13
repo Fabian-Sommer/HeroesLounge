@@ -1,92 +1,93 @@
-fields:
-    title:
-        label: Title
-        span: auto
-        type: text
-        required: 1
-        tab: General
-    slug:
-        label: Slug
-        span: auto
-        type: text
-        required: 1
-        preset:
-            field: title
-            type: slug
-        tab: General
-    region:
-        label: Region
-        span: left
-        type: relation
-        required: 1
-        nameFrom: title
-        tab: General
-    type:
-        label: Type
-        span: right
-        type: number
-        required: 1
-        default: 1
-        comment: '1 - Amateur, 2 - Div S'
-        tab: General
-    logo:
-        label: Logo
-        mode: file
-        type: fileupload
-        useCaption: true
-        thumbOptions:
-            mode: crop
-            extension: auto
-        tab: General
-    round_length:
-        label: 'Round Length'
-        span: auto
-        type: number
-        required: 1
-        tab: General
-    current_round:
-        label: 'Current Round'
-        span: auto
-        type: number
-        disabled: 0
-        tab: General
-    is_active:
-        label: 'Is Active'
-        span: auto
-        type: switch
-        required: 0
-        comment: 'Only Active Seasons will be factored into Matchmaking if Round_length > Current_Round. Has to be active for people to sign up.'
-        tab: General
-    reg_open:
-        label: 'Registration Open'
-        span: auto
-        type: checkbox
-        trigger:
-            action: empty
-            field: is_active
-            condition: unchecked
-        comment: 'When checked FAs & Teams can signup for'
-        tab: General
-    mm_active:
-        label: 'Matchmaking Active'
-        span: auto
-        type: checkbox
-        trigger:
-            action: empty
-            field: reg_open
-            condition: checked
-        comment: 'When checked, matchmaking will run ever sunday midnight if current round < round_length'
-        tab: General
-    divisions:
-        type: partial
-        path: ~/plugins/rikki/heroeslounge/controllers/season/_divisions.htm
-        tab: Divisions
-    teams:
-        type: partial
-        path: ~/plugins/rikki/heroeslounge/controllers/season/_teams.htm
-        tab: Teams
-    timeline:
-        type: partial
-        path: ~/plugins/rikki/heroeslounge/controllers/season/_timeline.htm
-        tab: Timeline
-            
+tabs:
+    fields:
+        title:
+            label: Title
+            span: auto
+            type: text
+            required: 1
+            tab: General
+        slug:
+            label: Slug
+            span: auto
+            type: text
+            required: 1
+            preset:
+                field: title
+                type: slug
+            tab: General
+        region:
+            label: Region
+            span: left
+            type: relation
+            required: 1
+            nameFrom: title
+            tab: General
+        type:
+            label: Type
+            span: right
+            type: number
+            required: 1
+            default: 1
+            comment: '1 - Amateur, 2 - Div S'
+            tab: General
+        logo:
+            label: Logo
+            mode: file
+            type: fileupload
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            tab: General
+        round_length:
+            label: 'Round Length'
+            span: auto
+            type: number
+            required: 1
+            tab: General
+        current_round:
+            label: 'Current Round'
+            span: auto
+            type: number
+            disabled: 0
+            tab: General
+        is_active:
+            label: 'Is Active'
+            span: auto
+            type: switch
+            required: 0
+            comment: 'Only Active Seasons will be factored into Matchmaking if Round_length > Current_Round. Has to be active for people to sign up.'
+            tab: General
+        reg_open:
+            label: 'Registration Open'
+            span: auto
+            type: checkbox
+            trigger:
+                action: empty
+                field: is_active
+                condition: unchecked
+            comment: 'When checked FAs & Teams can signup for'
+            tab: General
+        mm_active:
+            label: 'Matchmaking Active'
+            span: auto
+            type: checkbox
+            trigger:
+                action: empty
+                field: reg_open
+                condition: checked
+            comment: 'When checked, matchmaking will run ever sunday midnight if current round < round_length'
+            tab: General
+        divisions:
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/season/_divisions.htm
+            tab: Divisions
+        teams:
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/season/_teams.htm
+            tab: Teams
+        timeline:
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/season/_timeline.htm
+            tab: Timeline
+                

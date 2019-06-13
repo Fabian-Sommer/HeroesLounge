@@ -1,64 +1,65 @@
-fields:
-    tbp:
-        label: To be played before
-        span: auto
-        type: datepicker
-        disabled: true
-        mode: datetime
-        tab: General
-    schedule_date:
-        label: To be scheduled before
-        span: auto
-        type: datepicker
-        disabled: true
-        mode: datetime
-        tab: General
-    wbp:
-        label: Schedule for
-        span: auto
-        type: datepicker
-        mode: datetime
-        tab: General
-    is_played:
-        label: Is played
-        type: checkbox
-        tab: General
-    round:
-        label: 'Round'
-        span: left
-        type: number
-        tab: General
-    teams:
-        label: Participating Teams
-        span: left
-        type: relation
-        select: title
-        disabled: true
-        tab: General
-    winner:
-        label: Winning Team
-        span: left
-        type: dropdown
-        options: listParticipatingTeamsForBackend
-        showSearch: false
-        emptyOption: -- No Team --
-        tab: General
-    casters:
-        label: Casters
-        type: partial
-        path: ~/plugins/rikki/heroeslounge/controllers/match/_casters.htm
-        tab: Casting
-    channel:
-        label: Channel
-        type: partial
-        path: ~/plugins/rikki/heroeslounge/controllers/match/_channel.htm
-        tab: Casting
-    games:
-        span: auto
-        type: partial
-        path: ~/plugins/rikki/heroeslounge/controllers/match/_game.htm
-        tab: Games
-    timeline:
-        type: partial
-        path: ~/plugins/rikki/heroeslounge/controllers/match/_timeline.htm
-        tab: Timeline
+tabs:
+    fields:
+        tbp:
+            label: To be played before
+            span: auto
+            type: datepicker
+            disabled: true
+            mode: datetime
+            tab: General
+        schedule_date:
+            label: To be scheduled before
+            span: auto
+            type: datepicker
+            disabled: true
+            mode: datetime
+            tab: General
+        wbp:
+            label: Schedule for
+            span: auto
+            type: datepicker
+            mode: datetime
+            tab: General
+        is_played:
+            label: Is played
+            type: checkbox
+            tab: General
+        round:
+            label: 'Round'
+            span: left
+            type: number
+            tab: General
+        teams:
+            label: Participating Teams
+            span: left
+            type: relation
+            select: title
+            disabled: true
+            tab: General
+        winner:
+            label: Winning Team
+            span: left
+            type: dropdown
+            options: listParticipatingTeamsForBackend
+            showSearch: false
+            emptyOption: -- No Team --
+            tab: General
+        casters:
+            label: Casters
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/match/_casters.htm
+            tab: Casting
+        channel:
+            label: Channel
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/match/_channel.htm
+            tab: Casting
+        games:
+            span: auto
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/match/_game.htm
+            tab: Games
+        timeline:
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/match/_timeline.htm
+            tab: Timeline

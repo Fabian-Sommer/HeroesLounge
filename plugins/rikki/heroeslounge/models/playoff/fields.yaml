@@ -1,49 +1,50 @@
-fields:
-    title:
-        label: Title
-        span: left
-        type: text
-        required: 1
-        tab: General
-    slug:
-        label: slug
-        span: right
-        type: text
-        required: 1
-        preset:
-            field: title
-            type: slug
-        tab: General
-    type:
-        label: Type
-        span: left
-        type: text
-        required: 1
-        tab: General
-    region:
-        label: Region
-        span: left
-        type: relation
-        required: 1
-        nameFrom: title
-        tab: General
-    season:
-        label: 'Season'
-        span: left
-        type: relation
-        nameFrom: title
-        descriptionFrom: playoff.title
-        emptyOption: None
-        tab: General
-    reg_open:
-        label: 'Signups open'
-        type: checkbox
-        tab: General
-    divisions:
-        type: partial
-        path: ~/plugins/rikki/heroeslounge/controllers/playoff/_divisions.htm
-        tab: Groups & Teams
-    teams:
-        type: partial
-        path: ~/plugins/rikki/heroeslounge/controllers/playoff/_teams.htm
-        tab: Groups & Teams
+tabs:
+    fields:
+        title:
+            label: Title
+            span: left
+            type: text
+            required: 1
+            tab: General
+        slug:
+            label: slug
+            span: right
+            type: text
+            required: 1
+            preset:
+                field: title
+                type: slug
+            tab: General
+        type:
+            label: Type
+            span: left
+            type: text
+            required: 1
+            tab: General
+        region:
+            label: Region
+            span: left
+            type: relation
+            required: 1
+            nameFrom: title
+            tab: General
+        season:
+            label: 'Season'
+            span: left
+            type: relation
+            nameFrom: title
+            descriptionFrom: playoff.title
+            emptyOption: None
+            tab: General
+        reg_open:
+            label: 'Signups open'
+            type: checkbox
+            tab: General
+        divisions:
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/playoff/_divisions.htm
+            tab: Groups & Teams
+        teams:
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/playoff/_teams.htm
+            tab: Groups & Teams
