@@ -70,5 +70,20 @@ class Team extends Controller
         }
     }
 
+    public function onRelationManagePivotUpdate($model) {
+        $data = post();
+        $team = TeamModel::find($model);
+
+        foreach ($team->sloths as $sloth) {
+            if ($sloth->pivot->sloth_id == $data['manage_id']) {
+                $sloth->pivot->is_captain = $data['Sloth']['pivot']['is_captain'];
+                $sloth->pivot->save();
+
+                /*
+                    Add Discord captain updating logic here.
+                */
+            }
+        }
+    }
 
 }
