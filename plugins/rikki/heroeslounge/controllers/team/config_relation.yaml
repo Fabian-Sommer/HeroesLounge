@@ -59,15 +59,11 @@ sloths:
         list:
             columns:
                 title:
-                    label: title
+                    label: User
                     searchable: true
                 pivot[is_captain]:
-                    label: Captain
+                    label: Is Captain
                     type: switch
-                teams:
-                    label: Teams
-                    relation: teams
-                    select: title
         toolbarButtons: add|remove
     manage:
         showSearch: true
@@ -85,3 +81,4 @@ sloths:
                     type: checkbox
                     default: false
                     span: right
+                    
