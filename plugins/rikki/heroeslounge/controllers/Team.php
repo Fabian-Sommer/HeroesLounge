@@ -46,8 +46,14 @@ class Team extends Controller
         if($dis == true) {
             $team = $model;
             $team->sloths->each(function($sloth) use ($team) {
+                $isCaptain = $sloth->isCaptain();
+
                 $sloth->teams()->remove($team);
                 $sloth->save();
+
+                if ($isCaptain != $sloth->isCaptain()) {
+                    $sloth->removeDiscordCaptainRole();
+                }
 
             });
             $team->divisions->each(function($d) use(&$team) {
