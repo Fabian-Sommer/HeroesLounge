@@ -134,7 +134,7 @@ class Sloth extends Model
     {
         if($this->isCaptainOfTeam($team) == false) {
             $team->sloths()->remove($this);
-            Flash::success('Succesfully left '.$title);
+            Flash::success('Succesfully left '.$team->title);
         } else {
             Flash::error('You are the captain of this team and cannot leave it');
         }
