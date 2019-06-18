@@ -48,7 +48,7 @@ class Team extends Controller
             $team->sloths->each(function($sloth) use ($team) {
                 $isCaptain = $sloth->isCaptain();
 
-                $sloth->teams()->remove($team);
+                $sloth->teams()->detach($team);
                 $sloth->save();
 
                 if ($isCaptain != $sloth->isCaptain()) {
@@ -67,22 +67,6 @@ class Team extends Controller
 
             });
             $team->seasons()->detach();
-        }
-    }
-
-    public function onRelationManagePivotUpdate($model) {
-        $data = post();
-        $team = TeamModel::find($model);
-
-        foreach ($team->sloths as $sloth) {
-            if ($sloth->pivot->sloth_id == $data['manage_id']) {
-                $sloth->pivot->is_captain = $data['Sloth']['pivot']['is_captain'];
-                $sloth->pivot->save();
-
-                /*
-                    Add Discord captain updating logic here.
-                */
-            }
         }
     }
 
