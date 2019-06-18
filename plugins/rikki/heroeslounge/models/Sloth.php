@@ -110,7 +110,8 @@ class Sloth extends Model
             'key' => 'sloth_id',
             'otherKey' => 'team_id',
             'table' => 'rikki_heroeslounge_sloth_team',
-            'pivot' => ['is_captain']
+            'pivot' => ['is_captain'],
+            'pivotModel' => 'Rikki\Heroeslounge\Models\SlothTeamPivot'
         ],
     ];
 
