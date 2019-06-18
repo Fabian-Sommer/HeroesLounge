@@ -87,7 +87,7 @@ class ViewApps extends ComponentBase
             $app->approved = 1;
             $app->save();
             Flash::success("Application successfully accepted. The player can now join the team by accepting the invite on his Account page.");
-            Redirect::refresh();
+            return Redirect::refresh();
         }
     }
 
@@ -146,7 +146,7 @@ class ViewApps extends ComponentBase
         } else {
             Flash::error("You were not invited by the team.");
         }
-        Redirect::refresh();
+        return Redirect::refresh();
     }
 
     public function onWithdraw()
@@ -163,12 +163,12 @@ class ViewApps extends ComponentBase
         if ($app->user_id == $this->sloth->user_id) {
             $app->withdrawn = 1;
             $app->save();
-        } elseif ($this->sloth->isCaptainOf($team)) {
+        } elseif ($team->captain->id == $this->sloth->id) {
             $app->withdrawn = 1;
             $app->save();
         }
 
         Flash::success("Application successfully withdrawn");
-        Redirect::refresh();
+        return Redirect::refresh();
     }
 }
