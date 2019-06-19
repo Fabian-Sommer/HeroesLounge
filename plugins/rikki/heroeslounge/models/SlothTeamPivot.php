@@ -21,22 +21,27 @@ class SlothTeamPivot extends Pivot
      */
     public $table = 'rikki_heroeslounge_sloth_team';
 
-    public function afterDelete()
-    {
-        /*
-            I was hoping this would fire when a team gets disbanded, but it doesn't.
-        */
-    }
-
     public function afterSave()
     {
         if ($this->isDirty('is_captain')) {
-            $team = Team::find($this->team_id);
             $sloth = Sloth::find($this->sloth_id);
+            $noLongerCaptain = false;
 
-            if ($sloth->isCaptainOfTeam($team)) {
+            if ($sloth->teams->count() <= 1) {
+                $noLongerCaptain = true;
+            } else {
+                $isCaptain = $sloth->teams->first(function($index, $team) {
+                    return $team->id != $this->team_id && $team->pivot->is_captain;
+                });
+
+                if ($isCaptain != null) {
+                    $noLongerCaptain = true;
+                }
+            }
+
+            if ($this->is_captain) {
                 $sloth->addDiscordCaptainRole();
-            } else if (!$sloth->isCaptain()) {
+            } else if (!$this->is_captain && $noLongerCaptain) {
                 $sloth->removeDiscordCaptainRole();
             }
         }
