@@ -50,6 +50,7 @@ class Playoff extends Model
     {
         $playoff = $this;
         $timezone = 'Europe/Berlin';
+        $matchArray = [];
         if ($this->type == 'playoffv1') {
             $year0 = 2018;
             $month0 = 10;
@@ -103,54 +104,12 @@ class Playoff extends Model
                 $gr->teams()->add($groupe['teams'][1]);
                 $gr->teams()->add($groupe['teams'][2]);
                 $gr->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][0]);
-                $match->teams()->add($groupe['teams'][1]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][2]);
-                $match->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][0]);
-                $match->teams()->add($groupe['teams'][2]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][1]);
-                $match->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][0]);
-                $match->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();   
-                $match->teams()->add($groupe['teams'][1]);
-                $match->teams()->add($groupe['teams'][2]);     
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][1], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][2], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][2], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][2], $gr, $groups_until);   
             }
             
             $Time1 = Carbon::create($year1, $month1, $day1, 13, 00, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
@@ -290,54 +249,12 @@ class Playoff extends Model
                 $gr->teams()->add($groupe['teams'][1]);
                 $gr->teams()->add($groupe['teams'][2]);
                 $gr->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][0]);
-                $match->teams()->add($groupe['teams'][1]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][2]);
-                $match->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][0]);
-                $match->teams()->add($groupe['teams'][2]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][1]);
-                $match->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][0]);
-                $match->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();   
-                $match->teams()->add($groupe['teams'][1]);
-                $match->teams()->add($groupe['teams'][2]);     
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][1], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][2], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][2], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][2], $gr, $groups_until);   
             }
 
             $times = [  0 => Carbon::create($year, $month, $day, 14, 00, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
@@ -391,54 +308,12 @@ class Playoff extends Model
                 $gr->teams()->add($groupe['teams'][1]);
                 $gr->teams()->add($groupe['teams'][2]);
                 $gr->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][0]);
-                $match->teams()->add($groupe['teams'][1]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][2]);
-                $match->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][0]);
-                $match->teams()->add($groupe['teams'][2]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][1]);
-                $match->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();
-                $match->teams()->add($groupe['teams'][0]);
-                $match->teams()->add($groupe['teams'][3]);
-                $match = new Match;
-                $match->division = $gr;
-                $match->tbp = $groups_until;
-                $match->schedule_date = $groups_until;
-                $match->round = 0;
-                $match->save();   
-                $match->teams()->add($groupe['teams'][1]);
-                $match->teams()->add($groupe['teams'][2]);     
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][1], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][2], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][2], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][2], $gr, $groups_until);   
             }
 
             $Time1 = Carbon::create($year, $month, $day, 14, 00, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
@@ -527,6 +402,35 @@ class Playoff extends Model
                         10 => Carbon::create(2019, 2, 17, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
                     ];
             $matchArray = $this->createDEMatches(4, $times);
+        } else if ($this->type == 'groupsOfFour') {
+            $groups_until = Carbon::create(2019, 7, 5, 23, 59, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
+            $teamCount = $this->teams->count();
+            $groups = [];
+            for ($i=0; $i < $teamCount; $i+=4) { 
+                $firstTeam = $this->teams()->where('seed', $i+1)->firstOrFail();
+                $secondTeam = $this->teams()->where('seed', $i+2)->firstOrFail();
+                $thirdTeam = $this->teams()->where('seed', $i+3)->firstOrFail();
+                $fourthTeam = $this->teams()->where('seed', $i+4)->firstOrFail();
+                $groups[$i] = ['title' => 'Group '.chr(65+$i/4), 'slug' => 'group-'.chr(97+$i/4),
+                        'teams' => [0 =>$firstTeam,1 => $secondTeam,2 => $thirdTeam,3 => $fourthTeam]];
+            }
+            foreach ($groups as $key => $groupe) {
+                $gr = new Division;
+                $gr->playoff = $playoff;
+                $gr->title = $groupe['title'];
+                $gr->slug = $groupe['slug'];
+                $gr->save();
+                $gr->teams()->add($groupe['teams'][0]);
+                $gr->teams()->add($groupe['teams'][1]);
+                $gr->teams()->add($groupe['teams'][2]);
+                $gr->teams()->add($groupe['teams'][3]);
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][1], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][2], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][2], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][3], $gr, $groups_until);
+                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][2], $gr, $groups_until);
+            }
         }
 
         foreach ($matchArray as $key => $matchEntry) {
@@ -541,7 +445,19 @@ class Playoff extends Model
                 $match->teams()->add($team);
             }
         }
-        $this->teams()->detach();
+        //$this->teams()->detach();
+    }
+
+    public function createGroupMatch($team1, $team2, $group, $deadline)
+    {
+        $match = new Match;
+        $match->division = $group;
+        $match->tbp = $deadline;
+        $match->schedule_date = $deadline;
+        $match->round = 0;
+        $match->save();   
+        $match->teams()->add($team1);
+        $match->teams()->add($team2);  
     }
 
     public function createSEMatches($rounds, $timeArray)
