@@ -70,12 +70,13 @@ sloths:
                     select: title
         toolbarButtons: add|remove
     manage:
+        showSearch: true
         list:
+            recordsPerPage: 20
             columns:
-                user:
-                    label: User
-                    type: relation
-                    span: left
+                title:
+                    label: title
+                    searchable: true
     pivot:
         form:
             fields:
