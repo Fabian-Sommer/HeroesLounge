@@ -140,7 +140,13 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Events</a>
                         <ul role="menu" class="dropdown-menu pull-right">
-                            <a class="dropdown-item" href="{{ 'season/view' |page({slug: 'eu-aram-league'})}}">[EU] Aram League</a>
+                            <li class="nav-item dropdown-submenu">
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">[EU] Aram <br> League</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-eu'})}}"></i>Overview</a>
+                                    <a class="dropdown-item" href="/aram-league-ruleset"></i>Ruleset</a>
+                                </div>
+                            </li>
                             <li class="nav-item dropdown-submenu">
                                 <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">Emim <br> Heroes Cup</a>
                                 <div class="dropdown-menu">
