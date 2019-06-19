@@ -14,6 +14,7 @@
                 {% for match in dateMatches %}
                 <div class="event-list--game row no-gutters">
                 <div class="event-list--division col-sm-12 col-md-3">
+                    <span>{{match.wbp | date(__SELF__.timeFormat, __SELF__.timezone)}}</span>
                     <span class="event-list--region">
                         {% if match.playoff.region is not null %}
                         [{{match.playoff.region.title}}]
@@ -21,8 +22,13 @@
                         [{{match.teams[0].region.title}}]
                         {% endif %}
                     </span>
+                    {% if match.division and match.division.playoff %}
+                    <span title="{{match.division.playoff.title}}" class="hideOverflow">{{match.division.playoff.title}}</span>
+                    {% elseif match.playoff %}
+                    <span title="{{match.playoff.title}}" class="hideOverflow">{{match.playoff.title}}</span>
+                    {% else %}
                     <span title="{{match.division.title}}" class="hideOverflow">{{match.division.title}}</span>
-                    <span>@{{match.wbp | date(__SELF__.timeFormat, __SELF__.timezone)}}</span>
+                    {% endif %}
                     {%  for channel in match.channels  %}
                     <span class="event-list--time facebook">
                         <a href="{{channel.url}}" style="display:inline" rel="noopener" target="_blank"><i class="fa fa-twitch"  aria-hidden="true" title="{{channel.title}}"></i></a>
