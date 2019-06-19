@@ -70,16 +70,15 @@ sloths:
                     select: title
         toolbarButtons: add|remove
     manage:
-        recordsPerPage: 20
-        showSearch: true
-        form:
-            fields:
+        list:
+            columns:
                 user:
                     label: User
-                    readOnly: true
                     type: relation
-                    select: username
                     span: left
+    pivot:
+        form:
+            fields:
                 pivot[is_captain]:
                     label: Is Captain
                     type: checkbox
