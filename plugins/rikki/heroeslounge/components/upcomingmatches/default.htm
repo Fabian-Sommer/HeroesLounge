@@ -21,7 +21,15 @@
                         [{{match.teams[0].region.title}}]
                         {% endif %}
                     </span>
-                    <span title="{{match.division.title}}" class="hideOverflow">{{match.division.title}}</span>
+                    <span class="hideOverflow">
+                        {% if match.division.playoff is not null %}
+                        {{match.division.playoff.title}}
+                        {% elseif match.playoff is not null %}
+                        {{match.playoff.title}}
+                        {% else %}
+                        {{match.division.title}}
+                        {% endif %}
+                    </span>
                     <span>@{{match.wbp | date(__SELF__.timeFormat, __SELF__.timezone)}}</span>
                     {%  for channel in match.channels  %}
                     <span class="event-list--time facebook">
