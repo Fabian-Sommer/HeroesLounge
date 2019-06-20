@@ -70,9 +70,9 @@ sloths:
                     select: title
         toolbarButtons: add|remove
     manage:
+        recordsPerPage: 20
         showSearch: true
         list:
-            recordsPerPage: 20
             columns:
                 title:
                     label: title
