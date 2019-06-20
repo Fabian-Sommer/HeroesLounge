@@ -12,23 +12,25 @@ Unknown Division
 <div class="row">
     <div class="col-md-8">
         <div class="col-md-12">
-           {% component 'divisionTable' id=__SELF__.div.id %}
+            {% component 'divisionTable' id=__SELF__.div.id %}
         </div>
         {% if __SELF__.div.season.current_round > 0 %}
         <div class="col-md-12">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand">Round</a>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#{{__SELF__.div.slug}}_rounds"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                    </button>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    data-target="#{{__SELF__.div.slug}}_rounds" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="{{__SELF__.div.slug}}_rounds">
                     <ul class="nav nav-tabs mr-auto">
                         {% for key,i in 1..__SELF__.div.season.current_round %}
                         <li class="nav-item">
-                            <a class="nav-link{% if key==0 %} active{% endif %}" data-toggle="tab" href="#round_{{i}}">
-                                            &nbsp;&nbsp;&nbsp;&nbsp;{{i}} &nbsp;&nbsp;&nbsp;&nbsp;
-                                        </a>
+                            <a class="nav-link{% if key==__SELF__.div.season.current_round - 1 %} active{% endif %}"
+                                data-toggle="tab" href="#round_{{i}}">
+                                &nbsp;&nbsp;&nbsp;&nbsp;{{i}} &nbsp;&nbsp;&nbsp;&nbsp;
+                            </a>
                         </li>
                         {% endfor %}
                     </ul>
@@ -36,7 +38,8 @@ Unknown Division
             </nav>
             <div class="tab-content">
                 {% for key,i in 1..__SELF__.div.season.current_round %}
-                <div class="tab-pane{% if key==0 %} active{% endif %}" id="round_{{i}}" role="tabpanel">
+                <div class="tab-pane{% if key==__SELF__.div.season.current_round - 1 %} active{% endif %}"
+                    id="round_{{i}}" role="tabpanel">
                     {% component 'roundMatches' id=__SELF__.div.id round=i %}
                 </div>
                 {% endfor %}
@@ -44,7 +47,7 @@ Unknown Division
         </div>
         {% endif %}
     </div>
- 
+
     <div class="col-md-4 sidebar">
         <h3 class="widget-title">Recent Results</h3>
         {% component 'recentResults' id=__SELF__.div.id %}
