@@ -80,13 +80,9 @@
 <h3>Teams</h3>
 <div class="card">
     {% for team in __SELF__.sloth.teams %}
-    {% set logo %}
-    {% if team.logo %} {{team.logo}} {% endif %}
-    {% endset %}
-
     <div class="card-body">
         <p class="card-text">
-            <img class="img-fluid mr-1 Icon28x" src="{{logo.path | resize(64, 64) }}" alt="Logo" title="Logo">
+            <img class="img-fluid mr-1 Icon28x" src="{{team.logo.path | resize(64, 64) }}" alt="Logo" title="{{team.title}}">
             <a href="{{ 'team/view' | page({slug: team.slug})}}">{{team.title}}</a>
         </p>
     </div>
