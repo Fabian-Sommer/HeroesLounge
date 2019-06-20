@@ -319,6 +319,12 @@ class Plugin extends PluginBase
                     'label' => 'Website URL',
                     'tab' => 'Sloth',
                     'type' => 'text'
+                ],
+                'sloth[teams]' => [
+                    'label' => 'Teams',
+                    'type' => 'relation',
+                    'nameFrom' => 'title',
+                    'tab' => 'Teams'
                 ]
             ]);
         });
