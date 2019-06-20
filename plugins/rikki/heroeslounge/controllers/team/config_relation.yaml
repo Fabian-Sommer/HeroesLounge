@@ -81,4 +81,3 @@ sloths:
                     type: checkbox
                     default: false
                     span: right
-                    

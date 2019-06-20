@@ -24,27 +24,24 @@ class SlothTeamPivot extends Pivot
     public function afterSave()
     {
         if ($this->isDirty('is_captain')) {
-            $sloth = Sloth::find($this->sloth_id);
-            $noLongerCaptain = false;
-
-            if ($sloth->teams->count() <= 1) {
-                $noLongerCaptain = true;
-            } else {
-                $isCaptain = $sloth->teams->first(function($index, $team) {
-                    return $team->id != $this->team_id && $team->pivot->is_captain;
-                });
-
-                if ($isCaptain != null) {
-                    $noLongerCaptain = true;
-                }
-            }
+            $sloth = Sloth::find($this->sloth_id);            
 
             if ($this->is_captain) {
                 $sloth->addDiscordCaptainRole();
-            } else if (!$this->is_captain && $noLongerCaptain) {
-                $sloth->removeDiscordCaptainRole();
+            } else {
+                if(!isCaptainOfOtherTeam ($sloth, $this->team_id)) {
+                    $sloth->removeDiscordCaptainRole();
+                }
             }
         }
+    }
+
+    public function isCaptainOfOtherTeam ($sloth, $updatedTeamId) {
+        $teamsCaptainOf = $sloth->teams->filter(function($index, $team) {
+            return $team->id != $updatedTeamId && $team->pivot->is_captain;
+        });
+
+        return $teamsCaptainOf->count() >= 1;
     }
 
 }
