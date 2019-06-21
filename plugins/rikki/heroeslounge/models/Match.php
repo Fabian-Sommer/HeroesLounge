@@ -85,7 +85,14 @@ class Match extends Model
 
     public function listParticipatingTeamsForBackend($fieldname, $value, $formData)
     {
-        return [$formData["teams"][0]['id'] => $formData["teams"][0]['title'], $formData["teams"][1]['id'] => $formData["teams"][1]['title']];
+        $list = [];
+        if (array_key_exists(0, $formData["teams"])) {
+            $list[$formData["teams"][0]['id']] = $formData["teams"][0]['title'];
+        }
+        if (array_key_exists(1, $formData["teams"])) {
+            $list[$formData["teams"][1]['id']] = $formData["teams"][1]['title'];
+        }
+        return $list;
     }
 
     public function getRegionAttribute()
