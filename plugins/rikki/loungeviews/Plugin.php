@@ -21,7 +21,6 @@ class Plugin extends PluginBase
             'Rikki\LoungeViews\Components\Twitch' => 'Twitch',
             'Rikki\LoungeViews\Components\Profile' => 'Profile',
             'Rikki\LoungeViews\Components\Navigation' => 'Navigation',
-            'Rikki\LoungeViews\Components\SideNav' => 'SideNav',
             'Rikki\LoungeViews\Components\ViewApplication' => 'ViewApplication',
             'Rikki\LoungeViews\Components\TimelineEntries' => 'TimelineEntries',
             'Rikki\LoungeViews\Components\ParticipationOverview' => 'ParticipationOverview',
