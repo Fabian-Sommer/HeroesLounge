@@ -85,12 +85,10 @@ class Match extends Model
 
     public function listParticipatingTeamsForBackend($fieldname, $value, $formData)
     {
+        $match = Match::findOrFail($formData["id"]);
         $list = [];
-        if (array_key_exists(0, $formData["teams"])) {
-            $list[$formData["teams"][0]['id']] = $formData["teams"][0]['title'];
-        }
-        if (array_key_exists(1, $formData["teams"])) {
-            $list[$formData["teams"][1]['id']] = $formData["teams"][1]['title'];
+        foreach ($match->teams as $key => $team) {
+            $list[$team->id] = $team->title;
         }
         return $list;
     }
