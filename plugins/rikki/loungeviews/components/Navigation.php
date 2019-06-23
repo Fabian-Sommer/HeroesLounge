@@ -39,10 +39,6 @@ class Navigation extends UserAccount
     public $past_amateurseasons = null;
     public $divsseasons = null;
 
-
-    public $hasMatches = false;
-    public $seasons = null;
-
     public function init()
     {
         parent::init();
