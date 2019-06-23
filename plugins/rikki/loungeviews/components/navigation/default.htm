@@ -2,59 +2,82 @@
     <nav class="navbar navbar-expand-lg navbar-light navbar-custom" style="z-index:5">
         <div class="container no-margin-xs">
             <a class="navbar-brand text-logo" href="{{ url('/') }}">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 329.91785 380.83549" height="36" class="d-inline-block align-top" style="background-color:transparent">
-                    <path fill="#2e93cd" d="M238.54971,228.90468h56.65118a8.01669,8.01669,0,0,0,8.01669-8.01669V115.24087a8.01669,8.01669,0,0,0-4.00834-6.94266L242.55805,75.59064a8.01669,8.01669,0,0,0-12.025,6.94266V220.888A8.01669,8.01669,0,0,0,238.54971,228.90468Z"
-                    />
-                    <path fill="white" d="M174.38169,343.54553a7.11339,7.11339,0,0,1-8.76306-6.91577V160.32025a20.99757,20.99757,0,0,0-21.72089-20.98492c-11.40265.3833-20.27344,10.12134-20.27344,21.53046v20.77075a12.70333,12.70333,0,0,1-12.70337,12.70331H100.27275a10.36391,10.36391,0,0,1-10.364-10.36389V82.74176a13.61107,13.61107,0,0,1,4.97363-10.51239L40.38151,103.6a5.66578,5.66578,0,0,1,7.533,5.346v143.988a20.99716,20.99716,0,0,0,41.99432,0V229.78864a10.50479,10.50479,0,0,1,10.50482-10.50476h12.34308a10.86762,10.86762,0,0,1,10.86761,10.86761V312.1059a7.26493,7.26493,0,0,1-9.37811,6.94623l51.71271,29.76575,8.65637-4.98261C174.53385,343.74164,174.45707,343.64429,174.38169,343.54553Z"
-                    />
-                    <path fill="white" d="M303.21757,215.87995v5.008a8.01672,8.01672,0,0,1-8.01672,8.01672H238.54972a8.01672,8.01672,0,0,1-8.01672-8.01672V82.53327A8.00649,8.00649,0,0,1,241.9514,75.293c.03638-.05707.07117-.115.10962-.1709l-60.3988-34.7655c-.0094.01978-.017.04077-.02673.0603l.53064.30634a12.74119,12.74119,0,0,1,6.3725,11.03516V252.28754c0,11.42456,8.90613,21.149,20.32513,21.5058a20.95856,20.95856,0,0,0,19.4046-11.53943,11.79264,11.79264,0,0,1,10.524-6.51074H293.422a9.79549,9.79549,0,0,1,9.79553,9.79547,6.824,6.824,0,0,1-.04724.712,5.66858,5.66858,0,0,1,.6886.03107V215.77661A5.718,5.718,0,0,1,303.21757,215.87995Z"
-                    />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 329.91785 380.83549" height="36"
+                    class="d-inline-block align-top" style="background-color:transparent">
+                    <path fill="#2e93cd"
+                        d="M238.54971,228.90468h56.65118a8.01669,8.01669,0,0,0,8.01669-8.01669V115.24087a8.01669,8.01669,0,0,0-4.00834-6.94266L242.55805,75.59064a8.01669,8.01669,0,0,0-12.025,6.94266V220.888A8.01669,8.01669,0,0,0,238.54971,228.90468Z" />
+                    <path fill="white"
+                        d="M174.38169,343.54553a7.11339,7.11339,0,0,1-8.76306-6.91577V160.32025a20.99757,20.99757,0,0,0-21.72089-20.98492c-11.40265.3833-20.27344,10.12134-20.27344,21.53046v20.77075a12.70333,12.70333,0,0,1-12.70337,12.70331H100.27275a10.36391,10.36391,0,0,1-10.364-10.36389V82.74176a13.61107,13.61107,0,0,1,4.97363-10.51239L40.38151,103.6a5.66578,5.66578,0,0,1,7.533,5.346v143.988a20.99716,20.99716,0,0,0,41.99432,0V229.78864a10.50479,10.50479,0,0,1,10.50482-10.50476h12.34308a10.86762,10.86762,0,0,1,10.86761,10.86761V312.1059a7.26493,7.26493,0,0,1-9.37811,6.94623l51.71271,29.76575,8.65637-4.98261C174.53385,343.74164,174.45707,343.64429,174.38169,343.54553Z" />
+                    <path fill="white"
+                        d="M303.21757,215.87995v5.008a8.01672,8.01672,0,0,1-8.01672,8.01672H238.54972a8.01672,8.01672,0,0,1-8.01672-8.01672V82.53327A8.00649,8.00649,0,0,1,241.9514,75.293c.03638-.05707.07117-.115.10962-.1709l-60.3988-34.7655c-.0094.01978-.017.04077-.02673.0603l.53064.30634a12.74119,12.74119,0,0,1,6.3725,11.03516V252.28754c0,11.42456,8.90613,21.149,20.32513,21.5058a20.95856,20.95856,0,0,0,19.4046-11.53943,11.79264,11.79264,0,0,1,10.524-6.51074H293.422a9.79549,9.79549,0,0,1,9.79553,9.79547,6.824,6.824,0,0,1-.04724.712,5.66858,5.66858,0,0,1,.6886.03107V215.77661A5.718,5.718,0,0,1,303.21757,215.87995Z" />
 
 
-                    <path fill="#2e93cd" d="M228.26835,262.25393a20.95859,20.95859,0,0,1-19.40458,11.53944c-11.419-.35682-20.32514-10.08123-20.32514-21.5058,0-38.24748,0-168.15177,0-200.52912a12.74119,12.74119,0,0,0-6.37255-11.03516l-10.46457-6.04173a12.16579,12.16579,0,0,0-12.1658,0l-62.819,36.26858a13.61583,13.61583,0,0,0-6.80791,11.79166V183.976a10.3639,10.3639,0,0,0,10.3639,10.3639H110.921a12.70333,12.70333,0,0,0,12.70333-12.70333V160.86577c0-11.40911,8.87078-21.14714,20.27344-21.53042a20.99755,20.99755,0,0,1,21.72088,20.98492V336.62979a7.10778,7.10778,0,0,0,10.66167,6.15552L299.7887,271.47766a6.85774,6.85774,0,0,0,3.42887-5.939h0a9.7955,9.7955,0,0,0-9.7955-9.7955H238.79241A11.79274,11.79274,0,0,0,228.26835,262.25393Z"
-                    />
+                    <path fill="#2e93cd"
+                        d="M228.26835,262.25393a20.95859,20.95859,0,0,1-19.40458,11.53944c-11.419-.35682-20.32514-10.08123-20.32514-21.5058,0-38.24748,0-168.15177,0-200.52912a12.74119,12.74119,0,0,0-6.37255-11.03516l-10.46457-6.04173a12.16579,12.16579,0,0,0-12.1658,0l-62.819,36.26858a13.61583,13.61583,0,0,0-6.80791,11.79166V183.976a10.3639,10.3639,0,0,0,10.3639,10.3639H110.921a12.70333,12.70333,0,0,0,12.70333-12.70333V160.86577c0-11.40911,8.87078-21.14714,20.27344-21.53042a20.99755,20.99755,0,0,1,21.72088,20.98492V336.62979a7.10778,7.10778,0,0,0,10.66167,6.15552L299.7887,271.47766a6.85774,6.85774,0,0,0,3.42887-5.939h0a9.7955,9.7955,0,0,0-9.7955-9.7955H238.79241A11.79274,11.79274,0,0,0,228.26835,262.25393Z" />
 
-                    <path fill="#2e93cd" d="M112.75666,219.28389H100.4136a10.50478,10.50478,0,0,0-10.50478,10.50478V252.9341a20.99714,20.99714,0,0,1-20.99714,20.99714h0A20.99714,20.99714,0,0,1,47.9145,252.9341v-143.988a5.66954,5.66954,0,0,0-8.50431-4.91l-5.44107,3.1414a11.899,11.899,0,0,0-5.94952,10.30487V261.96652A13.04489,13.04489,0,0,0,34.542,273.26373l78.17945,45.13693a7.26853,7.26853,0,0,0,10.9028-6.29473v-81.9544A10.86763,10.86763,0,0,0,112.75666,219.28389Z"
-                    />
+                    <path fill="#2e93cd"
+                        d="M112.75666,219.28389H100.4136a10.50478,10.50478,0,0,0-10.50478,10.50478V252.9341a20.99714,20.99714,0,0,1-20.99714,20.99714h0A20.99714,20.99714,0,0,1,47.9145,252.9341v-143.988a5.66954,5.66954,0,0,0-8.50431-4.91l-5.44107,3.1414a11.899,11.899,0,0,0-5.94952,10.30487V261.96652A13.04489,13.04489,0,0,0,34.542,273.26373l78.17945,45.13693a7.26853,7.26853,0,0,0,10.9028-6.29473v-81.9544A10.86763,10.86763,0,0,0,112.75666,219.28389Z" />
 
-                    <path fill="#2e93cd" d="M165.0112,0,.10462,95.20886V285.62664L165.0112,380.83549l164.90665-95.20886V95.20886ZM314.91233,276.80725l-150.237,86.73931L14.43846,276.80725V103.32856l150.2369-86.73937,150.237,86.73937Z"
-                    />
+                    <path fill="#2e93cd"
+                        d="M165.0112,0,.10462,95.20886V285.62664L165.0112,380.83549l164.90665-95.20886V95.20886ZM314.91233,276.80725l-150.237,86.73931L14.43846,276.80725V103.32856l150.2369-86.73937,150.237,86.73937Z" />
 
-                    <path fill="white" d="M164.67533,16.58917,14.43846,103.32855v173.4787l150.23688,86.73932,150.23694-86.73932V103.32855ZM303.4589,269.31787l-3.19238,1.84c-.15723.10925-.3103.22314-.47778.31982L176.28031,342.78528a7.21675,7.21675,0,0,1-1.26306.56171l-9.05835,5.22089L115.11106,319.261a7.26668,7.26668,0,0,1-2.38959-.86041L34.542,273.26374a13.02751,13.02751,0,0,1-2.49042-1.87512l-3.59271-2.07074v-3.99982a13.03359,13.03359,0,0,1-.43927-3.35156V117.48236a11.87972,11.87972,0,0,1,.43927-3.18494v-3.47955l3.07214-1.77069a11.886,11.886,0,0,1,2.438-1.86969l5.4411-3.14142a5.66326,5.66326,0,0,1,2.03442-.7027l52.48761-30.252a13.60274,13.60274,0,0,1,2.78448-2.13129l62.819-36.26862a12.12853,12.12853,0,0,1,3.23651-1.277l3.18665-1.83667,3.98389,2.29614a12.11654,12.11654,0,0,1,1.75873.8175l10.4646,6.04175a12.73893,12.73893,0,0,1,1.629,1.12469l57.58813,33.19177a8.21864,8.21864,0,0,1,1.1748.5509l56.65112,32.70758a7.9877,7.9877,0,0,1,.75537.50562l3.49438,2.014Z"
-                    />
+                    <path fill="white"
+                        d="M164.67533,16.58917,14.43846,103.32855v173.4787l150.23688,86.73932,150.23694-86.73932V103.32855ZM303.4589,269.31787l-3.19238,1.84c-.15723.10925-.3103.22314-.47778.31982L176.28031,342.78528a7.21675,7.21675,0,0,1-1.26306.56171l-9.05835,5.22089L115.11106,319.261a7.26668,7.26668,0,0,1-2.38959-.86041L34.542,273.26374a13.02751,13.02751,0,0,1-2.49042-1.87512l-3.59271-2.07074v-3.99982a13.03359,13.03359,0,0,1-.43927-3.35156V117.48236a11.87972,11.87972,0,0,1,.43927-3.18494v-3.47955l3.07214-1.77069a11.886,11.886,0,0,1,2.438-1.86969l5.4411-3.14142a5.66326,5.66326,0,0,1,2.03442-.7027l52.48761-30.252a13.60274,13.60274,0,0,1,2.78448-2.13129l62.819-36.26862a12.12853,12.12853,0,0,1,3.23651-1.277l3.18665-1.83667,3.98389,2.29614a12.11654,12.11654,0,0,1,1.75873.8175l10.4646,6.04175a12.73893,12.73893,0,0,1,1.629,1.12469l57.58813,33.19177a8.21864,8.21864,0,0,1,1.1748.5509l56.65112,32.70758a7.9877,7.9877,0,0,1,.75537.50562l3.49438,2.014Z" />
 
                 </svg>
                 {{ this.theme.site_title }}
             </a>
-            <button class="navbar-toggler navbar-toggler-right mt-1" style="background-color:#FFF;" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right mt-1" style="background-color:#FFF;" type="button"
+                data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Division S</a>
+                        <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Division S</a>
                         <ul role="menu" class="dropdown-menu pull-right">
                             <a class="dropdown-item" href="{{ 'divisionS/general' | page }}">Overview</a>
                             <a class="dropdown-item" href="{{ 'divisionS/schedule' | page }}">Schedule</a>
                             <li class="nav-item dropdown-submenu">
-                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_9" href="{{ 'season/' |page({slug:'eu-division-s-season-1'})}}">[EU] Season 1</a>
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_9"
+                                    href="{{ 'season/' |page({slug:'eu-division-s-season-1'})}}">[EU] Season 1</a>
                                 <div class="dropdown-menu" aria-labelledby="#season_9">
-                                    <a class="dropdown-item" href="{{ 'season/division'|page({slug: 'eu-division-s-season-1', divslug: 'eu-division-s-season-1'})}} ">Standings</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-1'})}}"></i>Qualifier 1</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-2'})}}"></i>Qualifier 2</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-3'})}}"></i>Qualifier 3</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-4'})}}"></i>Qualifier 4</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'season/division'|page({slug: 'eu-division-s-season-1', divslug: 'eu-division-s-season-1'})}} ">Standings</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-1'})}}"></i>Qualifier
+                                        1</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-2'})}}"></i>Qualifier
+                                        2</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-3'})}}"></i>Qualifier
+                                        3</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'playoff/view' | page({'playoff-title': 'eu-division-s-qualifiers-4'})}}"></i>Qualifier
+                                        4</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown-submenu">
-                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_10" href="{{ 'season/' |page({slug:'na-division-s-season-1'})}}">[NA] Season 1</a>
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" id="season_10"
+                                    href="{{ 'season/' |page({slug:'na-division-s-season-1'})}}">[NA] Season 1</a>
                                 <div class="dropdown-menu" aria-labelledby="#season_10">
-                                    <a class="dropdown-item" href="{{ 'season/division'|page({slug: 'na-division-s-season-1', divslug: 'na-division-s-season-1'})}} ">Standings</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-1'})}}"></i>Qualifier 1</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-2'})}}"></i>Qualifier 2</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-3'})}}"></i>Qualifier 3</a>
-                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-4'})}}"></i>Qualifier 4</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'season/division'|page({slug: 'na-division-s-season-1', divslug: 'na-division-s-season-1'})}} ">Standings</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-1'})}}"></i>Qualifier
+                                        1</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-2'})}}"></i>Qualifier
+                                        2</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-3'})}}"></i>Qualifier
+                                        3</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'playoff/view' | page({'playoff-title': 'na-division-s-qualifiers-4'})}}"></i>Qualifier
+                                        4</a>
                                 </div>
                             </li>
                             <a class="dropdown-item" href="/division-s-ruleset/division-s-playoffs">Playoffs</a>
@@ -64,24 +87,29 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="seasons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Amateur Series</a>
+                        <a class="nav-link dropdown-toggle" id="seasons" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Amateur Series</a>
                         <ul role="menu" class="dropdown-menu pull-right">
-                            {% for season in __SELF__.current_amateurseasons %} 
-                                {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
-                                    <li class="dropdown-item dropdown-submenu">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" id="season_{{season.id}}">{{season.title}}</a>
-                                        <div class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
-                                            {% for division in season.divisions %}
-                                                <a class="dropdown-item" href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} ">{{division.title}}</a>
-                                            {% endfor %}
-                                            {% for playoff in season.playoffs %}
-                                                <a class="dropdown-item" href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} ">{{playoff.title}}</a>
-                                            {% endfor %}
-                                        </div>
-                                    </li>
-                                {% else %}
-                                    <a class="dropdown-item" href="{{ 'season/view' |page({slug:season.slug})}}">{{season.title}}</a>
-                                {% endif %} 
+                            {% for season in __SELF__.current_amateurseasons %}
+                            {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
+                            <li class="dropdown-item dropdown-submenu">
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                    id="season_{{season.id}}">{{season.title}}</a>
+                                <div class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
+                                    {% for division in season.divisions %}
+                                    <a class="dropdown-item"
+                                        href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} ">{{division.title}}</a>
+                                    {% endfor %}
+                                    {% for playoff in season.playoffs %}
+                                    <a class="dropdown-item"
+                                        href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} ">{{playoff.title}}</a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                            {% else %}
+                            <a class="dropdown-item"
+                                href="{{ 'season/view' |page({slug:season.slug})}}">{{season.title}}</a>
+                            {% endif %}
                             {% endfor %}
 
                             <hr>
@@ -90,7 +118,7 @@
 
                             <a class="dropdown-item" href="{{ 'general/ruleset' | page}}">Ruleset</a>
                             {% for item in staticMenuGeneral.menuItems %}
-                                <a class="dropdown-item" href="{{ item.url }}">{{item.title}}</a>
+                            <a class="dropdown-item" href="{{ item.url }}">{{item.title}}</a>
                             {% endfor %}
 
                             {% for item in staticMenuGuides.menuItems %}
@@ -113,24 +141,29 @@
                             <a class="dropdown-item" href="{{ 'general/staff' | page }}">Staff</a>
 
                             <li class="dropdown-item dropdown-submenu">
-                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="previous_seasons">Archive</a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" id="previous_seasons">Archive</a>
                                 <ul role="menu" class="dropdown-menu pull-right" aria-labelledby="#previous_seasons">
-                                    {% for season in __SELF__.past_amateurseasons %} 
-                                        {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
-                                            <li class="dropdown-item dropdown-submenu">
-                                                <a class="dropdown-toggle" data-toggle="dropdown" id="season_{{season.id}}">{{season.title}}</a>
-                                                <div role="menu" class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
-                                                    {% for division in season.divisions %}
-                                                        <a class="dropdown-item" href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} ">{{division.title}}</a>
-                                                    {% endfor %}
-                                                    {% for playoff in season.playoffs %}
-                                                        <a class="dropdown-item" href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} ">{{playoff.title}}</a>
-                                                    {% endfor %}
-                                                </div>
-                                            </li>
-                                        {% else %}
-                                            <a class="dropdown-item" href="{{ 'season/view' |page({slug:season.slug})}}">{{season.title}}</a>
-                                        {% endif %} 
+                                    {% for season in __SELF__.past_amateurseasons %}
+                                    {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
+                                    <li class="dropdown-item dropdown-submenu">
+                                        <a class="dropdown-toggle" data-toggle="dropdown"
+                                            id="season_{{season.id}}">{{season.title}}</a>
+                                        <div role="menu" class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
+                                            {% for division in season.divisions %}
+                                            <a class="dropdown-item"
+                                                href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} ">{{division.title}}</a>
+                                            {% endfor %}
+                                            {% for playoff in season.playoffs %}
+                                            <a class="dropdown-item"
+                                                href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} ">{{playoff.title}}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </li>
+                                    {% else %}
+                                    <a class="dropdown-item"
+                                        href="{{ 'season/view' |page({slug:season.slug})}}">{{season.title}}</a>
+                                    {% endif %}
                                     {% endfor %}
                                 </ul>
                             </li>
@@ -138,12 +171,15 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Events</a>
+                        <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Events</a>
                         <ul role="menu" class="dropdown-menu pull-right">
                             <li class="nav-item dropdown-submenu">
-                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">[EU] Aram <br> League</a>
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">[EU] Aram <br>
+                                    League</a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-eu'})}}"></i>Overview</a>
+                                    <a class="dropdown-item"
+                                        href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-eu'})}}"></i>Overview</a>
                                     <a class="dropdown-item" href="/aram-league-ruleset"></i>Ruleset</a>
                                 </div>
                             </li>
@@ -153,14 +189,15 @@
                                     <a class="dropdown-item" href="/heroes-cup-emim"></i>Overview</a>
                                 </div>
                             </li>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'nut-cup'})}}">Nut Cup</a>
+                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'nut-cup'})}}">Nut
+                                Cup</a>
                         </ul>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ 'calendar' | page}}">Calendar</a>
                     </li>
-               
+
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{  url('blog')}}">Blog</a>
@@ -168,31 +205,118 @@
 
                     {% if not user %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navSignIn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
+                        <a class="nav-link dropdown-toggle" id="navSignIn" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Login</a>
                         <div class="dropdown-menu p-3" aria-labelledby="navSignIn">
                             {{ form_open({request: 'onSignIn'}) }}
                             <div class="form-group">
                                 <label for="userSigninLogin">{{ loginAttributeLabel }}</label>
-                                <input name="login" type="text" class="form-control" id="userSigninLogin" placeholder="Enter your {{ loginAttributeLabel|lower }}"
-                                />
+                                <input name="login" type="text" class="form-control" id="userSigninLogin"
+                                    placeholder="Enter your {{ loginAttributeLabel|lower }}" />
                             </div>
 
                             <div class="form-group">
                                 <label for="userSigninPassword">Password</label>
-                                <input name="password" type="password" class="form-control" id="userSigninPassword" placeholder="Enter your password" />
+                                <input name="password" type="password" class="form-control" id="userSigninPassword"
+                                    placeholder="Enter your password" />
                             </div>
                             <div style="display:flex">
-                                <button type="submit" class="btn btn-primary menu-user-widget-signin-btn">{{ _('login', 'rainlab.user::lang.account') }}</button>                                {{ form_close()}}
-                                <a class="btn btn-default" href="{{ 'user/account' |page }}" title="{{ _('register', 'rainlab.user::lang.account') }}"><i class="fa fa-sign-in" aria-hidden="true"></i></a>                                &nbsp;
-                                <a class="btn btn-default" href="{{ 'user/forgotpassword' |page }}" title="{{ _('reset_password', 'rainlab.user::lang.reset_password') }}"><i class="fa fa-question" aria-hidden="true"></i></a>
+                                <button type="submit"
+                                    class="btn btn-primary menu-user-widget-signin-btn">{{ _('login', 'rainlab.user::lang.account') }}</button>
+                                {{ form_close()}}
+                                <a class="btn btn-default" href="{{ 'user/account' |page }}"
+                                    title="{{ _('register', 'rainlab.user::lang.account') }}"><i class="fa fa-sign-in"
+                                        aria-hidden="true"></i></a> &nbsp;
+                                <a class="btn btn-default" href="{{ 'user/forgotpassword' |page }}"
+                                    title="{{ _('reset_password', 'rainlab.user::lang.reset_password') }}"><i
+                                        class="fa fa-question" aria-hidden="true"></i></a>
                             </div>
                         </div>
                     </li>
-                    {% endif %} 
+                    {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="usernav" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">{{ user.sloth.title }}</a>
+                        <ul role="menu" class="dropdown-menu pull-right">
+                            <li class="nav-item dropdown-submenu">
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" href="">Profile</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{'user/view' | page({id: user.sloth.user.id})}}" title="View Profile">View</a>
+                                    <a class="dropdown-item" href="{{'user/account' | page}}" title="Account Settings">Settings</a>
+                                </div>
+                            </li>
 
-            </ul>
+                            {% for team in user.sloth.teams %}
+                            <li class="nav-item dropdown-submenu" id="teamMenu{{loop.index}}">
+                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" href="">
+                                    {{ team.slug }}</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{'team/view' | page({slug: team.slug}) }}">View</a>
+                                    <a class="dropdown-item" href="{{ 'team/manageMatch' | page({slug: team.slug}) }}"
+                                        title="Manage Matches">Matches</a>
+
+                                    {% if user.sloth.isCaptainOfTeam(team) %}
+                                    <a class="dropdown-item" href="{{ 'team/manage' | page({slug: team.slug}) }}"
+                                        title="Manage {{team.title}}">Manage</a>
+                                    {% else %}
+                                    <a class="dropdown-item" role="button" href="" data-toggle="modal"
+                                        data-target="#leaveTeamModal{{loop.index}}">Leave {{ team.slug }}</a>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                            <a class="dropdown-item" role="button" href="{{ 'team/create' |page}}">Create Team</a>
+
+                            {% if can('cast_matches') %}
+                            <a class="dropdown-item" role="button" href="{{ 'user/casterschedule' |page}}" data-request="onLogOut">Casting Schedule</a>
+                            {% endif %}
+
+                            <a class="dropdown-item" role="button" href="#" data-request="onLogOut">Sign Out</a>
+                        </ul>
+                    </li>
+
+                    {% for team in user.sloth.teams %}
+                    {% if user.isCaptainOfTeam(team) == false %}
+                    {% put modal %}
+                    <div class="modal fade" tabindex="-1" role="dialog" id="leaveTeamModal{{loop.index}}"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <form>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">
+                                            Leaving your team: {{team.title}} ?
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="alert alert-danger">
+                                            Are you certain you would like to leave your current team?
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-danger"
+                                            data-request="{{__SELF__}}::onLeaveTeam"
+                                            data-request-data="team_id: {{team.id}}">Leave {{team.title}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {% default %}
+                    {% endput %}
+                    {% endif %}
+                    {% endfor %}
+
+                    {% endif %}
+
+                </ul>
+            </div>
         </div>
-</div>
-
-</nav>
+    </nav>
 </div>

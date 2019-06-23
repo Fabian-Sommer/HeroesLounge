@@ -4,8 +4,6 @@ description = "Clean layout"
 
 [googleTracker]
 
-[SideNav]
-
 [session]
 security = "all"
 
@@ -27,9 +25,6 @@ function onStart() {
 <body class="{{ this.page.id }} page page-{{ this.page.id }} {% placeholder bodyclass %}">
 
     {% partial 'base/head' %} 
-    <div class="sticky-top float-left" style="top:90px">
-        {% component 'SideNav' %}
-    </div>
     {% partial 'base/page' %} 
     {% partial 'base/foot' %} 
     {% placeholder modal %}

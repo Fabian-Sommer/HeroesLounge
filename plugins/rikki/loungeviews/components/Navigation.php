@@ -19,6 +19,7 @@ use Exception;
 use RainLab\User\Components\Account as UserAccount;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Rikki\Heroeslounge\Models\Season;
+use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 
 class Navigation extends UserAccount
@@ -143,6 +144,26 @@ class Navigation extends UserAccount
                 Flash::error($ex->getMessage());
             }
         }
+    }
+
+    public function onLeaveTeam()
+    {
+        $this->user = Auth::getUser();
+        if ($this->user != null) 
+        {
+            $this->sloth = $this->user->sloth;
+        }
+        if($this->sloth && isset($_POST['team_id']))
+        {
+            $this->sloth->leaveTeam(Team::findOrFail($_POST['team_id']));
+            return Redirect::refresh();
+        }
+    }
+
+    public function onLogOut()
+    {
+        Auth::logout();
+        return Redirect::refresh();
     }
 
     public function defineProperties()

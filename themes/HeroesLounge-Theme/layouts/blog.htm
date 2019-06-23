@@ -4,8 +4,6 @@ description = "Clean layout"
 
 [googleTracker]
 
-[SideNav]
-
 [SetTimezone]
 
 [session]
@@ -16,9 +14,6 @@ security = "all"
 <body class="{{ this.page.id }} page page-{{ this.page.id }} layout-{{ this.layout.id }} {% placeholder bodyclass %}">
 
     {% partial 'base/head' %} 
-    <div class="sticky-top float-left" style="top:90px">
-        {% component 'SideNav' %}
-    </div>
 
     <div class="section blog-feed bg-white">
         <div class="container">
