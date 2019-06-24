@@ -29,19 +29,16 @@ class SlothTeamPivot extends Pivot
             if ($this->is_captain) {
                 $sloth->addDiscordCaptainRole();
             } else {
-                if(!isCaptainOfOtherTeam ($sloth, $this->team_id)) {
+                if(!$this->isCaptainOfOtherTeam($sloth, $this->team_id)) {
                     $sloth->removeDiscordCaptainRole();
                 }
             }
         }
     }
 
-    public function isCaptainOfOtherTeam ($sloth, $updatedTeamId) {
-        $teamsCaptainOf = $sloth->teams->filter(function($index, $team) {
+    public function isCaptainOfOtherTeam($sloth, $updatedTeamId) {
+        return $sloth->teams->contains(function($team) use ($updatedTeamId) {
             return $team->id != $updatedTeamId && $team->pivot->is_captain;
         });
-
-        return $teamsCaptainOf->count() >= 1;
     }
-
 }
