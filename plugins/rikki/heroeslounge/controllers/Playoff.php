@@ -24,7 +24,7 @@ class Playoff extends Controller
     public function onMatchCreation()
     {
         $playoff = PlayoffModel::findOrFail(post('model_id'));
-        $playoff->createMatches();
+        $playoff->createMatches(post('year'), post('month'), post('day'), post('timezone'));
         $this->initForm($playoff);
         $this->initRelation($playoff, 'teams');
         return [

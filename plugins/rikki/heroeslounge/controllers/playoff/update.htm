@@ -18,15 +18,6 @@
             onclick="$(this).data('request-data', {
                 model_id: '<?= $this->formGetModel()->id ?>'
             })"
-            data-request="onMatchCreation">
-            Create Matches
-        </button>
-
-        <button
-            class="btn btn-sm btn-secondary oc-icon-clock-o"
-            onclick="$(this).data('request-data', {
-                model_id: '<?= $this->formGetModel()->id ?>'
-            })"
             data-request="onTeamCollection">
             Collect Teams from Groups
         </button>
@@ -74,6 +65,20 @@
             </div>
         </div>
     <?= Form::close() ?>
+
+    <form data-request="onMatchCreation" data-request-data="model_id: '<?= $this->formGetModel()->id ?>'">
+        Year: <input type="text" name="year">
+        Month: <input type="text" name="month">
+        Day: <input type="text" name="day">
+        Timezone: 
+        <select name="timezone">
+            <option value="Europe/Berlin">Europe/Berlin</option>
+            <option value="America/Los_Angeles">America/Los_Angeles</option>
+        </select>
+        <input type="submit" value="Create Matches"
+        class="btn btn-sm btn-secondary oc-icon-clock-o">
+    </form>
+    <br>
 
 <?php else: ?>
     <p class="flash-message static error"><?= e(trans($this->fatalError)) ?></p>
