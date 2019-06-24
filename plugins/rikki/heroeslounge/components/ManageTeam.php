@@ -231,12 +231,10 @@ class ManageTeam extends ComponentBase
         $currentCaptain->pivot->is_captain = false;
         $currentCaptain->pivot->save();
 
-        // // Promote user to captain
+        // Promote user to captain
         $slothToPromote = $this->team->sloths->where('title', post('promote'))->first();
         $slothToPromote->pivot->is_captain = true;
         $slothToPromote->pivot->save();
-        $slothToPromote->addDiscordCaptainRole();
-        $slothToPromote->save();
         
         Flash::success($slothToPromote->title.' has been promoted to Captain');
         return Redirect::to('/team/view/'.$this->team->slug);

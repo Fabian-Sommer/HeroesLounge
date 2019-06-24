@@ -76,6 +76,7 @@ class Team extends Model
             'otherKey' => 'sloth_id',
             'table' => 'rikki_heroeslounge_sloth_team',
             'pivot' => ['is_captain'],
+            'pivotModel' => 'Rikki\Heroeslounge\Models\SlothTeamPivot'
         ],
         'divisions' =>
         [
