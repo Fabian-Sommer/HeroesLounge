@@ -29,6 +29,9 @@ class ReplayParsing
     private $decodedHeader = null;
     private $decodedTrackerEvents = null;
     private $allSlothNames = null;
+    private $participationList = null;
+    private $talentTierCounters = null;
+    private $indizesToSlotId = null;
     private static $pythonPath = 'python2.7 ';//'python '
 
     public static function parseAllReplays($modify_winners = false)
@@ -55,42 +58,6 @@ class ReplayParsing
                 $parser->game = $game;
                 $parser->replay = $game->replay;
                 $parser->addGameDuration();
-            } else {
-                Log::error('Game '.$game->id.' has no replay.');
-            }
-        }
-    }
-
-    public static function addTrackerDetailsToAllReplays()
-    {
-        $allGames = Game::all();
-        foreach ($allGames as $game) {
-            set_time_limit(30);
-            if ($game->replay != null) {
-                Log::info('Parsing replay for game '. $game->id .' with disk name '. $game->replay->getLocalPath());
-                $parser = new ReplayParsing;
-                $parser->game = $game;
-                $parser->replay = $game->replay;
-                $parser->match = $game->match;
-                $parser->addTrackerDetails();
-            } else {
-                Log::error('Game '.$game->id.' has no replay.');
-            }
-        }
-    }
-
-    public static function addTrackerDetailsToAllNewReplays()
-    {
-        $allGames = Game::where('id', '>', 1980)->get();
-        foreach ($allGames as $game) {
-            set_time_limit(30);
-            if ($game->replay != null) {
-                Log::info('Parsing replay for game '. $game->id .' with disk name '. $game->replay->getLocalPath());
-                $parser = new ReplayParsing;
-                $parser->game = $game;
-                $parser->replay = $game->replay;
-                $parser->match = $game->match;
-                $parser->addTrackerDetails();
             } else {
                 Log::error('Game '.$game->id.' has no replay.');
             }
@@ -214,14 +181,10 @@ class ReplayParsing
             return [true, 'Map could not be recognized: ' . $this->decodedDetails["m_title"]];
         }
 
-        $map_id = $map->id;
-        //check that this map wasnt played before in this match
-        //TODO
-        $getMap = function ($game) {
-            return $game->map->id;
-        };
-        $mapsPlayedBefore = $this->match->games->map($getMap)->toArray();
-        if (in_array($map_id, $mapsPlayedBefore)) {
+        $mapPlayedBefore = $this->match->games->contains(function ($game) use ($map) {
+            return $game->map->id == $map->id;
+        });
+        if ($mapPlayedBefore && $map->title != "Lost Cavern") {
             return [true, 'This map was already played in this game.'];
         }
 
@@ -280,6 +243,9 @@ class ReplayParsing
             $this->replay->delete();
             return;
         }
+        $this->participationList = new Collection;
+        $this->talentTierCounters = new Collection;
+        $this->indizesToSlotId = new Collection;
 
         //get map from details
         $map = Map::where('title', $this->decodedDetails["m_title"])->first();
@@ -342,7 +308,7 @@ class ReplayParsing
                 if (!$hero) {
                     //game client might be localized, try translations
                     if ($playerDetails["m_hero"] == "Ана") {
-                        $hero = Hero::where('title', "Ana")->first();
+                        $hero = Hero::where('title', "Ana")->first(); //otherwise, this would match Sylvanas instead of Ana
                     } else {
                         $hero = Hero::where('translations', 'LIKE', '%'.$playerDetails["m_hero"].'%')->first();
                     }
@@ -384,6 +350,9 @@ class ReplayParsing
                     }
                 }
                 $participation->save();
+                $this->participationList[$playerDetails["m_workingSetSlotId"]] = $participation;
+                $this->talentTierCounters[$playerDetails["m_workingSetSlotId"]] = 0;
+                $this->indizesToSlotId[] = $playerDetails["m_workingSetSlotId"];
             }
         }
         
@@ -449,78 +418,33 @@ class ReplayParsing
         }
 
         $pickIndex = 0;
-        $participationList = new Collection;
-        $talentTierCounters = new Collection;
-        $indizesToSlotId = new Collection;
-        $decodedPlayerCollection = new Collection($this->decodedDetails['m_playerList']);
-        //identify who is contolling_player by looking at details and match hero to participation
-        foreach ($decodedPlayerCollection as $decodedPlayer) {
-            if ($decodedPlayer['m_observe'] == 0) {
-                $heroName = $decodedPlayer['m_hero'];
-                $hero = Hero::where('title', $heroName)->first();
-                if (!$hero) {
-                    //game client might be localized, try translations
-                    if ($heroName == "Ана") {
-                        $hero = Hero::where('title', "Ana")->first();
-                    } else {
-                        $hero = Hero::where('translations', 'LIKE', '%'.$heroName.'%')->first();
-                    }
-                }
-                if (!$hero) {
-                    Log::error("Hero not found: " . $playerDetails["m_hero"]);
-                }
-                $gameParticipation = GameParticipation::where('game_id', $this->game->id)
-                                        ->where('hero_id', $hero->id)
-                                        ->first();
-                if ($gameParticipation == null) {
-                    Log::error("Did not find game participation for game ". $this->game->id);
-                    return;
-                }
-                $gameParticipation->talents()->detach();
-                $participationList[$decodedPlayer['m_workingSetSlotId']] = $gameParticipation;
-                $talentTierCounters[$decodedPlayer['m_workingSetSlotId']] = 0;
-                $indizesToSlotId[] = $decodedPlayer['m_workingSetSlotId'];
-            }
-        }
-
         $swappingPlayer1 = -1;
+
         foreach ($this->decodedTrackerEvents as $decodedTrackerEvent) {
             if ($decodedTrackerEvent['_event'] == 'NNet.Replay.Tracker.SHeroPickedEvent') {
                 $pickIndex++;
-                $participationList[$decodedTrackerEvent['m_controllingPlayer']]->draft_order = $pickIndex;
+                $this->participationList[$decodedTrackerEvent['m_controllingPlayer']]->draft_order = $pickIndex;
             } elseif ($decodedTrackerEvent['_event'] == 'NNet.Replay.Tracker.SHeroSwappedEvent') {
                 if ($swappingPlayer1 == -1) {
                     $swappingPlayer1 = $decodedTrackerEvent['m_newControllingPlayer'];
                 } else {
                     $swappingPlayer2 = $decodedTrackerEvent['m_newControllingPlayer'];
-                    $temp = $participationList[$swappingPlayer1]->draft_order;
-                    $participationList[$swappingPlayer1]->draft_order = $participationList[$swappingPlayer2]->draft_order;
-                    $participationList[$swappingPlayer2]->draft_order = $temp;
+                    $temp = $this->participationList[$swappingPlayer1]->draft_order;
+                    $this->participationList[$swappingPlayer1]->draft_order = $this->participationList[$swappingPlayer2]->draft_order;
+                    $this->participationList[$swappingPlayer2]->draft_order = $temp;
                     $swappingPlayer1 = -1;
                 }
             } elseif ($decodedTrackerEvent['_event'] == 'NNet.Replay.Tracker.SStatGameEvent') { 
                 //talent picked
-
                 if ($decodedTrackerEvent['m_eventName'] == 'TalentChosen') {
-                	$listIndex = $indizesToSlotId[$decodedTrackerEvent['m_intData'][0]['m_value']-1];
-                	$talentTierCounters[$listIndex] = $talentTierCounters[$listIndex] + 1;
-                	$hid = $participationList[$listIndex]->hero->id;
+                	$listIndex = $this->indizesToSlotId[$decodedTrackerEvent['m_intData'][0]['m_value']-1];
+                	$talentTierCounters[$listIndex] = $this->talentTierCounters[$listIndex] + 1;
+                	$hid = $this->participationList[$listIndex]->hero->id;
                 	$talent = Talent::where('hero_id', $hid)->where('replay_title', $decodedTrackerEvent['m_stringData'][0]['m_value'])->first();
                 	if ($talent == null) {
                 		$t = Db::select("SELECT * FROM `rikki_heroeslounge_talents` WHERE '".$decodedTrackerEvent['m_stringData'][0]['m_value']."' LIKE CONCAT('%', suspected_replay_title, '%') AND replay_title IS NULL AND hero_id = ".$hid, []);
                 		if (array_key_exists(0, $t) && !array_key_exists(1, $t)) {
                 			$talent = Talent::find($t[0]->id);
-                		} else {
-                            /*
-                			$decoded_hero = HeroUpdater::updateTalentsForHero($participationList[$listIndex]->hero, $this->decodedHeader['m_dataBuildNum']);
-                			//try again
-                            if ($decoded_hero != null) {
-                                $t = Db::select("SELECT * FROM `rikki_heroeslounge_talents` WHERE '".$decodedTrackerEvent['m_stringData'][0]['m_value']."' LIKE CONCAT('%', suspected_replay_title, '%') AND replay_title = NULL AND hero_id = ".$hid, []);
-                                if (array_key_exists(0, $t) && !array_key_exists(1, $t)) {
-                                    $talent = Talent::find($t[0]->id);
-                                }
-                            }
-                            */
                 		}
                 		if ($talent != null) {
                 			$talent->replay_title = $decodedTrackerEvent['m_stringData'][0]['m_value'];
@@ -529,8 +453,8 @@ class ReplayParsing
                 		}
                 	}
                 	if ($talent != null) {
-                		$pivotData = ['talent_tier' => $talentTierCounters[$listIndex]];
-                		$participationList[$listIndex]->talents()->add($talent, $pivotData);
+                		$pivotData = ['talent_tier' => $this->talentTierCounters[$listIndex]];
+                		$this->participationList[$listIndex]->talents()->add($talent, $pivotData);
                 	} else {
                         Log::error('Could not recognize talent: '.$decodedTrackerEvent['m_stringData'][0]['m_value']. ' in game '. $this->game->id);
                     }
@@ -542,28 +466,28 @@ class ReplayParsing
                         case 'Deaths':
                             $data->each(function ($value, $key) use (&$participationList) {
                                 if (!empty($value)) {
-                                    $participationList[$key]->deaths = $value[0]['m_value'];
+                                    $this->participationList[$key]->deaths = $value[0]['m_value'];
                                 }
                             });
                             break;
                         case 'SoloKill':
                             $data->each(function ($value, $key) use (&$participationList) {
                                 if (!empty($value)) {
-                                    $participationList[$key]->kills = $value[0]['m_value'];
+                                    $this->participationList[$key]->kills = $value[0]['m_value'];
                                 }
                             });
                             break;
                         case 'Assists':
                             $data->each(function ($value, $key) use (&$participationList) {
                                 if (!empty($value)) {
-                                    $participationList[$key]->assists = $value[0]['m_value'];
+                                    $this->participationList[$key]->assists = $value[0]['m_value'];
                                 }
                             });
                             break;
                         case 'ExperienceContribution':
                             $data->each(function ($value, $key) use (&$participationList) {
                                 if (!empty($value)) {
-                                    $participationList[$key]->experience_contribution = $value[0]['m_value'];
+                                    $this->participationList[$key]->experience_contribution = $value[0]['m_value'];
                                 }
                             });
                             break;
@@ -571,35 +495,35 @@ class ReplayParsing
                         case 'SelfHealing':
                             $data->each(function ($value, $key) use (&$participationList) {
                                 if (!empty($value)) {
-                                    $participationList[$key]->healing = max($value[0]['m_value'], $participationList[$key]->healing);
+                                    $this->participationList[$key]->healing = max($value[0]['m_value'], $this->participationList[$key]->healing);
                                 }
                             });
                             break;
                         case 'SiegeDamage':
                             $data->each(function ($value, $key) use (&$participationList) {
                                 if (!empty($value)) {
-                                    $participationList[$key]->siege_damage = $value[0]['m_value'];
+                                    $this->participationList[$key]->siege_damage = $value[0]['m_value'];
                                 }
                             });
                             break;
                         case 'HeroDamage':
                             $data->each(function ($value, $key) use (&$participationList) {
                                 if (!empty($value)) {
-                                    $participationList[$key]->hero_damage = $value[0]['m_value'];
+                                    $this->participationList[$key]->hero_damage = $value[0]['m_value'];
                                 }
                             });
                             break;
                         case 'DamageTaken':
                             $data->each(function ($value, $key) use (&$participationList) {
                                 if (!empty($value)) {
-                                    $participationList[$key]->damage_taken = $value[0]['m_value'];
+                                    $this->participationList[$key]->damage_taken = $value[0]['m_value'];
                                 }
                             });
                             break;
                         case 'Level':
                             $data->each(function ($value, $key) use (&$participationList) {
                                 if (!empty($value)) {
-                                    if ($participationList[$key]->team_id == $this->game->team_one_id) {
+                                    if ($this->participationList[$key]->team_id == $this->game->team_one_id) {
                                         $this->game->team_one_level = $value[0]['m_value'];
                                     } else {
                                         $this->game->team_two_level = $value[0]['m_value'];
@@ -615,7 +539,7 @@ class ReplayParsing
             }
         }
         $this->game->save();
-        $participationList->each(function ($p) {
+        $this->participationList->each(function ($p) {
             $p->save();
         });
     }
