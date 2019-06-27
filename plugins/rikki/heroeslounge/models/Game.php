@@ -1,9 +1,10 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
-use \October\Rain\Database\Model;
+use October\Rain\Database\Model;
 use Illuminate\Support\Facades\DB;
 use Rikki\Heroeslounge\classes\ReplayParsing\ReplayParsing;
 use October\Rain\Support\Collection;
+use Log;
 
 /**
  * Model
@@ -91,11 +92,17 @@ class Game extends Model
         if (!$this->winner) {
             return null;
         }
-        if ($this->winner_id == $this->team_one_id) {
+        if ($this->teamTwo != null && $this->winner_id == $this->team_one_id) {
             return $this->teamTwo;
         }
-        if ($this->winner_id == $this->team_two_id) {
+        if ($this->teamOne != null && $this->winner_id == $this->team_two_id) {
             return $this->teamOne;
+        }
+        if ($this->match != null) {
+            $winner_id = $this->winner_id;
+            return $this->match->teams->filter(function ($team) use ($winner_id) {
+                return $team->id != $winner_id;
+            })->first();
         }
         return null;
     }
