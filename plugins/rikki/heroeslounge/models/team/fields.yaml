@@ -42,6 +42,13 @@ tabs:
             disabled: 1
             required: 0
             tab: General
+        topFiveMMR:
+            label: SlothRating - Top 5
+            span: left
+            type: number
+            disabled: 1
+            required: 0
+            tab: General
         banner:
             label: Banner
             span: left

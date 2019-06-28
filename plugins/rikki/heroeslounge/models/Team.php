@@ -223,6 +223,19 @@ class Team extends Model
         return $slothsMmr = $this->sloths->sortBy('mmr')->first()->mmr;
     }
 
+    public function getTopFiveMMRAttribute()
+    {
+        $topFivePlayers = $this->sloths->reject(function ($sloth) {
+            return $sloth->mmr == 0;
+        })->sortByDesc('mmr')->chunk(5);
+        if ($topFivePlayers->count() == 0) {
+            return 0;
+        }
+        return $topFivePlayers[0]->reduce(function ($carry, $sloth) {
+            return $carry + $sloth->mmr;
+        }) / $topFivePlayers[0]->count();
+    }
+
     public function getNumOfPlayersAttribute()
     {
         return $this->sloths->count();
