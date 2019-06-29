@@ -126,7 +126,7 @@ class Game extends Model
 
     public function afterDelete()
     {
-        DB::table('rikki_heroeslounge_team_match')->where('team_id', $this->winner->id)->where('match_id', $this->match_id)->where('team_score', '>', 0)->decrement('team_score');
+        DB::table('rikki_heroeslounge_team_match')->where('team_id', $this->winner_id)->where('match_id', $this->match_id)->where('team_score', '>', 0)->decrement('team_score');
     }
 
 
