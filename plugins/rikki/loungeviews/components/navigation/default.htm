@@ -203,46 +203,7 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ 'calendar' | page}}">Calendar</a>
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{  url('blog')}}">Blog</a>
-                    </li>
-
-                    {% if not user %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navSignIn" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">Login</a>
-                        <div class="dropdown-menu p-3" aria-labelledby="navSignIn">
-                            {{ form_open({request: 'onSignIn'}) }}
-                            <div class="form-group">
-                                <label for="userSigninLogin">{{ loginAttributeLabel }}</label>
-                                <input name="login" type="text" class="form-control" id="userSigninLogin"
-                                    placeholder="Enter your {{ loginAttributeLabel|lower }}" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="userSigninPassword">Password</label>
-                                <input name="password" type="password" class="form-control" id="userSigninPassword"
-                                    placeholder="Enter your password" />
-                            </div>
-                            <div style="display:flex">
-                                <button type="submit"
-                                    class="btn btn-primary menu-user-widget-signin-btn">{{ _('login', 'rainlab.user::lang.account') }}</button>
-                                {{ form_close()}}
-                                <a class="btn btn-default" href="{{ 'user/account' |page }}"
-                                    title="{{ _('register', 'rainlab.user::lang.account') }}"><i class="fa fa-sign-in"
-                                        aria-hidden="true"></i></a> &nbsp;
-                                <a class="btn btn-default" href="{{ 'user/forgotpassword' |page }}"
-                                    title="{{ _('reset_password', 'rainlab.user::lang.reset_password') }}"><i
-                                        class="fa fa-question" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                    </li>
-                    {% else %}
+                    {% if user %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="usernav" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">{{ user.sloth.title }}</a>
@@ -284,6 +245,48 @@
                             <a class="dropdown-item" role="button" href="#" data-request="onLogOut">Sign Out</a>
                         </ul>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ 'calendar' | page}}">Calendar</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{  url('blog')}}">Blog</a>
+                    </li>
+
+                    {% if not user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navSignIn" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Login</a>
+                        <div class="dropdown-menu p-3" aria-labelledby="navSignIn">
+                            {{ form_open({request: 'onSignIn'}) }}
+                            <div class="form-group">
+                                <label for="userSigninLogin">{{ loginAttributeLabel }}</label>
+                                <input name="login" type="text" class="form-control" id="userSigninLogin"
+                                    placeholder="Enter your {{ loginAttributeLabel|lower }}" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="userSigninPassword">Password</label>
+                                <input name="password" type="password" class="form-control" id="userSigninPassword"
+                                    placeholder="Enter your password" />
+                            </div>
+                            <div style="display:flex">
+                                <button type="submit"
+                                    class="btn btn-primary menu-user-widget-signin-btn">{{ _('login', 'rainlab.user::lang.account') }}</button>
+                                {{ form_close()}}
+                                <a class="btn btn-default" href="{{ 'user/account' |page }}"
+                                    title="{{ _('register', 'rainlab.user::lang.account') }}"><i class="fa fa-sign-in"
+                                        aria-hidden="true"></i></a> &nbsp;
+                                <a class="btn btn-default" href="{{ 'user/forgotpassword' |page }}"
+                                    title="{{ _('reset_password', 'rainlab.user::lang.reset_password') }}"><i
+                                        class="fa fa-question" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                    {% endif %}
+                    
 
                     {% for team in user.sloth.teams %}
                     {% if user.isCaptainOfTeam(team) == false %}
