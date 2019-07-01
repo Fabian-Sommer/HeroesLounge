@@ -140,14 +140,24 @@ class Team extends Model
             'key' => 'team_id',
             'otherKey' => 'playoff_id',
             'table' => 'rikki_heroeslounge_team_playoff',
-            'pivot' => ['seed'] 
+            'pivot' => ['seed']
         ],
     ];
+
 
 
     public function scopeWithMatches($query)
     {
         $query->with('matches', 'matches.games', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan');
+    }
+
+    public function ongoingCompetitions()
+    {
+        $ongoingSeasons = $this->seasons->where('is_active', 1)->where('reg_open', 0);
+        $ongoingPlayoffs = $this->playoffs->filter(function ($playoff) {
+            return $playoff->season == null ? false : $playoff->season->is_active && !$playoff->season->reg_open;
+        });
+        return $ongoingSeasons->merge($ongoingPlayoffs)->unique();
     }
 
     //only for signups
