@@ -38,7 +38,7 @@ class ManageMatches extends ComponentBase
             if ($this->team) {
                 $this->matches = $this->team->matches()->where(function ($q) {
                     $q->where('is_played', false);
-                })->get();
+                })->get()->sortBy('wbp');
 
                 $component = $this->addComponent(
                             'Rikki\Heroeslounge\Components\UpdateMatch',
