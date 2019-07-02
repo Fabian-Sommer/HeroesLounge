@@ -86,6 +86,10 @@ tabs:
             type: partial
             path: ~/plugins/rikki/heroeslounge/controllers/season/_teams.htm
             tab: Teams
+        free_agents:
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/season/_sloths.htm
+            tab: Free Agents
         timeline:
             type: partial
             path: ~/plugins/rikki/heroeslounge/controllers/season/_timeline.htm

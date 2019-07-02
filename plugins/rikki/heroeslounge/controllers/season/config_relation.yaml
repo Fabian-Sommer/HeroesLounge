@@ -21,8 +21,6 @@ teams:
             columns:
                 title:
                     label: Title
-                type:
-                    label: Type
         toolbarButtons: add|remove
     manage:
         showSearch: true
@@ -55,3 +53,16 @@ timeline:
                     oc.commentPosition: ''
                     nameFrom: title
                     type: relation
+free_agents:
+    label: Free Agents
+    view:
+        list:
+            columns:
+                title:
+                    label: Title
+        toolbarButtons: add|remove
+    manage:
+        list:
+            columns:
+                title:
+                    label: Title
