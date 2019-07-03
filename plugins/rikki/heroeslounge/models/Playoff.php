@@ -348,26 +348,26 @@ class Playoff extends Model
                         'wbp' => $Time5]
             ];
         } else if ($this->type == 'se16') {
-            $times = [  0 => Carbon::create($year, $month, $day, 1, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        1 => Carbon::create($year, $month, $day, 2, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        2 => Carbon::create($year, $month, $day, 1, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        3 => Carbon::create($year, $month, $day, 3, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())
+            $times = [  0 => Carbon::create($year, $month, $day, 13, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        1 => Carbon::create($year, $month, $day, 14, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        2 => Carbon::create($year, $month, $day, 15, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        3 => Carbon::create($year, $month, $day, 16, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())
                     ];
             $matchArray = $this->createSEMatches(4, $times);
         } else if ($this->type == 'se8') {
-            $times = [  0 => Carbon::create($year, $month, $day, 18, 15, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        1 => Carbon::create($year, $month, $day, 18, 15, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        2 => Carbon::create($year, $month, $day, 18, 15, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())
+            $times = [  0 => Carbon::create($year, $month, $day, 13, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        1 => Carbon::create($year, $month, $day, 14, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        2 => Carbon::create($year, $month, $day, 15, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())
                     ];
             $matchArray = $this->createSEMatches(3, $times);
         } else if ($this->type == 'se32') {
-            $times = [  0 => Carbon::create($year, $month, $day, 18, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        1 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        2 => Carbon::create($year, $month, $day, 20, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        3 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        4 => Carbon::create($year, $month, $day, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())
+            $times = [  0 => Carbon::create($year, $month, $day, 13, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        1 => Carbon::create($year, $month, $day, 14, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        2 => Carbon::create($year, $month, $day, 15, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        3 => Carbon::create($year, $month, $day, 16, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        4 => Carbon::create($year, $month, $day, 18, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())
                     ];
-            $otherTime = Carbon::create($year, $month, $day, 20, 0, 0, $timezone);
+            $otherTime = Carbon::create($year, $month, $day, 17, 0, 0, $timezone);
             $matchArray = $this->createSEMatches(5, $times);
             $matchArray[29]['wbp'] = $otherTime;
         } else if ($this->type == 'se64') {
