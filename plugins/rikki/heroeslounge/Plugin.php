@@ -226,6 +226,10 @@ class Plugin extends PluginBase
                 'sloth[region][title]' => [
                     'label' => 'Region',
                     'type' => 'text'
+                ],
+                'sloth[title]' => [
+                    'label' => 'Title',
+                    'type' => 'text'
                 ]
             ]);
         });
@@ -319,12 +323,6 @@ class Plugin extends PluginBase
                     'label' => 'Website URL',
                     'tab' => 'Sloth',
                     'type' => 'text'
-                ],
-                'sloth[teams]' => [
-                    'label' => 'Teams',
-                    'type' => 'relation',
-                    'nameFrom' => 'title',
-                    'tab' => 'Teams'
                 ]
             ]);
         });

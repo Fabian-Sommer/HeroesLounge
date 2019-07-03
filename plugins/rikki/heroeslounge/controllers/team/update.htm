@@ -7,6 +7,12 @@
 
 <?php if (!$this->fatalError): ?>
 
+    <form data-request="onAddSloth" data-request-data="model_id: '<?= $this->formGetModel()->id ?>'">
+        Add member to team: <input type="text" name="sloth_title"> (Enter sloth title here)
+        <input type="submit" value="Add team member"
+        class="btn btn-sm btn-secondary oc-icon-clock-o">
+    </form>
+
     <?= Form::open(['class' => 'layout']) ?>
  
         <div class="layout-row">

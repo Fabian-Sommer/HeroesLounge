@@ -21,6 +21,7 @@ use Validator;
 use ValidationException;
 use Response;
 use Log;
+use Db;
 
 class ManageTeam extends ComponentBase
 {
@@ -168,7 +169,7 @@ class ManageTeam extends ComponentBase
     private function handleRemovedPlayers($removedPlayers)
     {
         foreach ($removedPlayers as $player) {
-            $this->team->sloths()->remove($player);
+            Db::table('rikki_heroeslounge_sloth_team')->where('team_id', $this->team->id)->where('sloth_id', $player->id)->where('deleted_at', NULL)->update(['deleted_at' => Carbon::now()]);
             Flash::warning($player->title.' has been removed from your team');
         }
     }

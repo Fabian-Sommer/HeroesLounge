@@ -5,11 +5,14 @@ use Backend\Classes\Controller;
 use BackendMenu;
 
 use Rikki\Heroeslounge\Models\Team as TeamModel;
-use Rikki\Heroeslounge\Models\Sloth as Sloths;
+use Rikki\Heroeslounge\Models\Sloth;
+use Rikki\Heroeslounge\Models\SlothTeamPivot;
 use Rikki\Heroeslounge\Models\Timeline;
-use Redirect;
-
 use Rikki\Heroeslounge\classes\Discord;
+use Log;
+use Redirect;
+use Carbon\Carbon;
+use Db;
 
 class Team extends Controller
 {
@@ -47,9 +50,7 @@ class Team extends Controller
             $team = $model;
             $team->sloths->each(function($sloth) use ($team) {
                 $isCaptain = $sloth->isCaptain();
-
-                $sloth->teams()->detach($team);
-                $sloth->save();
+                Db::table('rikki_heroeslounge_sloth_team')->where('team_id', $team->id)->where('sloth_id', $sloth->id)->where('deleted_at', NULL)->update(['deleted_at' => Carbon::now()]);
 
                 if ($isCaptain != $sloth->isCaptain()) {
                     $sloth->removeDiscordCaptainRole();
@@ -68,6 +69,31 @@ class Team extends Controller
             });
             $team->seasons()->detach();
         }
+    }
+
+    public function onRelationButtonRemove()
+    {
+        if ($_POST['_relation_field'] == 'sloths') {
+            foreach ($_POST['checked'] as $key => $sloth_id) {
+                $team = TeamModel::where('title', $_POST['Team']['title'])->first();
+                Db::table('rikki_heroeslounge_sloth_team')->where('team_id', $team->id)->where('sloth_id', $sloth_id)->where('deleted_at', NULL)->update(['deleted_at' => Carbon::now()]);
+            }
+        } else {
+            Controller::onRelationButtonRemove();
+        }
+    }
+
+    public function onAddSloth()
+    {
+        $team = TeamModel::find(post('model_id'));
+        $sloth = Sloth::where('title', post('sloth_title'))->firstOrFail();
+        $team_id = $team->id;
+        if (!$sloth->teams->contains(function ($team) use ($team_id) {
+            return $team->id == $team_id;
+        })) {
+            Db::insert('insert into rikki_heroeslounge_sloth_team (sloth_id, team_id, created_at, updated_at) values (?, ?, ?, ?)', [$sloth->id, $team->id, Carbon::now(), Carbon::now()]);
+        }
+        return Redirect::refresh();
     }
 
 }

@@ -10,6 +10,8 @@ use Rikki\Heroeslounge\classes\Discord;
 use Rikki\Heroeslounge\classes\Mailchimp\MailChimpAPI;
 use Flash;
 use Log;
+use Db;
+use Carbon\Carbon;
 /**
  * Model
  */
@@ -111,7 +113,9 @@ class Sloth extends Model
             'otherKey' => 'team_id',
             'table' => 'rikki_heroeslounge_sloth_team',
             'pivot' => ['is_captain'],
-            'pivotModel' => 'Rikki\Heroeslounge\Models\SlothTeamPivot'
+            'pivotModel' => 'Rikki\Heroeslounge\Models\SlothTeamPivot',
+            'timestamps' => true,
+            'conditions' => "`rikki_heroeslounge_sloth_team`.`deleted_at` is null"
         ],
     ];
 
@@ -135,6 +139,7 @@ class Sloth extends Model
     {
         if($this->isCaptainOfTeam($team) == false) {
             $team->sloths()->remove($this);
+            Db::table('rikki_heroeslounge_sloth_team')->where('team_id', $team->id)->where('sloth_id', $this->id)->where('deleted_at', NULL)->update(['deleted_at' => Carbon::now()]);
             Flash::success('Succesfully left '.$team->title);
         } else {
             Flash::error('You are the captain of this team and cannot leave it');

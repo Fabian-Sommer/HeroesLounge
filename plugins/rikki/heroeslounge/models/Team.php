@@ -76,7 +76,9 @@ class Team extends Model
             'otherKey' => 'sloth_id',
             'table' => 'rikki_heroeslounge_sloth_team',
             'pivot' => ['is_captain'],
-            'pivotModel' => 'Rikki\Heroeslounge\Models\SlothTeamPivot'
+            'pivotModel' => 'Rikki\Heroeslounge\Models\SlothTeamPivot',
+            'timestamps' => true,
+            'conditions' => "`rikki_heroeslounge_sloth_team`.`deleted_at` is null"
         ],
         'divisions' =>
         [
@@ -111,7 +113,7 @@ class Team extends Model
             ],
             'scope' => 'active'
         ],
-         'divisions_count' =>
+        'divisions_count' =>
         [
             'Rikki\Heroeslounge\Models\Division',
             'table' => 'rikki_heroeslounge_team_division',
@@ -143,7 +145,6 @@ class Team extends Model
             'pivot' => ['seed']
         ],
     ];
-
 
 
     public function scopeWithMatches($query)

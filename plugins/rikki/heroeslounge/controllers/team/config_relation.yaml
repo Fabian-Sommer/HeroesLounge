@@ -64,7 +64,7 @@ sloths:
                 pivot[is_captain]:
                     label: Is Captain
                     type: switch
-        toolbarButtons: add|remove
+        toolbarButtons: remove
     manage:
         recordsPerPage: 20
         showSearch: true
