@@ -6,6 +6,7 @@ use BackendMenu;
 
 use Rikki\Heroeslounge\Models\Playoff as PlayoffModel;
 use Rikki\Heroeslounge\Models\Timeline;
+use Redirect;
 
 class Playoff extends Controller
 {
@@ -27,9 +28,7 @@ class Playoff extends Controller
         $playoff->createMatches(post('year'), post('month'), post('day'), post('timezone'));
         $this->initForm($playoff);
         $this->initRelation($playoff, 'teams');
-        return [
-            '#teamPartial' => $this->relationRender('teams', ['readOnly' => false])
-        ];
+        return Redirect::refresh();
     }
 
     public function onTeamAssignment()
@@ -49,8 +48,6 @@ class Playoff extends Controller
         $playoff->getSeedsFromGroups();
         $this->initForm($playoff);
         $this->initRelation($playoff, 'teams');
-        return [
-            '#teamPartial' => $this->relationRender('teams', ['readOnly' => false])
-        ];
+        return Redirect::refresh();
     }
 }

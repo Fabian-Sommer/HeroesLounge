@@ -81,6 +81,9 @@ class PlayoffOverview extends ComponentBase
             } else if ($this->playoff->type == 'playoffv3') {
                 $this->total_height = 43.9375;
                 $this->total_width = 60;
+            } else if ($this->playoff->type == 'DivSv1') {
+                $this->total_height = 25;
+                $this->total_width = 75;
             }
             $this->matches = [];
             $this->polylines = [];
@@ -275,6 +278,30 @@ class PlayoffOverview extends ComponentBase
             } else if ($dec_position['bracket'] == 3) {
                 $left = $round_width*7;
                 $top = 33.0625;
+            }
+        } else if ($this->playoff->type == 'DivSv1') {
+            if ($dec_position['bracket'] == 1) {
+                $left = 2 * $round_width * ($dec_position['round']-1);
+                if ($dec_position['matchnumber'] == 1) {
+                    $top = 2.6875;
+                } else if ($dec_position['matchnumber'] == 2) {
+                    $top = 2.6875 + 4.625;
+                }
+            } else if ($dec_position['bracket'] == 2) {
+                $left = $round_width * $dec_position['round'];
+                if ($dec_position['matchnumber'] == 1) {
+                    $top = 2.6875 + 10;
+                } else {
+                    $top = 2.6875 + 4.625 + 10;
+                }
+            } else if ($dec_position['bracket'] == 3) {
+                if ($dec_position['matchnumber'] == 1) {
+                    $left = $round_width*4;
+                    $top = 5;
+                } else {
+                    $left = $round_width*3;
+                    $top = 15;
+                }
             }
         }
         
