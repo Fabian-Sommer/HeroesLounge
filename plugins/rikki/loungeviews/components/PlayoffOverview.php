@@ -40,7 +40,6 @@ class PlayoffOverview extends ComponentBase
     public function init()
     {
         $this->user = Auth::getUser();
-
         if ($this->param('season-slug')) {
             $this->season = Season::where('slug',$this->param('season-slug'))->first();
             if ($this->season) {
@@ -51,6 +50,7 @@ class PlayoffOverview extends ComponentBase
         }
         
         if ($this->playoff) {
+            $this->page->title = $this->playoff->longTitle;
             if ($this->user) {
                 $this->userCaptainedTeams = $this->user->sloth->getCaptainedTeams();
                 foreach ($this->user->sloth->teams as $key => $team) {
