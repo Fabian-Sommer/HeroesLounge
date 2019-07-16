@@ -26,7 +26,3 @@ columns:
         label: 'Twitch channels'
         relation: channels
         select: title
-    region:
-        label: Region
-        type: text
-        
