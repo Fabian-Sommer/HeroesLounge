@@ -69,17 +69,17 @@ class MMRFetcher
                     $mmrs["HeroLeague"] = ["isRanked" => false, "mmr" => -1000];
                     $mmrs["TeamLeague"] = ["isRanked" => false, "mmr" => -1000];
                     $mmrs["UnrankedDraft"] = ["isRanked" => false, "mmr" => -1000];
+                    $mmrs["StormLeague"] = ["isRanked" => false, "mmr" => -1000];
 
-                    for ($i = 0; $i < 4; $i++) {
+                    for ($i = 0; $i < 5; $i++) {
                         if (array_key_exists($i, $mmrData)) {
                             $mmrs[$mmrData[$i]["GameMode"]]["isRanked"] = ($mmrData[$i]["LeagueRank"] != null);
                             $mmrs[$mmrData[$i]["GameMode"]]["mmr"] = $mmrData[$i]["CurrentMMR"];
                         }
                     }
 
-                    $hlWeight = 50;
-                    $tlWeight = 30;
-                    $udWeight = 20;
+                    $slWeight = 70;
+                    $udWeight = 30;
 
                     $rankedWeight = 0;
                     $rankedMMR = 0;
@@ -87,26 +87,18 @@ class MMRFetcher
                     $allWeight = 0;
                     $allMMR = 0;
 
-                    if ($mmrs["TeamLeague"]["isRanked"]) {
-                        $rankedWeight += $tlWeight;
-                        $rankedMMR += $mmrs["TeamLeague"]["mmr"] * $tlWeight;
-                    }
-                    if ($mmrs["HeroLeague"]["isRanked"]) {
-                        $rankedWeight += $hlWeight;
-                        $rankedMMR += $mmrs["HeroLeague"]["mmr"] * $hlWeight;
+                    if ($mmrs["StormLeague"]["isRanked"]) {
+                        $rankedWeight += $slWeight;
+                        $rankedMMR += $mmrs["StormLeague"]["mmr"] * $slWeight;
                     }
                     if ($mmrs["UnrankedDraft"]["isRanked"]) {
                         $rankedWeight += $udWeight;
                         $rankedMMR += $mmrs["UnrankedDraft"]["mmr"] * $udWeight;
                     }
 
-                    if ($mmrs["TeamLeague"]["mmr"] != -1000) {
-                        $allWeight += $tlWeight;
-                        $allMMR += $mmrs["TeamLeague"]["mmr"] * $tlWeight;
-                    }
-                    if ($mmrs["HeroLeague"]["mmr"] != -1000) {
-                        $allWeight += $hlWeight;
-                        $allMMR += $mmrs["HeroLeague"]["mmr"] * $hlWeight;
+                    if ($mmrs["StormLeague"]["mmr"] != -1000) {
+                        $allWeight += $slWeight;
+                        $allMMR += $mmrs["StormLeague"]["mmr"] * $slWeight;
                     }
                     if ($mmrs["UnrankedDraft"]["mmr"] != -1000) {
                         $allWeight += $udWeight;
