@@ -15,19 +15,23 @@
                 <div class="event-list--game row no-gutters">
                 <div class="event-list--division col-sm-12 col-md-3">
                     <span>{{match.wbp | date(__SELF__.timeFormat, __SELF__.timezone)}}</span>
-                    <span class="event-list--region">
-                        {% if match.playoff.region is not null %}
-                        [{{match.playoff.region.title}}]
-                        {% elseif match.teams[0].region_id is not null and match.teams[0].region_id == match.teams[1].region_id %}
-                        [{{match.teams[0].region.title}}]
-                        {% endif %}
-                    </span>
+                    
                     {% if match.division and match.division.playoff %}
-                    <span title="{{match.division.playoff.title}}" class="hideOverflow">{{match.division.playoff.title}}</span>
+                    <a 
+                    {% if match.division.playoff.season %} href="{{ 'season/playoff' | page({'season-slug': match.division.playoff.season.slug, 'playoff-title': match.division.playoff.title})}}"
+                    {% else %} href="{{ 'playoff/view' | page({'playoff-title': match.division.playoff.slug})}}"
+                    {% endif %} 
+                    title="{{match.division.playoff.longTitle}}">{{match.division.playoff.longTitle}}</a>
                     {% elseif match.playoff %}
-                    <span title="{{match.playoff.title}}" class="hideOverflow">{{match.playoff.title}}</span>
+                    <a 
+                    {% if match.playoff.season %} href="{{ 'season/playoff' | page({'season-slug': match.playoff.season.slug, 'playoff-title': match.playoff.title})}}"
+                    {% else %} href="{{ 'playoff/view' | page({'playoff-title': match.playoff.slug})}}" 
+                    {% endif %} 
+                    title="{{match.playoff.longTitle}}">{{match.playoff.longTitle}}</a>
                     {% else %}
-                    <span title="{{match.division.title}}" class="hideOverflow">{{match.division.title}}</span>
+                    <a {% if match.division.season %} href="{{ 'season/division'|page({slug: match.division.season.slug, divslug: match.division.slug})}}" {% endif %} title="{{match.division.title}}" class="hideOverflow">{% if match.teams[0].region_id is not null and match.teams[0].region_id == match.teams[1].region_id %}
+                        [{{match.teams[0].region.title}}]
+                        {% endif %} {{match.division.title}}</a>
                     {% endif %}
                     {%  for channel in match.channels  %}
                     <span class="event-list--time facebook">
