@@ -1,4 +1,4 @@
-{% if __SELF__.game.replay %}
+{% if __SELF__.game.gameParticipations is not empty %}
 <div class="row">
     <div class="col-6">
         <div class="media text-right">
@@ -95,17 +95,24 @@
         {% set map = 'assets/img/maps/bg_' ~__SELF__.game.map.title|replace({' ':'-'})|lower ~ '.jpg'%}
         <div class="text-center">
             <figure class="fixure mx-auto mb-0">
-                <a href="{{__SELF__.game.replay.path}}">
-                    <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{game.map.title}}" title="Click to download the replay file" style="max-width:234px">
-                </a>
-                <figcaption class="figure-caption">
-                    <span class="badge badge-info">{{__SELF__.game.map.title}}</span>
+                {% if __SELF__.game.replay %}
                     <a href="{{__SELF__.game.replay.path}}">
-                        <span class="badge badge-success">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Replay File
-                        </span>
+                        <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{game.map.title}}" title="Click to download the replay file" style="max-width:234px">
                     </a>
-                </figcaption>
+                    <figcaption class="figure-caption">
+                        <span class="badge badge-info">{{__SELF__.game.map.title}}</span>
+                        <a href="{{__SELF__.game.replay.path}}">
+                            <span class="badge badge-success">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Replay File
+                            </span>
+                        </a>
+                    </figcaption>
+                {% else %}
+                    <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{game.map.title}}" style="max-width:234px">
+                    <figcaption class="figure-caption">
+                    <span class="badge badge-info">{{__SELF__.game.map.title}}</span>
+                    </figcaption>
+                {% endif %}
             </figure>
         </div>
     </div>
