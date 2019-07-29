@@ -34,7 +34,7 @@ class SlothStatistics extends ComponentBase
         $this->addCss('assets/css/datatables.min.css');
 
         $this->sloth = Sloth::where('id', $this->property('sloth_id'))
-            ->with('gameParticipations', 'gameParticipations.team', 'gameParticipations.game', 'gameParticipations.game.map', 'gameParticipations.game.match', 'gameParticipations.hero', 'gameParticipations.game.teamOneFirstBan', 'gameParticipations.game.teamOneSecondBan', 'gameParticipations.game.teamTwoFirstBan', 'gameParticipations.game.teamTwoSecondBan')
+            ->with('gameParticipations', 'gameParticipations.team', 'gameParticipations.game', 'gameParticipations.game.map', 'gameParticipations.game.match', 'gameParticipations.hero', 'gameParticipations.game.teamOneFirstBan', 'gameParticipations.game.teamOneSecondBan', 'gameParticipations.game.teamOneThirdBan', 'gameParticipations.game.teamTwoFirstBan', 'gameParticipations.game.teamTwoSecondBan', 'gameParticipations.game.teamTwoThirdBan')
             ->first();
 
         $this->participatedSeasons = $this->sloth->gameParticipations

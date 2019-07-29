@@ -22,7 +22,7 @@ class Game extends Controller
     public function indexAllWithPlayers()
     {
         $retVal = [];
-        $games = GameModel::with('gameParticipations')->with('gameParticipations.hero')->with('map')->with('teamOneFirstBan')->with('teamOneSecondBan')->with('teamTwoFirstBan')->with('teamTwoSecondBan')->with('teamOne')->with('teamTwo')->get();
+        $games = GameModel::with('gameParticipations')->with('gameParticipations.hero')->with('map')->with('teamOneFirstBan')->with('teamOneSecondBan')->with('teamOneThirdBan')->with('teamTwoFirstBan')->with('teamTwoSecondBan')->with('teamTwoThirdBan')->with('teamOne')->with('teamTwo')->get();
         $games->each(function($g) use(&$retVal)
         {
             $gameData = ['Team One' => ($g->teamOne != null ? $g->teamOne->title : null),
@@ -32,8 +32,10 @@ class Game extends Controller
                          'Duration' => $g->duration,
                          'TeamOneFirstBan' => ($g->teamOneFirstBan ? $g->teamOneFirstBan->title : 'None'),
                          'TeamOneSecondBan' => ($g->teamOneSecondBan ? $g->teamOneSecondBan->title : 'None'),
+                         'teamOneThirdBan' => ($g->teamOneThirdBan ? $g->teamOneThirdBan->title : 'None'),
                          'TeamTwoFirstBan' => ($g->teamTwoFirstBan ? $g->teamTwoFirstBan->title : 'None'),
                          'TeamTwoSecondBan' => ($g->teamTwoSecondBan ? $g->teamTwoSecondBan->title : 'None'),
+                         'teamTwoThirdBan' => ($g->teamTwoThirdBan ? $g->teamTwoThirdBan->title : 'None'),
                          'TeamOneLevel' => $g->team_one_level,
                          'TeamTwoLevel' => $g->team_two_level,
                          'Players' => $g->gameParticipations->map(function ($gamePart, $key) {
