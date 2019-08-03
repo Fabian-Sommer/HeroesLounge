@@ -1,3 +1,5 @@
-<h3 class="display-4 my-5 text-truncate">
-    Welcome <a href="{{ 'user/view' | page({ id: user.id})}}">{{user.username}}</a>
+[viewBag]
+==
+<h3 class="display-4 text-truncate">
+    Welcome <a href="{{ 'user/view' | page({ id: user.id})}}">{{user.username}}</a>
 </h3>
