@@ -3,6 +3,7 @@ modelClass: Rikki\Heroeslounge\Models\Team
 form: $/rikki/heroeslounge/models/team/fields.yaml
 defaultRedirect: rikki/heroeslounge/team
 create:
+    form: $/rikki/heroeslounge/models/team/fields_on_create.yaml
     redirect: 'rikki/heroeslounge/team/update/:id'
     redirectClose: rikki/heroeslounge/team
 update:

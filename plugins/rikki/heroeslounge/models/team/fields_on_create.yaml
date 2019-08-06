@@ -1,0 +1,61 @@
+tabs:
+    fields:
+        title:
+            label: Title
+            span: auto
+            type: text
+            required: 1
+            tab: General
+        slug:
+            label: Slug
+            span: auto
+            type: text
+            disabled: 0
+            required: 1
+            preset:
+                field: title
+                type: slug
+            tab: General
+        region:
+            label: Region
+            span: auto
+            type: relation
+            required: 1
+            nameFrom: title
+            tab: General
+        server_preference:
+            label: Server Preference
+            span: left
+            type: text
+            tab: General
+        banner:
+            label: Banner
+            span: left
+            type: fileupload
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            tab: General
+        logo:
+            label: Logo
+            span: auto
+            type: fileupload
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            tab: General
+        short_description:
+            label: 'Short Description'
+            span: full
+            type: richeditor
+            size: large
+            tab: General
+        divisions:
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/team/_divisions.htm
+            tab: Divisions
