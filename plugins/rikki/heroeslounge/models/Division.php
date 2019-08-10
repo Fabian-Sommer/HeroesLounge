@@ -1,6 +1,8 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
+use Rikki\Heroeslounge\Models\Hero;
  
+use October\Rain\Support\Collection;
 use Model;
 use Log;
 /**
@@ -145,5 +147,50 @@ class Division extends Model
         return $teams->sortByDesc(function ($team) {
                     return 1000*$team->score + $team->map_score;
                 });
+    }
+
+    public function herostatistics()
+    {
+        $allHeroes = Hero::all()->sortBy('title');
+
+            $heroesArray = [];
+            foreach ($allHeroes as $hero) {
+                $heroesArray[$hero->title] = [];
+                $heroesArray[$hero->title]['hero'] = $hero;
+                $heroesArray[$hero->title]['picks'] = 0;
+                $heroesArray[$hero->title]['wins'] = 0;
+                $heroesArray[$hero->title]['bans'] = 0;
+            }
+
+            foreach($this->matches as $match) {
+                foreach ($match->games as $game) {
+                    $game->getTeamOneBans()->each( function ($item) use (&$heroesArray) {
+                        $heroesArray[$item->title]['bans']++;
+                    });
+                    $game->getTeamTwoBans()->each( function ($item) use (&$heroesArray) {
+                        $heroesArray[$item->title]['bans']++;
+                    });
+                    foreach ($game->gameParticipations as $gp) {
+                        if ($gp->hero == null) {
+                            continue;
+                        }
+
+                        $heroesArray[$gp->hero->title]['picks']++;
+
+                        if ($game->winner_id == $gp->team->id) {
+                            $heroesArray[$gp->hero->title]['wins']++;
+                        }                    
+                    }
+                }
+            }
+
+            $heroes2 = new Collection($heroesArray);
+            $filteredHeroes = $heroes2->reject(function ($hero_array) {
+                return $hero_array['picks'] + $hero_array['bans'] + $hero_array['bans'] == 0;
+            });
+
+            return $filteredHeroes->sortByDesc(function ($hero_array) {
+                return $hero_array['picks'] + $hero_array['bans'];
+            });
     }
 }
