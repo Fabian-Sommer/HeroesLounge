@@ -24,4 +24,8 @@ class Division extends Controller
         return DivisionModel::findOrFail($id)->teams;
     }
 
+    public function matches($id)
+    {
+        return DivisionModel::findOrFail($id)->matches;
+    }
 }
