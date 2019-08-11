@@ -196,7 +196,7 @@ class Swiss
                 return $team->id == $teamWithBye->id;
             });
             $byePair = [$teamWithBye , $byeTeam];
-        }      
+        }
 
         $pairings = $this->findMatching($div, $teams);
         

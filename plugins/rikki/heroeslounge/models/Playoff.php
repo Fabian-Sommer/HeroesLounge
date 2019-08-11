@@ -446,16 +446,23 @@ class Playoff extends Model
                         10 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
                     ];
             $matchArray = $this->createDEMatches(4, $times);
-        } else if ($this->type == 'groupsOfFour') {
+        } else if ($this->type == 'groupsOfThree' || $this->type == 'groupsOfFour') {
             $groups_until = Carbon::create($year, $month, $day, 23, 59, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
             $teamCount = $this->teams->count();
             $groups = [];
-            for ($i=0; $i < $teamCount; $i+=4) { 
+            $teamsPerGroup = 4;
+            if ($this->type == 'groupsOfThree') {
+                $teamsPerGroup = 3;
+            }
+            for ($i=0; $i < $teamCount; $i+=$teamsPerGroup) { 
                 $firstTeam = $this->teams()->where('seed', $i+1)->firstOrFail();
                 $secondTeam = $this->teams()->where('seed', $i+2)->firstOrFail();
                 $thirdTeam = $this->teams()->where('seed', $i+3)->firstOrFail();
-                $fourthTeam = $this->teams()->where('seed', $i+4)->firstOrFail();
-                $groups[$i] = ['title' => 'Group '.chr(65+$i/4), 'slug' => 'group-'.chr(97+$i/4),
+                $fourthTeam = null;
+                if ($this->type == 'groupsOfFour') {
+                    $fourthTeam = $this->teams()->where('seed', $i+4)->firstOrFail();
+                }
+                $groups[$i] = ['title' => 'Group '.chr(65+$i/4), 'slug' => 'group-'.chr(97+$i/$teamsPerGroup),
                         'teams' => [0 =>$firstTeam,1 => $secondTeam,2 => $thirdTeam,3 => $fourthTeam]];
             }
             foreach ($groups as $key => $groupe) {
@@ -467,12 +474,18 @@ class Playoff extends Model
                 $gr->teams()->add($groupe['teams'][0]);
                 $gr->teams()->add($groupe['teams'][1]);
                 $gr->teams()->add($groupe['teams'][2]);
-                $gr->teams()->add($groupe['teams'][3]);
+                if ($this->type == 'groupsOfFour') {
+                    $gr->teams()->add($groupe['teams'][3]);
+                }
                 $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][1], $gr, $groups_until);
-                $this->createGroupMatch($groupe['teams'][2], $groupe['teams'][3], $gr, $groups_until);
+                if ($this->type == 'groupsOfFour') {
+                    $this->createGroupMatch($groupe['teams'][2], $groupe['teams'][3], $gr, $groups_until);
+                }
                 $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][2], $gr, $groups_until);
-                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][3], $gr, $groups_until);
-                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][3], $gr, $groups_until);
+                if ($this->type == 'groupsOfFour') {
+                    $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][3], $gr, $groups_until);
+                    $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][3], $gr, $groups_until);
+                }
                 $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][2], $gr, $groups_until);
             }
         }
