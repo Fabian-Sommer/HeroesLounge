@@ -126,8 +126,8 @@ class Division extends Model
                     $teams->where('id', $team->id)->first()->score++;
                 }
             }
-            
-            foreach($match->games as $game) {
+
+            foreach ($match->games as $game) {
                 if ($game->winner) {
                     $winningTeam = $teams->where('id', $game->winner->id)->first();
                     if ($winningTeam) {
@@ -147,6 +147,55 @@ class Division extends Model
         return $teams->sortByDesc(function ($team) {
                     return 1000*$team->score + $team->map_score;
                 });
+    }
+
+    public function getDivisionTableStandings()
+    {
+        $teams = $this->teams()->withPivot('win_count')->withPivot('match_count')->withPivot('bye')->withPivot('free_win_count')->
+                        whereNull('rikki_heroeslounge_teams.deleted_at')->get();
+        
+        //calculate game wins
+        foreach ($teams as $team) {
+            $team->game_wins = 0;
+        }
+
+        foreach ($this->matches as $match) {
+            foreach ($match->games as $game) {
+                if ($game->winner) {
+                    $winner = $teams->where('id', $game->winner->id)->first();
+                    if ($winner) {
+                        $winner->game_wins++;
+                    }
+                }
+            }
+        }
+
+        return $teams->sortByDesc(function ($team) {
+            return 1000000*$team->pivot->win_count + 1000*$team->game_wins + $team->pivot->match_count - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
+        })->map(function ($team) {
+            $teamInfo = [];
+
+            $teamInfo["id"] = $team["id"];
+            $teamInfo["title"] = $team["title"];
+            $teamInfo["short_description"] = $team["short_description"];
+            $teamInfo["slug"] = $team["slug"];
+            $teamInfo["slothrating"] = $team["slothrating"];
+            $teamInfo["created_at"] = date ($team["created_at"]);
+            $teamInfo["updated_at"] = date ($team["updated_at"]);
+            $teamInfo["deleted_at"] = date ($team["deleted_at"]);
+            $teamInfo["facebook_url"] = $team["facebook_url"];
+            $teamInfo["twitch_url"] = $team["twitch_url"];
+            $teamInfo["twitter_url"] = $team["twitter_url"];
+            $teamInfo["youtube_url"] = $team["youtube_url"];
+            $teamInfo["website_url"] = $team["website_url"];
+            $teamInfo["accepting_apps"] = $team["accepting_apps"];
+            $teamInfo["disbanded"] = $team["disbanded"];
+            $teamInfo["region_id"] = $team["region_id"];
+            $teamInfo["server_preference"] = $team["server_preference"];
+            $teamInfo["pivot"] = $team["pivot"];
+            
+            return $teamInfo;
+        })->values()->all();
     }
 
     public function herostatistics()
