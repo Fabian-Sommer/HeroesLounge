@@ -18,4 +18,12 @@ class Division extends Controller
     {
         return DivisionModel::findOrFail($id)->getDivisionTableStandings();
     }
+
+    public function standing($divisionId, $teamId)
+    {
+        $standingsTable = DivisionModel::findOrFail($divisionId)->getDivisionTableStandings();
+        return $standingsTable->first(function ($team) use ($teamId) {
+            return $team['id'] == $teamId;
+        });
+    }
 }

@@ -170,32 +170,17 @@ class Division extends Model
             }
         }
 
-        return $teams->sortByDesc(function ($team) {
+        $sortedTeams = $teams->sortByDesc(function ($team) {
             return 1000000*$team->pivot->win_count + 1000*$team->game_wins + $team->pivot->match_count - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
-        })->map(function ($team) {
-            $teamInfo = [];
-
-            $teamInfo["id"] = $team["id"];
-            $teamInfo["title"] = $team["title"];
-            $teamInfo["short_description"] = $team["short_description"];
-            $teamInfo["slug"] = $team["slug"];
-            $teamInfo["slothrating"] = $team["slothrating"];
-            $teamInfo["created_at"] = date ($team["created_at"]);
-            $teamInfo["updated_at"] = date ($team["updated_at"]);
-            $teamInfo["deleted_at"] = date ($team["deleted_at"]);
-            $teamInfo["facebook_url"] = $team["facebook_url"];
-            $teamInfo["twitch_url"] = $team["twitch_url"];
-            $teamInfo["twitter_url"] = $team["twitter_url"];
-            $teamInfo["youtube_url"] = $team["youtube_url"];
-            $teamInfo["website_url"] = $team["website_url"];
-            $teamInfo["accepting_apps"] = $team["accepting_apps"];
-            $teamInfo["disbanded"] = $team["disbanded"];
-            $teamInfo["region_id"] = $team["region_id"];
-            $teamInfo["server_preference"] = $team["server_preference"];
-            $teamInfo["pivot"] = $team["pivot"];
-            
-            return $teamInfo;
         })->values()->all();
+
+        $tempTeams = new Collection($sortedTeams);
+
+        return $tempTeams->map(function ($team, $key) {
+            $team["pivot"]["position"] = $key + 1;;
+            
+            return new Collection($team);
+        });
     }
 
     public function herostatistics()
