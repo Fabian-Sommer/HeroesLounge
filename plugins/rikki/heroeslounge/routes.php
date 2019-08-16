@@ -54,6 +54,9 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::resource('talents','Rikki\Heroeslounge\Http\Talents');
     Route::get('talentsAll','Rikki\Heroeslounge\Http\Talents@indexAll');
 
+    Route::resource('roles', 'Rikki\Heroeslounge\Http\SlothRole');
+    Route::get('rolesAll', 'Rikki\Heroeslounge\Http\SlothRole@indexAll');
+
     Route::resource('applications', 'Rikki\Heroeslounge\Http\Applications');
     Route::resource('channel', 'Rikki\Heroeslounge\Http\Twitchchannel');
     Route::resource('timeline', 'Rikki\Heroeslounge\Http\Timeline');
