@@ -2,6 +2,9 @@
 
 use Backend\Classes\Controller;
 use Rikki\Heroeslounge\Models\Division as DivisionModel;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
+
+use Carbon\Carbon;
 
 /**
  * Division Back-end Controller
@@ -25,5 +28,15 @@ class Division extends Controller
         return $standingsTable->first(function ($team) use ($teamId) {
             return $team['id'] == $teamId;
         });
+    }
+
+    public function recentresults($id)
+    {
+        $timestamp = Carbon::today(TimezoneHelper::DEFAULT_TIMEZONE);
+        $timestamp->subDays(2);
+
+        return DivisionModel::findOrFail($id)->matches->filter(function ($match) use ($timestamp) {
+            return $match->is_played == true && $match->wbp > $timestamp;
+        })->all();
     }
 }
