@@ -4,6 +4,7 @@
 use October\Rain\Database\Model;
 use Rikki\Heroeslounge\Models\Timeline;
 use Rikki\Heroeslounge\Models\Team;
+use Rikki\Heroeslounge\Models\Hero;
 use Rikki\Heroeslounge\classes\hotslogs\IDFetcher;
 use Rikki\Heroeslounge\classes\MMR\MMRFetcher;
 use Rikki\Heroeslounge\classes\Discord;
@@ -12,6 +13,7 @@ use Flash;
 use Log;
 use Db;
 use Carbon\Carbon;
+use October\Rain\Support\Collection;
 /**
  * Model
  */
@@ -299,5 +301,48 @@ class Sloth extends Model
     public function removeDiscordCaptainRole()
     {
         Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "Captains");
+    }
+
+    public function herostatistics()
+    {
+        $allHeroes = Hero::all()->sortBy('title');
+        $heroesArray = [];
+
+        foreach ($allHeroes as $hero) {
+            $heroesArray[$hero->title] = [];
+            $heroesArray[$hero->title]['hero'] = $hero;
+            $heroesArray[$hero->title]['picks'] = 0;
+            $heroesArray[$hero->title]['wins'] = 0;
+        }
+
+        foreach ($this->gameParticipations as $gP) {
+            if ($gP->hero == null) {
+                continue;
+            }
+            if ($gP->game != null && $gP->game->match != null) {
+                $game = $gP->game;
+                $team = $gP->team;
+                if ($game == null or $team == null) {
+                    continue;
+                }
+                
+                // Find out if we won.
+                $winner = ($game->winner_id == $team->id);                
+
+                $heroesArray[$gP->hero->title]['picks']++;
+                if ($winner) {
+                    $heroesArray[$gP->hero->title]['wins']++;
+                }
+            }
+        }
+
+        $heroes2 = new Collection($heroesArray);
+        $filteredHeroes = $heroes2->reject(function ($hero_array) {
+            return $hero_array['picks'] == 0;
+        });
+
+        return $filteredHeroes->sortByDesc(function ($hero_array) {
+            return $hero_array['picks'] * 10 + $hero_array['wins'];
+        });
     }
 }
