@@ -12,5 +12,6 @@ allowedActions:
   update:
   destroy:
   standings:
+  standing:
 # Model Class name
 modelClass: Rikki\Heroeslounge\Models\Division

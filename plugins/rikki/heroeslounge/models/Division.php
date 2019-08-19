@@ -220,11 +220,11 @@ class Division extends Model
 
             $heroes2 = new Collection($heroesArray);
             $filteredHeroes = $heroes2->reject(function ($hero_array) {
-                return $hero_array['picks'] + $hero_array['bans'] + $hero_array['bans'] == 0;
+                return $hero_array['picks'] + $hero_array['bans'] == 0;
             });
 
             return $filteredHeroes->sortByDesc(function ($hero_array) {
-                return $hero_array['picks'] + $hero_array['bans'];
+                return $hero_array['picks'] * 10 + $hero_array['bans'];
             });
     }
 }
