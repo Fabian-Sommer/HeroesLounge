@@ -62,5 +62,4 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::resource('timeline', 'Rikki\Heroeslounge\Http\Timeline');
     Route::get('maps', 'Rikki\Heroeslounge\Http\Map@getEnabled');
     Route::get('logos', 'Rikki\Heroeslounge\Http\Team@logos');
-    
 });

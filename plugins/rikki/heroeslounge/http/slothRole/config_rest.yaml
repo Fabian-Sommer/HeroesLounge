@@ -13,4 +13,3 @@ allowedActions:
   destroy:
 # Model Class name
 modelClass: Rikki\Heroeslounge\Models\SlothRole
-

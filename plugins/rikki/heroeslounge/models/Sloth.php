@@ -9,6 +9,7 @@ use Rikki\Heroeslounge\classes\hotslogs\IDFetcher;
 use Rikki\Heroeslounge\classes\MMR\MMRFetcher;
 use Rikki\Heroeslounge\classes\Discord;
 use Rikki\Heroeslounge\classes\Mailchimp\MailChimpAPI;
+use Rikki\LoungeStatistics\classes\statistics\Statistics as Stats;
 use Flash;
 use Log;
 use Db;
@@ -305,39 +306,9 @@ class Sloth extends Model
 
     public function herostatistics()
     {
-        $allHeroes = Hero::all()->sortBy('title');
-        $heroesArray = [];
-
-        foreach ($allHeroes as $hero) {
-            $heroesArray[$hero->title] = [];
-            $heroesArray[$hero->title]['hero'] = $hero;
-            $heroesArray[$hero->title]['picks'] = 0;
-            $heroesArray[$hero->title]['wins'] = 0;
-        }
-
-        foreach ($this->gameParticipations as $gP) {
-            if ($gP->hero == null) {
-                continue;
-            }
-            if ($gP->game != null && $gP->game->match != null) {
-                $game = $gP->game;
-                $team = $gP->team;
-                if ($game == null or $team == null) {
-                    continue;
-                }
-                
-                // Find out if we won.
-                $winner = ($game->winner_id == $team->id);                
-
-                $heroesArray[$gP->hero->title]['picks']++;
-                if ($winner) {
-                    $heroesArray[$gP->hero->title]['wins']++;
-                }
-            }
-        }
-
-        $heroes2 = new Collection($heroesArray);
-        $filteredHeroes = $heroes2->reject(function ($hero_array) {
+        $data = $this->gameParticipations;
+        $rawStats = Stats::calculateHeroStatistics("sloth", $data);
+        $filteredHeroes = $rawStats->reject(function ($hero_array) {
             return $hero_array['picks'] == 0;
         });
 
