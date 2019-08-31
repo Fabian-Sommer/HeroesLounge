@@ -186,7 +186,7 @@ class Division extends Model
     public function herostatistics()
     {
         $data = $this->matches;
-        $rawStats = Stats::calculateHeroStatistics("division", $data);
+        $rawStats = Stats::calculateHeroStatistics("division", $data, null);
         $filteredHeroes = $rawStats->reject(function ($hero_array) {
             return $hero_array['picks'] + $hero_array['bans'] == 0;
         });

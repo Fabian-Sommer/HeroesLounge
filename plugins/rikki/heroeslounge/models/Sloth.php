@@ -307,7 +307,7 @@ class Sloth extends Model
     public function herostatistics()
     {
         $data = $this->gameParticipations;
-        $rawStats = Stats::calculateHeroStatistics("sloth", $data);
+        $rawStats = Stats::calculateHeroStatistics("sloth", $data, null);
         $filteredHeroes = $rawStats->reject(function ($hero_array) {
             return $hero_array['picks'] == 0;
         });
