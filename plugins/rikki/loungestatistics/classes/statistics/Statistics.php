@@ -9,13 +9,9 @@ class Statistics
 {
     /*
         Current supported types are:
-            - division -> Division api endpoint.
-            - sloth -> sloth hero statistics endpoint.
-            - slothAll -> sloth statistics component.
-
-        Our current types of rawData are:
-        - Matches
-        - gameParticipations        
+            - division -> Division api endpoint         => Expects $rawData of type Matches.
+            - sloth -> sloth hero statistics endpoint   => Expects $rawData of type gameParticipations.
+            - slothAll -> sloth statistics component    => Expects $rawData of type gameParticipations.        
     */
     public static function calculateHeroStatistics($type, $rawData, $season)
     {
@@ -33,8 +29,6 @@ class Statistics
             } else if ($type == "slothAll") {
                 $heroesArray[$hero->title]['bans_by_team'] = 0;
                 $heroesArray[$hero->title]['bans_against_team'] = 0;
-                $heroesArray[$hero->title]['bans_against_team'] = 0;
-                $heroesArray[$hero->title]['bans_by_team'] = 0;
                 $heroesArray[$hero->title]['kills'] = 0;
                 $heroesArray[$hero->title]['assists'] = 0;
                 $heroesArray[$hero->title]['deaths'] = 0;
@@ -49,82 +43,99 @@ class Statistics
         }
 
         if ($type == "sloth" || $type == "slothAll") {
-            foreach ($rawData as $gP) {
-                if ($gP->hero == null) {
-                    continue;
-                }
-                if ($season == null || ($gP->game != null && $gP->game->match != null && $gP->game->match->belongsToSeason($season))) {
-                    $game = $gP->game;
-                    $team = $gP->team;
-                    if ($game == null or $team == null) {
-                        continue;
-                    }
-                    
-                    // Find out team information.
-                    $winner = ($game->winner_id == $team->id);
-                    $tO = ($game->team_one_id == $team->id);
-                    
-                    $game->getTeamOneBans()->each( function ($item) use ($tO, &$heroesArray) {
-                        if ($tO) {
-                            $heroesArray[$item->title]['bans_by_team']++;
-                        } else {
-                            $heroesArray[$item->title]['bans_against_team']++;
-                        }
-                    });
-                    $game->getTeamTwoBans()->each( function ($item) use ($tO, &$heroesArray) {
-                        if ($tO) {
-                            $heroesArray[$item->title]['bans_against_team']++;
-                        } else {
-                            $heroesArray[$item->title]['bans_by_team']++;
-                        }
-                    });
-    
-                    $heroesArray[$gP->hero->title]['picks']++;
-                    if ($winner) {
-                        $heroesArray[$gP->hero->title]['wins']++;
-                    }
-
-                    if ($type == "slothAll") {
-                        $hero = $gP->hero;
-                        $heroesArray[$hero->title]['kills'] += $gP->kills;
-                        $heroesArray[$hero->title]['assists'] += $gP->assists;
-                        $heroesArray[$hero->title]['deaths'] += $gP->deaths;
-                        $heroesArray[$hero->title]['siege_dmg'] += $gP->siege_damage;
-                        $heroesArray[$hero->title]['hero_dmg'] += $gP->hero_damage;
-                        $heroesArray[$hero->title]['dmg_taken'] += $gP->damage_taken;
-                        $heroesArray[$hero->title]['healing'] += $gP->healing;
-                        $heroesArray[$hero->title]['xp'] += $gP->experience_contribution;
-                    }
-                }
-            }
+            $heroesArray = Self::calculateSlothStatistics($type, $heroesArray, $rawData, $season);
         } else if ($type == "division") {
-            foreach($rawData as $match) {
-                foreach ($match->games as $game) {
-                    $game->getTeamOneBans()->each( function ($item) use (&$heroesArray) {
-                        $heroesArray[$item->title]['bans']++;
-                    });
-                    $game->getTeamTwoBans()->each( function ($item) use (&$heroesArray) {
-                        $heroesArray[$item->title]['bans']++;
-                    });
-                    foreach ($game->gameParticipations as $gP) {
-                        if ($gP->hero == null) {
-                            continue;
-                        }
+            $heroesArray = Self::calculateDivisionStatistics($heroesArray, $rawData);
+        }
 
-                        $heroesArray[$gP->hero->title]['picks']++;
+        $heroesCollection =  new Collection($heroesArray);
+        return $heroesCollection->reject(function ($hero_array) use ($type) {
+            if ($type == "sloth" || $type == "slothAll") {
+                return $hero_array['picks'] + $hero_array['bans_by_team'] +  $hero_array['bans_against_team'] == 0;
+            } else if ($type == "division") {
+                return $hero_array['picks'] + $hero_array['bans'] == 0;
+            }
+        });
+    }
 
-                        if ($game->winner_id == $gP->team->id) {
-                            $heroesArray[$gP->hero->title]['wins']++;
-                        }                    
+    private static function calculateSlothStatistics($type, $heroesArray, $rawData, $season)
+    {
+        foreach ($rawData as $gP) {
+            $game = $gP->game;
+            $team = $gP->team;
+            if ($gP->hero == null || $game == null || $team == null) {
+                continue;
+            }
+
+            if ($season == null || ($gP->game != null && $gP->game->match != null && $gP->game->match->belongsToSeason($season))) {
+                // Find out if we are team one in the replay.
+                $isTeamOne = ($game->team_one_id == $team->id);
+                
+                $game->getTeamOneBans()->each( function ($item) use ($isTeamOne, &$heroesArray) {
+                    if ($isTeamOne) {
+                        $heroesArray[$item->title]['bans_by_team']++;
+                    } else {
+                        $heroesArray[$item->title]['bans_against_team']++;
                     }
+                });
+                $game->getTeamTwoBans()->each( function ($item) use ($isTeamOne, &$heroesArray) {
+                    if ($isTeamOne) {
+                        $heroesArray[$item->title]['bans_against_team']++;
+                    } else {
+                        $heroesArray[$item->title]['bans_by_team']++;
+                    }
+                });
+
+                $heroesArray[$gP->hero->title]['picks']++;
+                if ($game->winner_id == $team->id) {
+                    $heroesArray[$gP->hero->title]['wins']++;
+                }
+
+                if ($type == "slothAll") {
+                    $hero = $gP->hero;
+                    $heroesArray[$hero->title]['kills'] += $gP->kills;
+                    $heroesArray[$hero->title]['assists'] += $gP->assists;
+                    $heroesArray[$hero->title]['deaths'] += $gP->deaths;
+                    $heroesArray[$hero->title]['siege_dmg'] += $gP->siege_damage;
+                    $heroesArray[$hero->title]['hero_dmg'] += $gP->hero_damage;
+                    $heroesArray[$hero->title]['dmg_taken'] += $gP->damage_taken;
+                    $heroesArray[$hero->title]['healing'] += $gP->healing;
+                    $heroesArray[$hero->title]['xp'] += $gP->experience_contribution;
                 }
             }
         }
 
-        return new Collection($heroesArray);
+        return $heroesArray;
     }
 
-    // $rawData needs to be of type gameParticipations.
+    private static function calculateDivisionStatistics($heroesArray, $rawData)
+    {
+        foreach($rawData as $match) {
+            foreach ($match->games as $game) {
+                $game->getTeamOneBans()->each( function ($item) use (&$heroesArray) {
+                    $heroesArray[$item->title]['bans']++;
+                });
+                $game->getTeamTwoBans()->each( function ($item) use (&$heroesArray) {
+                    $heroesArray[$item->title]['bans']++;
+                });
+                foreach ($game->gameParticipations as $gP) {
+                    if ($gP->hero == null) {
+                        continue;
+                    }
+
+                    $heroesArray[$gP->hero->title]['picks']++;
+
+                    if ($game->winner_id == $gP->team->id) {
+                        $heroesArray[$gP->hero->title]['wins']++;
+                    }                    
+                }
+            }
+        }
+
+        return $heroesArray;
+    }
+
+    // $rawData expects gameParticipations.
     public static function calculateMapStatistics($rawData, $season)
     {
         $allMaps = Map::all()->sortBy('title');
@@ -145,22 +156,23 @@ class Statistics
                     continue;
                 }
 
-                // Check if we are the game winner.
-                $winner = ($game->winner_id == $team->id);
-
                 if ($game->map && $game->replay) {
                     if ($team->title == $game->getSecondPickTeam()) {
                         $mapArray[$game->map->title]['picks_by']++;
                     } else {
                         $mapArray[$game->map->title]['picks_vs']++;
                     }
-                    if ($winner) {
+
+                    if ($game->winner_id == $team->id) {
                         $mapArray[$game->map->title]['winrate']++;
                     }
                 }
             }
         }
 
-        return new Collection ($mapArray);
+        $mapCollection = new Collection($mapArray);
+        return $mapCollection->reject(function ($map_array) {
+            return $map_array['picks_by'] + $map_array['picks_vs'] == 0;
+        });
     }
 }

@@ -52,17 +52,13 @@ class SlothStatistics extends ComponentBase
 
     public function calculateStats($season)
     {       
-        $data = $this->sloth->gameParticipations;
-        $rawHeroStats = Stats::calculateHeroStatistics("slothAll", $data, $season);
-        $rawMapStats = Stats::calculateMapStatistics($data, $season);
-        $gamecount = $rawMapStats->reduce(function ($carry, $map) {
+        $heroStats = Stats::calculateHeroStatistics("slothAll", $this->sloth->gameParticipations, $this->selectedSeason);
+        $mapStats = Stats::calculateMapStatistics($this->sloth->gameParticipations, $this->selectedSeason);
+        $gamecount = $mapStats->reduce(function ($carry, $map) {
             return $carry + $map["picks_by"] + $map["picks_vs"];
         }, 0);
 
-        $filteredHeroes = $rawHeroStats->reject(function ($hero_array) {
-            return $hero_array['picks'] + $hero_array['bans_by_team'] + $hero_array['bans_against_team'] == 0;
-        });
-        foreach ($filteredHeroes as $key => $hero_array) {
+        foreach ($heroStats as $key => $hero_array) {
             if ($hero_array['picks'] > 0) {
                 $hero_array['winrate'] = round($hero_array['wins'] / (0.01 * $hero_array['picks']),2);
                 $hero_array['winrate'] .= '%';
@@ -94,22 +90,19 @@ class SlothStatistics extends ComponentBase
                 $hero_array['bat_popularity'] = '-';
                 $hero_array['bbt_popularity'] = '-';
             }
-            $filteredHeroes[$key] = $hero_array;
+            $heroStats[$key] = $hero_array;
         }
-        $this->heroes = $filteredHeroes->sortByDesc(function ($hero_array) {
+        $this->heroes = $heroStats->sortByDesc(function ($hero_array) {
             return $hero_array['picks'] + $hero_array['bans_by_team'] + $hero_array['bans_against_team'];
         });
 
-
-        $filteredMaps = $rawMapStats->reject(function ($map_array) {
-            return $map_array['picks_by'] + $map_array['picks_vs'] == 0;
-        });
-        foreach ($filteredMaps as $key => $map_array) {
+        
+        foreach ($mapStats as $key => $map_array) {
             $map_array['winrate'] = round($map_array['winrate']/(($map_array['picks_by'] + $map_array['picks_vs'])*0.01),2);
             $map_array['winrate'] .= '%';
-            $filteredMaps[$key] = $map_array;
+            $mapStats[$key] = $map_array;
         }
-        $this->maps = $filteredMaps->sortByDesc(function ($map_array) {
+        $this->maps = $mapStats->sortByDesc(function ($map_array) {
             return $map_array['picks_by'] + $map_array['picks_vs'];
         });
     }
