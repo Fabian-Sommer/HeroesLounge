@@ -4,14 +4,17 @@
 use October\Rain\Database\Model;
 use Rikki\Heroeslounge\Models\Timeline;
 use Rikki\Heroeslounge\Models\Team;
+use Rikki\Heroeslounge\Models\Hero;
 use Rikki\Heroeslounge\classes\hotslogs\IDFetcher;
 use Rikki\Heroeslounge\classes\MMR\MMRFetcher;
 use Rikki\Heroeslounge\classes\Discord;
 use Rikki\Heroeslounge\classes\Mailchimp\MailChimpAPI;
+use Rikki\LoungeStatistics\classes\statistics\Statistics as Stats;
 use Flash;
 use Log;
 use Db;
 use Carbon\Carbon;
+use October\Rain\Support\Collection;
 /**
  * Model
  */
@@ -299,5 +302,13 @@ class Sloth extends Model
     public function removeDiscordCaptainRole()
     {
         Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "Captains");
+    }
+
+    public function herostatistics($season)
+    {
+        $stats = Stats::calculateHeroStatistics("sloth", $this->gameParticipations, null, $season);
+        return $stats->sortByDesc(function ($hero_array) {
+            return $hero_array['picks'] * 1000000 + $hero_array['wins'];
+        });
     }
 }

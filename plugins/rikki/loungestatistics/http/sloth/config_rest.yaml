@@ -6,12 +6,12 @@
 allowedActions:
   index:
       pageSize: 20
-  indexAll:
   store:
   show:
   update:
   destroy:
-  teams:
-  matches:
+  herostatistics:
+  seasonHerostatistics:
+
 # Model Class name
-modelClass: Rikki\Heroeslounge\Models\Division
+modelClass: Rikki\Heroeslounge\Models\Sloth

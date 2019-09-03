@@ -11,7 +11,8 @@ allowedActions:
   show:
   update:
   destroy:
-  teams:
-  matches:
+  standings:
+  standing:
+  recentresults:
 # Model Class name
 modelClass: Rikki\Heroeslounge\Models\Division

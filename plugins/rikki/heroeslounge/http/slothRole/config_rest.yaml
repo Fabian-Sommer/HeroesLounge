@@ -11,7 +11,5 @@ allowedActions:
   show:
   update:
   destroy:
-  teams:
-  matches:
 # Model Class name
-modelClass: Rikki\Heroeslounge\Models\Division
+modelClass: Rikki\Heroeslounge\Models\SlothRole

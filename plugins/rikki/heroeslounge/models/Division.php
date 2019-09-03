@@ -1,6 +1,8 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
+use Rikki\LoungeStatistics\classes\statistics\Statistics as Stats;
  
+use October\Rain\Support\Collection;
 use Model;
 use Log;
 /**
@@ -124,8 +126,8 @@ class Division extends Model
                     $teams->where('id', $team->id)->first()->score++;
                 }
             }
-            
-            foreach($match->games as $game) {
+
+            foreach ($match->games as $game) {
                 if ($game->winner) {
                     $winningTeam = $teams->where('id', $game->winner->id)->first();
                     if ($winningTeam) {
@@ -145,5 +147,47 @@ class Division extends Model
         return $teams->sortByDesc(function ($team) {
                     return 1000*$team->score + $team->map_score;
                 });
+    }
+
+    public function getDivisionTableStandings()
+    {
+        $teams = $this->teams()->withPivot('win_count')->withPivot('match_count')->withPivot('bye')->withPivot('free_win_count')->
+                        whereNull('rikki_heroeslounge_teams.deleted_at')->get();
+        
+        //calculate game wins
+        foreach ($teams as $team) {
+            $team->game_wins = 0;
+        }
+
+        foreach ($this->matches as $match) {
+            foreach ($match->games as $game) {
+                if ($game->winner) {
+                    $winner = $teams->where('id', $game->winner->id)->first();
+                    if ($winner) {
+                        $winner->game_wins++;
+                    }
+                }
+            }
+        }
+
+        $sortedTeams = $teams->sortByDesc(function ($team) {
+            return 1000000*$team->pivot->win_count + 1000*$team->game_wins + $team->pivot->match_count - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
+        })->values()->all();
+
+        $tempTeams = new Collection($sortedTeams);
+
+        return $tempTeams->map(function ($team, $key) {
+            $team["pivot"]["position"] = $key + 1;;
+            
+            return new Collection($team);
+        });
+    }
+
+    public function herostatistics()
+    {
+        $stats = Stats::calculateHeroStatistics("division", null, $this->matches, null);
+        return $stats->sortByDesc(function ($hero_array) {
+            return $hero_array['picks'] * 1000000 + $hero_array['bans'];
+        });
     }
 }
