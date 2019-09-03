@@ -52,7 +52,7 @@ class SlothStatistics extends ComponentBase
 
     public function calculateStats($season)
     {       
-        $heroStats = Stats::calculateHeroStatistics("slothAll", $this->sloth->gameParticipations, $this->selectedSeason);
+        $heroStats = Stats::calculateHeroStatistics("slothAll", $this->sloth->gameParticipations, null, $this->selectedSeason);
         $mapStats = Stats::calculateMapStatistics($this->sloth->gameParticipations, $this->selectedSeason);
         $gamecount = $mapStats->reduce(function ($carry, $map) {
             return $carry + $map["picks_by"] + $map["picks_vs"];

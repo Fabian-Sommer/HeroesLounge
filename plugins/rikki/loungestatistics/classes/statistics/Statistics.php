@@ -9,11 +9,11 @@ class Statistics
 {
     /*
         Current supported types are:
-            - division -> Division api endpoint         => Expects $rawData of type Matches.
-            - sloth -> sloth hero statistics endpoint   => Expects $rawData of type gameParticipations.
-            - slothAll -> sloth statistics component    => Expects $rawData of type gameParticipations.        
+            - division -> Division api endpoint         => Expects $matches to be defined.
+            - sloth -> sloth hero statistics endpoint   => Expects $gameParticipations to be defined.
+            - slothAll -> sloth statistics component    => Expects $gameParticipations to be defined.        
     */
-    public static function calculateHeroStatistics($type, $rawData, $season)
+    public static function calculateHeroStatistics($type, $gameParticipations, $matches, $season)
     {
         $allHeroes = Hero::all()->sortBy('title');
         $heroesArray = [];
@@ -43,24 +43,17 @@ class Statistics
         }
 
         if ($type == "sloth" || $type == "slothAll") {
-            $heroesArray = Self::calculateSlothStatistics($type, $heroesArray, $rawData, $season);
+            $heroesArray = Self::calculateSlothStatistics($type, $heroesArray, $gameParticipations, $season);
         } else if ($type == "division") {
-            $heroesArray = Self::calculateDivisionStatistics($heroesArray, $rawData);
+            $heroesArray = Self::calculateDivisionStatistics($heroesArray, $matches);
         }
 
-        $heroesCollection =  new Collection($heroesArray);
-        return $heroesCollection->reject(function ($hero_array) use ($type) {
-            if ($type == "sloth" || $type == "slothAll") {
-                return $hero_array['picks'] + $hero_array['bans_by_team'] +  $hero_array['bans_against_team'] == 0;
-            } else if ($type == "division") {
-                return $hero_array['picks'] + $hero_array['bans'] == 0;
-            }
-        });
+        return new Collection($heroesArray);
     }
 
-    private static function calculateSlothStatistics($type, $heroesArray, $rawData, $season)
+    private static function calculateSlothStatistics($type, $heroesArray, $gameParticipations, $season)
     {
-        foreach ($rawData as $gP) {
+        foreach ($gameParticipations as $gP) {
             $game = $gP->game;
             $team = $gP->team;
             if ($gP->hero == null || $game == null || $team == null) {
@@ -108,9 +101,9 @@ class Statistics
         return $heroesArray;
     }
 
-    private static function calculateDivisionStatistics($heroesArray, $rawData)
+    private static function calculateDivisionStatistics($heroesArray, $matches)
     {
-        foreach($rawData as $match) {
+        foreach($matches as $match) {
             foreach ($match->games as $game) {
                 $game->getTeamOneBans()->each( function ($item) use (&$heroesArray) {
                     $heroesArray[$item->title]['bans']++;
@@ -135,8 +128,7 @@ class Statistics
         return $heroesArray;
     }
 
-    // $rawData expects gameParticipations.
-    public static function calculateMapStatistics($rawData, $season)
+    public static function calculateMapStatistics($gameParticipations, $season)
     {
         $allMaps = Map::all()->sortBy('title');
         $mapArray = [];
@@ -148,7 +140,7 @@ class Statistics
             $mapArray[$map->title]['winrate'] = 0;
         }
 
-        foreach ($rawData as $gP) {
+        foreach ($gameParticipations as $gP) {
             if ($season == null || ($gP->game != null && $gP->game->match != null && $gP->game->match->belongsToSeason($season))) {
                 $game = $gP->game;
                 $team = $gP->team;

@@ -185,9 +185,9 @@ class Division extends Model
 
     public function herostatistics()
     {
-        $stats = Stats::calculateHeroStatistics("division", $this->matches, null);
+        $stats = Stats::calculateHeroStatistics("division", null, $this->matches, null);
         return $stats->sortByDesc(function ($hero_array) {
-            return $hero_array['picks'] * 100 + $hero_array['bans'];
+            return $hero_array['picks'] * 1000000 + $hero_array['bans'];
         });
     }
 }
