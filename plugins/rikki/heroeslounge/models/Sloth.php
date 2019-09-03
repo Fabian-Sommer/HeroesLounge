@@ -304,11 +304,11 @@ class Sloth extends Model
         Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "Captains");
     }
 
-    public function herostatistics()
+    public function herostatistics($season)
     {
-        $stats = Stats::calculateHeroStatistics("sloth", $this->gameParticipations, null);
+        $stats = Stats::calculateHeroStatistics("sloth", $this->gameParticipations, null, $season);
         return $stats->sortByDesc(function ($hero_array) {
-            return $hero_array['picks'] * 100 + $hero_array['wins'];
+            return $hero_array['picks'] * 1000000 + $hero_array['wins'];
         });
     }
 }
