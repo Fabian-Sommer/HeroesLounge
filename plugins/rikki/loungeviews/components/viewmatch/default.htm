@@ -70,7 +70,7 @@
                     {% if sloth.role %} {% set path = 'assets/img/roles/' ~sloth.role.title|replace({' ':'-'})|lower ~ '.svg' %}
                     <img src="{{path | theme}}" title="{{sloth.role.title}}" alt="{{sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:#2e93cd"
                     /> {% endif %}
-                    <a href="{{ 'user/view' | page({id: sloth.user.id})}}">
+                    <a href="{{ 'user/view' | page({id: sloth.id})}}">
                             {{sloth.title}}</a>
                 </div>
                 {% endfor %}

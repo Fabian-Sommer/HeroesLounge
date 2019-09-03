@@ -17,7 +17,6 @@ class Profile extends ComponentBase
         ];
     }
 
-    public $profile = null;
     public $sloth = null;
     public $user = null;
 
@@ -26,11 +25,9 @@ class Profile extends ComponentBase
         $this->user = Auth::getUser();
         
         $this->addCss('/plugins/martin/ssbuttons/assets/css/social-sharing-nb.css');
-        $this->profile =  UserModel::find($this->param('id'));
-        if($this->profile)
+        $this->sloth =  SlothModel::find($this->param('id'));
+        if($this->sloth)
         {
-            $this->sloth = SlothModel::getFromUser($this->profile);
-            
             $component = $this->addComponent(
                 'Rikki\LoungeViews\Components\TimelineEntries',
                 'timeLine',

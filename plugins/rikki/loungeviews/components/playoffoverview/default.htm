@@ -47,7 +47,7 @@
                             {% for slothBatch in team.sloths | batch(2) %}
                             <div class="row">
                                 {% for sloth in slothBatch %}
-                                <a href="{{ 'user/view' | page({id: sloth.user.id})}}" class="col-md-6 mb-2" title="{{sloth.title}} Profile">
+                                <a href="{{ 'user/view' | page({id: sloth.id})}}" class="col-md-6 mb-2" title="{{sloth.title}} Profile">
                                             {% if sloth.role  %} {%  set path = 'assets/img/roles/' ~sloth.role.title|replace({' ':'-'})|lower ~ '.svg'  %}
                                                     <img src="{{path | theme}}" class="mr-2 rounded" title="{{sloth.role.title}}" alt="{{sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:#2e93cd"/>
                                             {% endif %}

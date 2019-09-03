@@ -89,7 +89,7 @@
                                     {% for sloth in __SELF__.team.sloths %}
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-2">
                                         <div class="blogPostWrapper">
-                                            <a href="{{ 'user/view' |page({'id':sloth.user.id})}}" class="text-white">
+                                            <a href="{{ 'user/view' |page({'id':sloth.id})}}" class="text-white">
                                                 <div class="blogImage" style="background-image:url({{sloth.user.avatar| resize(0,600)}});height:25vh;min-height:300px">
                                                     {% if sloth.short_description %}
                                                     <div style="position:absolute;top:0;bottom:0;left:0;right:0;height:100%;width:100%;transition:.5s easy;background-color:#333;z-index:9999" class="hover-fadein">
