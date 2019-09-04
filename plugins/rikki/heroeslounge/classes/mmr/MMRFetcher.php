@@ -1,6 +1,6 @@
 <?php namespace Rikki\Heroeslounge\classes\MMR;
 
- 
+use Rikki\Heroeslounge\classes\MMR\AuthCode;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Log;
 
@@ -119,6 +119,75 @@ class MMRFetcher
                     if ($allWeight > 0) {
                         $weightedMMR = $allMMR/$allWeight;
                         SlothModel::where('id', $sloth->id)->update(['all_mmr' => $weightedMMR]);
+                    }
+                }
+            }
+        }
+    }
+
+    public static function updateMMRHeroesProfile($sloth)
+    {
+        $battletag = $sloth->battle_tag;
+
+        $region = "2";
+        if ($sloth->region_id == 2) {
+            $region = "1";
+        }
+
+        $url = 'https://heroesprofile.com/API/MMR/Player/?api_key=' . AuthCode::getApiKey() . '&p_b' . urlencode($battletag) . 'region=' . $region;
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $output = curl_exec($ch);
+
+        curl_close($ch);
+
+        SlothModel::where('id', $sloth->id)->update(['hp_mmr' => 3000]);
+
+        if ($output != "null") {
+            $data = json_decode($output, true);
+
+            if ($data != null) {
+                if (array_key_exists($battletag, $data)) {
+                    $mmrData = $data[$battletag];
+
+                    $mmrs = array();
+                    $mmrs["Quick Match"] = -1000;
+                    $mmrs["Hero League"] = -1000];
+                    $mmrs["Team League"] = -1000];
+                    $mmrs["Unranked Draft"] = -1000;
+                    $mmrs["Storm League"] = -1000;
+
+                    for ($i = 0; $i < 5; $i++) {
+                        if (array_key_exists($mmrs[$i], $mmrData)) {
+                            $mmrs[$i] = $mmrData[$mmrs[$i]]["mmr"];
+                        }
+                    }
+
+                    $slWeight = 70;
+                    $udWeight = 30;
+
+                    $allWeight = 0;
+                    $allMMR = 0;
+
+                    if ($mmrs["Storm League"]["mmr"] != -1000) {
+                        $allWeight += $slWeight;
+                        $allMMR += $mmrs["Storm League"]["mmr"] * $slWeight;
+                    }
+                    if ($mmrs["Unranked Draft"]["mmr"] != -1000) {
+                        $allWeight += $udWeight;
+                        $allMMR += $mmrs["Unranked Draft"]["mmr"] * $udWeight;
+                    }
+
+                    if ($allMMR == 0) {
+                        $allMMR += $mmrs["Quick Match"]["mmr"];
+                        $allWeight = 1;
+                    }
+
+                    if ($allWeight > 0) {
+                        $weightedMMR = $allMMR/$allWeight;
+                        SlothModel::where('id', $sloth->id)->update(['hp_mmr' => $weightedMMR]);
                     }
                 }
             }

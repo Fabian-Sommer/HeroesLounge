@@ -20,6 +20,8 @@ class Profile extends ComponentBase
     public $profile = null;
     public $sloth = null;
     public $user = null;
+    public $battleTagFormmattted = null;
+    public $hp_region = null;
 
     public function init()
     {
@@ -30,6 +32,9 @@ class Profile extends ComponentBase
         if($this->profile)
         {
             $this->sloth = SlothModel::getFromUser($this->profile);
+
+            $this->battleTagFormmattted; // This needs to be changed to be the username before the # of the battletag.
+            $this->hp_region; // This needs to be the region Id as according to the Blizzard regions (1 = NA, 2 = EU, 3 = KR, 5 = CN)
             
             $component = $this->addComponent(
                 'Rikki\LoungeViews\Components\TimelineEntries',

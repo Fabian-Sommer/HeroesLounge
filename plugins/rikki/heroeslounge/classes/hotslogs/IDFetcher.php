@@ -1,5 +1,6 @@
 <?php namespace Rikki\Heroeslounge\classes\hotslogs;
 
+use Rikki\Heroeslounge\classes\MMR\AuthCode;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Log;
 
@@ -41,6 +42,38 @@ class IDFetcher
             if ($data != null) {
                 if (array_key_exists("PlayerID", $data)) {
                     $sloth->hotslogs_id = $data["PlayerID"];
+                }
+            }
+        }
+        $sloth->save();
+    }
+
+    public static function fetchIDHeroesProfile($sloth)
+    {
+        $battletag = $sloth->battle_tag;
+        
+        $sloth->hp_id = null;
+
+        $region = "2";
+        if ($sloth->region_id == 2) {
+            $region = "1";
+        }
+
+        $url = 'https://www.heroesprofile.com/API/Profile/?&api_key=' . AuthCode::getApiKey() . 'battletag=' . urlencode($battletag) . '&region=' . $region;
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $output = curl_exec($ch);
+
+        curl_close($ch);
+
+        if ($output != "null") {
+            $data = json_decode($output, true);
+
+            if ($data != null) {
+                if (array_key_exists("blizz_id", $data)) {
+                    $sloth->hp_id = $data["blizz_id"];
                 }
             }
         }
