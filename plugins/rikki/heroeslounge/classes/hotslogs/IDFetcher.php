@@ -52,14 +52,14 @@ class IDFetcher
     {
         $battletag = $sloth->battle_tag;
         
-        $sloth->hp_id = null;
+        $sloth->heroesprofile_id = null;
 
         $region = "2";
         if ($sloth->region_id == 2) {
             $region = "1";
         }
 
-        $url = 'https://www.heroesprofile.com/API/Profile/?&api_key=' . AuthCode::getApiKey() . 'battletag=' . urlencode($battletag) . '&region=' . $region;
+        $url = 'https://www.heroesprofile.com/API/Profile/?&api_key=' . AuthCode::getHeroesProfileKey() . 'battletag=' . urlencode($battletag) . '&region=' . $region;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -73,7 +73,7 @@ class IDFetcher
 
             if ($data != null) {
                 if (array_key_exists("blizz_id", $data)) {
-                    $sloth->hp_id = $data["blizz_id"];
+                    $sloth->heroesprofile_id = $data["blizz_id"];
                 }
             }
         }

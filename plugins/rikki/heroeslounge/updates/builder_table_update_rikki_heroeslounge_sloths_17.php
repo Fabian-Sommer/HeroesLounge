@@ -9,8 +9,8 @@ class BuilderTableUpdateRikkiHeroesloungeSloths17 extends Migration
     {
         Schema::table('rikki_heroeslounge_sloths', function($table)
         {
-            $table->integer('hp_id')->nullable()->unsigned();
-            $table->integer('hp_mmr');
+            $table->integer('heroesprofile_id')->nullable()->unsigned();
+            $table->integer('heroesprofile_mmr');
         });
     }
     
@@ -18,8 +18,8 @@ class BuilderTableUpdateRikkiHeroesloungeSloths17 extends Migration
     {
         Schema::table('rikki_heroeslounge_sloths', function($table)
         {
-            $table->dropColumn('hp_id');
-            $table->dropColumn('hp_mmr');
+            $table->dropColumn('heroesprofile_id');
+            $table->dropColumn('heroesprofile_mmr');
         });
     }
 }

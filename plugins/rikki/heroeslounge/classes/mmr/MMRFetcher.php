@@ -134,7 +134,7 @@ class MMRFetcher
             $region = "1";
         }
 
-        $url = 'https://heroesprofile.com/API/MMR/Player/?api_key=' . AuthCode::getApiKey() . '&p_b' . urlencode($battletag) . 'region=' . $region;
+        $url = 'https://heroesprofile.com/API/MMR/Player/?api_key=' . AuthCode::getHeroesProfileKey() . '&p_b' . urlencode($battletag) . 'region=' . $region;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -143,7 +143,7 @@ class MMRFetcher
 
         curl_close($ch);
 
-        SlothModel::where('id', $sloth->id)->update(['hp_mmr' => 3000]);
+        SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => 2900]);
 
         if ($output != "null") {
             $data = json_decode($output, true);
@@ -168,26 +168,26 @@ class MMRFetcher
                     $slWeight = 70;
                     $udWeight = 30;
 
-                    $allWeight = 0;
-                    $allMMR = 0;
+                    $sumWeight = 0;
+                    $sumMMR = 0;
 
                     if ($mmrs["Storm League"]["mmr"] != -1000) {
-                        $allWeight += $slWeight;
-                        $allMMR += $mmrs["Storm League"]["mmr"] * $slWeight;
+                        $sumWeight += $slWeight;
+                        $sumMMR += $mmrs["Storm League"]["mmr"] * $slWeight;
                     }
                     if ($mmrs["Unranked Draft"]["mmr"] != -1000) {
-                        $allWeight += $udWeight;
-                        $allMMR += $mmrs["Unranked Draft"]["mmr"] * $udWeight;
+                        $sumWeight += $udWeight;
+                        $sumMMR += $mmrs["Unranked Draft"]["mmr"] * $udWeight;
                     }
 
-                    if ($allMMR == 0) {
-                        $allMMR += $mmrs["Quick Match"]["mmr"];
-                        $allWeight = 1;
+                    if ($sumMMR == 0) {
+                        $sumMMR += $mmrs["Quick Match"]["mmr"];
+                        $sumWeight = 1;
                     }
 
-                    if ($allWeight > 0) {
-                        $weightedMMR = $allMMR/$allWeight;
-                        SlothModel::where('id', $sloth->id)->update(['hp_mmr' => $weightedMMR]);
+                    if ($sumWeight > 0) {
+                        $weightedMMR = $sumMMR/$sumWeight;
+                        SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => $weightedMMR]);
                     }
                 }
             }
