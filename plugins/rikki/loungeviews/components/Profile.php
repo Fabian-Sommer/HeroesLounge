@@ -20,7 +20,7 @@ class Profile extends ComponentBase
     public $profile = null;
     public $sloth = null;
     public $user = null;
-    public $battleTagFormmattted = null;
+    public $battleTagFormatted = null;
     public $region = null;
 
     public function init()
@@ -33,9 +33,10 @@ class Profile extends ComponentBase
         {
             $this->sloth = SlothModel::getFromUser($this->profile);
 
-            $this->battleTagFormmattted = strtolower(explode('#', $sloth->battle_tag)[0]);
+            $this->battleTagFormatted = explode('#', $this->sloth->battle_tag)[0];
+
             $this->region = "2";
-            if ($sloth->region_id == 2) {
+            if ($this->sloth->region_id == 2) {
                 $this->region = "1";
             }
             
