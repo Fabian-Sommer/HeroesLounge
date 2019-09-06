@@ -311,4 +311,19 @@ class Sloth extends Model
             return $hero_array['picks'] * 1000000 + $hero_array['wins'];
         });
     }
+
+    public function getHeroesProfileRegionId()
+    {
+        $heroesprofile_region_id = "2";
+        if ($this->region_id == 2) {
+            $heroesprofile_region_id = "1";
+        }
+
+        return $heroesprofile_region_id;
+    }
+
+    public function getHeroesProfileBattletagReformatted()
+    {
+        return explode('#', $this->battle_tag)[0];
+    }
 }

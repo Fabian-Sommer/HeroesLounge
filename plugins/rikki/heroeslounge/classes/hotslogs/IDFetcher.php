@@ -51,13 +51,9 @@ class IDFetcher
     public static function fetchIDHeroesProfile($sloth)
     {
         $battletag = $sloth->battle_tag;
+        $region = $sloth->getHeroesProfileRegionId();
         
         $sloth->heroesprofile_id = null;
-
-        $region = "2";
-        if ($sloth->region_id == 2) {
-            $region = "1";
-        }
 
         $url = 'https://www.heroesprofile.com/API/Profile/?&api_key=' . AuthCode::getHeroesProfileKey() . 'battletag=' . urlencode($battletag) . '&region=' . $region;
 

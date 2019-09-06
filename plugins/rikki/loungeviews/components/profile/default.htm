@@ -56,20 +56,21 @@
                 alt="{{__SELF__.sloth.role.title}}" style="max-height:30px;max-width:30px;background-color:#2e93cd" />
             {{__SELF__.sloth.role.title}}
         </p>
-        {% endif %} {% if __SELF__.sloth.battle_tag %}
+        {% endif %} 
+        {% if __SELF__.sloth.battle_tag %}
         <p class="card-text">
             <img src="{{'assets/img/btns/battlenet.svg' | theme}}" class="mr-2 rounded" title="Battle Tag"
-                alt="Battle Tag"
-                style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd" />{% if  __SELF__.sloth.hotslogs_id %}
-            <a href="https://www.hotslogs.com/Player/Profile?PlayerID={{ __SELF__.sloth.hotslogs_id}}" alt="HotSLogs ID"
-                rel="noopener" target="_blank">{{__SELF__.sloth.battle_tag}}</a> {% else %}
-            {{__SELF__.sloth.battle_tag}} {% endif %}</p>{%
-        endif %} {% if __SELF__.sloth.discord_tag %}
-
-        <p class="card-text">
-            <a href="https://www.heroesprofile.com/Profile/?blizz_id={{ __SELF__.sloth.heroesprofile_id }}&battletag={{ __SELF__.battleTagFormatted }}&region={{ __SELF__.region }}  " alt="HeroesProfile ID"
-                rel="noopener" target="_blank">Heroes Profile</a>
+                alt="Battle Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd" />
+            {% if  __SELF__.sloth.heroesprofile_id %}
+            <a href="https://www.heroesprofile.com/Profile/?blizz_id={{ __SELF__.sloth.heroesprofile_id }}&battletag={{ __SELF__.sloth.getHeroesProfileBattletagReformatted }}&region={{ __SELF__.sloth.getHeroesProfileRegionId }}"
+                alt="HeroesProfile ID" rel="noopener" target="_blank">
+                {{__SELF__.sloth.battle_tag}}
+            </a>
+            {% else %}
+            {{__SELF__.sloth.battle_tag}}
+            {% endif %}
         </p>
+        {%endif %}
         <p class="card-text">
             <img src="{{'assets/img/btns/discord.svg' | theme}}" class="mr-2 rounded" title="Discord Tag"
                 alt="Discord Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd" />

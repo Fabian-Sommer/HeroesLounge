@@ -20,8 +20,6 @@ class Profile extends ComponentBase
     public $profile = null;
     public $sloth = null;
     public $user = null;
-    public $battleTagFormatted = null;
-    public $region = null;
 
     public function init()
     {
@@ -32,13 +30,6 @@ class Profile extends ComponentBase
         if($this->profile)
         {
             $this->sloth = SlothModel::getFromUser($this->profile);
-
-            $this->battleTagFormatted = explode('#', $this->sloth->battle_tag)[0];
-
-            $this->region = "2";
-            if ($this->sloth->region_id == 2) {
-                $this->region = "1";
-            }
             
             $component = $this->addComponent(
                 'Rikki\LoungeViews\Components\TimelineEntries',

@@ -128,11 +128,7 @@ class MMRFetcher
     public static function updateMMRHeroesProfile($sloth)
     {
         $battletag = $sloth->battle_tag;
-
-        $region = "2";
-        if ($sloth->region_id == 2) {
-            $region = "1";
-        }
+        $region = $sloth->getHeroesProfileRegionId();
 
         $url = 'https://heroesprofile.com/API/MMR/Player/?api_key=' . AuthCode::getHeroesProfileKey() . '&p_b' . urlencode($battletag) . 'region=' . $region;
 
