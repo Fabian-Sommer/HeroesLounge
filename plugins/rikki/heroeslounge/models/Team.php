@@ -193,7 +193,7 @@ class Team extends Model
     public function getSlothratingAttribute()
     {       
         $slothsMmr = $this->sloths->map(function ($sloth) {
-            return $sloth->heroesprofile_;
+            return $sloth->heroesprofile_mmr;
         })->toArray();
 
         $usedMmr = array_filter($slothsMmr, function ($v) {
@@ -206,7 +206,7 @@ class Team extends Model
     public function getSlothratingMedianAttribute()
     {
         $slothsMmr = $this->sloths->map(function ($sloth) {
-            return $sloth->heroesprofile_;
+            return $sloth->heroesprofile_mmr;
         })->toArray();
 
         $usedMmr = array_filter($slothsMmr, function ($v) {
