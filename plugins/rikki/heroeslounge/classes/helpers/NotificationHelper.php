@@ -20,7 +20,7 @@ class NotificationHelper
         $sloth = $user->sloth;
         $retVal = array();
         if (isset($sloth)) {
-            NotificationHelper::checkHotSLogsProfileStatus($sloth, $retVal);
+            // NotificationHelper::checkHotSLogsProfileStatus($sloth, $retVal);
             NotificationHelper::checkApplications($user, $retVal);
             NotificationHelper::checkParticipation($sloth, $retVal);
             foreach ($sloth->teams as $key => $team) {
