@@ -12,7 +12,7 @@ class IDFetcher
 
         foreach ($sloths as $sloth) {
             set_time_limit(30);
-            IDFetcher::fetchID($sloth);
+            IDFetcher::fetchIDHeroesProfile($sloth);
         }
     }
 

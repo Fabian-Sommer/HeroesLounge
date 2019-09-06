@@ -12,7 +12,7 @@ class MMRFetcher
 
         foreach ($sloths as $sloth) {
             set_time_limit(30);
-            MMRFetcher::updateMMR($sloth);
+            MMRFetcher::updateMMRHeroesProfile($sloth);
         }
     }
 
@@ -22,7 +22,7 @@ class MMRFetcher
 
         foreach ($sloths as $sloth) {
             set_time_limit(30);
-            MMRFetcher::updateMMR($sloth);
+            MMRFetcher::updateMMRHeroesProfile($sloth);
         }
     }
 
