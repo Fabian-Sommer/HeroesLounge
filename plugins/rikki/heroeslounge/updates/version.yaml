@@ -401,3 +401,6 @@
 1.0.140:
     - 'Updated table rikki_heroeslounge_sloth_team'
     - builder_table_update_rikki_heroeslounge_sloth_team.php
+1.0.141:
+    - 'Updated table rikki_heroeslounge_sloths'
+    - builder_table_update_rikki_heroeslounge_sloths17.php

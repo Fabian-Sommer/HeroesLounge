@@ -1,5 +1,6 @@
 <?php namespace Rikki\Heroeslounge\classes\hotslogs;
 
+use Rikki\Heroeslounge\classes\MMR\AuthCode;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Log;
 
@@ -11,7 +12,7 @@ class IDFetcher
 
         foreach ($sloths as $sloth) {
             set_time_limit(30);
-            IDFetcher::fetchID($sloth);
+            IDFetcher::fetchIDHeroesProfile($sloth);
         }
     }
 
@@ -41,6 +42,34 @@ class IDFetcher
             if ($data != null) {
                 if (array_key_exists("PlayerID", $data)) {
                     $sloth->hotslogs_id = $data["PlayerID"];
+                }
+            }
+        }
+        $sloth->save();
+    }
+
+    public static function fetchIDHeroesProfile($sloth)
+    {
+        $battletag = $sloth->battle_tag;
+        $region = $sloth->getHeroesProfileRegionId();
+        
+        $sloth->heroesprofile_id = null;
+
+        $url = 'https://www.heroesprofile.com/API/Profile/?&api_key=' . AuthCode::getHeroesProfileKey() . 'battletag=' . urlencode($battletag) . '&region=' . $region;
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $output = curl_exec($ch);
+
+        curl_close($ch);
+
+        if ($output != "null") {
+            $data = json_decode($output, true);
+
+            if ($data != null) {
+                if (array_key_exists("blizz_id", $data)) {
+                    $sloth->heroesprofile_id = $data["blizz_id"];
                 }
             }
         }

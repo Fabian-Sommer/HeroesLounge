@@ -271,17 +271,26 @@ class Plugin extends PluginBase
                     'type' => 'relation',
                     'nameFrom' => 'title',
                     'tab' => 'Sloth'
-                ], 'sloth[mmr]' => [
-                    'label' => 'Weighted MMR',
+                ],
+                'sloth[heroesprofile_mmr]' => [
+                    'label' => 'Weighted Heroes Profile MMR',
                     'tab' => 'Sloth',
                     'type' => 'number',
                     'readOnly' => true
+                ],                
+                'sloth[mmr]' => [
+                    'label' => 'Weighted HotsLogs MMR',
+                    'tab' => 'Sloth',
+                    'type' => 'number',
+                    'readOnly' => true,
+                    'hidden' => true
                 ], 'sloth[all_mmr]' => [
                     'label' => 'All available MMR',
                     'comment' => 'Is QM if nothing else is available',
                     'tab' => 'Sloth',
                     'type' => 'number',
-                    'readOnly' => true
+                    'readOnly' => true,
+                    'hidden' => true
                 ],
                 'sloth[birthday]' => [
                     'label' => 'Birthday',

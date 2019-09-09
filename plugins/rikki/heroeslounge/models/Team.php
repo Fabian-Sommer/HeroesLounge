@@ -193,7 +193,7 @@ class Team extends Model
     public function getSlothratingAttribute()
     {       
         $slothsMmr = $this->sloths->map(function ($sloth) {
-            return $sloth->mmr;
+            return $sloth->heroesprofile_mmr;
         })->toArray();
 
         $usedMmr = array_filter($slothsMmr, function ($v) {
@@ -206,7 +206,7 @@ class Team extends Model
     public function getSlothratingMedianAttribute()
     {
         $slothsMmr = $this->sloths->map(function ($sloth) {
-            return $sloth->mmr;
+            return $sloth->heroesprofile_mmr;
         })->toArray();
 
         $usedMmr = array_filter($slothsMmr, function ($v) {
@@ -226,24 +226,24 @@ class Team extends Model
 
     public function getHighestMMRAttribute()
     {
-        return $slothsMmr = $this->sloths->sortByDesc('mmr')->first()->mmr;
+        return $slothsMmr = $this->sloths->sortByDesc('heroesprofile_mmr')->first()->heroesprofile_mmr;
     }
 
     public function getLowestMMRAttribute()
     {
-        return $slothsMmr = $this->sloths->sortBy('mmr')->first()->mmr;
+        return $slothsMmr = $this->sloths->sortBy('heroesprofile_mmr')->first()->heroesprofile_mmr;
     }
 
     public function getTopFiveMMRAttribute()
     {
         $topFivePlayers = $this->sloths->reject(function ($sloth) {
-            return $sloth->mmr == 0;
-        })->sortByDesc('mmr')->chunk(5);
+            return $sloth->heroesprofile_mmr == 0;
+        })->sortByDesc('heroesprofile_mmr')->chunk(5);
         if ($topFivePlayers->count() == 0) {
             return 0;
         }
         return $topFivePlayers[0]->reduce(function ($carry, $sloth) {
-            return $carry + $sloth->mmr;
+            return $carry + $sloth->heroesprofile_mmr;
         }) / $topFivePlayers[0]->count();
     }
 

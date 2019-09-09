@@ -144,8 +144,9 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <img src="{{'assets/img/btns/battlenet.svg' | theme}}" class="mr-2 rounded" title="Battle Tag" alt="Battle Tag" style="max-height:30px;max-width:30px;"/>
-                                                        {% if sloth.hotslogs_id %}
-                                                        <a href="https://www.hotslogs.com/Player/Profile?PlayerID={{sloth.hotslogs_id}}" alt="HotSLogs ID" class="text-white" rel="noopener" target="_blank" title="View HotsLogs Profile">
+                                                        {% if sloth.heroesprofile_id %}
+                                                        <a href="https://www.heroesprofile.com/Profile/?blizz_id={{ sloth.heroesprofile_id }}&battletag={{ sloth.getHeroesProfileBattletagReformatted }}&region={{ sloth.getHeroesProfileRegionId }}"
+                                                            alt="HeroesProfile ID" class="text-white" rel="noopener" target="_blank" title="View Heroes Profile Page">
                                                             {{sloth.battle_tag}}
                                                         </a>
                                                         {% else %}
