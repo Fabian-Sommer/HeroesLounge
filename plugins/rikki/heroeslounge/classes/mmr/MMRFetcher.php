@@ -150,8 +150,6 @@ class MMRFetcher
 
                     $mmrs = array();
                     $mmrs["Quick Match"] = -1000;
-                    $mmrs["Hero League"] = -1000];
-                    $mmrs["Team League"] = -1000];
                     $mmrs["Unranked Draft"] = -1000;
                     $mmrs["Storm League"] = -1000;
 
