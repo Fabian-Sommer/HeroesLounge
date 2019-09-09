@@ -314,12 +314,7 @@ class Sloth extends Model
 
     public function getHeroesProfileRegionId()
     {
-        $heroesprofile_region_id = "2";
-        if ($this->region_id == 2) {
-            $heroesprofile_region_id = "1";
-        }
-
-        return $heroesprofile_region_id;
+        return $this->region_id == 2 ? 1 : 2;
     }
 
     public function getHeroesProfileBattletagReformatted()
