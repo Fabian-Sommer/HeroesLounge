@@ -68,7 +68,7 @@ class IDFetcher
             $data = json_decode($output, true);
 
             if ($data != null) {
-                if (array_key_exists("blizz_id", $data)) {
+                if (array_key_exists("blizz_id", $data[0])) {
                     $sloth->heroesprofile_id = $data["blizz_id"];
                 }
             }
