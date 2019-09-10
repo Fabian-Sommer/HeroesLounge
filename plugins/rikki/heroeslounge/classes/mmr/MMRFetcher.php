@@ -153,9 +153,9 @@ class MMRFetcher
                     $mmrs["Unranked Draft"] = -1000;
                     $mmrs["Storm League"] = -1000;
 
-                    for ($i = 0; $i < 5; $i++) {
-                        if (array_key_exists($mmrs[$i], $mmrData)) {
-                            $mmrs[$i] = $mmrData[$mmrs[$i]]["mmr"];
+                    foreach ($mmrs as $key => $value) {	
+                        if (array_key_exists($key, $mmrData)) {
+                            $mmrs[$key] = $mmrData[$key]["mmr"];
                         }
                     }
 
