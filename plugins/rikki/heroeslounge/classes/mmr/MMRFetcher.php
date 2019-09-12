@@ -130,7 +130,7 @@ class MMRFetcher
         $battletag = $sloth->battle_tag;
         $region = $sloth->getHeroesProfileRegionId();
 
-        $url = 'https://heroesprofile.com/API/MMR/Player/?api_key=' . AuthCode::getHeroesProfileKey() . '&p_b' . urlencode($battletag) . 'region=' . $region;
+        $url = 'https://heroesprofile.com/API/MMR/Player/?api_key=' . AuthCode::getHeroesProfileKey() . '&p_b=' . urlencode($battletag) . '&region=' . $region;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -140,7 +140,6 @@ class MMRFetcher
         curl_close($ch);
 
         SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => 2900]);
-
         if ($output != "null") {
             $data = json_decode($output, true);
 
@@ -165,17 +164,17 @@ class MMRFetcher
                     $sumWeight = 0;
                     $sumMMR = 0;
 
-                    if ($mmrs["Storm League"]["mmr"] != -1000) {
+                    if ($mmrs["Storm League"] != -1000) {
                         $sumWeight += $slWeight;
-                        $sumMMR += $mmrs["Storm League"]["mmr"] * $slWeight;
+                        $sumMMR += $mmrs["Storm League"] * $slWeight;
                     }
-                    if ($mmrs["Unranked Draft"]["mmr"] != -1000) {
+                    if ($mmrs["Unranked Draft"] != -1000) {
                         $sumWeight += $udWeight;
-                        $sumMMR += $mmrs["Unranked Draft"]["mmr"] * $udWeight;
+                        $sumMMR += $mmrs["Unranked Draft"] * $udWeight;
                     }
 
                     if ($sumMMR == 0) {
-                        $sumMMR += $mmrs["Quick Match"]["mmr"];
+                        $sumMMR += $mmrs["Quick Match"];
                         $sumWeight = 1;
                     }
 
