@@ -12,6 +12,6 @@
 {% endif %}
 {% for caster in match.getAcceptedCasters %}
 	{%  if loop.first  %}<i class="fa fa-microphone"></i>{%  endif  %} 
-	<a href="{{ 'user/view' | page({id:caster.user.id})}}">{{caster.title}}</a>{%  if not loop.last  %}, {%  endif  %}
+	<a href="{{ 'user/view' | page({id:caster.id})}}">{{caster.title}}</a>{%  if not loop.last  %}, {%  endif  %}
 {% endfor %}
 </div>

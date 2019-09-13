@@ -17,7 +17,7 @@
 			<tr>
 				{% for entry in row %} {% if loop.first %}
 				<td class="bg-light">
-					<a href="{{'user/view'|page({id: entry})}}">{{casterName}}</a>
+					<a href="{{'user/view'|page({id: entry.sloth.id})}}">{{casterName}}</a>
 				</td>
 				{% else %}
 				<td class="text-right">

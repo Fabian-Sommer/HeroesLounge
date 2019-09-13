@@ -41,7 +41,7 @@
             <img src="{{path | theme}}" title="{{participant.hero.title}}" alt="{{participant.hero.title}}" class="rounded " />
             <figcaption class="figure-caption text-center text-truncate" title="{% if participant.sloth %}{{participant.sloth.title}}{% else %} {{participant.title}} {% endif %}">
                 {% if participant.sloth %}
-                <a href="{{ 'user/view' | page({id: participant.sloth.user.id})}}">
+                <a href="{{ 'user/view' | page({id: participant.sloth.id})}}">
                     {{participant.sloth.title}}
                 </a> {% else %} {{participant.title}} {% endif %}
             </figcaption>
@@ -56,7 +56,7 @@
             <img src="{{path | theme}}" title="{{participant.hero.title}}" alt="{{participant.hero.title}}" class="rounded " />
             <figcaption class="figure-caption text-center text-truncate" title="{% if participant.sloth %}{{participant.sloth.title}}{% else %} {{participant.title}} {% endif %}">
                 {% if participant.sloth %}
-                <a href="{{ 'user/view' | page({id: participant.sloth.user.id})}}">
+                <a href="{{ 'user/view' | page({id: participant.sloth.id})}}">
                         {{participant.sloth.title}}
                     </a> {% else %} {{participant.title}} {% endif %}
             </figcaption>
@@ -246,7 +246,7 @@
                                 </th>
                                 <td class="align-middle">
                                     {% if player.sloth %}
-                                    <a href="{{'user/view' |page({id:player.sloth.user.id})}}" alt="Player Profile" class="text-white">
+                                    <a href="{{'user/view' |page({id:player.sloth.id})}}" alt="Player Profile" class="text-white">
                                                                 {{player.title}}
                                                             </a> {% else %}
                                     <span class="text-dark">{{player.title}}</span> {% endif %}
@@ -310,7 +310,7 @@
                                 </th>
                                 <td class="align-middle">
                                     {% if player.sloth %}
-                                    <a href="{{'user/view' |page({id:player.sloth.user.id})}}" alt="Player Profile" class="text-white">
+                                    <a href="{{'user/view' |page({id:player.sloth.id})}}" alt="Player Profile" class="text-white">
                                                                 {{player.title}}
                                                             </a> {% else %}
                                     <span class="text-dark">{{player.title}}</span> {% endif %}

@@ -122,7 +122,7 @@ class Plugin extends PluginBase
                 return [
                     'title' => $item->title,
                     'text' => $item->short_description,
-                    'url' => 'user/view/'.$item->user->id,
+                    'url' => 'user/view/'.$item->id,
                     'thumb' => $item->user->avatar,
                     'relevance' => $relevance
                 ];

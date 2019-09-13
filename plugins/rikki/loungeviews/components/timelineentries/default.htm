@@ -12,11 +12,11 @@
         </div>
         <div class="cd-timeline-content" id="sloth">
             {%  if timelineEntry.type == 'Sloth.Created'  %}
-                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> has just created an account. Welcome to Heroes Lounge!</p>
+                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].id }) }}">{{ timelineEntry.sloths[0].title }}</a> has just created an account. Welcome to Heroes Lounge!</p>
                 <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
 
             {%  elseif  timelineEntry.type == 'Sloth.Logo'  %}
-                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> has a new avatar. Nice!</p>
+                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].id }) }}">{{ timelineEntry.sloths[0].title }}</a> has a new avatar. Nice!</p>
                 <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
 
             {%  elseif  timelineEntry.type == 'Sloth.Deleted'  %}
@@ -72,7 +72,7 @@
                 <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
 
             {%  elseif timelineEntry.type == 'Team.Created'  %}
-                <p>A new challenger approaches. <a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> has created the new team <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>!</p>
+                <p>A new challenger approaches. <a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].id }) }}">{{ timelineEntry.sloths[0].title }}</a> has created the new team <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>!</p>
                 <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
 
             {%  elseif timelineEntry.type == 'Team.Deleted'  %}
@@ -89,11 +89,11 @@
                 <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
 
             {%  elseif  timelineEntry.type == 'Sloth.Joins.Team' %}
-                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> found a new home and joined <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>.</p>
+                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].id }) }}">{{ timelineEntry.sloths[0].title }}</a> found a new home and joined <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>.</p>
                 <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
 
             {%  elseif  timelineEntry.type == 'Sloth.Left.Team' %}
-                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].user.id }) }}">{{ timelineEntry.sloths[0].title }}</a> left <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>, and is wandering free.</p>
+                <p><a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].id }) }}">{{ timelineEntry.sloths[0].title }}</a> left <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>, and is wandering free.</p>
                 <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
 
             {%  endif  %}
