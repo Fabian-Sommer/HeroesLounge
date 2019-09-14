@@ -19,6 +19,17 @@ class Game extends Controller
         return GameModel::all();
     }
 
+    public function replay($id)
+    {
+        $game = GameModel::find($id);
+
+        if ($game && $game->replay) {
+            return $game->replay;
+        } else {
+            return 'No replay for game with id ' . $id;
+        }
+    }
+
     public function indexAllWithPlayers()
     {
         $retVal = [];

@@ -12,6 +12,7 @@ allowedActions:
   show:
   update:
   destroy:
+  replay:
 # Model Class name
 modelClass: Rikki\Heroeslounge\Models\Game
 

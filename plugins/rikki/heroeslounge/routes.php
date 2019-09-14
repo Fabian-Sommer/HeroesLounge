@@ -44,6 +44,7 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::resource('games', 'Rikki\Heroeslounge\Http\Game');
     Route::get('gamesAll','Rikki\Heroeslounge\Http\Game@indexAll');
     Route::get('gamesAllWithPlayers','Rikki\Heroeslounge\Http\Game@indexAllWithPlayers');
+    Route::get('games/{id}/replay', 'Rikki\Heroeslounge\Http\Game@replay');
 
     Route::resource('bans','Rikki\Heroeslounge\Http\Bans');
     Route::get('bansAll','Rikki\Heroeslounge\Http\Bans@indexAll');
