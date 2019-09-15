@@ -190,7 +190,8 @@ class SlothAccount extends UserAccount
              * Check if the user is on the Heroes Lounge Discord server.
              */
 
-            $userDiscordId = Discord\Attendance::GetDiscordUserId($data['discord_tag']);
+            $strippedDiscordTag = preg_replace('/\s+#/u', '#', $data['discord_tag']);
+            $userDiscordId = Discord\Attendance::GetDiscordUserId($strippedDiscordTag);
 
             if (empty($userDiscordId)) {
                 throw new ApplicationException("Please join the Discord server before registering. If you are a member, check your Discord tag and try again later.");
@@ -229,7 +230,7 @@ class SlothAccount extends UserAccount
 
             $sloth = SlothModel::getFromUser($user);
             $sloth->battle_tag = $data['battle_tag'];
-            $sloth->discord_tag = $data['discord_tag'];
+            $sloth->discord_tag = $strippedDiscordTag;
             $sloth->discord_id = $userDiscordId;
             $sloth->region_id = $data['region_id'];
 
