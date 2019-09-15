@@ -52,7 +52,8 @@ class Match extends Controller
         $games = MatchModel::find($id)->games;
         $games->each(function($g) use(&$retVal)
         {
-            $gameData = ['Team One' => ($g->teamOne != null ? $g->teamOne->title : $g->match->teams[0]->title),
+            $gameData = ['id' => $g->id,
+                        'Team One' => ($g->teamOne != null ? $g->teamOne->title : $g->match->teams[0]->title),
                          'Team Two' => ($g->teamTwo != null ? $g->teamTwo->title : $g->match->teams[1]->title),
                          'Winner' => ($g->winner ? $g->winner->title : 'None'),
                          'Map' => ($g->map ? $g->map->title : 'None'),
