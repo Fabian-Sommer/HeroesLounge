@@ -350,7 +350,7 @@ class ReplayParsing
                                 $participation->sloth = Sloth::all()[$allKey];
                             }
                         }
-                    }                    
+                    }
                 }
                 if ($playerDetails["m_result"] == 1 && $modify_winner) {
                     if ($playerDetails["m_teamId"] == 0) {
