@@ -319,9 +319,9 @@ class ReplayParsing
                 $participation->hero = $hero;
                 if ($playerDetails["m_teamId"] == 0) {
                     $participation->team_id = $this->match->teams[$firstReplayTeam]->id;
-                    $subSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->first();
-                    if (isset($subSloth)) {
-                        $participation->sloth = $subSloth;
+                    $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->first();
+                    if (isset($participatingSloth)) {
+                        $participation->sloth = $participatingSloth;
                     } else {
                         $teamKey = array_search(strtolower($playerDetails["m_name"]), $firstTeamNames);
                         if ($teamKey !== false) {
@@ -336,9 +336,9 @@ class ReplayParsing
                     }
                 } elseif ($playerDetails["m_teamId"] == 1) {
                     $participation->team_id = $this->match->teams[$secondReplayTeam]->id;
-                    $subSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->first();
-                    if (isset($subSloth)) {
-                        $participation->sloth = $subSloth;
+                    $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->first();
+                    if (isset($participatingSloth)) {
+                        $participation->sloth = $participatingSloth;
                     } else {
                         $teamKey = array_search(strtolower($playerDetails["m_name"]), $secondTeamNames);
                         if ($teamKey !== false) {
