@@ -319,28 +319,38 @@ class ReplayParsing
                 $participation->hero = $hero;
                 if ($playerDetails["m_teamId"] == 0) {
                     $participation->team_id = $this->match->teams[$firstReplayTeam]->id;
-                    $teamKey = array_search(strtolower($playerDetails["m_name"]), $firstTeamNames);
-                    if ($teamKey !== false) {
-                        $participation->sloth = $this->match->teams[$firstReplayTeam]->sloths[$teamKey];
+                    $subSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->first();
+                    if (isset($subSloth)) {
+                        $participation->sloth = $subSloth;
                     } else {
-                        //player might be a sub, we got to check all sloths now
-                        $allKey = array_search(strtolower($playerDetails["m_name"]), $this->allSlothNames);
-                        if ($allKey !== false) {
-                            $participation->sloth = Sloth::all()[$allKey];
+                        $teamKey = array_search(strtolower($playerDetails["m_name"]), $firstTeamNames);
+                        if ($teamKey !== false) {
+                            $participation->sloth = $this->match->teams[$firstReplayTeam]->sloths[$teamKey];
+                        } else {
+                            //player might be a sub, we got to check all sloths now
+                            $allKey = array_search(strtolower($playerDetails["m_name"]), $this->allSlothNames);
+                            if ($allKey !== false) {
+                                $participation->sloth = Sloth::all()[$allKey];
+                            }
                         }
                     }
                 } elseif ($playerDetails["m_teamId"] == 1) {
                     $participation->team_id = $this->match->teams[$secondReplayTeam]->id;
-                    $teamKey = array_search(strtolower($playerDetails["m_name"]), $secondTeamNames);
-                    if ($teamKey !== false) {
-                        $participation->sloth = $this->match->teams[$secondReplayTeam]->sloths[$teamKey];
+                    $subSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->first();
+                    if (isset($subSloth)) {
+                        $participation->sloth = $subSloth;
                     } else {
-                        //player might be a sub, we got to check all sloths now
-                        $allKey = array_search(strtolower($playerDetails["m_name"]), $this->allSlothNames);
-                        if ($allKey !== false) {
-                            $participation->sloth = Sloth::all()[$allKey];
+                        $teamKey = array_search(strtolower($playerDetails["m_name"]), $secondTeamNames);
+                        if ($teamKey !== false) {
+                            $participation->sloth = $this->match->teams[$secondReplayTeam]->sloths[$teamKey];
+                        } else {
+                            //player might be a sub, we got to check all sloths now
+                            $allKey = array_search(strtolower($playerDetails["m_name"]), $this->allSlothNames);
+                            if ($allKey !== false) {
+                                $participation->sloth = Sloth::all()[$allKey];
+                            }
                         }
-                    }
+                    }                    
                 }
                 if ($playerDetails["m_result"] == 1 && $modify_winner) {
                     if ($playerDetails["m_teamId"] == 0) {
