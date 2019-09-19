@@ -23,10 +23,16 @@ class NotificationHelper
             // NotificationHelper::checkHotSLogsProfileStatus($sloth, $retVal);
             NotificationHelper::checkApplications($user, $retVal);
             NotificationHelper::checkParticipation($sloth, $retVal);
+
+            if ($sloth->isCaptain()) {
+                NotificationHelper::checkBans($user, $retVal);
+            }
+
             foreach ($sloth->teams as $key => $team) {
-                NotificationHelper::checkRoster($team, $retVal);
-                NotificationHelper::checkMatches($user, $team, $retVal);
-                NotificationHelper::checkBans($user,$retVal);
+                if ($sloth->isCaptainOfTeam($team)) {
+                    NotificationHelper::checkRoster($team, $retVal);
+                    NotificationHelper::checkMatches($user, $team, $retVal);
+                }
             }
         }
         return $retVal;
@@ -46,13 +52,11 @@ class NotificationHelper
 
     public static function checkMatches($user, $team, &$retVal)
     {
-        if ($user->sloth->isCaptainOfTeam($team) == true) {
-            NotificationHelper::generateScheduleMatchMessages($user->sloth, $team->matches()->whereNull('wbp')->whereNull('is_played')->get(), $retVal);
-            $repMatches = $team->matches()->where(function ($q) {
-                $q->whereNotNull('wbp')->where('winner_id', null);
-            })->get();
-            NotificationHelper::generateReportMatchMessages($user->sloth, $repMatches, $retVal);
-        }
+        NotificationHelper::generateScheduleMatchMessages($user->sloth, $team->matches()->whereNull('wbp')->whereNull('is_played')->get(), $retVal);
+        $repMatches = $team->matches()->where(function ($q) {
+            $q->whereNotNull('wbp')->where('winner_id', null);
+        })->get();
+        NotificationHelper::generateReportMatchMessages($user->sloth, $repMatches, $retVal);
     }
 
 
@@ -78,12 +82,9 @@ class NotificationHelper
         }
     }
 
-    public static function checkBans($user,&$retVal)
+    public static function checkBans(&$retVal)
     {
-        if($user->sloth->isCaptain())
-        {
-            NotificationHelper::generateBanMessages(Bans::with('hero','talent')->get(),$retVal);
-        }
+        NotificationHelper::generateBanMessages(Bans::with('hero','talent')->get(),$retVal);
     }
 
     public static function generateBanMessages($bans,&$retVal)
@@ -163,30 +164,43 @@ class NotificationHelper
 
     public static function checkParticipation($sloth, &$retVal)
     {
-        foreach ($sloth->teams as $key => $team) {
-            $s = Seasons::where('is_active', 1)->where('reg_open', 1)->where('region_id', $team->region_id)->whereDoesntHave('teams', function ($q) use ($sloth, $team) {
-                $q->where('team_id', $team->id);
-            })->get();
-            NotificationHelper::generateParticipationMessages($s, $team, $sloth, $retVal);
+        $registerableSeasons = Seasons::where('is_active', 1)->where('reg_open', 1)->where('region_id', $sloth->region_id)->get();
+        foreach ($registerableSeasons as $season) {
+            if ($season->free_agents->contains($sloth->id)) {
+                continue;
+            }
+
+            if ($sloth->isSignedUpForSeason($season)) {
+                continue;
+            }
+
+            // User is not signed up for the season as a free agent or with a team.
+            NotificationHelper::generateParticipationMessages($season, $sloth, $retVal);
         }
     }
 
-    private static function generateParticipationMessages($s, $team, $sloth, &$retVal)
+    private static function generateParticipationMessages($season, $sloth, &$retVal)
     {
-        foreach ($s as $season) {
-            if ($sloth->isCaptainOfTeam($team)) {
+        if ($sloth->teams->count() > 0) {
+            if ($sloth->isCaptain()) {
                 $retVal[] = [
                     'type' => 'warning',
-                    'message' => 'Your team ' . $team->title . ' isn\'t listed to participate in '.$season->title.'. You can sign up your team on the season page!',
+                    'message' => 'You arent\'t listed to participate in '.$season->title.'. You can register as a free agent or you can sign up the team you\'re captain of on the season page!',
                     'entity' => $season->toArray()
-                    ];
+                ];
             } else {
                 $retVal[] = [
                     'type' => 'warning',
-                    'message' => 'Your team ' . $team->title . ' isn\'t listed to participate in '.$season->title.'. Your captain can sign up the team for it.',
+                    'message' => 'Your arent\'t listed to participate in '.$season->title.'. You can register as a free agent or your captain can sign up the team on the season page!.',
                     'entity' => $season->toArray()
-                    ];
+                ];
             }
+        } else {
+            $retVal[] = [
+                'type' => 'warning',
+                'message' => 'You aren\'t listed to participate in '.$season->title.'. You can register as a free agent or join a particpating team.',
+                'entity' => $season->toArray()
+            ];
         }
     }
 
