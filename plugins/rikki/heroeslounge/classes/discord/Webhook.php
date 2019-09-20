@@ -23,11 +23,6 @@ class Webhook
         curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
 
         $output = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        Log::info($output);
-        Log::info($httpcode);
-
         curl_close($ch);
     }  
 }
