@@ -32,13 +32,16 @@
             <h4>Games
                 <button type="button" class="close" data-toggle="modal" data-target="#new_{{__SELF__.match.id}}" title="Add Game">
                     <i class="fa fa-plus-circle green" aria-hidden="true"></i>
-                </button> {% if __SELF__.match.games | length > 0 %}
+                </button> 
+                {% if __SELF__.match.games | length > 0 %}
                 <button class="close" type="button" data-toggle="modal" data-target="#save_{{__SELF__.match.id}}" title="Save Match">
                     <i class="fa fa-floppy-o blue mr-2" aria-hidden="true" ></i>
-                </button> {% endif %}
+                </button>
+                {% endif %}
             </h4>
 
-            <hr class="separator"> {% for game in __SELF__.match.games %} {% set path = 'assets/img/maps/bg_' ~game.map.title | replace({' ':'-'}) | lower ~'.jpg' %}
+            <hr class="separator">
+            {% for game in __SELF__.match.games %} {% set path = 'assets/img/maps/bg_' ~game.map.title | replace({' ':'-'}) | lower ~'.jpg' %}
             <div class="row mb-2">
                 <div class="col-md-6">
                     <a href="{{game.replay.path}}">
@@ -84,6 +87,36 @@
                 </div>
             </div>
             {% endfor %}
+
+            {% if __SELF__.match.reschedule_date == null %}
+            <div>
+                <button class="btn btn-primary btn-block" type="button" data-toggle="modal" data-target="#reschedule_{{__SELF__.match.id}}" title="Reschedule match">
+                    Reschedule
+                </button>
+                {% else %}
+                Awaiting reschedule confirmation for {{__SELF__.match.reschedule_date| date(__SELF__.datetimeFormat, __SELF__.timezone)}}.
+            </div>
+            {% endif %}
+
+            {% if __SELF__.match.reschedule_date and __SELF__.ownTeam.id == __SELF__.match.confirming_team_id and __SELF__.user.sloth.isCaptain %}
+            <div id="matchtime">
+                <form>
+                    <input type="hidden" name="match_id" value="{{__SELF__.match.id}}">
+                    <input type="hidden" name="team_id" value="{{__SELF__.ownTeam.id}}">
+                    <h3>Rescheduled for {{__SELF__.match.reschedule_date | date(__SELF__.datetimeFormat, __SELF__.timezone)}}</h3>
+                    ({{__SELF__.timezone}} {{__SELF__.timezoneOffset}})
+                    <br>
+                    <button class="btn btn-secondary btn-block" data-request="{{__SELF__}}::onRescheduleDecline"
+                        type="submit" title="Decline reschedule">
+                        Decline
+                    </button>
+                    <button class="btn btn-primary btn-block" data-request="{{__SELF__}}::onRescheduleConfirm"
+                        type="submit" title="Accept reschedule">
+                        Accept
+                    </button>
+                </form>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -184,4 +217,49 @@
     </div>
 </div>
 <!-- End New Game Modal -->
+
+<!-- Start Reschedule Match Modal -->
+<div class="modal fade" role="dialog" id="reschedule_{{__SELF__.match.id}}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content card-body" id="schedulebox{{__SELF__.match.id}}">
+            <h4 class="card-title text-center">VS <a href="{{ 'team/view' | page({slug:__SELF__.opp.slug})}}"><strong>{{__SELF__.opp.title |upper}}</strong></a></h4>
+            <form>
+                <div class="row mb-3">
+                    <div class="col-md-8 col-8 text-center">
+                        <input type="text" class="match text-center" style="height:100%" name="date" value="{{__SELF__.match.wbp}}">
+                        <input type="hidden" name="match_id" value="{{__SELF__.match.id}}">
+                        <input type="hidden" name="opponent_id" value="{{__SELF__.opp.id}}">
+                    </div>
+                </div>
+                <p class="card-text">Timezone: {{__SELF__.timezone}} {{__SELF__.timezoneOffset}}</p>
+                <p class="card-text">This match has to be scheduled before: {{__SELF__.match.schedule_date | date(__SELF__.datetimeFormat, __SELF__.timezone)}}</p>
+                <p class="card-text"><small class="text-muted">If you fail to schedule the game before the required time, your team will be marked inactive, and you will not get assigned a game the next round of matchmaking.</small></p>
+                <p class="card-text">This match has to be played before: {{__SELF__.match.tbp | date(__SELF__.datetimeFormat, __SELF__.timezone)}}</p>
+                <p class="card-text"><small class="text-muted">If you fail to report the score for the game before the last play time, the match will be marked as a tie regardless of score.</small></p>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" data-request="{{__SELF__}}::onRescheduleMatch"
+                        style="text-overflow: ellipsis;overflow:hidden;max-width:100%" type="submit" title="Propose reschule">
+                        Propose Date
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% put scripts %}
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery('.match').datetimepicker({
+                dayOfWeekStart: 1,
+                lang: 'en',
+                minDate: '-1970/01/01',
+                startDate: '0',
+                maxDate: '{{__SELF__.match.tbp | date('Y-m-d')}}'
+            });
+        });
+    </script>
+    {% endput %}
+</div>
+<!-- End Reschedule Match Modal -->
 {% endif %}
