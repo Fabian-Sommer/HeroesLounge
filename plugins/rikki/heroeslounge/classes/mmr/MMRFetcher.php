@@ -11,8 +11,12 @@ class MMRFetcher
         $sloths = SlothModel::where('mmr', 0)->get();
 
         foreach ($sloths as $sloth) {
-            set_time_limit(30);
-            MMRFetcher::updateMMRHeroesProfile($sloth);
+            set_time_limit(60);
+            $throttleTime = MMRFetcher::updateMMRHeroesProfile($sloth);
+
+            if ($throttleTime > 0) {
+                sleep($throttleTime);
+            }
         }
     }
 
@@ -21,8 +25,12 @@ class MMRFetcher
         $sloths = SlothModel::all();
 
         foreach ($sloths as $sloth) {
-            set_time_limit(30);
-            MMRFetcher::updateMMRHeroesProfile($sloth);
+            set_time_limit(60);
+            $throttleTime = MMRFetcher::updateMMRHeroesProfile($sloth);
+
+            if ($throttleTime > 0) {
+                sleep($throttleTime);
+            }
         }
     }
 
@@ -133,7 +141,19 @@ class MMRFetcher
         $url = 'https://api.heroesprofile.com/api/Player/MMR/?mode=json&api_token=' . AuthCode::getHeroesProfileKey() . '&battletag=' . urlencode($battletag) . '&region=' . $region;
 
         $ch = curl_init($url);
+        $headers = [];
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, function($curl, $header) use (&$headers) {
+            $len = strlen($header);
+            $header = explode(':', $header, 2);
+            if (count($header) < 2) {
+                return $len;
+            } 
+
+            $headers[strtolower(trim($header[0]))][] = trim($header[1]);
+            return $len;
+        });
 
         $output = curl_exec($ch);
 
@@ -185,5 +205,12 @@ class MMRFetcher
                 }
             }
         }
+
+        // Returns the throttle time to wait for the next request.
+        if (array_key_exists('retry-after', $headers)) {
+            return $headers['retry-after'][0];
+        }
+
+        return 0;
     }
 }
