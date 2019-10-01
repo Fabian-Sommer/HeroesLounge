@@ -55,7 +55,7 @@ class IDFetcher
         
         $sloth->heroesprofile_id = null;
 
-        $url = 'https://www.heroesprofile.com/API/Profile/?&api_key=' . AuthCode::getHeroesProfileKey() . '&battletag=' . urlencode($battletag) . '&region=' . $region;
+        $url = 'https://api.heroesprofile.com/api/Player?mode=json&api_token=' . AuthCode::getHeroesProfileKey() . '&battletag=' . urlencode($battletag) . '&region=' . $region;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -66,8 +66,8 @@ class IDFetcher
         if ($output != "null") {
             $data = json_decode($output, true);
             if ($data != null) {
-                if (array_key_exists("blizz_id", $data[0])) {
-                    $sloth->heroesprofile_id = $data[0]["blizz_id"];
+                if (array_key_exists("blizz_id", $data)) {
+                    $sloth->heroesprofile_id = $data["blizz_id"];
                 }
             }
         }

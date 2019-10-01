@@ -130,7 +130,7 @@ class MMRFetcher
         $battletag = $sloth->battle_tag;
         $region = $sloth->getHeroesProfileRegionId();
 
-        $url = 'https://heroesprofile.com/API/MMR/Player/?api_key=' . AuthCode::getHeroesProfileKey() . '&p_b=' . urlencode($battletag) . '&region=' . $region;
+        $url = 'https://api.heroesprofile.com/api/Player/MMR/?mode=json&api_token=' . AuthCode::getHeroesProfileKey() . '&battletag=' . urlencode($battletag) . '&region=' . $region;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
