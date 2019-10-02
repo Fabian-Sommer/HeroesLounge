@@ -55,10 +55,22 @@ class IDFetcher
         
         $sloth->heroesprofile_id = null;
 
-        $url = 'https://www.heroesprofile.com/API/Profile/?&api_key=' . AuthCode::getHeroesProfileKey() . '&battletag=' . urlencode($battletag) . '&region=' . $region;
+        $url = 'https://api.heroesprofile.com/api/Player?mode=json&api_token=' . AuthCode::getHeroesProfileKey() . '&battletag=' . urlencode($battletag) . '&region=' . $region;
 
         $ch = curl_init($url);
+        $headers = [];
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, function($curl, $header) use (&$headers) {
+            $len = strlen($header);
+            $header = explode(':', $header, 2);
+            if (count($header) < 2) {
+                return $len;
+            } 
+
+            $headers[strtolower(trim($header[0]))][] = trim($header[1]);
+            return $len;
+        });
 
         $output = curl_exec($ch);
 
@@ -66,11 +78,21 @@ class IDFetcher
         if ($output != "null") {
             $data = json_decode($output, true);
             if ($data != null) {
-                if (array_key_exists("blizz_id", $data[0])) {
-                    $sloth->heroesprofile_id = $data[0]["blizz_id"];
+                if (array_key_exists("blizz_id", $data)) {
+                    $sloth->heroesprofile_id = $data["blizz_id"];
                 }
             }
         }
         $sloth->save();
+
+        // Check if we've hit the rate-limit and retry the request.
+        if (array_key_exists('retry-after', $headers)) {
+            $throttleTime = $headers['retry-after'][0];
+
+            if ($throttleTime > 0) {
+                sleep($throttleTime);
+                IDFetcher::fetchIDHeroesProfile($sloth);
+            }
+        }
     }
 }

@@ -130,10 +130,22 @@ class MMRFetcher
         $battletag = $sloth->battle_tag;
         $region = $sloth->getHeroesProfileRegionId();
 
-        $url = 'https://heroesprofile.com/API/MMR/Player/?api_key=' . AuthCode::getHeroesProfileKey() . '&p_b=' . urlencode($battletag) . '&region=' . $region;
+        $url = 'https://api.heroesprofile.com/api/Player/MMR/?mode=json&api_token=' . AuthCode::getHeroesProfileKey() . '&battletag=' . urlencode($battletag) . '&region=' . $region;
 
         $ch = curl_init($url);
+        $headers = [];
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, function($curl, $header) use (&$headers) {
+            $len = strlen($header);
+            $header = explode(':', $header, 2);
+            if (count($header) < 2) {
+                return $len;
+            } 
+
+            $headers[strtolower(trim($header[0]))][] = trim($header[1]);
+            return $len;
+        });
 
         $output = curl_exec($ch);
 
@@ -183,6 +195,16 @@ class MMRFetcher
                         SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => $weightedMMR]);
                     }
                 }
+            }
+        }
+
+        // Check if we've hit the rate-limit and retry the request.
+        if (array_key_exists('retry-after', $headers)) {
+            $throttleTime = $headers['retry-after'][0];
+
+            if ($throttleTime > 0) {
+                sleep($throttleTime);
+                MMRFetcher::updateMMRHeroesProfile($sloth);
             }
         }
     }
