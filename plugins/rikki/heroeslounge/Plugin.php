@@ -91,10 +91,6 @@ class Plugin extends PluginBase
         })->weekly()->fridays()->at('3:00');
 
         $schedule->call(function () {
-            hotslogs\IDFetcher::fetchIDs();
-        })->weekly()->wednesdays()->at('3:30');
-
-        $schedule->call(function () {
             classes\Discord\Attendance::migrateDiscordTagsToIds();
         })->weekly()->tuesdays()->at('2:30');
 
