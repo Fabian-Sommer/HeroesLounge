@@ -11,26 +11,18 @@ class MMRFetcher
         $sloths = SlothModel::where('mmr', 0)->get();
 
         foreach ($sloths as $sloth) {
-            set_time_limit(60);
-            $throttleTime = MMRFetcher::updateMMRHeroesProfile($sloth);
-
-            if ($throttleTime > 0) {
-                sleep($throttleTime);
-            }
+            set_time_limit(30);
+            MMRFetcher::updateMMRHeroesProfile($sloth);
         }
     }
 
     public static function updateMMRs()
     {
-        $sloths = SlothModel::all();
+        $sloths = SlothModel::all()->slice(0, 75);
 
         foreach ($sloths as $sloth) {
-            set_time_limit(60);
-            $throttleTime = MMRFetcher::updateMMRHeroesProfile($sloth);
-
-            if ($throttleTime > 0) {
-                sleep($throttleTime);
-            }
+            set_time_limit(30);
+            MMRFetcher::updateMMRHeroesProfile($sloth);
         }
     }
 
@@ -206,11 +198,14 @@ class MMRFetcher
             }
         }
 
-        // Returns the throttle time to wait for the next request.
+        // Check if we've hit the rate-limit and retry the request.
         if (array_key_exists('retry-after', $headers)) {
-            return $headers['retry-after'][0];
-        }
+            $throttleTime = $headers['retry-after'][0];
 
-        return 0;
+            if ($throttleTime > 0) {
+                sleep($throttleTime);
+                MMRFetcher::updateMMRHeroesProfile($sloth);
+            }
+        }
     }
 }

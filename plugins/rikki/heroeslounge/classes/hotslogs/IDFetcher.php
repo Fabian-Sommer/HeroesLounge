@@ -11,12 +11,8 @@ class IDFetcher
         $sloths = SlothModel::all();
 
         foreach ($sloths as $sloth) {
-            set_time_limit(60);
-            $throttleTime = IDFetcher::fetchIDHeroesProfile($sloth);
-
-            if ($throttleTime > 0) {
-                sleep($throttleTime);
-            }
+            set_time_limit(30);
+            IDFetcher::fetchIDHeroesProfile($sloth);
         }
     }
 
@@ -89,11 +85,14 @@ class IDFetcher
         }
         $sloth->save();
 
-        // Returns the throttle time to wait for the next request.
+        // Check if we've hit the rate-limit and retry the request.
         if (array_key_exists('retry-after', $headers)) {
-            return $headers['retry-after'][0];
-        }
+            $throttleTime = $headers['retry-after'][0];
 
-        return 0;
+            if ($throttleTime > 0) {
+                sleep($throttleTime);
+                IDFetcher::fetchIDHeroesProfile($sloth);
+            }
+        }
     }
 }
