@@ -205,8 +205,8 @@
         <div class="modal-content card-body" id="schedulebox{{__SELF__.match.id}}">
             <h4 class="card-title text-center">VS <a href="{{ 'team/view' | page({slug:__SELF__.opp.slug})}}"><strong>{{__SELF__.opp.title |upper}}</strong></a></h4>
             <form>
-                <div class="text-center">
-                    <input type="text" class="match text-center" style="height:100%" name="date" value="{{__SELF__.match.wbp | date(__SELF__.datetimeFormat, __SELF__.timezone)}}">
+                <div>
+                    New Date: <input type="text" class="match text-center" style="height:100%" name="date" value="{{__SELF__.match.wbp | date(__SELF__.datetimeFormat, __SELF__.timezone)}}">
                     <input type="hidden" name="match_id" value="{{__SELF__.match.id}}">
                     <hr class="seperator">
                 </div>
