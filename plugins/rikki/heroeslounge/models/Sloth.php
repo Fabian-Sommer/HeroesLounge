@@ -151,7 +151,7 @@ class Sloth extends Model
 
     //checks if any of this users teams are signed up for the season.
     //Just for signup phase of seasons.
-    public function isSignedUpForSeason($season) {
+    public function isInTeamParticipatingInSeason($season) {
         foreach ($this->teams as $key => $team) {
             if ($team->seasons->contains($season)) {
                 return true;
@@ -173,7 +173,7 @@ class Sloth extends Model
 
     public function mayJoinTeam($team) {
         foreach ($team->seasons as $key => $season) {
-            if ($season->is_active && $this->isSignedUpForSeason($season)) {
+            if ($season->is_active && $this->isInTeamParticipatingInSeason($season)) {
                 return false;
             }
         }

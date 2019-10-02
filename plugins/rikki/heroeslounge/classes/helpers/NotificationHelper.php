@@ -166,11 +166,11 @@ class NotificationHelper
     {
         $registerableSeasons = Seasons::where('is_active', 1)->where('reg_open', 1)->where('region_id', $sloth->region_id)->get();
         foreach ($registerableSeasons as $season) {
-            if ($season->free_agents->contains($sloth->id)) {
+            if ($sloth->seasons->contains($season)) {
                 continue;
             }
 
-            if ($sloth->isSignedUpForSeason($season)) {
+            if ($sloth->isInTeamParticipatingInSeason($season)) {
                 continue;
             }
 
@@ -185,7 +185,7 @@ class NotificationHelper
             if ($sloth->isCaptain()) {
                 $retVal[] = [
                     'type' => 'warning',
-                    'message' => 'You arent\'t listed to participate in '.$season->title.'. You can register as a free agent or you can sign up the team you\'re captain of on the season page!',
+                    'message' => 'You arent\'t listed to participate in '.$season->title.'. You can register as a free agent or you can sign up your team on the season page!',
                     'entity' => $season->toArray()
                 ];
             } else {

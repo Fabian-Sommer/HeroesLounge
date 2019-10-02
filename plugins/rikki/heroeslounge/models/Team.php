@@ -165,7 +165,7 @@ class Team extends Model
     public function isEligibleForSeason($season)
     {
         foreach ($this->sloths as $key => $sloth) {
-            if ($sloth->isSignedUpForSeason($season)) {
+            if ($sloth->isInTeamParticipatingInSeason($season)) {
                 return $sloth;
             }
         }
