@@ -136,7 +136,7 @@ class UpdateMatch extends ComponentBase
             if ($match->casters->count() > 0) {
                 $newDate = new DateTime($match->wbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
                 if ($match->teams[0]->region_id == 1) {
-                    $newDate->setTimezone(new DateTimeZone('Europe/Amsterdam'));
+                    $newDate->setTimezone(new DateTimeZone('Europe/Berlin'));
                 } else if ($match->teams[0]->region_id == 2) {
                     $newDate->setTimezone(new DateTimeZone('America/Los_Angeles'));
                 }
@@ -152,9 +152,7 @@ class UpdateMatch extends ComponentBase
                 Webhook::sendMatchReschedule($notificationString);
             }
 
-            $date = new DateTime($match->wbp);
-            $timezone = TimezoneHelper::getTimezone();
-            $date->setTimezone(new DateTimeZone($timezone));
+            $date = new DateTime($match->wbp, new DateTimeZone(TimezoneHelper::getTimezone()));
 
             Flash::success('Match has been successfully rescheduled for '.$date);
             return Redirect::refresh();
