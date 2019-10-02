@@ -88,35 +88,11 @@
             </div>
             {% endfor %}
 
-            {% if __SELF__.match.reschedule_date == null %}
             <div>
                 <button class="btn btn-primary btn-block" type="button" data-toggle="modal" data-target="#reschedule_{{__SELF__.match.id}}" title="Reschedule match">
                     Reschedule
                 </button>
-                {% else %}
-                Awaiting reschedule confirmation for {{__SELF__.match.reschedule_date| date(__SELF__.datetimeFormat, __SELF__.timezone)}}.
             </div>
-            {% endif %}
-
-            {% if __SELF__.match.reschedule_date and __SELF__.ownTeam.id == __SELF__.match.confirming_team_id and __SELF__.user.sloth.isCaptain %}
-            <div id="matchtime">
-                <form>
-                    <input type="hidden" name="match_id" value="{{__SELF__.match.id}}">
-                    <input type="hidden" name="team_id" value="{{__SELF__.ownTeam.id}}">
-                    <h3>Rescheduled for {{__SELF__.match.reschedule_date | date(__SELF__.datetimeFormat, __SELF__.timezone)}}</h3>
-                    ({{__SELF__.timezone}} {{__SELF__.timezoneOffset}})
-                    <br>
-                    <button class="btn btn-secondary btn-block" data-request="{{__SELF__}}::onRescheduleDecline"
-                        type="submit" title="Decline reschedule">
-                        Decline
-                    </button>
-                    <button class="btn btn-primary btn-block" data-request="{{__SELF__}}::onRescheduleConfirm"
-                        type="submit" title="Accept reschedule">
-                        Accept
-                    </button>
-                </form>
-            </div>
-            {% endif %}
         </div>
     </div>
 </div>
@@ -226,7 +202,7 @@
             <form>
                 <div class="row mb-3">
                     <div class="col-md-8 col-8 text-center">
-                        <input type="text" class="match text-center" style="height:100%" name="date" value="{{__SELF__.match.wbp}}">
+                        <input type="text" class="match text-center" style="height:100%" name="date" value="{{__SELF__.match.wbp | date(__SELF__.datetimeFormat, __SELF__.timezone)}}">
                         <input type="hidden" name="match_id" value="{{__SELF__.match.id}}">
                         <input type="hidden" name="opponent_id" value="{{__SELF__.opp.id}}">
                     </div>
@@ -238,8 +214,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button class="btn btn-primary" data-request="{{__SELF__}}::onRescheduleMatch"
-                        style="text-overflow: ellipsis;overflow:hidden;max-width:100%" type="submit" title="Propose reschule">
-                        Propose Date
+                        style="text-overflow: ellipsis;overflow:hidden;max-width:100%" type="submit" title="reschedule match">
+                        Reschedule
                     </button>
                 </div>
             </form>

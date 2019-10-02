@@ -20,13 +20,6 @@ tabs:
             type: datepicker
             mode: datetime
             tab: General
-        reschedule_date:
-            label: Pending reschedule date
-            span: auto
-            type: datepicker
-            disabled: true
-            mode: datetime
-            tab: General
         is_played:
             label: Is played
             type: checkbox

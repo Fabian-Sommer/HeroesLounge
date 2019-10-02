@@ -89,18 +89,35 @@ class UpdateMatch extends ComponentBase
                 try {
                     $x = new DateTime($date, new DateTimeZone($timezone));
                     $x->setTimezone(new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                    if ($match->wbp != null && $match->reschedule_date == null) {
-                        $match->reschedule_date = $x->format('Y-m-d H:i:s');
-                        $match->confirming_team_id = post('opponent_id');
-                        if ($match->tbp != null && Carbon::parse($match->reschedule_date) < Carbon::parse($match->tbp)) {
-                            $match->save();
-                            Flash::success('Match reschedule successfully proposed for '.$date);
-                        } else {
-                            $y = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                            $y->setTimezone(new DateTimeZone($timezone));
-                            Flash::error('The match has to be played before ' . $y->format('d M Y H:i'));
+                    $match->wbp = $x->format('Y-m-d H:i:s');
+                    if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp)) {
+                        $match->save();
+
+                        if ($match->casters->count() > 0) {
+                            $newDate = new DateTime($match->wbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                            if ($match->teams[0]->region_id == 1) {
+                                $newDate->setTimezone(new DateTimeZone('Europe/Berlin'));
+                            } else if ($match->teams[0]->region_id == 2) {
+                                $newDate->setTimezone(new DateTimeZone('America/Los_Angeles'));
+                            }
+            
+                            // Create our information message to inform assigned / pending casters.
+                            $notificationString = "The match between " . $match->teams[0]->title . " and " . $match->teams[1]->title . " has been rescheduled to " . $newDate->format('d M Y H:i T') . "\n";
+                            foreach ($match->casters as $caster) {
+                                if ($caster->pivot->approved != 2) {
+                                    $notificationString .= "<@" . $caster->discord_id . ">\n";
+                                }
+                            }
+                            
+                            Webhook::sendMatchReschedule($notificationString);
                         }
-                    }
+                        
+                        Flash::success('Match has been successfully rescheduled for '.$date);
+                    } else {
+                        $y = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                        $y->setTimezone(new DateTimeZone($timezone));
+                        Flash::error('The match has to be played before ' . $y->format('d M Y H:i'));
+                    }  
                 } catch (Exception $e) {
                     Flash::error($e->getMessage());
                     Log::info($e->getMessage());
@@ -110,52 +127,6 @@ class UpdateMatch extends ComponentBase
             } else {
                 Flash::error('Please provide a date!');
             }     
-        }
-    }
-
-    public function onRescheduleDecline()
-    {
-        $match = Match::find(post('match_id'));
-        $match->reschedule_date = null;
-        $match->confirming_team_id = 0;
-        $match->save();
-
-        Flash::success('Match reschedule declined');
-        return Redirect::refresh();
-    }
-
-    public function onRescheduleConfirm()
-    {
-        $match = Match::find(post('match_id'));
-        if ($match->reschedule_date != null && $match->confirming_team_id == post('team_id')) {
-            $match->wbp = $match->reschedule_date;
-            $match->reschedule_date = null;
-            $match->confirming_team_id = 0;
-            $match->save();
-
-            if ($match->casters->count() > 0) {
-                $newDate = new DateTime($match->wbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                if ($match->teams[0]->region_id == 1) {
-                    $newDate->setTimezone(new DateTimeZone('Europe/Berlin'));
-                } else if ($match->teams[0]->region_id == 2) {
-                    $newDate->setTimezone(new DateTimeZone('America/Los_Angeles'));
-                }
-
-                // Create our information message to inform assigned / pending casters.
-                $notificationString = "The match between " . $match->teams[0]->title . " and " . $match->teams[1]->title . " has been rescheduled to " . $newDate->format('d M Y H:i T') . "\n";
-                foreach ($match->casters as $caster) {
-                    if ($caster->pivot->approved != 2) {
-                        $notificationString .= "<@" . $caster->discord_id . ">\n";
-                    }
-                }
-                
-                Webhook::sendMatchReschedule($notificationString);
-            }
-
-            $date = new DateTime($match->wbp, new DateTimeZone(TimezoneHelper::getTimezone()));
-
-            Flash::success('Match has been successfully rescheduled for '.$date);
-            return Redirect::refresh();
         }
     }
 
