@@ -86,44 +86,43 @@ class UpdateMatch extends ComponentBase
             $date = post('date');
             $timezone = TimezoneHelper::getTimezone();
             if ($date != null) {
-                try {
-                    $x = new DateTime($date, new DateTimeZone($timezone));
-                    $x->setTimezone(new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                    $match->wbp = $x->format('Y-m-d H:i:s');
-                    if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp)) {
-                        $match->save();
+                $oldWBP = $match->wbp;
+                $wbp = new DateTime($date, new DateTimeZone($timezone));
+                $wbp->setTimezone(new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                $match->wbp = $wbp->format('Y-m-d H:i:s');
+                if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp)) {
+                    $match->save();
 
-                        if ($match->casters->count() > 0) {
-                            $newDate = new DateTime($match->wbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                            if ($match->teams[0]->region_id == 1) {
-                                $newDate->setTimezone(new DateTimeZone('Europe/Berlin'));
-                            } else if ($match->teams[0]->region_id == 2) {
-                                $newDate->setTimezone(new DateTimeZone('America/Los_Angeles'));
+                    if ($match->casters->count() > 0) {
+                        $newDate = new DateTime($match->wbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                        $oldDate = new DateTime($oldWBP, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                        if ($match->teams[0]->region_id == 1) {
+                            $newDate->setTimezone(new DateTimeZone('Europe/Berlin'));
+                            $oldDate->setTimezone(new DateTimeZone('Europe/Berlin'));
+                        } else if ($match->teams[0]->region_id == 2) {
+                            $newDate->setTimezone(new DateTimeZone('America/Los_Angeles'));
+                            $oldDate->setTimezone(new DateTimeZone('America/Los_Angeles'));
+                        }
+        
+                        // Create our information message to inform assigned / pending casters.
+                        $notificationString = "The match between " . $match->teams[0]->title . " and " . $match->teams[1]->title . " has been rescheduled from " . $oldDate->format('d M Y H:i T') . " to " . $newDate->format('d M Y H:i T') . "\n";
+                        foreach ($match->casters as $caster) {
+                            if ($caster->pivot->approved != 2) {
+                                $notificationString .= "<@" . $caster->discord_id . ">\n";
                             }
-            
-                            // Create our information message to inform assigned / pending casters.
-                            $notificationString = "The match between " . $match->teams[0]->title . " and " . $match->teams[1]->title . " has been rescheduled to " . $newDate->format('d M Y H:i T') . "\n";
-                            foreach ($match->casters as $caster) {
-                                if ($caster->pivot->approved != 2) {
-                                    $notificationString .= "<@" . $caster->discord_id . ">\n";
-                                }
-                            }
-                            
-                            Webhook::sendMatchReschedule($notificationString);
                         }
                         
-                        Flash::success('Match has been successfully rescheduled for '.$date);
-                    } else {
-                        $y = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                        $y->setTimezone(new DateTimeZone($timezone));
-                        Flash::error('The match has to be played before ' . $y->format('d M Y H:i'));
-                    }  
-                } catch (Exception $e) {
-                    Flash::error($e->getMessage());
-                    Log::info($e->getMessage());
-                } finally {
-                    return Redirect::refresh();
+                        Webhook::sendMatchReschedule($notificationString);
+                    }
+                    
+                    Flash::success('Match has been successfully rescheduled for '.$date);
+                } else {
+                    $tbp = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                    $tbp->setTimezone(new DateTimeZone($timezone));
+                    Flash::error('The match has to be played before ' . $tbp->format('d M Y H:i'));
                 }
+                
+                return Redirect::refresh();
             } else {
                 Flash::error('Please provide a date!');
             }     
