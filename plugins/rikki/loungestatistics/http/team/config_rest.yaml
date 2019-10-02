@@ -1,0 +1,19 @@
+# ===================================
+#  Rest Behavior Config
+# ===================================
+
+# Allowed Rest Actions
+allowedActions:
+  index:
+      pageSize: 20
+  store:
+  show:
+  update:
+  destroy:
+  herostatistics:
+  seasonHerostatistics:
+  mapstatistics:
+  seasonMapstatistics:
+
+# Model Class name
+modelClass: Rikki\Heroeslounge\Models\Team

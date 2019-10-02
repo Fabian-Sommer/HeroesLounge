@@ -52,12 +52,15 @@ class SlothStatistics extends ComponentBase
 
     public function calculateStats($season)
     {       
-        $heroStats = Stats::calculateHeroStatistics("slothAll", $this->sloth->gameParticipations, null, $this->selectedSeason);
-        $mapStats = Stats::calculateMapStatistics($this->sloth->gameParticipations, $this->selectedSeason);
+        $mapStats = Stats::calculateMapStatisticsForSloth($this->sloth->gameParticipations, $this->selectedSeason);
+        $this->maps = $mapStats->sortByDesc(function ($map_array) {
+            return $map_array['picks_by'] + $map_array['picks_vs'];
+        });
         $gamecount = $mapStats->reduce(function ($carry, $map) {
             return $carry + $map["picks_by"] + $map["picks_vs"];
         }, 0);
 
+        $heroStats = Stats::calculateHeroStatistics("slothAll", $this->sloth->gameParticipations, null, $this->selectedSeason);
         foreach ($heroStats as $key => $hero_array) {
             if ($hero_array['picks'] > 0) {
                 $hero_array['winrate'] = round($hero_array['wins'] / (0.01 * $hero_array['picks']),2);
@@ -94,16 +97,6 @@ class SlothStatistics extends ComponentBase
         }
         $this->heroes = $heroStats->sortByDesc(function ($hero_array) {
             return $hero_array['picks'] + $hero_array['bans_by_team'] + $hero_array['bans_against_team'];
-        });
-
-        
-        foreach ($mapStats as $key => $map_array) {
-            $map_array['winrate'] = round($map_array['winrate']/(($map_array['picks_by'] + $map_array['picks_vs'])*0.01),2);
-            $map_array['winrate'] .= '%';
-            $mapStats[$key] = $map_array;
-        }
-        $this->maps = $mapStats->sortByDesc(function ($map_array) {
-            return $map_array['picks_by'] + $map_array['picks_vs'];
         });
     }
 

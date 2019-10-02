@@ -1,6 +1,7 @@
 <?php namespace Rikki\LoungeStatistics\Components;
 
 use Cms\Classes\ComponentBase;
+use Rikki\LoungeStatistics\classes\statistics\Statistics;
 use Rikki\Heroeslounge\Models\Hero;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Map;
@@ -52,112 +53,13 @@ class TeamStatistics extends ComponentBase
 
     public function calculateStats($season)
     {
-        $allHeroes = Hero::all()->sortBy('title');
-        $heroesArray = [];
-        foreach ($allHeroes as $hero) {
-            $heroesArray[$hero->title] = [];
-            $heroesArray[$hero->title]['hero'] = $hero;
-            $heroesArray[$hero->title]['picks'] = 0;
-            $heroesArray[$hero->title]['popularity'] = 0;
-            $heroesArray[$hero->title]['winrate'] = 0;
-            $heroesArray[$hero->title]['bans_against_team'] = 0;
-            $heroesArray[$hero->title]['bans_by_team'] = 0;
-        }
-        $allMaps = Map::all()->sortBy('title');
-        $mapArray = [];
-        foreach ($allMaps as $map) {
-            $mapArray[$map->title] = [];
-            $mapArray[$map->title]['map'] = $map;
-            $mapArray[$map->title]['picks_by'] = 0;
-            $mapArray[$map->title]['picks_vs'] = 0;
-            $mapArray[$map->title]['winrate'] = 0;
-        }
-        $game_count = 0;
-        foreach ($this->team->matches as $match) {
-            if ($season == null or $match->belongsToSeason($season)) {
-                foreach ($match->games as $game) {
-
-                    //find out which team we are
-                    $winner = ($game->winner_id == $this->team->id);
-                    $tO = ($game->team_one_id == $this->team->id);
-
-                    if ($game->map && $game->replay) {
-                        $game_count++;
-                        if ($this->team->title == $game->getSecondPickTeam()) {
-                            $mapArray[$game->map->title]['picks_by']++;
-                        } else {
-                            $mapArray[$game->map->title]['picks_vs']++;
-                        }
-                        if ($winner) {
-                            $mapArray[$game->map->title]['winrate']++;
-                        }
-                    }
-                    
-                    $game->getTeamOneBans()->each( function ($item) use ($tO, &$heroesArray) {
-                        if ($tO) {
-                            $heroesArray[$item->title]['bans_by_team']++;
-                        } else {
-                            $heroesArray[$item->title]['bans_against_team']++;
-                        }
-                    });
-                    $game->getTeamTwoBans()->each( function ($item) use ($tO, &$heroesArray) {
-                        if ($tO) {
-                            $heroesArray[$item->title]['bans_against_team']++;
-                        } else {
-                            $heroesArray[$item->title]['bans_by_team']++;
-                        }
-                    });
-                    foreach ($game->gameParticipations as $gp) {
-                        if ($gp->hero == null) {
-                            continue;
-                        }
-                        if ($gp->team_id == $this->team->id) {
-                            $heroesArray[$gp->hero->title]['picks']++;
-                            if ($winner) {
-                                $heroesArray[$gp->hero->title]['winrate']++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        $heroes2 = new Collection($heroesArray);
-        $filteredHeroes = $heroes2->reject(function ($hero_array) {
-            return $hero_array['picks'] + $hero_array['bans_by_team'] + $hero_array['bans_against_team'] == 0;
-        });
-        foreach ($filteredHeroes as $key => $hero_array) {
-            if ($hero_array['picks'] > 0) {
-                $hero_array['winrate'] = round($hero_array['winrate'] / (0.01 * $hero_array['picks']),2);
-                $hero_array['winrate'] .= '%';
-            } else {
-                $hero_array['winrate'] = '-';
-            }
-            if ($game_count > 0) {
-                $hero_array['pick_popularity'] = round($hero_array['picks'] / (0.01 * $game_count),1);
-                $hero_array['bat_popularity'] = round($hero_array['bans_against_team'] / (0.01 * $game_count),1);
-                $hero_array['bbt_popularity'] = round($hero_array['bans_by_team'] / (0.01 * $game_count),1);
-            } else {
-                $hero_array['pick_popularity'] = '-';
-                $hero_array['bat_popularity'] = '-';
-                $hero_array['bbt_popularity'] = '-';
-            }
-            $filteredHeroes[$key] = $hero_array;
-        }
-        $this->heroes = $filteredHeroes->sortByDesc(function ($hero_array) {
+        $heroes = Statistics::calculateHeroStatisticsForTeam($this->team, $season);
+        $this->heroes = $heroes->sortByDesc(function ($hero_array) {
             return $hero_array['picks'] + $hero_array['bans_by_team'] + $hero_array['bans_against_team'];
         });
 
-        $maps2 = new Collection($mapArray);
-        $filteredMaps = $maps2->reject(function ($map_array) {
-            return $map_array['picks_by'] + $map_array['picks_vs'] == 0;
-        });
-        foreach ($filteredMaps as $key => $map_array) {
-            $map_array['winrate'] = round($map_array['winrate']/(($map_array['picks_by'] + $map_array['picks_vs'])*0.01),2);
-            $map_array['winrate'] .= '%';
-            $filteredMaps[$key] = $map_array;
-        }
-        $this->maps = $filteredMaps->sortByDesc(function ($map_array) {
+        $maps = Statistics::calculateMapStatisticsForTeam($this->team, $season);
+        $this->maps = $maps->sortByDesc(function ($map_array) {
             return $map_array['picks_by'] + $map_array['picks_vs'];
         });
     }
