@@ -18,7 +18,7 @@ class MMRFetcher
 
     public static function updateMMRs()
     {
-        $sloths = SlothModel::all()->slice(0, 75);
+        $sloths = SlothModel::all();
 
         foreach ($sloths as $sloth) {
             set_time_limit(30);
