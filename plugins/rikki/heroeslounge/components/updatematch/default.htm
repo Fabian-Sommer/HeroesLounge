@@ -29,7 +29,7 @@
                 otherwise it will result in a tie and render BOTH teams inactive.
             </div>
 
-            {% if __SELF__.match.allowRescheduleByCaptain and __SELF__.sloth.isCaptainOfTeam(__SELF__.team) %}
+            {% if __SELF__.match.allowRescheduleByCaptain and __SELF__.user.sloth.isCaptainOfTeam(__SELF__.ownTeam) %}
             <div>
                 <button class="btn btn-primary btn-block" type="button" data-toggle="modal" data-target="#reschedule_{{__SELF__.match.id}}" title="Reschedule match">
                     Reschedule
