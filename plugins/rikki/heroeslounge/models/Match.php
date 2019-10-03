@@ -306,6 +306,16 @@ class Match extends Model
         $this->save();
     }
 
+    public function allowRescheduleByCaptain()
+    {
+        $season = $this->getSeasonAttribute();
+        if ($this->playoff != null || ($season != null && $season->type  == 2)) {
+            return false;
+        }
+
+        return true;
+    }
+
     //encode triple with Cantor
     public static function encodePlayoffPosition($bracket, $round, $matchnumber) 
     {
