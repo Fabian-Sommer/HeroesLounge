@@ -319,7 +319,11 @@ class ReplayParsing
                 $participation->hero = $hero;
                 if ($playerDetails["m_teamId"] == 0) {
                     $participation->team_id = $this->match->teams[$firstReplayTeam]->id;
-                    $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->first();
+                    // Retrieve all the sloths with matching Heroes Profile ID and then filter on battletag name.
+                    $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->get()->first(function ($sloth) use ($playerDetails) {
+                        return strtolower(explode('#', $sloth->battle_tag)[0]) == strtolower($playerDetails["m_name"]);
+                    });
+
                     if (isset($participatingSloth)) {
                         $participation->sloth = $participatingSloth;
                     } else {
@@ -336,7 +340,11 @@ class ReplayParsing
                     }
                 } elseif ($playerDetails["m_teamId"] == 1) {
                     $participation->team_id = $this->match->teams[$secondReplayTeam]->id;
-                    $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->first();
+                    // Retrieve all the sloths with matching Heroes Profile ID and then filter on battletag name.
+                    $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->get()->first(function ($sloth) use ($playerDetails) {
+                        return strtolower(explode('#', $sloth->battle_tag)[0]) == strtolower($playerDetails["m_name"]);
+                    });
+
                     if (isset($participatingSloth)) {
                         $participation->sloth = $participatingSloth;
                     } else {
