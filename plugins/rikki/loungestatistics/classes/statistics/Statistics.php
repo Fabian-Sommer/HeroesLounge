@@ -145,6 +145,7 @@ class Statistics
         foreach ($team->matches as $match) {
             if ($season == null or $match->belongsToSeason($season)) {
                 foreach ($match->games as $game) {
+                    $game_count++;
 
                     //find out which team we are
                     $winner = ($game->winner_id == $team->id);
