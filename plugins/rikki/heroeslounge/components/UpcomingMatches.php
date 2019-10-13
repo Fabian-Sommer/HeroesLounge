@@ -181,7 +181,7 @@ class UpcomingMatches extends ComponentBase
             ],
             'showName' => [
                 'title' => 'Show TeamName',
-                'description' => 'Decides whether or not to show Team Names',
+                'description' => 'Decides whether or not to show Region Name',
                 'default' => true,
                 'type' => 'checkbox'
             ],

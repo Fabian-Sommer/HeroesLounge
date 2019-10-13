@@ -29,7 +29,7 @@
                     {% endif %} 
                     title="{{match.playoff.longTitle}}">{{match.playoff.longTitle}}</a>
                     {% else %}
-                    <a {% if match.division.season %} href="{{ 'season/division'|page({slug: match.division.season.slug, divslug: match.division.slug})}}" {% endif %} title="{{match.division.title}}" class="hideOverflow">{% if match.teams[0].region_id is not null and match.teams[0].region_id == match.teams[1].region_id %}
+                    <a {% if match.division.season %} href="{{ 'season/division'|page({slug: match.division.season.slug, divslug: match.division.slug})}}" {% endif %} title="{{match.division.title}}" class="hideOverflow">{% if match.teams[0].region_id is not null and match.teams[0].region_id == match.teams[1].region_id and __SELF__.showName %}
                         [{{match.teams[0].region.title}}]
                         {% endif %} {{match.division.title}}</a>
                     {% endif %}
