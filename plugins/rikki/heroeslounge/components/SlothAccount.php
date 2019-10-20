@@ -279,26 +279,27 @@ class SlothAccount extends UserAccount
 
     public function onParticipationSave()
     {
-        try {
-            foreach ($this->seasons as $season) {
-                if ($season->current_round == 0) {
-                    $val = post('part_seas_'.$season->id);
-                    if (isset($val) && !$season->free_agents->contains($this->sloth->id)) {
-                        $season->free_agents()->attach($this->sloth->id);
-                        Discord\RoleManagement::UpdateUserRole("PUT", $this->sloth->discord_id, "FreeAgent");
-                        Flash::success('You will participate in '.$season->title.'!');
-                    } elseif (isset($val) == false) {
-                        $season->free_agents()->detach($this->sloth->id);
-                        Discord\RoleManagement::UpdateUserRole("DELETE", $this->sloth->discord_id, "FreeAgent");
-                        Flash::error('You will not paricipate in '.$season->title.' - Sad to see you go!');
-                    }
+        foreach ($this->seasons as $season) {
+            if ($season->reg_open == 1) {
+                if ($this->sloth->isInTeamParticipatingInSeason($season)) {
+                    Flash::error('You can not update your '.$season->title.' participation, because you are already participating with a team!');
+                    return Redirect::refresh(); 
+                }
+
+                $participation = post('part_seas_'.$season->id);
+                if (isset($participation) && !$season->free_agents->contains($this->sloth->id)) {
+                    $season->free_agents()->attach($this->sloth->id);
+                    Discord\RoleManagement::UpdateUserRole("PUT", $this->sloth->discord_id, "FreeAgent");
+                    Flash::success('You will participate in '.$season->title.'!');
+                } elseif (isset($participation) == false) {
+                    $season->free_agents()->detach($this->sloth->id);
+                    Discord\RoleManagement::UpdateUserRole("DELETE", $this->sloth->discord_id, "FreeAgent");
+                    Flash::error('You will not participate in '.$season->title.' - Sad to see you go!');
                 }
             }
-        } catch (Exception $e) {
-            Flash::error($e->getMessage());
-        } finally {
-            return Redirect::refresh();
         }
+
+        return Redirect::refresh();
     }
 
     public function onUpdateGeneral()
@@ -518,9 +519,8 @@ class SlothAccount extends UserAccount
         if ($sloth->region_id == 2 && isset($data['server_preference'])) {
             $sloth->server_preference = $data['server_preference'];
         }
-        if ($sloth->team_id == 0) {
-            $this->onParticipationSave();
-        }
+
+        $this->onParticipationSave();
         $sloth->save();
 
         Flash::success('Role updated successfully!');

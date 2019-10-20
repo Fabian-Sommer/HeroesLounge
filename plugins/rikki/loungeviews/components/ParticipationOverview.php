@@ -5,6 +5,7 @@ use Cms\Classes\ComponentBase;
 use Auth;
 use Rikki\Heroeslounge\Models\Season as Seasons;
 use Rikki\Heroeslounge\Models\Team;
+use Rikki\Heroeslounge\classes\Discord;
 use Log;
 use Redirect;
 use Flash;
@@ -80,13 +81,20 @@ class ParticipationOverview extends ComponentBase
                 if ($eligible === true) {
                     $this->season->teams()->add($team);
                     Flash::success('Your team is now signed up for '.$this->season->title);
+
+                    foreach ($team->sloths as $sloth) {
+                        if ($this->season->free_agents->contains($sloth->id)) {
+                            $this->season->free_agents()->detach($sloth->id);
+                            Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "FreeAgent");
+                        }
+                    }
+
                     return Redirect::refresh();
                 } else {
                     //$eligible holds a sloth that is already participating with another team
                     Flash::error('A member of this team is already participating with another team: '.$eligible->title);
                     return Redirect::refresh();
                 }
-                
             }
         }
     }
