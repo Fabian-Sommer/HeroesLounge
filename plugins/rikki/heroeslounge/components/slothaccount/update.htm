@@ -225,16 +225,16 @@
                     </div>
                     {% if __SELF__.sloth.discord_id %}
                     <input class="form-control" placeholder="DiscordTag" title="Discord Tag" type="text" name="discord_tag" disabled value="{{ __SELF__.sloth.discord_tag }}">
+                    <div class="input-group-btn">
+                        <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
+                                data-request="{{ __SELF__ }}::onSyncDiscord"
+                                title="Sync Discord tag" class="close sync-btn" type="button">
+                            <i class="sync-icon fa fa-refresh" style="color: black;" aria-hidden="true"></i>
+                        </button>
+                    </div>
                     {% else %}
                     <input class="form-control" placeholder="DiscordTag" title="Discord Tag" type="text" name="discord_tag" value="{{ __SELF__.sloth.discord_tag }}">
-                    {% endif %}                    
-                    <div class="input-group-btn">
-                            <button style="padding:7px; border:solid #868e96 1px; border-left:none;"
-                                    data-request="{{ __SELF__ }}::onSyncDiscord"
-                                    title="Update Discord tag" class="close sync-btn" type="button">
-                                <i class="sync-icon fa fa-refresh" style="color: black;" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="input-group col-lg-3 mb-3 col-md-4">
