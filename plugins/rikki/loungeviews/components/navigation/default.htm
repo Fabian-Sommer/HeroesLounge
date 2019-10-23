@@ -180,35 +180,47 @@
                             aria-expanded="false">Events</a>
                         <ul role="menu" class="dropdown-menu pull-right">
                             <li class="nav-item dropdown-submenu">
-                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">[NA] Aram <br>
-                                    League</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item"
-                                        href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-na-stage-1'})}}"></i>Stage 1</a>
-                                        <a class="dropdown-item"
-                                        href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-na-stage-2'})}}"></i>Stage 2</a>
-                                    <a class="dropdown-item" href="/aram-league-ruleset"></i>Ruleset</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown-submenu">
                                 <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">[EU] Aram <br>
-                                    League</a>
+                                    Season 2</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item"
-                                        href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-eu-stage-1'})}}"></i>Stage 1</a>
-                                    <a class="dropdown-item"
-                                        href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-eu-stage-2'})}}"></i>Stage 2</a>
+                                        href="{{ 'season/view' |page({'slug': 'eu-aram-season-2'})}}"></i>Signups</a>
                                     <a class="dropdown-item" href="/aram-league-ruleset"></i>Ruleset</a>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown-submenu">
-                                <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">Emim <br> Heroes Cup</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/heroes-cup-emim"></i>Overview</a>
-                                </div>
+
+                            <hr>
+
+                            <li class="dropdown-item dropdown-submenu">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" id="events_archive">Archive</a>
+                                <ul role="menu" class="dropdown-menu pull-right" aria-labelledby="#events_archive">
+                                    <li class="nav-item dropdown-submenu">
+                                        <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">[NA] Aram <br>
+                                            League</a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item"
+                                                href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-na-stage-1'})}}"></i>Stage 1</a>
+                                                <a class="dropdown-item"
+                                                href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-na-stage-2'})}}"></i>Stage 2</a>
+                                            <a class="dropdown-item" href="/aram-league-ruleset"></i>Ruleset</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item dropdown-submenu">
+                                        <a class="dropdown-toggle dropdown-item" data-toggle="dropdown">[EU] Aram <br>
+                                            Season 1</a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item"
+                                                href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-eu-stage-1'})}}"></i>Stage 1</a>
+                                            <a class="dropdown-item"
+                                                href="{{ 'playoff/view' |page({'playoff-title': 'aram-league-eu-stage-2'})}}"></i>Stage 2</a>
+                                            <a class="dropdown-item" href="/aram-league-ruleset"></i>Ruleset</a>
+                                        </div>
+                                    </li>
+                                    <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'nut-cup'})}}">Nut
+                                        Cup</a>
+                                </ul>
                             </li>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'nut-cup'})}}">Nut
-                                Cup</a>
                         </ul>
                     </li>
 
