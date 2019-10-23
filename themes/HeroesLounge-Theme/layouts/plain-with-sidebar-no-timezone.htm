@@ -1,0 +1,38 @@
+description = "Plain, Sidebar, No Timezone Reload"
+
+[staticPage]
+useContent = 1
+default = 0
+
+[Navigation]
+
+[googleTracker]
+
+[session]
+security = "all"
+==
+{% partial 'base/start' %}
+
+<body class="{{ this.page.id }} page page-{{ this.page.id }} layout-{{ this.layout.id }} {% placeholder bodyclass title='Body class' %}">
+
+    {% partial 'base/head' %} 
+    <div class="section page-content bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="clearfix page type-page status-publish hentry">
+                        <div class="page-content">
+                            {% partial 'base/page' %} 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 sidebar">
+                    {% partial 'modules/sidebar' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% partial 'base/foot' %} 
+    {% placeholder modal %}
+</body>
+</html>
