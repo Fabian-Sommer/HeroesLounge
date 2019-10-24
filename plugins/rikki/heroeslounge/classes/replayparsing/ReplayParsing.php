@@ -459,23 +459,16 @@ class ReplayParsing
                 	$talentTierCounters[$listIndex] = $this->talentTierCounters[$listIndex] + 1;
                 	$hid = $this->participationList[$listIndex]->hero->id;
                 	$talent = Talent::where('hero_id', $hid)->where('replay_title', $decodedTrackerEvent['m_stringData'][0]['m_value'])->first();
-                	if ($talent == null) {
-                		$t = Db::select("SELECT * FROM `rikki_heroeslounge_talents` WHERE '".$decodedTrackerEvent['m_stringData'][0]['m_value']."' LIKE CONCAT('%', suspected_replay_title, '%') AND replay_title IS NULL AND hero_id = ".$hid, []);
-                		if (array_key_exists(0, $t) && !array_key_exists(1, $t)) {
-                			$talent = Talent::find($t[0]->id);
-                		}
-                		if ($talent != null) {
-                			$talent->replay_title = $decodedTrackerEvent['m_stringData'][0]['m_value'];
-                			$talent->save();
-                            Log::error('Added new talent replay title: '.$talent->replay_title.' assigned to '.$talent->title);
-                		}
-                	}
-                	if ($talent != null) {
-                		$pivotData = ['talent_tier' => $this->talentTierCounters[$listIndex]];
-                		$this->participationList[$listIndex]->talents()->add($talent, $pivotData);
-                	} else {
+                    if ($talent == null) {
+                        $talent = new Talent();
+                        $talent->title = $decodedTrackerEvent['m_stringData'][0]['m_value'];
+                        $talent->replay_title = $decodedTrackerEvent['m_stringData'][0]['m_value'];
+                        $talent->hero_id = $hid;
+                        $talent->save();
                         Log::error('Could not recognize talent: '.$decodedTrackerEvent['m_stringData'][0]['m_value']. ' in game '. $this->game->id);
                     }
+                    $pivotData = ['talent_tier' => $this->talentTierCounters[$listIndex]];
+                    $this->participationList[$listIndex]->talents()->add($talent, $pivotData);
                 }
             } elseif ($decodedTrackerEvent['_event'] == 'NNet.Replay.Tracker.SScoreResultEvent') {
                 foreach ($decodedTrackerEvent['m_instanceList'] as $stats) {
