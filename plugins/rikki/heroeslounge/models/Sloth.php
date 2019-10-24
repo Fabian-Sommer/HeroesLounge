@@ -178,7 +178,8 @@ class Sloth extends Model
             }
         }
         foreach ($team->playoffs as $key => $playoff) {
-            if ($this->isSignedUpForPlayoff($playoff)) {
+            //only consider playoffs that were created in the past 90 days
+            if (Carbon::now()->diffInDays($playoff->created_at) < 90 && $this->isSignedUpForPlayoff($playoff)) {
                 return false;
             }
         }
