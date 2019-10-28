@@ -30,9 +30,19 @@
                 class="btn btn-sm btn-secondary center"
                 data-request-data="season_id: {{__SELF__.season.id}}"
                 data-request="{{ __SELF__ }}::onSlothSignup">
-            Sign up as a free agent!
+            Sign up as a free agent
         </button>
         <br><br>
+    </div>
+    {% elseif __SELF__.user and __SELF__.signedUp and __SELF__.user.sloth.region_id == __SELF__.season.region_id %}
+    <div>
+        No longer want to particpate as a free agent?<br>
+        <button type="button" 
+                class="btn btn-sm btn-secondary center"
+                data-request-data="season_id: {{__SELF__.season.id}}"
+                data-request="{{ __SELF__ }}::onSlothRemoveSignUp">
+            Remove free agent sign up
+        </button>
     </div>
     {% endif %}
 </div>

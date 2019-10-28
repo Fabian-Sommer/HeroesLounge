@@ -271,7 +271,6 @@
                 {%  for role in __SELF__.roles %}
                 <option value="{{role.id}}" {% if __SELF__.sloth.role_id == role.id %} selected {% endif %}>{{role.title}}</option>
                 {% endfor %}
-
             </select>
         </div>
 
@@ -286,29 +285,35 @@
         </div>
         {% endif %}
 
-        {% if __SELF__.sloth.team_id == 0 %}
         <!-- START PARTICIPATION -->
 
         <hr class="separator">
 
         <h3>Participation</h3>
-        {% set checked = '0' %} {% for season in __SELF__.seasons %} {% for sloth in season.free_agents %} {% if sloth.id == __SELF__.sloth.id
-        %} {% set checked = '1' %} {% endif %} {% endfor %}
-        <div class="form-check{% if season.reg_open == 0 %} disabled has-danger{% endif %}">
-            <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" {% if season.reg_open == 0 %}disabled{% endif %} name="part_seas_{{season.id}}"  {% if checked == '1' %}checked{% endif %} >
-                {{season.title}}
-                </label> {% if season.reg_open == 0 %}
-            <small class="form-control-feedback">
-                Registration for season is closed!
-            </small> {% endif %}
-        </div>
-        {% set checked = '0' %} {% endfor %}
+        <p>
+            Season participation as a free agent.
+        </p>
+        {% set checked = '0' %}
+        {% for season in __SELF__.seasons %}
+            {% for sloth in season.free_agents %}
+                {% if sloth.id == __SELF__.sloth.id %}
+                    {% set checked = '1' %}
+                {% endif %}
+            {% endfor %}
+            <div>
+                <label>
+                    <input type="checkbox" name="part_seas_{{season.id}}" {% if checked %} checked {% endif %} disabled>
+                    {{season.title}}
+                </label>
+            </div>
+            {% set checked = '0' %}
+        {% endfor %}
 
         <!-- END PARTICIPATION -->
-        {% endif %}
+
         <br>
-        <button type="submit" class="btn btn-primary mt-2">Save</button>        {{ form_close() }}
+        <button type="submit" class="btn btn-primary mt-2">Save</button>
+        {{ form_close() }}
     </div>
     <!-- END GAME TAB-->
 

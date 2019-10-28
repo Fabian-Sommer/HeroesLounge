@@ -123,9 +123,9 @@ class ViewApps extends ComponentBase
 
                         $seasons = Season::all();
                         foreach ($seasons as $season) {
-                            if ($season->reg_open == 1 && $season->teams->contains($team) && $season->free_agents->contains($this->sloth)) {
-                                $season->free_agents()->detach($this->sloth->id);
-                                Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "FreeAgent");
+                            if ($season->reg_open && $season->teams->contains($team) && $season->free_agents->contains($this->sloth)) {
+                                $season->free_agents()->remove($this->sloth);
+                                Discord\RoleManagement::UpdateUserRole("DELETE", $this->sloth->discord_id, "FreeAgent");
                             }
                         }
                         

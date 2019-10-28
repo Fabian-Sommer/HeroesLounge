@@ -26,8 +26,6 @@ class ParticipationOverview extends ComponentBase
         ];
     }
 
-
-
     public function onRender()
     {
         $this->user = Auth::getUser();
@@ -83,8 +81,8 @@ class ParticipationOverview extends ComponentBase
                     Flash::success('Your team is now signed up for '.$this->season->title);
 
                     foreach ($team->sloths as $sloth) {
-                        if ($this->season->free_agents->contains($sloth->id)) {
-                            $this->season->free_agents()->detach($sloth->id);
+                        if ($this->season->free_agents->contains($sloth)) {
+                            $this->season->free_agents()->remove($sloth);
                             Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "FreeAgent");
                         }
                     }
@@ -107,7 +105,23 @@ class ParticipationOverview extends ComponentBase
             $sloth = $this->user->sloth;
             if ($sloth != null && $sloth->region_id == $this->season->region_id && !$this->season->free_agents->contains($sloth)) {
                 $this->season->free_agents()->add($sloth);
+                Discord\RoleManagement::UpdateUserRole("PUT", $sloth->discord_id, "FreeAgent");
                 Flash::success('You are now signed up for '.$this->season->title.' as a free agent.');
+                return Redirect::refresh();
+            }
+        }
+    }
+
+    public function onSlothRemoveSignUp()
+    {
+        $this->user = Auth::getUser();
+        $this->season = Seasons::find($_POST['season_id']);
+        if ($this->user != null) {
+            $sloth = $this->user->sloth;
+            if ($sloth != null && $sloth->region_id == $this->season->region_id && $this->season->free_agents->contains($sloth)) {
+                $this->season->free_agents()->remove($sloth);
+                Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "FreeAgent");
+                Flash::error('You will not participate in '. $this->season->title. ' - Sad to see you go!');
                 return Redirect::refresh();
             }
         }
