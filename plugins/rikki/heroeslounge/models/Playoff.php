@@ -462,7 +462,7 @@ class Playoff extends Model
                 if ($this->type == 'groupsOfFour') {
                     $fourthTeam = $this->teams()->where('seed', $i+4)->firstOrFail();
                 }
-                $groups[$i] = ['title' => 'Group '.chr(65+$i/4), 'slug' => 'group-'.chr(97+$i/$teamsPerGroup),
+                $groups[$i] = ['title' => 'Group '.chr(65+$i/$teamsPerGroup), 'slug' => 'group-'.chr(97+$i/$teamsPerGroup),
                         'teams' => [0 =>$firstTeam,1 => $secondTeam,2 => $thirdTeam,3 => $fourthTeam]];
             }
             foreach ($groups as $key => $groupe) {
@@ -487,6 +487,28 @@ class Playoff extends Model
                     $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][3], $gr, $groups_until);
                 }
                 $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][2], $gr, $groups_until);
+            }
+        } else if ($this->type == 'groups') {
+            $groups_until = Carbon::create($year, $month, $day, 23, 59, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
+            $teamCount = $this->teams->count();
+            $teamsProcessed = 0;
+            $groupsCreated = 0;
+            $groups = [];
+            while ($teamsProcessed < $teamCount) {
+                $teams = $this->teams()->where('seed', $groupsCreated + 1)->get();
+                $gr = new Division;
+                $gr->playoff = $playoff;
+                $gr->title = 'Group '.chr(65+$groupsCreated);
+                $gr->slug = 'group-'.chr(97+$groupsCreated);
+                $gr->save();
+                foreach ($teams as $key => $team) {
+                    $gr->teams()->add($team);
+                    for ($i=$key+1; $i < $teams->count(); $i++) {
+                        $this->createGroupMatch($team, $teams[$i], $gr, $groups_until);
+                    }
+                }
+                $groupsCreated += 1;
+                $teamsProcessed += $teams->count();
             }
         }
 
