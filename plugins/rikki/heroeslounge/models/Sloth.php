@@ -232,11 +232,13 @@ class Sloth extends Model
         if ($this->isDirty('team_id')) {
             MailChimpAPI::patchExistingUser($this->user);
         }
-        if ($this->isDirty('discord_tag') && !isset($this->discord_id)) {
+        
+        if ($this->isDirty('discord_tag')) {
             $this->discord_id = Discord\Attendance::GetDiscordUserId($this->discord_tag);
             $this->save();
         }
-        if ($this->isDirty('region_id') && isset($this->discord_id)) {
+
+        if ($this->isDirty('region_id') && !empty($this->discord_id)) {
             if ($this->region_id == 1) {
                 Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "NA");
                 Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "EU");
@@ -244,7 +246,6 @@ class Sloth extends Model
                 Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "EU");
                 Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "NA");
             }
-            
         }
     }
 
