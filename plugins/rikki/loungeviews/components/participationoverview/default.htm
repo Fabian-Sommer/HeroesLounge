@@ -34,8 +34,9 @@
         </button>
         <br><br>
     </div>
-    {% elseif __SELF__.user and __SELF__.signedUp and __SELF__.user.sloth.region_id == __SELF__.season.region_id %}
+    {% elseif __SELF__.user and __SELF__.signedUp and __SELF__.user.sloth in __SELF__.season.free_agents %}
     <div>
+        You are signed up as a free agent.<br>
         No longer want to particpate as a free agent?<br>
         <button type="button" 
                 class="btn btn-sm btn-secondary center"

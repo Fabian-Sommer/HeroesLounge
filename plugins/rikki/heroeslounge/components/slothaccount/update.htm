@@ -284,33 +284,6 @@
             </select>
         </div>
         {% endif %}
-
-        <!-- START PARTICIPATION -->
-
-        <hr class="separator">
-
-        <h3>Participation</h3>
-        <p>
-            Season participation as a free agent.
-        </p>
-        {% set checked = '0' %}
-        {% for season in __SELF__.seasons %}
-            {% for sloth in season.free_agents %}
-                {% if sloth.id == __SELF__.sloth.id %}
-                    {% set checked = '1' %}
-                {% endif %}
-            {% endfor %}
-            <div>
-                <label>
-                    <input type="checkbox" name="part_seas_{{season.id}}" {% if checked %} checked {% endif %} disabled>
-                    {{season.title}}
-                </label>
-            </div>
-            {% set checked = '0' %}
-        {% endfor %}
-
-        <!-- END PARTICIPATION -->
-
         <br>
         <button type="submit" class="btn btn-primary mt-2">Save</button>
         {{ form_close() }}

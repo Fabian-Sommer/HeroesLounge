@@ -118,12 +118,10 @@ class ParticipationOverview extends ComponentBase
         $this->season = Seasons::find($_POST['season_id']);
         if ($this->user != null) {
             $sloth = $this->user->sloth;
-            if ($sloth != null && $sloth->region_id == $this->season->region_id && $this->season->free_agents->contains($sloth)) {
-                $this->season->free_agents()->remove($sloth);
-                Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "FreeAgent");
-                Flash::error('You will not participate in '. $this->season->title. ' - Sad to see you go!');
-                return Redirect::refresh();
-            }
+            $this->season->free_agents()->remove($sloth);
+            Discord\RoleManagement::UpdateUserRole("DELETE", $sloth->discord_id, "FreeAgent");
+            Flash::error('You will not participate in '. $this->season->title. ' - Sad to see you go!');
+            return Redirect::refresh();
         }
     }
 }
