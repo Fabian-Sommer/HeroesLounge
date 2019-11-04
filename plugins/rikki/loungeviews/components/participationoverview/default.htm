@@ -34,7 +34,9 @@
         </button>
         <br><br>
     </div>
-    {% elseif __SELF__.user and __SELF__.user.sloth in __SELF__.season.free_agents %}
+    {% endif %}
+
+    {% for agent in __SELF__.season.free_agents if __SELF__.user and agent.id == __SELF__.user.sloth.id %}
     <div>
         You are signed up as a free agent.<br>
         No longer want to particpate as a free agent?<br>
@@ -45,7 +47,8 @@
             Remove free agent sign up
         </button>
     </div>
-    {% endif %}
+    {% endfor %}
+
 </div>
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="navbar-header">
