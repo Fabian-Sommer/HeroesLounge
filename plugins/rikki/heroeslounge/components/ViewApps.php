@@ -15,12 +15,14 @@ use Cms\Classes\ComponentBase;
 use RainLab\User\Models\Settings as UserSettings;
 use Exception;
 use October\Rain\Support\Collection;
+use Rikki\Heroeslounge\classes\Discord;
 
 use RainLab\User\Components\Account as UserAccount;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Rikki\Heroeslounge\Models\Team as Teams;
 use Rikki\Heroeslounge\Models\Apps as Applications;
 use Rikki\Heroeslounge\Models\Timeline;
+use Rikki\Heroeslounge\Models\Season;
 
 class ViewApps extends ComponentBase
 {
@@ -118,6 +120,15 @@ class ViewApps extends ComponentBase
                     //a sloth should not participate in two different teams in the same season or tournament
                     if ($this->sloth->mayJoinTeam($team)) {
                         $this->sloth->teams()->add($team);
+
+                        $seasons = Season::all();
+                        foreach ($seasons as $season) {
+                            if ($season->reg_open && $season->teams->contains($team) && $season->free_agents->contains($this->sloth)) {
+                                $season->free_agents()->remove($this->sloth);
+                                Discord\RoleManagement::UpdateUserRole("DELETE", $this->sloth->discord_id, "FreeAgent");
+                            }
+                        }
+                        
                         $this->sloth->save();
 
                         $app->accepted = 1;
