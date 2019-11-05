@@ -26,8 +26,6 @@ use Rikki\Heroeslounge\Models\SlothRole;
 use Rikki\Heroeslounge\Models\Timeline;
 use Rikki\Heroeslounge\classes\Mailchimp\MailChimpAPI;
 use Rikki\Heroeslounge\Models\Region as Region;
-use Rikki\Heroeslounge\classes\hotslogs\IDFetcher;
-use Rikki\Heroeslounge\classes\mmr\MMRFetcher;
 
 class SlothAccount extends UserAccount
 {
@@ -236,9 +234,6 @@ class SlothAccount extends UserAccount
 
             $sloth->save();
             $this->user = $user;
-
-            IDFetcher::fetchIDHeroesProfile($sloth);
-            MMRFetcher::updateMMRHeroesProfile($sloth);
 
             /*
               Assign EU or NA role on Discord based on region_id.

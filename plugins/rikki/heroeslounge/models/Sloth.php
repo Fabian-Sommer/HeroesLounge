@@ -247,6 +247,11 @@ class Sloth extends Model
                 Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "NA");
             }
         }
+
+        if ($this->isDirty('battle_tag') || $this->heroesprofile_id == null) {
+            IDFetcher::fetchIDHeroesProfile($this);
+            MMRFetcher::updateMMRHeroesProfile($this);
+        }
     }
 
     public function beforeDelete()
