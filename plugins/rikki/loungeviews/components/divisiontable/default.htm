@@ -10,6 +10,9 @@
             <th>
                 Team
             </th>
+            <th>
+                Matches
+            </th>
             {% if __SELF__.showScore %}
             <th>
                 Score
@@ -19,16 +22,18 @@
             </th>
             {% else %}
             <th>
+                Wins
+            </th>
+            <th>
                 Map Wins
             </th>
             <th>
-                Wins
+                Map Losses
+            </th>
+            <th>
+                Map Score
             </th>
             {% endif %}
-            <th>
-                Matches
-            </th>
-            
         </tr>
     </thead>
     <tbody>
@@ -43,14 +48,16 @@
                 {% endif %}
             </td>
             <td><a href="{{ 'team/view'|page({ slug: team.slug }) }}" style="color:#34495e;text-decoration:underline">{{team.title}}</a></td>
+            <td>{{team.pivot.match_count}}</td>
             {% if __SELF__.showScore %}
             <td class="score notext">{{team.score}}</td>
             <td class="score notext">{{team.map_score}}</td>
             {% else %}
-            <td class="score notext">{{team.game_wins}}</td>
             <td class="score notext">{{team.pivot.win_count}}</td>
+            <td class="score notext">{{team.game_wins}}</td>
+            <td class="score notext">{{team.game_losses}}</td>
+            <td class="score notext">{{team.game_wins - team.game_losses}}</td>
             {% endif %}
-            <td>{{team.pivot.match_count}}</td>
         </tr>
         {% endfor %}
     </tbody>

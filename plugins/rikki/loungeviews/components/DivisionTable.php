@@ -42,17 +42,24 @@ class DivisionTable extends ComponentBase
                 //calculate game wins
                 foreach ($this->teams as $team) {
                     $team->game_wins = 0;
+                    $team->game_losses = 0;
                 }
                 foreach ($div->matches as $match) {
-                    foreach ($match->games as $game) {
-                        $team = $this->teams->where('id', $game->winner_id)->first();
-                        if ($game->winner_id != 0 && $game->winner_id != null && $team != null) {
-                            $this->teams->where('id', $game->winner_id)->first()->game_wins++;
-                        }
+                    $teamOne = $this->teams->where('id', $match->teams[0]->id)->first();
+                    $teamTwo = $this->teams->where('id', $match->teams[1]->id)->first();
+
+                    if ($teamOne) {
+                        $this->teams->where('id', $teamOne->id)->first()->game_wins += $match->teams[0]->pivot->team_score;
+                        $this->teams->where('id', $teamOne->id)->first()->game_losses += $match->teams[1]->pivot->team_score;
                     }
+
+                    if ($teamTwo) {
+                        $this->teams->where('id', $teamTwo->id)->first()->game_wins += $match->teams[1]->pivot->team_score;
+                        $this->teams->where('id', $teamTwo->id)->first()->game_losses += $match->teams[0]->pivot->team_score;
+                    }                    
                 }
                 $this->teams = $this->teams->sortByDesc(function ($team) {
-                    return 1000000*$team->pivot->win_count + 1000*$team->game_wins + $team->pivot->match_count - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
+                    return 1000000*$team->pivot->win_count + 1000*$team->game_wins - 0.01*$team->game_losses - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
                 });
             }
 
