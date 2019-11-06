@@ -223,35 +223,25 @@ class SlothAccount extends UserAccount
 
 
             /*
-            * Make sure the user gets a Sloth attached
+            * Attach a Sloth to the user
             */
 
-            $sloth = SlothModel::getFromUser($user);
+            $sloth = new SlothModel;
+            $sloth->user = $user;
+            $sloth->title = $user->username;
             $sloth->battle_tag = $data['battle_tag'];
             $sloth->discord_tag = $strippedDiscordTag;
             $sloth->discord_id = $userDiscordId;
             $sloth->region_id = $data['region_id'];
-
             $sloth->save();
-            $this->user = $user;
 
-            /*
-              Assign EU or NA role on Discord based on region_id.
-              region_id = 1: EU
-              region_id = 2: NA
-            */
-
-            if ($sloth->region_id == 1) {
-              Discord\RoleManagement::UpdateUserRole("PUT", $sloth->discord_id, "EU");
-            } else if ($sloth->region_id == 2) {
-              Discord\RoleManagement::UpdateUserRole("PUT", $sloth->discord_id, "NA");
-            }
+            $this->user = $sloth->user;
 
             // sign up for newsletter
             if (array_key_exists('newsletter_subscription', $data) && $data['newsletter_subscription']) {
-                MailChimpAPI::subscribeNewUser($user);
+                MailChimpAPI::subscribeNewUser($sloth->user);
             } else {
-                MailChimpAPI::unsubscribeNewUser($user);
+                MailChimpAPI::unsubscribeNewUser($sloth->user);
             }
 
             /*

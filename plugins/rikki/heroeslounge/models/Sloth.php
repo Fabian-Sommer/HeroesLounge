@@ -127,15 +127,56 @@ class Sloth extends Model
         if ($user->sloth) {
             return $user->sloth;
         }
+    }
 
-        $sloth = new static;
-        $sloth->user = $user;
-        $sloth->title = $user->username;
-        $sloth->save();
+    public function afterCreate()
+    {
+        /*
+            Assign EU or NA role on Discord based on region_id.
+            region_id = 1: EU
+            region_id = 2: NA
+        */
+        if ($this->region_id == 1) {
+            Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "EU");
+        } else if ($this->region_id == 2) {
+            Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "NA");
+        }
 
-        $user->sloth = $sloth;
+        MMRFetcher::updateMMRHeroesProfile($this);
 
-        return $sloth;
+        $this->_saveTimelineEntry('Sloth.Created');
+        if (!empty($this->team_id)) {
+            $this->_saveTimelineEntry('Sloth.Joins.Team');
+        }
+    }
+
+    public function beforeUpdate()
+    {
+        if ($this->isDirty('discord_tag')) {
+            $this->discord_id = Discord\Attendance::GetDiscordUserId($this->discord_tag);
+        }
+
+        if ($this->isDirty('region_id') && !empty($this->discord_id)) {
+            if ($this->region_id == 1) {
+                Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "NA");
+                Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "EU");
+            } elseif ($this->region_id == 2) {
+                Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "EU");
+                Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "NA");
+            }
+        }
+    }
+
+    public function beforeSave()
+    {
+        if ($this->isDirty('battle_tag') || $this->heroesprofile_id == null) {
+            IDFetcher::fetchIDHeroesProfile($this);
+        }
+    }
+
+    public function beforeDelete()
+    {
+        $this->_saveTimelineEntry('Sloth.Deleted');
     }
 
     public function leaveTeam($team)
@@ -217,46 +258,6 @@ class Sloth extends Model
         return $this->teams->reduce(function ($carry, $team) {
             return $carry || $team->pivot->is_captain;
         }, false);
-    }
-    
-    public function afterCreate()
-    {
-        $this->_saveTimelineEntry('Sloth.Created');
-        if (!empty($this->team_id)) {
-            $this->_saveTimelineEntry('Sloth.Joins.Team');
-        }
-    }
-    
-    public function beforeUpdate()
-    {
-        if ($this->isDirty('team_id')) {
-            MailChimpAPI::patchExistingUser($this->user);
-        }
-        
-        if ($this->isDirty('discord_tag')) {
-            $this->discord_id = Discord\Attendance::GetDiscordUserId($this->discord_tag);
-            $this->save();
-        }
-
-        if ($this->isDirty('region_id') && !empty($this->discord_id)) {
-            if ($this->region_id == 1) {
-                Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "NA");
-                Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "EU");
-            } elseif ($this->region_id == 2) {
-                Discord\RoleManagement::UpdateUserRole("DELETE", $this->discord_id, "EU");
-                Discord\RoleManagement::UpdateUserRole("PUT", $this->discord_id, "NA");
-            }
-        }
-
-        if ($this->isDirty('battle_tag') || $this->heroesprofile_id == null) {
-            IDFetcher::fetchIDHeroesProfile($this);
-            MMRFetcher::updateMMRHeroesProfile($this);
-        }
-    }
-
-    public function beforeDelete()
-    {
-        $this->_saveTimelineEntry('Sloth.Deleted');
     }
 
     public function scopeIsCaster($query)
