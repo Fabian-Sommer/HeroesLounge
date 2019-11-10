@@ -145,9 +145,6 @@ class Sloth extends Model
         MMRFetcher::updateMMRHeroesProfile($this);
 
         $this->_saveTimelineEntry('Sloth.Created');
-        if (!empty($this->team_id)) {
-            $this->_saveTimelineEntry('Sloth.Joins.Team');
-        }
     }
 
     public function beforeUpdate()
@@ -172,11 +169,6 @@ class Sloth extends Model
         if ($this->isDirty('battle_tag') || $this->heroesprofile_id == null) {
             IDFetcher::fetchIDHeroesProfile($this);
         }
-    }
-
-    public function beforeDelete()
-    {
-        $this->_saveTimelineEntry('Sloth.Deleted');
     }
 
     public function leaveTeam($team)

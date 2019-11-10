@@ -221,11 +221,6 @@ class SlothAccount extends UserAccount
                 Auth::login($user);
             }
 
-
-            /*
-            * Attach a Sloth to the user
-            */
-
             $sloth = new SlothModel;
             $sloth->user = $user;
             $sloth->title = $user->username;
