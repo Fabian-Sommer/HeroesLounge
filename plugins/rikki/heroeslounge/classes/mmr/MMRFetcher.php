@@ -151,7 +151,7 @@ class MMRFetcher
 
         curl_close($ch);
 
-        SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => 2900]);
+        SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => 2700]);
         if ($output != "null") {
             $data = json_decode($output, true);
 
@@ -164,9 +164,15 @@ class MMRFetcher
                     $mmrs["Unranked Draft"] = -1000;
                     $mmrs["Storm League"] = -1000;
 
+                    $games_played = array();
+                    $games_played["Quick Match"] = 0;
+                    $games_played["Unranked Draft"] = 0;
+                    $games_played["Storm League"] = 0;
+
                     foreach ($mmrs as $key => $value) {	
                         if (array_key_exists($key, $mmrData)) {
                             $mmrs[$key] = $mmrData[$key]["mmr"];
+                            $games_played[$key] = $mmrData[$key]["games_played"];
                         }
                     }
 
@@ -176,18 +182,27 @@ class MMRFetcher
                     $sumWeight = 0;
                     $sumMMR = 0;
 
-                    if ($mmrs["Storm League"] != -1000) {
+                    if ($mmrs["Storm League"] != -1000 && $games_played["Storm League"] >= 10) {
                         $sumWeight += $slWeight;
                         $sumMMR += $mmrs["Storm League"] * $slWeight;
                     }
-                    if ($mmrs["Unranked Draft"] != -1000) {
+                    if ($mmrs["Unranked Draft"] != -1000 && $games_played["Unranked Draft"] >= 20) {
                         $sumWeight += $udWeight;
                         $sumMMR += $mmrs["Unranked Draft"] * $udWeight;
                     }
 
-                    if ($sumMMR == 0) {
+                    if ($sumMMR == 0 && $games_played["Quick Match"] >= 25) {
                         $sumMMR += $mmrs["Quick Match"];
                         $sumWeight = 1;
+                    } else {
+                        if ($mmrs["Storm League"] != -1000) {
+                            $sumWeight += $slWeight;
+                            $sumMMR += $mmrs["Storm League"] * $slWeight;
+                        }
+                        if ($mmrs["Unranked Draft"] != -1000) {
+                            $sumWeight += $udWeight;
+                            $sumMMR += $mmrs["Unranked Draft"] * $udWeight;
+                        }
                     }
 
                     if ($sumWeight > 0) {
