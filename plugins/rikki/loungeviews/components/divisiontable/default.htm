@@ -28,9 +28,6 @@
                 Map Wins
             </th>
             <th>
-                Map Losses
-            </th>
-            <th>
                 Map Score
             </th>
             {% endif %}
@@ -55,7 +52,6 @@
             {% else %}
             <td class="score notext">{{team.pivot.win_count}}</td>
             <td class="score notext">{{team.game_wins}}</td>
-            <td class="score notext">{{team.game_losses}}</td>
             <td class="score notext">{{team.game_wins - team.game_losses}}</td>
             {% endif %}
         </tr>
