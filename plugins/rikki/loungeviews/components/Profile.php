@@ -46,6 +46,19 @@ class Profile extends ComponentBase
                     'sloth_id' => $this->sloth->id
                 ]
             );
+
+            $component = $this->addComponent(
+                'Rikki\Heroeslounge\Components\RoundMatches',
+                'roundMatches',
+                [
+                    'deferredBinding'   => true,
+                    'showLogo' => true,
+                    'showName' => true,
+                    'type' => 'sloth',
+                    'id' => $this->sloth->id,
+                    'round' => null
+                ]
+            );
         }
       
     }

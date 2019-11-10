@@ -75,7 +75,9 @@
         <p class="card-text">
             <img src="{{'assets/img/btns/discord.svg' | theme}}" class="mr-2 rounded" title="Discord Tag"
                 alt="Discord Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd" />
-            {{__SELF__.sloth.discord_tag}}</p>{% endif %} {% if __SELF__.sloth.user.country_id %}
+            {{__SELF__.sloth.discord_tag}}</p>{% endif %} 
+        <p class="card-text"><strong>MMR:</strong> {{__SELF__.sloth.heroesprofile_mmr}}</p>
+        {% if __SELF__.sloth.user.country_id %}
         <p class="card-text"><strong>Country:</strong> {{__SELF__.sloth.user.country.name}}</p>{% endif %}
         {% if __SELF__.sloth.birthday %}
         <p class="card-text"><strong>Birthday:</strong> {{__SELF__.sloth.birthday}}</p>{% endif %}
@@ -96,6 +98,11 @@
     {% endfor %}
 </div>
 <br>
+<h3>Matches</h3>
+<div class="card">
+    {% component 'roundMatches' %}
+</div>
+<br>
 <div class="row">
     <div class="col-md-12">
         {% component 'slothStatistics' %}
@@ -109,3 +116,17 @@
     You must be logged in to view this page.
 </div>
 {% endif %}
+
+
+{% put scripts %}
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var results = jQuery('div.result');
+        var f100s = jQuery('span.f100');
+        var scores = jQuery('td.score');
+        results.removeClass('spoiler');
+        f100s.removeClass('spoiler');
+        scores.removeClass('notext');
+    });
+</script>
+{% endput %}

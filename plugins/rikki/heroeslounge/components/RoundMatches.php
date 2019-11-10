@@ -4,10 +4,12 @@
 use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Match;
 use Rikki\Heroeslounge\Models\Team as Teams;
+use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Season as Seasons;
 use Rikki\Heroeslounge\Models\Division as Divisions;
 
 use Request;
+use Log;
 
 class RoundMatches extends ComponentBase
 {
@@ -35,29 +37,38 @@ class RoundMatches extends ComponentBase
         $type = $this->property('type');
         $id = $this->property('id');
         $this->round = $this->property('round');
-        $myData = null;
-        switch ($type) {
-            case 'team':
-                $myData = Teams::findOrFail($id);
-                break;
-            case 'season':
-                $myData = Seasons::findOrFail($id);
-                break;
-            case 'division':
-                $myData = Divisions::findOrFail($id);
-                break;
-            /* CURRENTLY NOT IMPLEMENTED */
-            /*case 'playoff':
-                $myData = Playoffs::find($id);
-                break;*/
-            case 'all':
-                /*CURRENTLY NOT IMPLEMENTED*/
-                break;
-        }
-        if ($this->round !== null) {
-            $this->matches = $myData->matches()->with('teams', 'teams.logo')->where('round', $this->round)->get();
+        if ($type != 'sloth') {
+            $myData = null;
+
+            switch ($type) {
+                case 'team':
+                    $myData = Teams::findOrFail($id);
+                    break;
+                case 'season':
+                    $myData = Seasons::findOrFail($id);
+                    break;
+                case 'division':
+                    $myData = Divisions::findOrFail($id);
+                    break;
+            }
+            if ($this->round !== null) {
+                $this->matches = $myData->matches()->with('teams', 'teams.logo')->where('round', $this->round)->get();
+            } else {
+                $data = $myData->matches()->with('teams', 'teams.logo', 'division')->orderBy('created_at', 'DESC')->get();
+                $this->matches = $data->groupBy(function ($match) {
+                    return $match->division ? $match->division->longTitle : ($match->playoff ? $match->playoff->longTitle : null);
+                });
+            }
         } else {
-            $data = $myData->matches()->with('teams', 'teams.logo', 'division')->orderBy('created_at', 'DESC')->get();
+            $data = Sloth::findOrFail($id)->gameParticipations->map(function ($gp) {
+                return $gp->game ? $gp->game->match : null;
+            })
+            ->reject(function ($item) {
+                return $item == null;
+            })
+            ->unique('id')
+            ->sortByDesc('created_at');
+            Log::info(json_encode($data));
             $this->matches = $data->groupBy(function ($match) {
                 return $match->division ? $match->division->longTitle : ($match->playoff ? $match->playoff->longTitle : null);
             });
