@@ -83,7 +83,6 @@ class IDFetcher
                 }
             }
         }
-        $sloth->save();
 
         // Check if we've hit the rate-limit and retry the request.
         if (array_key_exists('retry-after', $headers)) {
