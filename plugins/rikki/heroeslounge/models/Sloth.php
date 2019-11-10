@@ -141,7 +141,6 @@ class Sloth extends Model
     public function leaveTeam($team)
     {
         if($this->isCaptainOfTeam($team) == false) {
-            $team->sloths()->remove($this);
             Db::table('rikki_heroeslounge_sloth_team')->where('team_id', $team->id)->where('sloth_id', $this->id)->where('deleted_at', NULL)->update(['deleted_at' => Carbon::now()]);
             Flash::success('Succesfully left '.$team->title);
         } else {
