@@ -53,8 +53,7 @@ class ManageTeam extends ComponentBase
             if ($this->team) {
                 $this->seasons = Seasons::where('is_active', 1)->where('region_id', $this->team->region_id)->get();
                 $this->rosterLocked = $this->team->ongoingCompetitions()->count() > 0 ? true : false;
-                $this->players = $this->team->sloths->where('id', '!=', $this->user->sloth->id);
-                
+                $this->players = $this->team->sloths->where('id', '!=', $this->user->sloth->id)->values();
 
                 $component = $this->addComponent(
                                 'Rikki\Heroeslounge\Components\ViewApps',
