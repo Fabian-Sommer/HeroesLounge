@@ -68,7 +68,6 @@ class RoundMatches extends ComponentBase
             })
             ->unique('id')
             ->sortByDesc('created_at');
-            Log::info(json_encode($data));
             $this->matches = $data->groupBy(function ($match) {
                 return $match->division ? $match->division->longTitle : ($match->playoff ? $match->playoff->longTitle : null);
             });
