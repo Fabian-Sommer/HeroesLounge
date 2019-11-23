@@ -6,10 +6,14 @@ use October\Rain\Database\Model;
 use Rikki\Heroeslounge\Models\Timeline;
 use October\Rain\Exception\SystemException;
 use Rikki\Heroeslounge\classes\hotfixes;
+use Rikki\Heroeslounge\classes\Discord\Webhook;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Playoff;
 use Rikki\Heroeslounge\Models\Team;
 use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
 use Log;
 /**
  * Model
@@ -162,6 +166,14 @@ class Match extends Model
         });
     }
 
+    public function getAcceptedOrPendingCasters()
+    {
+        return $this->casters
+        ->filter(function ($item) {
+            return $item->pivot->approved == 0 || $item->pivot->approved == 1;
+        });
+    }
+
     public function getAppliedCasterIds()
     {
         return $this->casters
@@ -201,6 +213,37 @@ class Match extends Model
                     $nextLoserMatch = $this->playoff->matches()->where('playoff_position', $this->playoff_loser_next)->first();
                     $nextLoserMatch->teams()->remove($loserTeam);
                 }
+            }
+        }
+    }
+
+    public function afterUpdate()
+    {
+        if (!empty($this->original['wbp']) && !empty($this->wbp) && $this->wbp != $this->original['wbp']) {
+            $appliedCasters = $this->getAcceptedOrPendingCasters();
+            if ($appliedCasters->count() > 0) {
+                $newDate = new DateTime($this->wbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                $oldDate = new DateTime($this->original['wbp'], new DateTimeZone(TimezoneHelper::defaultTimezone()));
+
+                if ($this->teams[0]->region_id == 1) {
+                    $newDate->setTimezone(new DateTimeZone('Europe/Berlin'));
+                    $oldDate->setTimezone(new DateTimeZone('Europe/Berlin'));
+                } else if ($this->teams[0]->region_id == 2) {
+                    $newDate->setTimezone(new DateTimeZone('America/Los_Angeles'));
+                    $oldDate->setTimezone(new DateTimeZone('America/Los_Angeles'));
+                }
+
+                // Create our information message to inform assigned / pending casters.
+                $notificationString = "The match between " . $this->teams[0]->title . " and " . $this->teams[1]->title . " has been rescheduled from " . $oldDate->format('d M Y H:i T') . " to " . $newDate->format('d M Y H:i T') . "\n";
+                foreach ($appliedCasters as $caster) {
+                    if (!empty($caster->discord_id)) {
+                        $notificationString .= "<@" . $caster->discord_id . ">\n";
+                    } else {
+                        $notificationString .= $caster->title . "\n";
+                    }
+                }
+                
+                Webhook::sendMatchReschedule($notificationString);
             }
         }
     }
