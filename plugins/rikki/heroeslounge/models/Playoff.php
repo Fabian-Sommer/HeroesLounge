@@ -524,7 +524,6 @@ class Playoff extends Model
                 $match->teams()->add($team);
             }
         }
-        $this->teams()->detach();
     }
 
     public function createGroupMatch($team1, $team2, $group, $deadline)
