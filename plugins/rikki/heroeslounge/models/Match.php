@@ -6,10 +6,14 @@ use October\Rain\Database\Model;
 use Rikki\Heroeslounge\Models\Timeline;
 use October\Rain\Exception\SystemException;
 use Rikki\Heroeslounge\classes\hotfixes;
+use Rikki\Heroeslounge\classes\Discord\Webhook;
+use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Playoff;
 use Rikki\Heroeslounge\Models\Team;
 use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
 use Log;
 /**
  * Model
@@ -201,6 +205,70 @@ class Match extends Model
                     $nextLoserMatch = $this->playoff->matches()->where('playoff_position', $this->playoff_loser_next)->first();
                     $nextLoserMatch->teams()->remove($loserTeam);
                 }
+            }
+        }
+    }
+
+    public function afterUpdate()
+    {
+        if (!empty($this->original['wbp']) && !empty($this->wbp) && $this->wbp != $this->original['wbp']) {
+            $appliedCasters = $this->casters->filter(function ($item) {
+                return $item->pivot->approved == 0 || $item->pivot->approved == 1;
+            });
+
+            if ($appliedCasters->count() > 0) {
+                $newDate = new DateTime($this->wbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                $oldDate = new DateTime($this->original['wbp'], new DateTimeZone(TimezoneHelper::defaultTimezone()));
+
+                $regionDefaultTimezone;
+                if ($this->teams[0]->region_id == 1) {
+                    $regionDefaultTimezone = new DateTimeZone('Europe/Berlin');
+                } else if ($this->teams[0]->region_id == 2) {
+                    $regionDefaultTimezone = new DateTimeZone('America/Los_Angeles');
+                }
+
+                $newDate->setTimezone($regionDefaultTimezone);
+                $oldDate->setTimezone($regionDefaultTimezone);
+
+                // Create our information message to inform assigned / pending casters.
+                $embed = [
+                    "title" => "Match Reschedule",
+                    "description" => "",
+                    "url" => "",
+                    "fields" => [
+                        [
+                            "name" => "Previous time",
+                            "value" => "",
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "New time",
+                            "value" => "",
+                            "inline" => true
+                        ]
+                    ]
+                ];
+
+                $embed["url"] .= "https://heroeslounge.gg/match/view/" . $this->id;
+                if ($this->teams->count() >= 2) {
+                    $embed["description"] .= $this->teams[0]->title . " VS " . $this->teams[1]->title;
+                } else {
+                    $embed["description"] .= "Teams currently unknown";
+                }
+
+                $embed["fields"][0]["value"] .= $oldDate->format('d M Y H:i T');
+                $embed["fields"][1]["value"] .= $newDate->format('d M Y H:i T');
+
+                $message = "";
+                foreach ($appliedCasters as $caster) {
+                    if (!empty($caster->discord_id)) {
+                        $message .= "<@" . $caster->discord_id . ">\n";
+                    } else {
+                        $message .= $caster->title . "\n";
+                    }
+                }
+                
+                Webhook::sendMatchReschedule($message, $embed);
             }
         }
     }

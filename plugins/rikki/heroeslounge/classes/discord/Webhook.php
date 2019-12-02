@@ -5,7 +5,7 @@ use Log;
 
 class Webhook
 {
-    public static function sendMatchReschedule($message)
+    public static function sendMatchReschedule($message = "", $embed)
     {
         $url = 'https://discordapp.com/api/webhooks/' . Authcode::getCasterWebhookId() . '/' . Authcode::getCasterWebhookSecret();
 
@@ -14,7 +14,7 @@ class Webhook
             "User-Agent: HeroesLounge (http://heroeslounge.gg, 0.1)"
         ];
 
-        $payload = json_encode(['content' => $message]);
+        $payload = json_encode(['content' => $message, 'embeds' => [$embed]]);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
