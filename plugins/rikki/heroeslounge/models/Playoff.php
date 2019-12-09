@@ -432,6 +432,81 @@ class Playoff extends Model
             $otherTime = Carbon::create($year, $month, $day, 20, 0, 0, $timezone);
             $matchArray = $this->createSEMatches(6, $times);
             $matchArray[61]['wbp'] = $otherTime;
+        } else if ($this->type == 'de8') {
+            $times = [  0 => Carbon::create($year, $month, $day, 18, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        1 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        2 => Carbon::create($year, $month, $day, 20, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        3 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        4 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        5 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        6 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        7 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                    ];
+            $matchArray = $this->createDEMatches(3, $times);
+        } else if ($this->type == 'de8short') {
+            $times = [  0 => Carbon::create($year, $month, $day, 18, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        1 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        2 => Carbon::create($year, $month, $day, 20, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        3 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        4 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        5 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        6 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        7 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        8 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        9 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                    ];
+            $matchArray = [
+                0 => [  'pos' => Match::encodePlayoffPosition(1,1,1), 
+                        'wn' => Match::encodePlayoffPosition(1,2,1),
+                        'ln' => Match::encodePlayoffPosition(2,1,1), 
+                        'teams' => [], 
+                        'wbp' => $times[0]],
+                1 => [  'pos' => Match::encodePlayoffPosition(1,1,2), 
+                        'wn' => Match::encodePlayoffPosition(1,2,1),
+                        'ln' => Match::encodePlayoffPosition(2,1,1),
+                        'teams' => [], 
+                        'wbp' => $times[1]],
+                2 => [  'pos' => Match::encodePlayoffPosition(1,1,3), 
+                        'wn' => Match::encodePlayoffPosition(1,2,2),
+                        'ln' => Match::encodePlayoffPosition(2,1,2),
+                        'teams' => [], 
+                        'wbp' => $times[2]],
+                3 => [  'pos' => Match::encodePlayoffPosition(1,1,4), 
+                        'wn' => Match::encodePlayoffPosition(1,2,2),
+                        'ln' => Match::encodePlayoffPosition(2,1,2),
+                        'teams' => [], 
+                        'wbp' => $times[3]],
+                4 => [  'pos' => Match::encodePlayoffPosition(2,1,1), 
+                        'wn' => Match::encodePlayoffPosition(2,2,1), 
+                        'ln' => null, 
+                        'teams' => [], 
+                        'wbp' => $times[4]],
+                5 => [ 'pos' => Match::encodePlayoffPosition(2,1,2), 
+                        'wn' => Match::encodePlayoffPosition(2,2,2), 
+                        'ln' => null, 
+                        'teams' => [], 
+                        'wbp' => $times[5]],
+                6 => [ 'pos' => Match::encodePlayoffPosition(1,2,1), 
+                        'wn' => null, 
+                        'ln' => Match::encodePlayoffPosition(2,2,2), 
+                        'teams' => [], 
+                        'wbp' => $times[6]],
+                7 => [ 'pos' => Match::encodePlayoffPosition(1,2,2), 
+                        'wn' => null, 
+                        'ln' => Match::encodePlayoffPosition(2,2,1), 
+                        'teams' => [], 
+                        'wbp' => $times[7]],
+                8 => [ 'pos' => Match::encodePlayoffPosition(2,2,1), 
+                        'wn' => null, 
+                        'ln' => null, 
+                        'teams' => [], 
+                        'wbp' => $times[8]],
+                9 => [ 'pos' => Match::encodePlayoffPosition(2,2,2), 
+                        'wn' => null, 
+                        'ln' => null, 
+                        'teams' => [], 
+                        'wbp' => $times[9]],
+            ];
         } else if ($this->type == 'de16') {
             $times = [  0 => Carbon::create($year, $month, $day, 18, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
                         1 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
@@ -695,7 +770,7 @@ class Playoff extends Model
             $match1->teams()->add($this->teams()->where('seed', 3)->firstOrFail());
             $match2->teams()->add($this->teams()->where('seed', 5)->firstOrFail());
             $match3->teams()->add($this->teams()->where('seed', 6)->firstOrFail());
-        } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64' || $this->type == 'de16') {
+        } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64' || $this->type == 'de8' || $this->type == 'de16' || $this->type == 'de8short') {
             $tems = [];
             $teamcount = 16;
             $seedToMatch = [1 => 1,
@@ -707,7 +782,7 @@ class Playoff extends Model
                             3 => 7,
                             6 => 8,
                 ];
-            if ($this->type == 'se8' || $this->type == 'playoffv2') {
+            if ($this->type == 'se8' || $this->type == 'de8' || $this->type == 'playoffv2' || $this->type == 'de8short') {
                 $teamcount = 8;
                 $seedToMatch = [1 => 1,
                                 4 => 2,

@@ -75,9 +75,15 @@ class PlayoffOverview extends ComponentBase
             } else if ($this->playoff->type == 'se64') {
                 $this->total_height = 153;
                 $this->total_width = 90;
+            } else if ($this->playoff->type == 'de8') {
+                $this->total_height = 60;
+                $this->total_width = 76;
             } else if ($this->playoff->type == 'de16') {
                 $this->total_height = 60;
                 $this->total_width = 106;
+            } else if ($this->playoff->type == 'de8short') {
+                $this->total_height = 60;
+                $this->total_width = 60;
             } else if ($this->playoff->type == 'playoffv3') {
                 $this->total_height = 43.9375;
                 $this->total_width = 60;
@@ -266,7 +272,7 @@ class PlayoffOverview extends ComponentBase
                 $left = 3 * $round_width;
                 $top = 5;
             }
-        } else if ($this->playoff->type == 'de16') {
+        } else if ($this->playoff->type == 'de16' || $this->playoff->type == 'de8') {
             if ($dec_position['bracket'] == 1) {
                 $left = 2 * $round_width * ($dec_position['round']-1);
                 $diff = 4.625;
@@ -278,6 +284,16 @@ class PlayoffOverview extends ComponentBase
             } else if ($dec_position['bracket'] == 3) {
                 $left = $round_width*7;
                 $top = 33.0625;
+            }
+        } else if ($this->playoff->type == 'de8short') {
+            if ($dec_position['bracket'] == 1) {
+                $left = 2 * $round_width * ($dec_position['round']-1);
+                $diff = 4.625;
+                $top = 2.6875 + (2**($dec_position['round']-1) - 1) * $diff / 2 + ($dec_position['matchnumber']-1) * $diff* 2**($dec_position['round']-1);
+            } else if ($dec_position['bracket'] == 2) {
+                $left = $round_width * (2*$dec_position['round']-1);
+                $diff = 4.625;
+                $top = 25.0625 + (2**(floor(($dec_position['round']-1)/2)) - 1) * $diff / 2 + ($dec_position['matchnumber']-1) * $diff* 2**(floor(($dec_position['round']-1)/2));
             }
         } else if ($this->playoff->type == 'DivSv1') {
             if ($dec_position['bracket'] == 1) {
