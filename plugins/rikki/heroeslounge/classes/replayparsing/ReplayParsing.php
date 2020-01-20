@@ -314,7 +314,10 @@ class ReplayParsing
                     }
                 }
                 if (!$hero) {
-                    Log::error("Hero not found: " . $playerDetails["m_hero"]);
+                    $hero = Hero::orderBy('id', 'desc')->first();
+                    $hero->translations = $hero->translations . "," . $playerDetails["m_hero"];
+                    $hero->save();
+                    Log::error("Hero not found: " . $playerDetails["m_hero"] . ". Guessed " . $hero->title);
                 }
                 $participation->hero = $hero;
                 if ($playerDetails["m_teamId"] == 0) {
@@ -379,6 +382,17 @@ class ReplayParsing
                 $this->parseAttributeEvents();
                 if ($this->decodedAttributeEvents == null) {
                     return;
+                }
+            }
+
+            $keys = ["4023", "4025", "4028", "4030", "4043", "4045"];
+            //check if we have all attribute_names available
+            foreach ($keys as $key => $value) {
+                $heroBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"][$value][0]["value"])->first();
+                if (!$heroBan) {
+                    $heroBan = Hero::orderBy('id', 'desc')->first();
+                    $heroBan->attribute_name = $this->decodedAttributeEvents["scopes"]["16"][$value][0]["value"];
+                    $heroBan->save();
                 }
             }
 
