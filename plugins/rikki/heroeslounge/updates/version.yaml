@@ -404,3 +404,12 @@
 1.0.141:
     - 'Updated table rikki_heroeslounge_sloths'
     - builder_table_update_rikki_heroeslounge_sloths17.php
+1.0.142:
+    - 'Created table rikki_heroeslounge_api_keys'
+    - builder_table_create_rikki_heroeslounge_api_keys.php
+1.0.143:
+    - 'Updated table rikki_heroeslounge_api_keys'
+    - builder_table_update_rikki_heroeslounge_api_keys.php
+1.0.144:
+    - 'Updated table rikki_heroeslounge_api_keys'
+    - builder_table_update_rikki_heroeslounge_api_keys_2.php

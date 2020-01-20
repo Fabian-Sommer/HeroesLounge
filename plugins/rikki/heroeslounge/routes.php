@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'api/v1'], function () {
+Route::group(['prefix' => 'api/v2/{key}', 'middleware' => ['Rikki\Heroeslounge\Classes\ApiMiddleware']], function () {
     Route::resource('seasons', 'Rikki\Heroeslounge\Http\Season');
     Route::get('seasonsAll','Rikki\Heroeslounge\Http\Season@indexAll');
     Route::get('seasons/{id}/divisions', 'Rikki\Heroeslounge\Http\Season@divisions');
