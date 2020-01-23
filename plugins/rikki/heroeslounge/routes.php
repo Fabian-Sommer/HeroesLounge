@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'api/v2/{key}', 'middleware' => ['Rikki\Heroeslounge\Classes\ApiMiddleware']], function () {
+Route::group(['prefix' => 'api/v2', 'middleware' => ['Rikki\Heroeslounge\Classes\ApiMiddleware']], function () {
     Route::resource('seasons', 'Rikki\Heroeslounge\Http\Season');
     Route::get('seasonsAll','Rikki\Heroeslounge\Http\Season@indexAll');
     Route::get('seasons/{id}/divisions', 'Rikki\Heroeslounge\Http\Season@divisions');
@@ -19,7 +19,6 @@ Route::group(['prefix' => 'api/v2/{key}', 'middleware' => ['Rikki\Heroeslounge\C
     
     Route::resource('teams','Rikki\Heroeslounge\Http\Team');
     Route::get('teamsAll','Rikki\Heroeslounge\Http\Team@indexAll');
-    Route::get('teams/{team}/logo', 'Rikki\Heroeslounge\Http\Team@logo');
     Route::get('teams/{team}/matches', 'Rikki\Heroeslounge\Http\Team@matches');
     Route::get('teams/{team}/sloths', 'Rikki\Heroeslounge\Http\Team@sloths');
     Route::get('teams/{team}/sloths/{sloth}', 'Rikki\Heroeslounge\Http\Team@sloth');
@@ -30,13 +29,11 @@ Route::group(['prefix' => 'api/v2/{key}', 'middleware' => ['Rikki\Heroeslounge\C
     Route::get('slothsAll','Rikki\Heroeslounge\Http\Sloth@indexAll');
     Route::get('slothDiscordId/{discord_id}', 'Rikki\Heroeslounge\Http\Sloth@byDiscordId');
 
-    Route::resource('matches', 'Rikki\Heroeslounge\Http\Match');
     Route::get('matchesAll','Rikki\Heroeslounge\Http\Match@indexAll');
     Route::get('matches/{id}/caster','Rikki\Heroeslounge\Http\Match@caster');
     Route::get('matches/{id}/channels', 'Rikki\Heroeslounge\Http\Match@channels');
     Route::get('matches/{id}/games','Rikki\Heroeslounge\Http\Match@games');
     Route::get('matches/{id}/replays','Rikki\Heroeslounge\Http\Match@replays');
-    Route::get('matches/{id}/teams','Rikki\Heroeslounge\Http\Match@teams');
     Route::get('matches/today/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getMatchesForToday');
     Route::get('matches/forDate/{date}/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getMatchesForDate');
     Route::get('matches/withApprovedCastBetween/{startdate}/{enddate}','Rikki\Heroeslounge\Http\Match@withApprovedCastBetween');
@@ -64,3 +61,7 @@ Route::group(['prefix' => 'api/v2/{key}', 'middleware' => ['Rikki\Heroeslounge\C
     Route::get('maps', 'Rikki\Heroeslounge\Http\Map@getEnabled');
     Route::get('logos', 'Rikki\Heroeslounge\Http\Team@logos');
 });
+
+Route::resource('api/v1/matches', 'Rikki\Heroeslounge\Http\Match');
+Route::get('api/v1/teams/{team}/logo', 'Rikki\Heroeslounge\Http\Team@logo');
+Route::get('api/v1/matches/{id}/teams','Rikki\Heroeslounge\Http\Match@teams');

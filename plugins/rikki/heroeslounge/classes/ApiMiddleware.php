@@ -23,8 +23,8 @@ class ApiMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $key = $request->route('key');
-
+        $key = $request->header('key');
+        
         if (ApiKeys::getAccessForKey($key)) {
             return $next($request);
         } else {
