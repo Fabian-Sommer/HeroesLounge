@@ -130,8 +130,6 @@ class Statistics
 
     public static function calculateHeroStatisticsForTeam($team, $season)
     {
-        $team = Team::WithMatches()->where('id', $team->id)->first();
-
         $allHeroes = Hero::all()->sortBy('title');
         $heroesArray = [];
         foreach ($allHeroes as $hero) {
@@ -233,9 +231,7 @@ class Statistics
     }
 
     public static function calculateMapStatisticsForTeam($team, $season)
-    {
-        $team = Team::with('matches')->with('matches.games')->with('matches.games.map')->with('matches.games.replay')->with('matches.games.gameParticipations')->where('id', $team->id)->first();
-        
+    {        
         $games = [];
         $teams = [];
         $i = 0;
