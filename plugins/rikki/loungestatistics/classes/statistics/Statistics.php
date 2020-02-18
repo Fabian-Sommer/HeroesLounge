@@ -231,7 +231,7 @@ class Statistics
     }
 
     public static function calculateMapStatisticsForTeam($team, $season)
-    {        
+    {
         $games = [];
         $teams = [];
         $i = 0;
