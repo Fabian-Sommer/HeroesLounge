@@ -2,7 +2,6 @@
 
 use Rikki\Heroeslounge\Models\Hero;
 use Rikki\Heroeslounge\Models\Map;
-use Rikki\Heroeslounge\Models\Team;
 use October\Rain\Support\Collection;
 
 class Statistics
