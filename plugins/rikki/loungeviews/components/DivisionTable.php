@@ -35,7 +35,6 @@ class DivisionTable extends ComponentBase
                                     whereNull('rikki_heroeslounge_teams.deleted_at')->
                                     orderBy('win_count', "DESC")->orderBy('free_win_count', "ASC")->orderBy('bye', "ASC")->orderBy('match_count', "DESC")->get();
 
-            $this->matches = $div->matches()->with('teams')->get();
             if ($this->property('showScore')) {
                 //used for playoffs
                 //we want teams that since then disbanded as well
@@ -46,6 +45,7 @@ class DivisionTable extends ComponentBase
                     $team->game_wins = 0;
                     $team->game_losses = 0;
                 }
+                $this->matches = $div->matches()->with('teams')->get();
                 foreach ($this->matches as $match) {
                     if ($match->teams->count() >= 2) {
                         $teamOne = $this->teams->where('id', $match->teams[0]->id)->first();

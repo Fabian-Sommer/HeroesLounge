@@ -107,8 +107,10 @@ class TimelineEntries extends ComponentBase
                     break;
                 case 'division':
                     $timeline = new Collection([]);
-                    Timeline::with('divisions', 'matches.teams.divisions', 'teams.divisions', 'sloths.teams.divisions', 'teams.logo')->orderBy('created_at', 'desc')
-                    ->chunk(100, function ($someTimelines) use ($id, $timeline) {
+                    Timeline::with('divisions', 'matches.teams.divisions', 'teams.divisions', 'sloths.teams.divisions', 'teams.logo')
+                            ->orderBy('created_at', 'desc')->chunk(100, function ($someTimelines) use ($id, $timeline) {
+
+
                         foreach ($someTimelines as $timelineEntry) {
                             $include = false;
                             if (!empty($timelineEntry->divisions)) {
