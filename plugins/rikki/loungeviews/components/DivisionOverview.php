@@ -23,7 +23,7 @@ class DivisionOverview extends ComponentBase
         $s = Season::with('divisions')->where('slug',$this->param('slug'))->first();
         if($s)
         {
-            $this->div = $s->divisions()->where('slug',$this->param('divslug'))->first();
+            $this->div = $s->divisions()->with('season')->where('slug',$this->param('divslug'))->first();
             if (!$this->div) {
                 Flash::error('Division could not be found!');
             } else {

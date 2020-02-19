@@ -84,7 +84,7 @@ class UpcomingMatches extends ComponentBase
         }
         if ($myEntity) {
             if ($type == 'all') {
-                $matches = Matches::with('teams', 'teams.logo', 'casters')->where('winner_id', null)->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->orderBy('wbp', 'asc')->get();
+                $matches = Matches::with('teams', 'teams.logo', 'casters', 'channels', 'division')->where('winner_id', null)->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->orderBy('wbp', 'asc')->get();
             } elseif ($type == 'caster') {
                 if ($this->idApp == 'denied') {
                     $matches = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '2')->where('winner_id', null)->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
@@ -96,7 +96,7 @@ class UpcomingMatches extends ComponentBase
                     $matches = $myEntity->castMatches()->orderBy('wbp', 'asc')->where('winner_id', null)->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
                 }
             } else {
-                $matches = $myEntity->matches()->with('teams', 'teams.logo', 'casters')->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
+                $matches = $myEntity->matches()->with('teams', 'teams.logo', 'casters', 'channels')->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
             }
             $this->datesToMatches = $matches->groupBy(
                 function ($match) use ($timezoneName) {
