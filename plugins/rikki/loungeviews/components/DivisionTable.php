@@ -23,6 +23,7 @@ class DivisionTable extends ComponentBase
     public $startIndex = 0;
     public $length =  null;
     public $showScore = false;
+    public $matches = null;
 
     public function onRender()
     {
@@ -44,7 +45,8 @@ class DivisionTable extends ComponentBase
                     $team->game_wins = 0;
                     $team->game_losses = 0;
                 }
-                foreach ($div->matches as $match) {
+                $this->matches = $div->matches()->with('teams')->get();
+                foreach ($this->matches as $match) {
                     if ($match->teams->count() >= 2) {
                         $teamOne = $this->teams->where('id', $match->teams[0]->id)->first();
                         $teamTwo = $this->teams->where('id', $match->teams[1]->id)->first();
