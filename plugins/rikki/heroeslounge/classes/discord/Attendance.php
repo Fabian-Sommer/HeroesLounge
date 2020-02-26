@@ -11,9 +11,9 @@ class Attendance
       $presentUsers = [];
       $jsonData = null;
 
-      while (count($jsonData) >= 1000 || $jsonData == null) {
+      while ($jsonData == null || count($jsonData) >= 1000) {
           $url = 'https://discordapp.com/api/guilds/200267155479068672/members';
-          if (count($jsonData) == 1000) {
+          if ($jsonData != null && count($jsonData) == 1000) {
               $urlData = http_build_query(array("limit" => 1000, "after" => $jsonData[999]["user"]["id"]));
           } else {
               $urlData = http_build_query(array("limit" => 1000));
