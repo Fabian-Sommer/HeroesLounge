@@ -85,17 +85,20 @@ class UpdateMatch extends ComponentBase
             $date = post('date');
             $timezone = TimezoneHelper::getTimezone();
             if ($date != null) {
-                $oldWBP = $match->wbp;
                 $wbp = new DateTime($date, new DateTimeZone($timezone));
                 $wbp->setTimezone(new DateTimeZone(TimezoneHelper::defaultTimezone()));
                 $match->wbp = $wbp->format('Y-m-d H:i:s');
-                if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp)) {
+                if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp) && Carbon::parse($match->wbp) > Carbon::parse($match->created_at)) {
                     $match->save();
                     Flash::success('Match has been successfully rescheduled for '.$date);
                 } else {
                     $tbp = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
                     $tbp->setTimezone(new DateTimeZone($timezone));
-                    Flash::error('The match has to be played before ' . $tbp->format('d M Y H:i'));
+
+                    $matchCreate = new DateTime($match->created_at, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                    $matchCreate->setTimezone(new DateTimeZone($timezone));
+
+                    Flash::error('The match has to be played between ' . $matchCreate->format('d M Y H:i') . ' and ' . $tbp->format('d M Y H:i'));
                 }
                 
                 return Redirect::refresh();
