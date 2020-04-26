@@ -88,17 +88,19 @@ class UpdateMatch extends ComponentBase
                 $wbp = new DateTime($date, new DateTimeZone($timezone));
                 $wbp->setTimezone(new DateTimeZone(TimezoneHelper::defaultTimezone()));
                 $match->wbp = $wbp->format('Y-m-d H:i:s');
-                if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp) && Carbon::parse($match->wbp) > Carbon::parse($match->created_at)) {
+                if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp) && Carbon::parse($match->wbp) >= Carbon::now()) {
                     $match->save();
-                    Flash::success('Match has been successfully rescheduled for '.$date);
+                    $wbp->setTimezone(new DateTimeZone($timezone));
+                    Flash::success('Match has been successfully rescheduled for '. $wbp->format('d M Y H:i') );
                 } else {
-                    $tbp = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                    $tbp->setTimezone(new DateTimeZone($timezone));
-
-                    $matchCreate = new DateTime($match->created_at, new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                    $matchCreate->setTimezone(new DateTimeZone($timezone));
-
-                    Flash::error('The match has to be played between ' . $matchCreate->format('d M Y H:i') . ' and ' . $tbp->format('d M Y H:i'));
+                    if (Carbon::parse($match->wbp) > Carbon::parse($match->tbp)) {
+                        $tbp = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                        $tbp->setTimezone(new DateTimeZone($timezone));
+                        Flash::error('The match has to be played before ' . $tbp->format('d M Y H:i'));
+                    } else {
+                        $wbp->setTimezone(new DateTimeZone($timezone));
+                        Flash::error('The new schedule time ' . $wbp->format('d M Y H:i') . ' can not be in the past');
+                    }
                 }
                 
                 return Redirect::refresh();
