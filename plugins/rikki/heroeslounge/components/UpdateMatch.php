@@ -84,24 +84,35 @@ class UpdateMatch extends ComponentBase
         if ($match) {
             $date = post('date');
             $timezone = TimezoneHelper::getTimezone();
-            if ($date != null) {
-                $oldWBP = $match->wbp;
-                $wbp = new DateTime($date, new DateTimeZone($timezone));
-                $wbp->setTimezone(new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                $match->wbp = $wbp->format('Y-m-d H:i:s');
-                if ($match->tbp != null && Carbon::parse($match->wbp) < Carbon::parse($match->tbp)) {
-                    $match->save();
-                    Flash::success('Match has been successfully rescheduled for '.$date);
-                } else {
-                    $tbp = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
-                    $tbp->setTimezone(new DateTimeZone($timezone));
-                    Flash::error('The match has to be played before ' . $tbp->format('d M Y H:i'));
-                }
-                
-                return Redirect::refresh();
-            } else {
+
+            if ($date == null) {
                 Flash::error('Please provide a date!');
-            }     
+                return Redirect::refresh();
+            }
+
+            $wbp = new DateTime($date, new DateTimeZone($timezone));
+            $wbp->setTimezone(new DateTimeZone(TimezoneHelper::defaultTimezone()));
+            $match->wbp = $wbp->format('Y-m-d H:i:s');
+
+            // New date is after deadline
+            if (Carbon::parse($match->wbp) > Carbon::parse($match->tbp)) {
+                $tbp = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
+                $tbp->setTimezone(new DateTimeZone($timezone));
+                Flash::error('The match has to be played before ' . $tbp->format('d M Y H:i'));
+                return Redirect::refresh();
+            }
+
+            // New date is in the past
+            if (Carbon::parse($match->wbp) < Carbon::now()) {
+                $wbp->setTimezone(new DateTimeZone($timezone));
+                Flash::error('The new schedule time ' . $wbp->format('d M Y H:i') . ' cannot be in the past');
+                return Redirect::refresh();
+            }
+
+            $match->save();
+            $wbp->setTimezone(new DateTimeZone($timezone));
+            Flash::success('Match has been successfully rescheduled for '. $wbp->format('d M Y H:i') );
+            return Redirect::refresh();            
         }
     }
 

@@ -89,13 +89,13 @@ Main components
       /* Force Hardware Acceleration in WebKit */
       -webkit-transform: translateZ(0);
       -webkit-backface-visibility: hidden; }
-      .cd-timeline-block[min-width~="1170px"] .cssanimations .cd-timeline-img.is-hidden {
-        visibility: hidden; }
-      .cd-timeline-block[min-width~="1170px"] .cssanimations .cd-timeline-img.bounce-in {
+      .cssanimations .cd-timeline-img.is-hidden {
+        visibility: hidden;}
+      .cssanimations .cd-timeline-img.bounce-in {
         visibility: visible;
         -webkit-animation: cd-bounce-1 0.6s;
         -moz-animation: cd-bounce-1 0.6s;
-        animation: cd-bounce-1 0.6s; } }
+        animation: cd-bounce-1 0.6s;} }
 
 @-webkit-keyframes cd-bounce-1 {
   0% {
