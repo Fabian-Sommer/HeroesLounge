@@ -97,10 +97,11 @@ class UpdateMatch extends ComponentBase
                         $tbp = new DateTime($match->tbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
                         $tbp->setTimezone(new DateTimeZone($timezone));
                         Flash::error('The match has to be played before ' . $tbp->format('d M Y H:i'));
-                    } else {
-                        $wbp->setTimezone(new DateTimeZone($timezone));
-                        Flash::error('The new schedule time ' . $wbp->format('d M Y H:i') . ' can not be in the past');
+                        return;
                     }
+
+                    $wbp->setTimezone(new DateTimeZone($timezone));
+                    Flash::error('The new schedule time ' . $wbp->format('d M Y H:i') . ' cannot be in the past');
                 }
                 
                 return Redirect::refresh();
