@@ -207,22 +207,21 @@ class Statistics
 
     public static function calculateMapStatisticsForSloth($gameParticipations, $season)
     {
-        $games = [];
+        $participations = [];
         $teams = [];
         $i = 0;
         foreach ($gameParticipations as $gP) {
             if ($season == null || ($gP->game != null && $gP->game->match != null && $gP->game->match->belongsToSeason($season))) {
-                $game = $gP->game;
                 $teamId = $gP->team_id;
-                if ($game != null and $teamId != null) {
-                    $games[$i] = $game;
+                if ($gP->game != null and $teamId != null) {
+                    $participations[$i] = $gP;
                     $teams[$i] = $teamId;
                     $i = $i + 1;
                 }
             }
         }
 
-        $mapArray = Self::analyzeGamesForMapStats($games, $teams);
+        $mapArray = Self::analyzeGamesForMapStatsSloth($participations, $teams);
         $mapCollection = new Collection($mapArray);
         return $mapCollection->reject(function ($map_array) {
             return $map_array['picks_by'] + $map_array['picks_vs'] == 0;
@@ -273,6 +272,41 @@ class Statistics
                 }
                 if ($game->winner_id == $teams[$i]) {
                     $mapArray[$game->map->title]['winrate']++;
+                }
+            }
+        }
+        foreach ($mapArray as $key => $map_array) {
+            if ($map_array['picks_by'] + $map_array['picks_vs'] != 0) {
+                $map_array['winrate'] = round($map_array['winrate']/(($map_array['picks_by'] + $map_array['picks_vs'])*0.01),2);
+                $map_array['winrate'] .= '%';
+            } else {
+                $map_array['winrate'] = '-';
+            }
+            $mapArray[$key] = $map_array;
+        }
+        return $mapArray;
+    }
+
+    //$teams has a team entry for every game in $participations
+    public static function analyzeGamesForMapStatsSloth($participations, $teams) {
+        $allMaps = Map::all()->sortBy('title');
+        $mapArray = [];
+        foreach ($allMaps as $map) {
+            $mapArray[$map->title] = [];
+            $mapArray[$map->title]['map'] = $map;
+            $mapArray[$map->title]['picks_by'] = 0;
+            $mapArray[$map->title]['picks_vs'] = 0;
+            $mapArray[$map->title]['winrate'] = 0;
+        }
+        foreach ($participations as $i=>$participation) {
+            if ($participation->game->map && $participation->game->replay) {
+                if ($teams[$i] == $participation->isInSecondPickTeam()) {
+                    $mapArray[$participation->game->map->title]['picks_by']++;
+                } else {
+                    $mapArray[$participation->game->map->title]['picks_vs']++;
+                }
+                if ($participation->game->winner_id == $teams[$i]) {
+                    $mapArray[$participation->game->map->title]['winrate']++;
                 }
             }
         }

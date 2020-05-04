@@ -57,4 +57,11 @@ class GameParticipation extends Model
     {
         return $this->talents()->orderBy('talent_tier', 'asc')->get();
     }
+
+    public function isInSecondPickTeam()
+    {
+        $secondPickSloths = [2, 3, 6, 7, 10];
+
+        return in_array($this->draft_order, $secondPickSloths);
+    }
 }
