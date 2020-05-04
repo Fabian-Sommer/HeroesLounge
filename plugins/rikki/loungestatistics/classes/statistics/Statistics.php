@@ -4,6 +4,8 @@ use Rikki\Heroeslounge\Models\Hero;
 use Rikki\Heroeslounge\Models\Map;
 use October\Rain\Support\Collection;
 
+use Log;
+
 class Statistics
 {
     /*
@@ -266,7 +268,7 @@ class Statistics
         }
         foreach ($games as $i=>$game) {
             if ($game->map && $game->replay) {
-                if ($teams[$i]->title == $game->getSecondPickTeam()) {
+                if ($teams[$i]->id == $game->getSecondPickTeamId()) {
                     $mapArray[$game->map->title]['picks_by']++;
                 } else {
                     $mapArray[$game->map->title]['picks_vs']++;

@@ -149,16 +149,16 @@ class Game extends Model
         return $this->gameParticipations->where('team_id', $this->team_two_id)->sortBy('draft_order');
     }
 
-    public function getFirstPickTeam()
+    public function getFirstPickTeamId()
     {
         $participation = $this->gameParticipations->where('draft_order', 1)->first();
-        return ($participation ? ($participation->team ? $participation->team->title : '') : '');
+        return ($participation && $participation->team_id ? $participation->team_id : '');
     }
 
-    public function getSecondPickTeam()
+    public function getSecondPickTeamId()
     {
         $participation = $this->gameParticipations->where('draft_order', 2)->first();
-        return ($participation ? ($participation->team ? $participation->team->title : '') : '');
+        return ($participation && $participation->team_id ? $participation->team_id : '');
     }
 
     public function getTeamsGrouped()
