@@ -57,4 +57,9 @@ class GameParticipation extends Model
     {
         return $this->talents()->orderBy('talent_tier', 'asc')->get();
     }
+
+    public function isInSecondPickTeam()
+    {
+        return $this->draft_order == 2 || $this->draft_order == 3 || $this->draft_order == 6 || $this->draft_order == 7 || $this->draft_order == 10;
+    }
 }

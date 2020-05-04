@@ -28,8 +28,7 @@ class ViewTeam extends ComponentBase
     public function init()
     {
         $this->addCss('/plugins/martin/ssbuttons/assets/css/social-sharing-nb.css');
-        
-        $team = Teams::with('matches','matches.games','divisions','seasons')->where('slug', $this->param('slug'))->first();
+        $team = Teams::where('slug', $this->param('slug'))->first();
         if ($team) 
         {
             $this->team = $team;
@@ -50,7 +49,6 @@ class ViewTeam extends ComponentBase
                 [
                     'deferredBinding'   => true,
                     'surroundingEntries'    => 4
-
                 ]
             );
             $component = $this->addComponent(
@@ -58,8 +56,8 @@ class ViewTeam extends ComponentBase
                             'upcomingMatches',
                             [
                                 'deferredBinding'   => true,
-                                'daysInFuture'           => $this->property('daysInFuture'),
-                                'showLogo'          => true,
+                                'daysInFuture'  => $this->property('daysInFuture'),
+                                'showLogo'  => true,
                                 'showName' => false,
                                 'type' => 'team',
                                 'showCasters' => false,
@@ -99,9 +97,6 @@ class ViewTeam extends ComponentBase
                 ]
             );
         }
-    }
-    public function onRun()
-    {
     }
 
     public function defineProperties()
