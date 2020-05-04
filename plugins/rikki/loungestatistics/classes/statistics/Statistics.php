@@ -4,8 +4,6 @@ use Rikki\Heroeslounge\Models\Hero;
 use Rikki\Heroeslounge\Models\Map;
 use October\Rain\Support\Collection;
 
-use Log;
-
 class Statistics
 {
     /*
@@ -251,7 +249,7 @@ class Statistics
         $filteredMaps = $maps2->reject(function ($map_array) {
             return $map_array['picks_by'] + $map_array['picks_vs'] == 0;
         });
-        
+
         return $filteredMaps;
     }
 
