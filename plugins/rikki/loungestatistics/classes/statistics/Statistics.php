@@ -56,14 +56,14 @@ class Statistics
     {
         foreach ($gameParticipations as $gP) {
             $game = $gP->game;
-            $team = $gP->team;
-            if ($gP->hero == null || $game == null || $team == null) {
+            $teamId = $gP->team_id;
+            if ($gP->hero == null || $game == null || $teamId == null) {
                 continue;
             }
 
             if ($season == null || ($gP->game != null && $gP->game->match != null && $gP->game->match->belongsToSeason($season))) {
                 // Find out if we are team one in the replay.
-                $isTeamOne = ($game->team_one_id == $team->id);
+                $isTeamOne = ($game->team_one_id == $teamId);
                 
                 $game->getTeamOneBans()->each( function ($item) use ($isTeamOne, &$heroesArray) {
                     if ($isTeamOne) {
@@ -81,7 +81,7 @@ class Statistics
                 });
 
                 $heroesArray[$gP->hero->title]['picks']++;
-                if ($game->winner_id == $team->id) {
+                if ($game->winner_id == $teamId) {
                     $heroesArray[$gP->hero->title]['wins']++;
                 }
 
@@ -215,10 +215,10 @@ class Statistics
         foreach ($gameParticipations as $gP) {
             if ($season == null || ($gP->game != null && $gP->game->match != null && $gP->game->match->belongsToSeason($season))) {
                 $game = $gP->game;
-                $team = $gP->team;
-                if ($game != null and $team != null) {
+                $teamId = $gP->team_id;
+                if ($game != null and $teamId != null) {
                     $games[$i] = $game;
-                    $teams[$i] = $team;
+                    $teams[$i] = $teamId;
                     $i = $i + 1;
                 }
             }
@@ -240,7 +240,7 @@ class Statistics
             if ($season == null or $match->belongsToSeason($season)) {
                 foreach ($match->games as $game) {
                     $games[$i] = $game;
-                    $teams[$i] = $team;
+                    $teams[$i] = $team->id;
                     $i = $i + 1;
                 }
             }
@@ -268,12 +268,12 @@ class Statistics
         }
         foreach ($games as $i=>$game) {
             if ($game->map && $game->replay) {
-                if ($teams[$i]->id == $game->getSecondPickTeamId()) {
+                if ($teams[$i] == $game->getSecondPickTeamId()) {
                     $mapArray[$game->map->title]['picks_by']++;
                 } else {
                     $mapArray[$game->map->title]['picks_vs']++;
                 }
-                if ($game->winner_id == $teams[$i]->id) {
+                if ($game->winner_id == $teams[$i]) {
                     $mapArray[$game->map->title]['winrate']++;
                 }
             }
