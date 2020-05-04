@@ -37,7 +37,9 @@ class TeamStatistics extends ComponentBase
         $this->team = Team::where('id', $this->property('team_id'))
             ->with('matches', 'matches.division.season', 'matches.games', 'matches.games.replay', 'matches.games.map', 'matches.games.gameParticipations', 'matches.games.gameParticipations.hero', 'matches.games.teamOneFirstBan', 'matches.games.teamOneSecondBan', 'matches.games.teamTwoFirstBan', 'matches.games.teamTwoSecondBan', 'matches.games.teamOneThirdBan', 'matches.games.teamTwoThirdBan')
             ->first();
-        $this->participatedSeasons = $this->team->seasons
+        $this->participatedSeasons = $this->team->matches
+            ->map(function ($match) { return $match->season; })
+            ->filter(function ($season) { return $season != null; })
             ->groupBy('id')->map(function ($group) { return $group[0]; })  // unique does not work on these
             ->sortByDesc('created_at')->values();
 
