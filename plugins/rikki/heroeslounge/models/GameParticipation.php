@@ -60,6 +60,6 @@ class GameParticipation extends Model
 
     public function isInSecondPickTeam()
     {
-        return in_array($this->draft_order, [2, 3, 6, 7, 10]);
+        return $this->draft_order == 2 || $this->draft_order == 3 || $this->draft_order == 6 || $this->draft_order == 7 || $this->draft_order == 10;
     }
 }
