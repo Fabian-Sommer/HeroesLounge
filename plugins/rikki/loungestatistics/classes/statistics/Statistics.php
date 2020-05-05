@@ -207,21 +207,21 @@ class Statistics
 
     public static function calculateMapStatisticsForSloth($gameParticipations, $season)
     {
-        $participations = [];
+        $gameParticipationsInSeason = [];
         $teamIds = [];
         $i = 0;
         foreach ($gameParticipations as $gP) {
             if ($season == null || ($gP->game != null && $gP->game->match != null && $gP->game->match->belongsToSeason($season))) {
                 $teamId = $gP->team_id;
                 if ($gP->game != null && $teamId != null) {
-                    $participations[$i] = $gP;
+                    $gameParticipationsInSeason[$i] = $gP;
                     $teamIds[$i] = $teamId;
                     $i = $i + 1;
                 }
             }
         }
 
-        $mapArray = Self::analyzeGamesForMapStatsSloth($participations, $teamIds);
+        $mapArray = Self::analyzeGamesForMapStatsSloth($gameParticipationsInSeason, $teamIds);
         $mapCollection = new Collection($mapArray);
         return $mapCollection->reject(function ($map_array) {
             return $map_array['picks_by'] + $map_array['picks_vs'] == 0;
