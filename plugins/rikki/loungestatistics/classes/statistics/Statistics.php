@@ -254,7 +254,7 @@ class Statistics
     }
 
     // $teamIds has a teamId entry for every game in $games.
-    // $gameParticipations has a participation entry for game in $games when analyzing sloths.
+    // $gameParticipations has a participation entry for every game in $games when analyzing sloths.
     public static function analyzeGamesForMapStats($games, $teamIds, $gameParticipations) {
         $allMaps = Map::all()->sortBy('title');
         $mapArray = [];
