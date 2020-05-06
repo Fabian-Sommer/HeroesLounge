@@ -267,18 +267,10 @@ class Statistics
         }
         foreach ($games as $i=>$game) {
             if ($game->map && $game->replay) {
-                if ($gameParticipations != null) {
-                    if ($teamIds[$i] == $gameParticipations[$i]->isInSecondPickTeam()) {
-                        $mapArray[$game->map->title]['picks_by']++;
-                    } else {
-                        $mapArray[$game->map->title]['picks_vs']++;
-                    }
+                if (SELF::isInSecondPickTeam($i, $games, $teamIds, $gameParticipations)) {
+                    $mapArray[$game->map->title]['picks_by']++;
                 } else {
-                    if ($teamIds[$i] == $game->getSecondPickTeamId()) {
-                        $mapArray[$game->map->title]['picks_by']++;
-                    } else {
-                        $mapArray[$game->map->title]['picks_vs']++;
-                    }
+                    $mapArray[$game->map->title]['picks_vs']++;
                 }
                 if ($game->winner_id == $teamIds[$i]) {
                     $mapArray[$game->map->title]['winrate']++;
@@ -295,5 +287,13 @@ class Statistics
             $mapArray[$key] = $map_array;
         }
         return $mapArray;
+    }
+
+    private static function isInSecondPickTeam($i, $games, $teamIds, $gameParticipations) {
+        if ($gameParticipations != null) {
+            return $teamIds[$i] == $gameParticipations[$i]->isInSecondPickTeam();
+        } else {
+            return $teamIds[$i] == $game->getSecondPickTeamId();
+        }
     }
 }
