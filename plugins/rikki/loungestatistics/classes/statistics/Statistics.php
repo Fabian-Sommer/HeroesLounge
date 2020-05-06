@@ -224,7 +224,8 @@ class Statistics
             }
         }
 
-        $mapArray = Self::analyzeGamesForMapStats($games, $teamIds, $gameParticipationsInSeason);
+        $isSecondPick = function($i, $teamIds, $games, $participations) { return $participations[$i]->isInSecondPickTeam(); };
+        $mapArray = Self::analyzeGamesForMapStats($games, $teamIds, $gameParticipationsInSeason, $isSecondPick);
         $mapCollection = new Collection($mapArray);
         return $mapCollection->reject(function ($map_array) {
             return $map_array['picks_by'] + $map_array['picks_vs'] == 0;
@@ -246,7 +247,8 @@ class Statistics
             }
         }
 
-        $mapArray = Self::analyzeGamesForMapStats($games, $teamIds, null);
+        $isSecondPick = function($i, $teamIds, $games, $participation) { return $teamIds[$i] == $games[$i]->getSecondPickTeamId(); };
+        $mapArray = Self::analyzeGamesForMapStats($games, $teamIds, null, $isSecondPick);
         $maps2 = new Collection($mapArray);
         return $maps2->reject(function ($map_array) {
             return $map_array['picks_by'] + $map_array['picks_vs'] == 0;
@@ -255,7 +257,7 @@ class Statistics
 
     // $teamIds has a teamId entry for every game in $games.
     // $gameParticipations has a participation entry for every game in $games when analyzing sloths.
-    public static function analyzeGamesForMapStats($games, $teamIds, $gameParticipations) {
+    public static function analyzeGamesForMapStats($games, $teamIds, $gameParticipations, $isSecondPick) {
         $allMaps = Map::all()->sortBy('title');
         $mapArray = [];
         foreach ($allMaps as $map) {
@@ -267,7 +269,7 @@ class Statistics
         }
         foreach ($games as $i=>$game) {
             if ($game->map && $game->replay) {
-                if (SELF::isInSecondPickTeam($i, $games, $teamIds, $gameParticipations)) {
+                if ($isSecondPick($i, $teamIds, $games, $gameParticipations)) {
                     $mapArray[$game->map->title]['picks_by']++;
                 } else {
                     $mapArray[$game->map->title]['picks_vs']++;
@@ -287,13 +289,5 @@ class Statistics
             $mapArray[$key] = $map_array;
         }
         return $mapArray;
-    }
-
-    private static function isInSecondPickTeam($i, $games, $teamIds, $gameParticipations) {
-        if ($gameParticipations != null) {
-            return $gameParticipations[$i]->isInSecondPickTeam();
-        } else {
-            return $teamIds[$i] == $games[$i]->getSecondPickTeamId();
-        }
     }
 }
