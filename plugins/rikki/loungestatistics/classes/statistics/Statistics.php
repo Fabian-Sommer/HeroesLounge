@@ -291,9 +291,9 @@ class Statistics
 
     private static function isInSecondPickTeam($i, $games, $teamIds, $gameParticipations) {
         if ($gameParticipations != null) {
-            return $teamIds[$i] == $gameParticipations[$i]->isInSecondPickTeam();
+            return $gameParticipations[$i]->isInSecondPickTeam();
         } else {
-            return $teamIds[$i] == $game->getSecondPickTeamId();
+            return $teamIds[$i] == $games[$i]->getSecondPickTeamId();
         }
     }
 }
