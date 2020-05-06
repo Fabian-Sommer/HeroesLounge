@@ -248,11 +248,9 @@ class Statistics
 
         $mapArray = Self::analyzeGamesForMapStats($games, $teamIds, null);
         $maps2 = new Collection($mapArray);
-        $filteredMaps = $maps2->reject(function ($map_array) {
+        return $maps2->reject(function ($map_array) {
             return $map_array['picks_by'] + $map_array['picks_vs'] == 0;
         });
-
-        return $filteredMaps;
     }
 
     // $teamIds has a teamId entry for every game in $games.
