@@ -52,9 +52,44 @@ class Attendance
       return $presentUsers;
     }
 
+    public static function FetchUserBySearch($discordTag)
+    {
+      $username = explode("#", $discordTag)[0];
+      
+      $url = 'https://discordapp.com/api/guilds/200267155479068672/members/search';
+      $urlData = http_build_query(array("query" => $username, "limit" => 1000));
+      $auth_header = AuthCode::getCode();
+      $headers = [
+          "Content-Type:application/x-www-form-urlencoded",
+          $auth_header,
+          "User-Agent: HeroesLounge (http://heroeslounge.gg, 0.1)"
+      ];
+
+      $ch = curl_init($url . "?" . $urlData);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      $output = curl_exec($ch);
+
+      if (curl_errno($ch)) {
+          return false;
+      }
+
+      curl_close($ch);
+      $jsonData = json_decode($output, true);
+
+      $matchingUsers = [];
+      foreach ($jsonData as $user) {
+        if (isset($user["user"])) {
+            $matchingUsers[] = $user["user"];
+        }
+      }
+
+      return $matchingUsers;
+    }
+
     public static function GetDiscordUserId($discordTag)
     {
-        $presentUsers = Attendance::FetchUsers();
+        $presentUsers = Attendance::FetchUserBySearch($discordTag);
         $userId = '';
 
         if ($presentUsers) {
