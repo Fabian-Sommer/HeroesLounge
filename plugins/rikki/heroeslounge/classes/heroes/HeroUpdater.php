@@ -49,7 +49,7 @@ class HeroUpdater
         $hero_list = SELF::getHeroesList();
         foreach($hero_list as $hero_entry) {
             $heroModel = Hero::where('title', $hero_entry['name'])->first();
-            if ($heroModel != null) {
+            if ($heroModel) {
                 Self::updateTalentsForHero($heroModel, $hero_entry['short_name']);
             } else {
                 Log::error('Could not find hero '. $hero_entry['name'] .' while updating talents!');
@@ -69,37 +69,37 @@ class HeroUpdater
 
         $hero = Self::getHero($heroShortName);
         foreach($hero['talents'] as $talentTier) {
-            foreach($talentTier as $talent) {
-                if (Talent::where('title', $talent['name'])->where('hero_id', $heroModel->id)->count() == 0) {
-                    $tal = new Talent;
-                    $tal->hero = $heroModel;
-                    $tal->title = $talent['name'];
-                    $tal->image_url = $talent['icon'];
+            foreach($talentTier as $talent_data) {
+                if (Talent::where('title', $talent_data['name'])->where('hero_id', $heroModel->id)->count() == 0) {
+                    $talent = new Talent;
+                    $talent->hero = $heroModel;
+                    $talent->title = $talent_data['name'];
+                    $talent->image_url = $talent_data['icon'];
     
-                    $ch = curl_init("https://heroespatchnotes.github.io/heroes-talents/images/talents/" . urlencode($talent['icon']));
+                    $ch = curl_init("https://heroespatchnotes.github.io/heroes-talents/images/talents/" . urlencode($talent_data['icon']));
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     $talent_icon = curl_exec($ch);
                     $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
                     curl_close($ch);
                     if ($contentType != 'application/xml') {
-                        $file = fopen($talent_image_path.DS.$tal->image_url, "w+");
+                        $file = fopen($talent_image_path.DS.$talent->image_url, "w+");
                         fputs($file, $talent_icon);
                         fclose($file);
-                        Resizer::open($talent_image_path.DS.$tal->image_url)
+                        Resizer::open($talent_image_path.DS.$talent->image_url)
                             ->resize(32, 32)
-                            ->save($talent_image_path.DS.$tal->image_url, 100);
+                            ->save($talent_image_path.DS.$talent->image_url, 100);
                     } else {
-                        Log::error('Failed to get image for talent '.$talent['name']);
+                        Log::error('Failed to get image for talent '.$talent_data['name']);
                     }
                     
-                    $tal->suspected_replay_title = preg_replace("/[^A-Za-z0-9]/", '', $tal->title);
-                    $tal->replay_title = $talent['name'];
-                    $tal->save();
-                    Log::info('New talent added: '.$talent['name']);
-                } elseif (Talent::where('title', $talent['name'])->where('hero_id', $heroModel->id)->where('replay_title', 'IS NOT', 'NULL')->count() == 0) {
-                    $tal = Talent::where('title', $talent['name'])->where('hero_id', $heroModel->id)->firstOrFail();
-                    $tal->replay_title = $talent['talentTreeId'];
-                    $tal->save();
+                    $talent->replay_title = $talent_data['name'];
+                    $talent->save();
+                    Log::info('New talent added: '.$talent_data['name']);
+                } elseif (Talent::where('title', $talent_data['name'])->where('hero_id', $heroModel->id)->where('replay_title', 'IS NOT', 'NULL')->count() == 0) {
+                    // Check if the talent has replay_title data, which we need to identify talents during replay parsing.
+                    $talent = Talent::where('title', $talent_data['name'])->where('hero_id', $heroModel->id)->firstOrFail();
+                    $talent->replay_title = $talent_data['talentTreeId'];
+                    $talent->save();
                 }
             }
         }
@@ -130,13 +130,7 @@ class HeroUpdater
 
     public static function getHero($hero_name)
     {
-        // There are naming exceptions for TLV and Cho.
-        if ($hero_name == 'thelostvikings') {
-            $hero_name = 'lostvikings';
-        } else if ($hero_name == 'cho') {
-            $hero_name = 'chogall';
-        }
-
+        $hero_name = Self::getHeroNameForHeroesPatchNotes($hero_name);
         $ch = curl_init("https://heroespatchnotes.github.io/heroes-talents/hero/" . urlencode($hero_name) . ".json");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $hero_json = curl_exec($ch);
@@ -148,18 +142,23 @@ class HeroUpdater
 
     public static function getHeroImage($hero_name)
     {
-        // There are naming exceptions for TLV and Cho.
-        if ($hero_name == 'thelostvikings') {
-            $hero_name = 'lostvikings';
-        } else if ($hero_name == 'cho') {
-            $hero_name = 'chogall';
-        }
-
+        $hero_name = Self::getHeroNameForHeroesPatchNotes($hero_name);
         $ch = curl_init("https://heroespatchnotes.github.io/heroes-talents/images/heroes/" . urlencode($hero_name) . ".png");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $hero_portrait = curl_exec($ch);
         curl_close($ch);
         
         return $hero_portrait;
+    }
+
+    public static function getHeroNameForHeroesPatchNotes($hero_name)
+    {
+        if ($hero_name == 'thelostvikings') {
+            $hero_name = 'lostvikings';
+        } else if ($hero_name == 'cho') {
+            $hero_name = 'chogall';
+        }
+
+        return $hero_name;
     }
 }
