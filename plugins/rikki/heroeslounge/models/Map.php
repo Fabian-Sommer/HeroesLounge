@@ -23,9 +23,4 @@ class Map extends Model
      * @var string The database table used by the model.
      */
     public $table = 'rikki_heroeslounge_maps';
-
-    public function afterCreate()
-    {
-        Rikki\Heroeslounge\classes\Heroes\HeroUpdater::addTranslationsToMaps();
-    }
 }
