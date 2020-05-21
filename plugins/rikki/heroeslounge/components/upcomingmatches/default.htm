@@ -43,7 +43,8 @@
                 <div class="event-list--team row col-sm-12 col-md-3 row no-gutters">
                     <div class="event-list--teamlogo col-sm-6 col-md-3 px-1">
                         {% if match.teams[0].logo is not null %}
-                        <img src="{{match.teams[0].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid" alt="Team 1 Logo" title="Click for {{match.teams[0].title}} Profile" />
+                        <img src="{{match.teams[0].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid"
+                            alt="Team 1 Logo" title="Click for {{match.teams[0].title}} Profile" loading="lazy" />
                         {% endif %}
                     </div>
                     <div class="event-list--teamname col-sm-6 col-md-9 px-1">
@@ -56,7 +57,8 @@
                 <div class="event-list--team row col-sm-12 col-md-3 row no-gutters">
                     <div class="event-list--teamlogo col-sm-6 col-md-3 px-1">
                             {% if match.teams[1].logo is not null %}
-                            <img src="{{match.teams[1].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid hideOverflow" alt="Team 2 Logo" title="Click for {{match.teams[1].title}} Profile" />
+                            <img src="{{match.teams[1].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid hideOverflow"
+                                alt="Team 2 Logo" title="Click for {{match.teams[1].title}} Profile" loading="lazy" />
                             {% endif %}
                         </div>
                     <div class="event-list--teamname col-sm-6 col-md-9 px-1">
