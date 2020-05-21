@@ -16,7 +16,7 @@ class HeroUpdater
         $hero_list = SELF::getHeroesList();
         foreach($hero_list as $hero_entry) {
             if (Hero::where('title', $hero_entry['name'])->count() == 0) {
-                $heroData = Self::getHero($hero_entry['short_name']);
+                $hero_data = Self::getHero($hero_entry['short_name']);
                 $hero = new Hero();
                 $hero->title = $hero_entry['name'];
                 $hero->image_url = ucfirst($hero_entry['short_name']);
@@ -34,23 +34,23 @@ class HeroUpdater
     {
         $hero_list = SELF::getHeroesList();
         foreach($hero_list as $hero_entry) {
-            $heroModel = Hero::where('title', $hero_entry['name'])->first();
-            if ($heroModel) {
-                Self::updateTalentsForHero($heroModel, $hero_entry['short_name']);
+            $hero_model = Hero::where('title', $hero_entry['name'])->first();
+            if ($hero_model) {
+                Self::updateTalentsForHero($hero_model, $hero_entry['short_name']);
             } else {
                 Log::error('Could not find hero '. $hero_entry['name'] .' while updating talents!');
             }
         }
     }
 
-    public static function updateTalentsForHero($heroModel, $heroShortName)
+    public static function updateTalentsForHero($hero_model, $hero_short_name)
     {
-        $hero = Self::getHero($heroShortName);
-        foreach($hero['talents'] as $talentTier) {
-            foreach($talentTier as $talent_data) {
-                if (Talent::where('title', $talent_data['name'])->where('hero_id', $heroModel->id)->count() == 0) {
+        $hero = Self::getHero($hero_short_name);
+        foreach($hero['talents'] as $talent_tier) {
+            foreach($talent_tier as $talent_data) {
+                if (Talent::where('title', $talent_data['name'])->where('hero_id', $hero_model->id)->count() == 0) {
                     $talent = new Talent;
-                    $talent->hero = $heroModel;
+                    $talent->hero = $hero_model;
                     $talent->title = $talent_data['name'];
                     $talent->image_url = $talent_data['icon'];
                     Self::saveTalentImage($talent->image_url);
@@ -58,9 +58,9 @@ class HeroUpdater
                     $talent->replay_title = $talent_data['talentTreeId'];
                     $talent->save();
                     Log::info('New talent added: '.$talent_data['name']);
-                } elseif (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $heroModel->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
+                } elseif (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $hero_model->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
                     // We encountered this talent earlier during replay parsing, but weren't able to populate all of it's data at the time.
-                    $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $heroModel->id)->firstOrFail();
+                    $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $hero_model->id)->firstOrFail();
                     $talent->title = $talent_data['name'];
                     $talent->image_url = $talent_data['icon'];
                     Self::saveTalentImage($talent->image_url);
@@ -93,9 +93,9 @@ class HeroUpdater
         return $hero_list;
     }
 
-    public static function getHero($hero_name)
+    public static function getHero($hero_short_name)
     {
-        $hpn_hero_name = Self::getHeroNameForHeroesPatchNotes($hero_name);
+        $hpn_hero_name = Self::getHeroNameForHeroesPatchNotes($hero_short_name);
         $ch = curl_init("https://heroespatchnotes.github.io/heroes-talents/hero/" . urlencode($hpn_hero_name) . ".json");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $hero_json = curl_exec($ch);
@@ -118,9 +118,9 @@ class HeroUpdater
         $ch = curl_init("https://heroespatchnotes.github.io/heroes-talents/images/talents/" . urlencode($icon_url));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $talent_icon = curl_exec($ch);
-        $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         curl_close($ch);
-        if ($contentType != 'application/xml') {
+        if ($content_type != 'application/xml') {
             $file = fopen($talent_image_path.DS.$icon_url, "w+");
             fputs($file, $talent_icon);
             fclose($file);
@@ -132,7 +132,7 @@ class HeroUpdater
         }
     }
 
-    public static function saveHeroImage($hero_name)
+    public static function saveHeroImage($hero_short_name)
     {
         $theme = Theme::getActiveTheme();
         $theme_path = $theme->getPath();
@@ -142,15 +142,15 @@ class HeroUpdater
             mkdir($hero_image_path, 0777, true);
         }
 
-        $hpn_hero_name = Self::getHeroNameForHeroesPatchNotes($hero_name);
+        $hpn_hero_name = Self::getHeroNameForHeroesPatchNotes($hero_short_name);
         $ch = curl_init("https://heroespatchnotes.github.io/heroes-talents/images/heroes/" . urlencode($hpn_hero_name) . ".png");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $hero_portrait = curl_exec($ch);
-        $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         curl_close($ch);
 
-        if ($contentType != 'application/xml') {
-            $portrait_url = ucfirst($hero_name);
+        if ($content_type != 'application/xml') {
+            $portrait_url = ucfirst($hero_short_name);
             $file = fopen($hero_image_path.DS.$portrait_url, "w+");
             fputs($file, $hero_portrait);
             fclose($file);
@@ -158,18 +158,18 @@ class HeroUpdater
                 ->resize(75, 75)
                 ->save($hero_image_path.DS.$portrait_url, 100);
         } else {
-            Log::error('Failed to get image for hero portrait '. $hero_name);
+            Log::error('Failed to get image for hero portrait '. $hero_short_name);
         }
     }
 
-    public static function getHeroNameForHeroesPatchNotes($hero_name)
+    public static function getHeroNameForHeroesPatchNotes($hero_short_name)
     {
-        if ($hero_name == 'thelostvikings') {
+        if ($hero_short_name == 'thelostvikings') {
             return 'lostvikings';
-        } else if ($hero_name == 'cho') {
+        } else if ($hero_short_name == 'cho') {
             return 'chogall';
         }
 
-        return $hero_name;
+        return $hero_short_name;
     }
 }
