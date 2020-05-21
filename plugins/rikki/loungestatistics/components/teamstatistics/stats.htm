@@ -33,7 +33,7 @@
                     <th scope="row" class="text-center">
                         <img src="{{ ('assets/img/heroes/' ~  heroArray['hero'].image_url
                                         ~ '.png') | theme }}" class="" alt="{{heroArray['hero'].title}}" title="{{heroArray['hero'].title}}"
-                            style="max-height:50px">
+                            style="max-height:50px" loading="lazy">
                         <p class="d-none">{{heroArray['hero'].title}}</p>
                     </th>
                     <td class="align-middle text-center">{{heroArray['picks']}}{% if heroArray['picks'] != '-' %} ({{heroArray['pick_popularity']}}%){%endif%}</td>
