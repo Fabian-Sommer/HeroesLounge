@@ -124,11 +124,7 @@
         <div class="tab-content">
             {% for game in __SELF__.match.games %}
             <div class="tab-pane {% if loop.first %}active{% endif %}" id="game{{game.id}}" role="tabpanel">
-                {% if loop.first %}
-                    {% component 'gameStatistic' game_id = game.id lazy = 'false' %}
-                {% else %}
-                    {% component 'gameStatistic' game_id = game.id lazy= 'true' %}
-                {% endif %}                
+                {% component 'gameStatistic' game_id = game.id lazy = "{{ not loop.first }}" %}               
             </div>
             {% endfor %}
         </div>

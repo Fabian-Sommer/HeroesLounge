@@ -29,7 +29,7 @@ class GameStatistics extends ComponentBase
     {
     
         $this->game = Game::find($this->property('game_id'));
-        $this->lazy = $this->property('lazy') == 'false' ? 'auto' : 'lazy';
+        $this->lazy = $this->property('lazy') ? 'lazy' : 'auto';
     }
 
 
@@ -48,8 +48,8 @@ class GameStatistics extends ComponentBase
             'lazy' => [
                 'title' => 'Lazy',
                 'description' => 'Whether to lazy load game images',
-                'default' => 'false',
-                'type' => 'string',
+                'default' => false,
+                'type' => 'checkbox',
             ]
             ];
     }
