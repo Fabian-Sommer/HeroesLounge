@@ -149,6 +149,24 @@ li#menu-item-668 {
     height:28px;
 }
 
+.Icon32x
+{
+    width: 32px;
+    height: 32px;
+}
+
+.Icon50x
+{
+    width: 50px;
+    height: 50px;
+}
+
+.Icon75x
+{
+    width: 75px;
+    height: 75px;
+}
+
 i.facebook-white,i.twitch-white,i.twitter-white,i.youtube-white,i.website-white
 {
     color:#fff;

@@ -9,14 +9,14 @@
                     </a>
                 </h3>
             </div>
-            <img src="{% if __SELF__.game.teamOne.logo.path %}{{__SELF__.game.teamOne.logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}" class="d-flex align-self-start ml-2" style="max-height: 50px" alt="{{__SELF__.game.teamOne.title}}"
-                title="{{__SELF__.game.teamOne.title}}">
+            <img src="{% if __SELF__.game.teamOne.logo.path %}{{__SELF__.game.teamOne.logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}"
+                class="d-flex align-self-start ml-2" style="max-height: 50px" alt="{{__SELF__.game.teamOne.title}}" title="{{__SELF__.game.teamOne.title}}">
         </div>
     </div>
     <div class="col-6">
         <div class="media text-left">
-            <img src="{% if __SELF__.game.teamTwo.logo.path %}{{__SELF__.game.teamTwo.logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}" class="d-flex align-self-start mr-2" style="max-height: 50px" alt="{{__SELF__.game.teamTwo.title}}"
-                title="{{__SELF__.game.teamTwo.title}}">
+            <img src="{% if __SELF__.game.teamTwo.logo.path %}{{__SELF__.game.teamTwo.logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}"
+                class="d-flex align-self-start mr-2" style="max-height: 50px" alt="{{__SELF__.game.teamTwo.title}}" title="{{__SELF__.game.teamTwo.title}}">
             <div class="media-body">
                 <h3>
                     <a href="{{ 'team/view' |page({slug: __SELF__.game.teamTwo.slug})}}">
@@ -38,7 +38,7 @@
         {% for participant in __SELF__.game.getTeamOneParticipants %}
         <figure class="figure float-left m-1" style="max-width:70px">
             {% set path = 'assets/img/heroes/' ~ participant.hero.image_url ~ '.png' %}
-            <img src="{{path | theme}}" title="{{participant.hero.title}}" alt="{{participant.hero.title}}" class="rounded " />
+            <img src="{{path | theme}}" title="{{participant.hero.title}}" alt="{{participant.hero.title}}" class="rounded Icon75x" loading={{__SELF__.lazy}} />
             <figcaption class="figure-caption text-center text-truncate" title="{% if participant.sloth %}{{participant.sloth.title}}{% else %} {{participant.title}} {% endif %}">
                 {% if participant.sloth %}
                 <a href="{{ 'user/view' | page({id: participant.sloth.id})}}">
@@ -53,7 +53,7 @@
         {% for participant in __SELF__.game.getTeamTwoParticipants %}
         <figure class="figure float-right m-1" style="max-width:70px">
             {% set path = 'assets/img/heroes/' ~ participant.hero.image_url ~ '.png' %}
-            <img src="{{path | theme}}" title="{{participant.hero.title}}" alt="{{participant.hero.title}}" class="rounded " />
+            <img src="{{path | theme}}" title="{{participant.hero.title}}" alt="{{participant.hero.title}}" class="rounded Icon75x" loading={{__SELF__.lazy}} />
             <figcaption class="figure-caption text-center text-truncate" title="{% if participant.sloth %}{{participant.sloth.title}}{% else %} {{participant.title}} {% endif %}">
                 {% if participant.sloth %}
                 <a href="{{ 'user/view' | page({id: participant.sloth.id})}}">
@@ -78,18 +78,20 @@
         <figure class="figure float-left m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamOneFirstBan.image_url ~ '.png' %}
             <img src="{{path | theme}}" title="{{__SELF__.game.teamOneFirstBan.title}}" alt="{{__SELF__.game.teamOneFirstBan.title}}"
-                class="rounded " />
+                class="rounded Icon75x" loading={{__SELF__.lazy}} />
         </figure>
         <figure class="figure float-left m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamOneSecondBan.image_url ~ '.png' %}
             <img src="{{path | theme}}" title="{{__SELF__.game.teamOneSecondBan.title}}" alt="{{__SELF__.game.teamOneSecondBan.title}}"
-                class="rounded " />
+                class="rounded Icon75x" loading={{__SELF__.lazy}} />
         </figure>
+        {% if __SELF__.game.teamOneThirdBan %}
         <figure class="figure float-left m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamOneThirdBan.image_url ~ '.png' %}
             <img src="{{path | theme}}" title="{{__SELF__.game.teamOneThirdBan.title}}" alt="{{__SELF__.game.teamOneThirdBan.title}}"
-                class="rounded " />
+                class="rounded Icon75x" loading={{__SELF__.lazy}} />
         </figure>
+        {% endif %}
     </div>
     <div class="col">
         {% set map = 'assets/img/maps/bg_' ~__SELF__.game.map.title|replace({' ':'-'})|lower ~ '.jpg'%}
@@ -97,7 +99,8 @@
             <figure class="fixure mx-auto mb-0">
                 {% if __SELF__.game.replay %}
                     <a href="{{__SELF__.game.replay.path}}">
-                        <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{game.map.title}}" title="Click to download the replay file" style="max-width:234px">
+                        <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{game.map.title}}" title="Click to download the replay file"
+                            style="max-width:234px" loading={{__SELF__.lazy}}>
                     </a>
                     <figcaption class="figure-caption">
                         <span class="badge badge-info">{{__SELF__.game.map.title}}</span>
@@ -108,7 +111,8 @@
                         </a>
                     </figcaption>
                 {% else %}
-                    <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{game.map.title}}" style="max-width:234px">
+                    <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{game.map.title}}"
+                        style="max-width:234px" loading={{__SELF__.lazy}}>
                     <figcaption class="figure-caption">
                     <span class="badge badge-info">{{__SELF__.game.map.title}}</span>
                     </figcaption>
@@ -120,18 +124,20 @@
         <figure class="figure float-right m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamTwoFirstBan.image_url ~ '.png' %}
             <img src="{{path | theme}}" title="{{__SELF__.game.teamTwoFirstBan.title}}" alt="{{__SELF__.game.teamTwoFirstBan.title}}"
-                class="rounded " />
+                class="rounded Icon75x" loading={{__SELF__.lazy}} />
         </figure>
         <figure class="figure float-right m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamTwoSecondBan.image_url ~ '.png' %}
             <img src="{{path | theme}}" title="{{__SELF__.game.teamTwoSecondBan.title}}" alt="{{__SELF__.game.teamTwoSecondBan.title}}"
-                class="rounded " />
+                class="rounded Icon75x" loading={{__SELF__.lazy}} />
         </figure>
+        {% if __SELF__.game.teamTwoThirdBan %}
         <figure class="figure float-right m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamTwoThirdBan.image_url ~ '.png' %}
             <img src="{{path | theme}}" title="{{__SELF__.game.teamTwoThirdBan.title}}" alt="{{__SELF__.game.teamTwoThirdBan.title}}"
-                class="rounded " />
+                class="rounded Icon75x" loading={{__SELF__.lazy}} />
         </figure>
+        {% endif %}
     </div>
 </div>
 
@@ -142,8 +148,8 @@
             <div class="card-header bg-primary">
                 <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#game_{{__SELF__.game.id}}" aria-expanded="false"
                     aria-controls="collapseExample">
-                                    Toggle Statistics
-                            </button>
+                    Toggle Statistics
+                </button>
             </div>
             <div class="collapse" id="game_{{__SELF__.game.id}}">
                 <div class="row text-center align-middle mx-3 mt-2">
@@ -160,7 +166,7 @@
                                 <h1>{{__SELF__.game.getTeamOneKills}}</h1>
                             </div>
                             <div class="col-3">
-                                <img src="{{'assets/img/icons/crossed-swords.svg' |theme}}">
+                                <img src="{{'assets/img/icons/crossed-swords.svg' |theme}}" alt="" loading="lazy">
                             </div>
                         </div>
                     </div>
@@ -172,7 +178,7 @@
                         <div class="row">
 
                             <div class="col-3">
-                                <img src="{{'assets/img/icons/crossed-swords.svg' |theme}}">
+                                <img src="{{'assets/img/icons/crossed-swords.svg' |theme}}" alt="" loading="lazy">
                             </div>
                             <div class="col-3">
                                 <h1>{{__SELF__.game.getTeamTwoKills}}</h1>
@@ -209,13 +215,13 @@
                                 Player
                             </th>
                             <th class="text-center">
-                                <img src="{{ 'assets/img/icons/skull_swords.svg' | theme }}" class="Icon24x mx-1" title="Kills" alt="Kills" />
+                                <img src="{{ 'assets/img/icons/skull_swords.svg' | theme }}" class="Icon24x mx-1" title="Kills" alt="Kills" loading="lazy" />
                             </th>
                             <th class="text-center">
-                                <img src="{{ 'assets/img/icons/palm.svg' | theme }}" class="Icon24x mx-1" title="Assists" alt="Assists" />
+                                <img src="{{ 'assets/img/icons/palm.svg' | theme }}" class="Icon24x mx-1" title="Assists" alt="Assists" loading="lazy" />
                             </th>
                             <th class="text-center">
-                                <img src="{{ 'assets/img/icons/skull.svg' | theme }}" class="Icon24x mx-1" title="Deaths" alt="Deaths" />
+                                <img src="{{ 'assets/img/icons/skull.svg' | theme }}" class="Icon24x mx-1" title="Deaths" alt="Deaths" loading="lazy" />
                             </th>
                             <th class="text-center">
                                 Siege Dmg
@@ -241,15 +247,17 @@
                             ~ '.png' %}
                             <tr class="bg-{% if player.team.id == __SELF__.game.teamOne.id %}primary{% else %}danger{% endif %} text-white text-center">
                                 <th scope="row" class="text-center">
-                                    <img src="{{ path | theme}}" class="" alt="{{player.hero.title}}" title="{{player.hero.title}}" style="max-height:50px">
+                                    <img src="{{ path | theme}}" class="Icon50x" alt="{{player.hero.title}}" title="{{player.hero.title}}" loading="lazy">
                                     <p class="d-none">{{player.hero.title}}</p>
                                 </th>
                                 <td class="align-middle">
                                     {% if player.sloth %}
                                     <a href="{{'user/view' |page({id:player.sloth.id})}}" alt="Player Profile" class="text-white">
-                                                                {{player.title}}
-                                                            </a> {% else %}
-                                    <span class="text-dark">{{player.title}}</span> {% endif %}
+                                        {{player.title}}
+                                    </a>
+                                    {% else %}
+                                    <span class="text-dark">{{player.title}}</span>
+                                    {% endif %}
                                 </td>
                                 <td class="align-middle">{{player.kills}}</td>
                                 <td class="align-middle">{{player.assists}}</td>
@@ -305,18 +313,22 @@
                             ~ '.png' %}
                             <tr class="bg-{% if player.team.id == __SELF__.game.teamOne.id %}primary{% else %}danger{% endif %} text-white text-center">
                                 <th scope="row" class="text-center">
-                                    <img src="{{ path | theme}}" class="" alt="{{player.hero.title}}" title="{{player.hero.title}}" style="max-height:50px">
+                                    <img src="{{ path | theme}}" class="Icon50x" alt="{{player.hero.title}}" title="{{player.hero.title}}" loading="lazy">
                                     <p class="d-none">{{player.hero.title}}</p>
                                 </th>
                                 <td class="align-middle">
                                     {% if player.sloth %}
                                     <a href="{{'user/view' |page({id:player.sloth.id})}}" alt="Player Profile" class="text-white">
-                                                                {{player.title}}
-                                                            </a> {% else %}
-                                    <span class="text-dark">{{player.title}}</span> {% endif %}
+                                        {{player.title}}
+                                    </a>
+                                    {% else %}
+                                    <span class="text-dark">{{player.title}}</span>
+                                    {% endif %}
                                 </td>
                                 {% for talent in player.orderedTalents %} {% set path = 'assets/img/talents/' ~talent.image_url %}
-                                <td class="align-middle"><img src="{{path | theme}}" alt="{{talent.title}}" title="{{talent.title}}"></td>
+                                <td class="align-middle">
+                                    <img src="{{path | theme}}" class="Icon32x" alt="{{talent.title}}" title="{{talent.title}}" loading="lazy">
+                                </td>
                                 {% if loop.last and loop.length != 7 %} {% for i in 1..(7-loop.length) %}
                                 <td></td>
                                 {% endfor %} {% endif %} {% endfor %}
