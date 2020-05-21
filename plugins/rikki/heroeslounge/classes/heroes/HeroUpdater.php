@@ -19,11 +19,10 @@ class HeroUpdater
                 $hero_data = Self::getHero($hero_entry['short_name']);
                 $hero = new Hero();
                 $hero->title = $hero_entry['name'];
-                $hero->image_url = ucfirst($hero_entry['short_name']);
                 $hero->attribute_name = $hero_data['attributeId'];
                 $hero->translations = implode(",", $hero_entry['translations']);
-                Self::addHeroImage($hero_entry['short_name']);
                 $hero->save();
+                Self::setHeroImage($hero, $hero_entry['short_name']);
             }
         }
 
@@ -52,19 +51,16 @@ class HeroUpdater
                     $talent = new Talent;
                     $talent->hero = $hero_model;
                     $talent->title = $talent_data['name'];
-                    $talent->image_url = $talent_data['icon'];
-                    Self::addTalentImage($talent->image_url);
-
                     $talent->replay_title = $talent_data['talentTreeId'];
                     $talent->save();
+                    Self::setTalentImage($talent, $talent_data['icon']);
                     Log::info('New talent added: '.$talent_data['name']);
                 } elseif (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $hero_model->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
                     // We encountered this talent earlier during replay parsing, but weren't able to populate all of it's data at the time.
                     $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $hero_model->id)->firstOrFail();
                     $talent->title = $talent_data['name'];
-                    $talent->image_url = $talent_data['icon'];
-                    Self::addTalentImage($talent->image_url);
                     $talent->save();
+                    Self::setTalentImage($talent, $talent_data['icon']);
                 }
             }
         }
@@ -105,7 +101,7 @@ class HeroUpdater
         return $hero;
     }
 
-    public static function addTalentImage($icon_url)
+    public static function setTalentImage($talent_model, $icon_url)
     {
         $theme = Theme::getActiveTheme();
         $theme_path = $theme->getPath();
@@ -127,12 +123,15 @@ class HeroUpdater
             Resizer::open($talent_image_path.DS.$icon_url)
                 ->resize(32, 32)
                 ->save($talent_image_path.DS.$icon_url, 100);
+
+            $talent_model->image_url = $icon_url;
+            $talent_model->save();
         } else {
             Log::error('Failed to get image for talent icon '. $icon_url);
         }
     }
 
-    public static function addHeroImage($hero_short_name)
+    public static function setHeroImage($hero_model, $hero_short_name)
     {
         $theme = Theme::getActiveTheme();
         $theme_path = $theme->getPath();
@@ -148,7 +147,6 @@ class HeroUpdater
         $hero_portrait = curl_exec($ch);
         $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         curl_close($ch);
-
         if ($content_type != 'application/xml') {
             $portrait_url = ucfirst($hero_short_name);
             $file = fopen($hero_image_path.DS.$portrait_url, "w+");
@@ -157,6 +155,9 @@ class HeroUpdater
             Resizer::open($hero_image_path.DS.$portrait_url)
                 ->resize(75, 75)
                 ->save($hero_image_path.DS.$portrait_url, 100);
+
+            $hero_model->image_url = $portrait_url;
+            $hero_model->save();
         } else {
             Log::error('Failed to get image for hero portrait '. $hero_short_name);
         }
