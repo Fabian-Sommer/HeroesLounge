@@ -72,7 +72,7 @@ class HeroUpdater
                     $talent->replay_title = $talent_data['talentTreeId'];
                     $talent->save();
                     Log::info('New talent added: '.$talent_data['name']);
-                } elseif (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $heroModel->id)->where('replay_title', $talent_data['talentTreeId'])->count() == 1) {
+                } elseif (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $heroModel->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
                     // We encountered this talent earlier during replay parsing, but weren't able to populate all of it's data at the time.
                     $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $heroModel->id)->firstOrFail();
                     $talent->title = $talent_data['name'];
