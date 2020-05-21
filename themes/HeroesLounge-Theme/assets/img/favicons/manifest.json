@@ -2,12 +2,12 @@
     "name": "Heroes Lounge",
     "icons": [
         {
-            "src": "/assets/img/favicons/android-chrome-192x192.png",
+            "src": "/themes/HeroesLounge-Theme/assets/img/favicons/android-chrome-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/assets/img/favicons/android-chrome-256x256.png",
+            "src": "/themes/HeroesLounge-Theme/assets/img/favicons/android-chrome-256x256.png",
             "sizes": "256x256",
             "type": "image/png"
         }
