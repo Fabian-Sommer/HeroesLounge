@@ -8,7 +8,7 @@
                     <div class="col-2 d-xs-none">
                         {%  if match.teams[0].logo.path %}
                         <img src="{{match.teams[0].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid"
-                             alt="{{match.teams[0].title}} Logo" title="{{match.teams[0].title}} Logo" /> {% endif %}
+                             alt="{{match.teams[0].title}} Logo" title="{{match.teams[0].title}} Logo" loading="lazy" /> {% endif %}
                     </div>
                     <div class="col-8 font-weight-bold hideOverflow f100">
                         <a href="{{ 'team/view'|page({ slug: match.teams[0].slug }) }}" title="Match Details">{{match.teams[0].title}}</a>
@@ -34,7 +34,7 @@
                     <div class="col-2 d-xs-none">
                         {%  if match.teams[1].logo.path != null %}
                         <img src="{{match.teams[1].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid"
-                             alt="{{match.teams[1].title}} Logo" title="{{match.teams[1].title}} Logo" /> {% endif %}
+                             alt="{{match.teams[1].title}} Logo" title="{{match.teams[1].title}} Logo" loading="lazy" /> {% endif %}
                     </div>
                 </div>
             </div>
@@ -42,9 +42,12 @@
             <div class="col-5 col-lg-5 hideOverflow">
                 <div class="row">
                     <div class="col-8 font-weight-bold hideOverflow f100">
-                        <a href="{{ 'team/view'|page({ slug: match.teams[0].slug }) }}">{% if match.teams[0].logo.path != null %}<img src="{{match.teams[0].logo.path | resize(64,64)}}" style="max-height: 26px"
-                                                                                                                                    class="img-fluid" alt="{{match.teams[0].title}} Logo"
-                                                                                                                                    title="Click for {{match.teams[0].title}}'s Profile" />{% else %}{{match.teams[0].title}}{% endif %}</a>
+                        <a href="{{ 'team/view'|page({ slug: match.teams[0].slug }) }}">
+                            {% if match.teams[0].logo.path != null %}
+                            <img src="{{match.teams[0].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid"
+                                alt="{{match.teams[0].title}} Logo" title="Click for {{match.teams[0].title}}'s Profile" loading="lazy" />
+                            {% else %}{{match.teams[0].title}}{% endif %}
+                        </a>
                     </div>
                     <div class="col-4">
                         <span class="f100 spoiler badge badge-{% if match.teams[0].id == match.winner_id %}success{% elseif match.teams[1].id == match.winner_id %}danger{% else %}warning{% endif %}">
@@ -62,9 +65,12 @@
             {{match.teams[1].pivot.team_score}}</span>
                     </div>
                     <div class="col-8 font-weight-bold hideOverflow f100">
-                        <a href="{{ 'team/view'|page({ slug: match.teams[1].slug }) }}">{% if match.teams[1].logo.path != null %}<img src="{{match.teams[1].logo.path | resize(64,64)}}" style="max-height: 26px"
-                                                                                                                                    class="img-fluid" alt="{{match.teams[1].title}} Logo"
-                                                                                                                                    title="Click for {{match.teams[1].title}}'s Profile" />{% else %}{{match.teams[1].title}}{% endif %}</a>
+                        <a href="{{ 'team/view'|page({ slug: match.teams[1].slug }) }}">
+                            {% if match.teams[1].logo.path != null %}
+                            <img src="{{match.teams[1].logo.path | resize(64,64)}}" style="max-height: 26px" class="img-fluid"
+                                alt="{{match.teams[1].title}} Logo" title="Click for {{match.teams[1].title}}'s Profile" loading="lazy" />
+                            {% else %}{{match.teams[1].title}}{% endif %}
+                        </a>
                     </div>
                 </div>
             </div>
