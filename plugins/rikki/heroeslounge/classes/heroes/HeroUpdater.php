@@ -13,30 +13,16 @@ class HeroUpdater
 {
     public static function updateHeroes()
     {
-        $theme = Theme::getActiveTheme();
-        $theme_path = $theme->getPath();
-        defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-        $hero_image_path = $theme_path.DS.'assets'.DS.'img'.DS.'heroes';
-        if (!file_exists($hero_image_path)) {
-            mkdir($hero_image_path, 0777, true);
-        }
-
         $hero_list = SELF::getHeroesList();
         foreach($hero_list as $hero_entry) {
             if (Hero::where('title', $hero_entry['name'])->count() == 0) {
                 $heroData = Self::getHero($hero_entry['short_name']);
-                $hero_portrait = Self::getHeroImage($hero_entry['short_name']);
-
-                $localImageUrl = ucfirst($hero_entry['short_name']);
-                $file = fopen($hero_image_path.DS.$localImageUrl.".png", "w+");
-                fputs($file, $hero_portrait);
-                fclose($file);
-
                 $hero = new Hero();
                 $hero->title = $hero_entry['name'];
-                $hero->image_url = $localImageUrl;
+                $hero->image_url = ucfirst($hero_entry['short_name']);
                 $hero->attribute_name = $hero_data['attributeId'];
                 $hero->translations = implode(",", $hero_entry['translations']);
+                Self::saveHeroImage($hero_entry['short_name']);
                 $hero->save();
             }
         }
@@ -146,15 +132,34 @@ class HeroUpdater
         }
     }
 
-    public static function getHeroImage($hero_name)
+    public static function saveHeroImage($hero_name)
     {
+        $theme = Theme::getActiveTheme();
+        $theme_path = $theme->getPath();
+        defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+        $hero_image_path = $theme_path.DS.'assets'.DS.'img'.DS.'heroes';
+        if (!file_exists($hero_image_path)) {
+            mkdir($hero_image_path, 0777, true);
+        }
+
         $hpn_hero_name = Self::getHeroNameForHeroesPatchNotes($hero_name);
         $ch = curl_init("https://heroespatchnotes.github.io/heroes-talents/images/heroes/" . urlencode($hpn_hero_name) . ".png");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $hero_portrait = curl_exec($ch);
+        $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         curl_close($ch);
-        
-        return $hero_portrait;
+
+        if ($contentType != 'application/xml') {
+            $portrait_url = ucfirst($hero_name);
+            $file = fopen($hero_image_path.DS.$portrait_url, "w+");
+            fputs($file, $hero_portrait);
+            fclose($file);
+            Resizer::open($hero_image_path.DS.$portrait_url)
+                ->resize(75, 75)
+                ->save($hero_image_path.DS.$portrait_url, 100);
+        } else {
+            Log::error('Failed to get image for hero portrait '. $hero_name);
+        }
     }
 
     public static function getHeroNameForHeroesPatchNotes($hero_name)
