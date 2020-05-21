@@ -22,7 +22,7 @@ class HeroUpdater
                 $hero->image_url = ucfirst($hero_entry['short_name']);
                 $hero->attribute_name = $hero_data['attributeId'];
                 $hero->translations = implode(",", $hero_entry['translations']);
-                Self::saveHeroImage($hero_entry['short_name']);
+                Self::addHeroImage($hero_entry['short_name']);
                 $hero->save();
             }
         }
@@ -53,7 +53,7 @@ class HeroUpdater
                     $talent->hero = $hero_model;
                     $talent->title = $talent_data['name'];
                     $talent->image_url = $talent_data['icon'];
-                    Self::saveTalentImage($talent->image_url);
+                    Self::addTalentImage($talent->image_url);
 
                     $talent->replay_title = $talent_data['talentTreeId'];
                     $talent->save();
@@ -63,7 +63,7 @@ class HeroUpdater
                     $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $hero_model->id)->firstOrFail();
                     $talent->title = $talent_data['name'];
                     $talent->image_url = $talent_data['icon'];
-                    Self::saveTalentImage($talent->image_url);
+                    Self::addTalentImage($talent->image_url);
                     $talent->save();
                 }
             }
@@ -105,7 +105,7 @@ class HeroUpdater
         return $hero;
     }
 
-    public static function saveTalentImage($icon_url)
+    public static function addTalentImage($icon_url)
     {
         $theme = Theme::getActiveTheme();
         $theme_path = $theme->getPath();
@@ -132,7 +132,7 @@ class HeroUpdater
         }
     }
 
-    public static function saveHeroImage($hero_short_name)
+    public static function addHeroImage($hero_short_name)
     {
         $theme = Theme::getActiveTheme();
         $theme_path = $theme->getPath();
