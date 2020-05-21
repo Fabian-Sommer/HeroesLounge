@@ -27,12 +27,9 @@ class GameStatistics extends ComponentBase
 
     public function onRender()
     {
-    
         $this->game = Game::find($this->property('game_id'));
         $this->lazy = $this->property('lazy') ? 'lazy' : 'auto';
     }
-
-
 
     public function defineProperties()
     {
@@ -51,8 +48,6 @@ class GameStatistics extends ComponentBase
                 'default' => false,
                 'type' => 'checkbox',
             ]
-            ];
+        ];
     }
-
-
 }
