@@ -348,6 +348,9 @@ textarea.input-lg{ height:auto; }
 .navbar-custom .navbar-brand{ line-height:36px;  }
 a.navbar-brand.text-logo { text-transform: uppercase; font-weight: 900; font-size:30px; color:#010101;}
 
+.nav-item.dropdown:hover > .dropdown-menu {
+    display: block;
+}
 
 .navbar-custom .navbar-nav > li > a{ font-family:'Lato', sans-serif; font-size:12px; font-weight:bold; font-weight:600; padding: 25px 12px; -webkit-transition:all 0.3s ease-in-out; -moz-transition:all 0.3s ease-in-out; transition:all 0.3s ease-in-out; text-transform: uppercase; color:#010101; }
 .navbar-custom .navbar-nav > li > a { line-height: 40px; cursor:pointer}
