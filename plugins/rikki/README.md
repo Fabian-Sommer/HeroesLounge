@@ -19,8 +19,3 @@ Currently used resize formats:
 ## Replay Parsing
 
 In order for replay parsing to work, https://github.com/Blizzard/heroprotocol has to be cloned to heroeslounge/classes/ReplayParsing/heroprotocol. This requires python 2.7.
-
-
-## ChartJS
-http://www.chartjs.org/docs/latest/
-
