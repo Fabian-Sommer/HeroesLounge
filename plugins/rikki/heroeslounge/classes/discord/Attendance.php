@@ -118,19 +118,16 @@ class Attendance
       $ch = curl_init($url);
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+      curl_setopt($ch, CURLOPT_FAILONERROR, true);
       $output = curl_exec($ch);
 
       if (curl_errno($ch)) {
           return false;
       }
 
-      $memberData = json_decode($output, true);
-
       curl_close($ch);
-
+      $memberData = json_decode($output, true);
       return (isset($memberData)) ? true : false;
-
     }
 
     public static function CreateDiscordTagArray($users)
@@ -177,7 +174,7 @@ class Attendance
       $ch = curl_init($url);
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+      curl_setopt($ch, CURLOPT_FAILONERROR, true);
       $output = curl_exec($ch);
 
       if (curl_errno($ch)) {
