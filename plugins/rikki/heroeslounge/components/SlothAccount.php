@@ -18,6 +18,7 @@ use RainLab\User\Models\Settings as UserSettings;
 use Exception;
 
 use RainLab\User\Components\Account as UserAccount;
+use RainLab\User\Models\User;
 use Rikki\Heroeslounge\classes\Discord;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Rikki\Heroeslounge\Models\Season as Seasons;
@@ -230,13 +231,12 @@ class SlothAccount extends UserAccount
             $sloth->region_id = $data['region_id'];
             $sloth->save();
 
-            $this->user = $sloth->user;
-
+            $user = User::where('username', $sloth->title)->firstOrFail();
             // sign up for newsletter
             if (array_key_exists('newsletter_subscription', $data) && $data['newsletter_subscription']) {
-                MailChimpAPI::subscribeNewUser($sloth->user);
+                MailChimpAPI::subscribeNewUser($user);
             } else {
-                MailChimpAPI::unsubscribeNewUser($sloth->user);
+                MailChimpAPI::unsubscribeNewUser($user);
             }
 
             /*
