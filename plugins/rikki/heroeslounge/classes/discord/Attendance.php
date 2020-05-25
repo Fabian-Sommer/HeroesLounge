@@ -120,12 +120,11 @@ class Attendance
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_FAILONERROR, true);
       $output = curl_exec($ch);
-
       if (curl_errno($ch)) {
           return false;
       }
-
       curl_close($ch);
+
       $memberData = json_decode($output, true);
       return (isset($memberData)) ? true : false;
     }
@@ -176,12 +175,11 @@ class Attendance
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_FAILONERROR, true);
       $output = curl_exec($ch);
-
       if (curl_errno($ch)) {
         return "";
       }
-
       curl_close($ch);
+
       $userData = json_decode($output, true);
       return $userData["username"] . '#' . $userData["discriminator"];
     }
