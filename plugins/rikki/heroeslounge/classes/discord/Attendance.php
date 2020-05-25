@@ -118,19 +118,15 @@ class Attendance
       $ch = curl_init($url);
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+      curl_setopt($ch, CURLOPT_FAILONERROR, true);
       $output = curl_exec($ch);
-
       if (curl_errno($ch)) {
           return false;
       }
-
-      $memberData = json_decode($output, true);
-
       curl_close($ch);
 
+      $memberData = json_decode($output, true);
       return (isset($memberData)) ? true : false;
-
     }
 
     public static function CreateDiscordTagArray($users)
@@ -165,7 +161,7 @@ class Attendance
 
     public static function getDiscordTag($discordId)
     {
-      $url = 'https://discordapp.com/api/guilds/200267155479068672/members/' . $discordId;
+      $url = 'https://discordapp.com/api/users/' . $discordId;
 
       $auth_header = AuthCode::getCode();
       $headers = [
@@ -177,20 +173,14 @@ class Attendance
       $ch = curl_init($url);
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+      curl_setopt($ch, CURLOPT_FAILONERROR, true);
       $output = curl_exec($ch);
-
       if (curl_errno($ch)) {
-          return "";
-      }
-
-      $memberData = json_decode($output, true);
-      curl_close($ch);
-
-      if (isset($memberData)) {
-        return $memberData["user"]["username"] . '#' . $memberData["user"]["discriminator"];
-      } else {
         return "";
       }
+      curl_close($ch);
+
+      $userData = json_decode($output, true);
+      return $userData["username"] . '#' . $userData["discriminator"];
     }
 }
