@@ -99,9 +99,8 @@ class Plugin extends PluginBase
         })->dailyAt('1:30');
         
         $schedule->call(function () {
-            //$hu = new HeroUpdater;
-            //$hu->updateHeroes();
-        })->weekly()->thursdays()->at('4:00');
+            HeroUpdater::updateHeroes();
+        })->weekly()->tuesdays()->at('4:00');
     }
 
     public function boot()
