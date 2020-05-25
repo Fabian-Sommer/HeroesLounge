@@ -231,7 +231,7 @@ class SlothAccount extends UserAccount
             $sloth->region_id = $data['region_id'];
             $sloth->save();
 
-            $user = User::where('username', $sloth->title)->first();
+            $user = User::where('username', $sloth->title)->firstOrFail();
             // sign up for newsletter
             if (array_key_exists('newsletter_subscription', $data) && $data['newsletter_subscription']) {
                 MailChimpAPI::subscribeNewUser($user);
