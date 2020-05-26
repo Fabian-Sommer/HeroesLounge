@@ -18,7 +18,7 @@ class SeasonOverview extends ComponentBase
 
     public function init()
     {
-        $this->season = Season::where('slug',$this->param('slug'))->first();
+        $this->season = Season::where('slug',$this->param('slug'))->with('divisions', 'playoffs')->first();
         if ($this->season) 
         {
             $this->page->title = $this->season->title;
@@ -32,14 +32,7 @@ class SeasonOverview extends ComponentBase
                     ]
                 );
             }
-            else
-            {
-            }
         }
-    }
-
-    public function onRun()
-    {
     }
 
     public function defineProperties()

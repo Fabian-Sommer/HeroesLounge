@@ -89,31 +89,14 @@
                             <a class="dropdown-item" href="{{ 'general/staff' | page }}">Staff</a>
 
                             <li class="dropdown-item dropdown-submenu">
-                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false" id="previous_seasons">Archive</a>
-                                <ul role="menu" class="dropdown-menu pull-right" aria-labelledby="#previous_seasons">
+                                <a class="dropdown-toggle" data-toggle="dropdown">Archive</a>
+                                <div class="dropdown-menu">
                                     {% for season in __SELF__.past_amateurseasons %}
-                                    {% if season.reg_open == false and (season.divisions|length > 0 or season.playoffs|length > 0) %}
-                                    <li class="dropdown-item dropdown-submenu">
-                                        <a class="dropdown-toggle" data-toggle="dropdown"
-                                            id="season_{{season.id}}">{{season.title}}</a>
-                                        <div role="menu" class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
-                                            {% for division in season.divisions %}
-                                            <a class="dropdown-item"
-                                                href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} ">{{division.title}}</a>
-                                            {% endfor %}
-                                            {% for playoff in season.playoffs %}
-                                            <a class="dropdown-item"
-                                                href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} ">{{playoff.title}}</a>
-                                            {% endfor %}
-                                        </div>
-                                    </li>
-                                    {% else %}
-                                    <a class="dropdown-item"
-                                        href="{{ 'season/view' |page({slug:season.slug})}}">{{season.title}}</a>
-                                    {% endif %}
+                                    <a class="dropdown-item" href="{{ 'season/view' |page({slug:season.slug})}}">
+                                        {{season.title}}
+                                    </a>
                                     {% endfor %}
-                                </ul>
+                                </div>
                             </li>
                         </ul>
                     </li>
