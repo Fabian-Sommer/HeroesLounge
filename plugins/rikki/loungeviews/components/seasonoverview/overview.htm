@@ -5,7 +5,7 @@
 <ul class="list-group">
   {% for division in divisions|sort((a, b) => a.title <=> b.title) %}
   <li class="list-group-item">
-    <a href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}}">{{ division.title }}</a>
+    <a href="{{ 'season/division'|page({slug: __SELF__.season.slug, divslug: division.slug})}}">{{ division.title }}</a>
   </li>
   {% endfor %}
 </ul>
@@ -23,7 +23,7 @@
   <ul class="list-group">
     {% for playoff in playoffs %}
     <li class="list-group-item">
-      <a href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} ">{{ playoff.title }}</a>
+      <a href="{{ 'season/playoff'|page({'season-slug': __SELF__.season.slug, 'playoff-title': playoff.title})}} ">{{ playoff.title }}</a>
     </li>
     {% endfor %}
   </ul>
