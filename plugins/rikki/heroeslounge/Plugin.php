@@ -148,24 +148,6 @@ class Plugin extends PluginBase
             ];
         });
 
-        Event::listen('offline.sitesearch.query', function ($query) {
-            $items = Maps::where('title', 'like', "%${query}%")->get();
-            $results = $items->map(function ($item) use ($query) {
-                $relevance = mb_stripos($item->titel, $query) !== false ? 2 : 1;
-                foreach ($item->matches()->get() as $match) {
-                    return [
-                            'title' => $match->teams[0]->title.' VS '.$match->teams[1]->title,
-                            'relevance' => $relevance
-                        ];
-                }
-            });
-            return
-            [
-                'provider' => 'MapMatches',
-                'results' => $results
-            ];
-        });
-
         Event::listen('eloquent.saved: System\Models\File', function ($event) {
             if ($event->field == 'logo') {
                 switch ($event->attachment_type) {
