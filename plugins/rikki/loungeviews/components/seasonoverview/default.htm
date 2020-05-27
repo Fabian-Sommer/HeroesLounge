@@ -2,6 +2,7 @@
     {% if __SELF__.season.reg_open == true %}
         {% component 'participationOverview' id=__SELF__.season.id %}
     {% else %}
+        <h1> {{ __SELF__.season.title }}</h1>
         {% partial 'season/overview' season=__SELF__.season %}
     {% endif %} 
 {% else %}
