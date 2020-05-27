@@ -63,8 +63,8 @@
                             <hr>
 
                             <a class="dropdown-item" href="{{ 'faq' |page}}">FAQ</a>
-
                             <a class="dropdown-item" href="{{ 'general/ruleset' | page}}">Ruleset</a>
+                            
                             {% for item in staticMenuGeneral.menuItems %}
                             <a class="dropdown-item" href="{{ item.url }}">{{item.title}}</a>
                             {% endfor %}
@@ -87,17 +87,7 @@
                             {% endif %}
 
                             <a class="dropdown-item" href="{{ 'general/staff' | page }}">Staff</a>
-
-                            <li class="dropdown-item dropdown-submenu">
-                                <a class="dropdown-toggle" data-toggle="dropdown">Archive</a>
-                                <div class="dropdown-menu">
-                                    {% for season in __SELF__.past_amateurseasons %}
-                                    <a class="dropdown-item" href="{{ 'season/view' |page({slug:season.slug})}}">
-                                        {{season.title}}
-                                    </a>
-                                    {% endfor %}
-                                </div>
-                            </li>
+                            <a class="dropdown-item" href="{{ 'season/archive' | page }}">Archive</a>
                         </ul>
                     </li>
 

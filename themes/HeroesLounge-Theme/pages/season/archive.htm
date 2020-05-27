@@ -1,0 +1,30 @@
+title = "Amateur Season Archive"
+url = "/season/archive"
+layout = "plain"
+is_hidden = 0
+==
+
+use Rikki\Heroeslounge\Models\Season;
+
+function onStart()
+{
+  $this['previous_seasons'] = Season::where('type', 1)->with('divisions', 'playoffs')->where('is_active', 0)->orderBy('created_at','desc')->get();
+}
+==
+<h1>Amateur Season Archive</h1>
+<div id="accordion">
+  {% for season in previous_seasons %}
+  <div class="card">
+    <div class="card-header" id="season _{{loop.index}}">
+			<h5 class="mb-0">
+        <a class="collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapse_{{loop.index}}"> {{season.title}} </a>
+      </h5>
+		</div>
+		<div class="collapse" id="collapse_{{loop.index}}">
+			<div class="card-body">
+        {% partial 'season/overview' season=season %}
+      </div>
+		</div>
+  </div>
+  {% endfor %}
+</div>

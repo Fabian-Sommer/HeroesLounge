@@ -2,7 +2,7 @@
     {% if __SELF__.season.reg_open == true %}
         {% component 'participationOverview' id=__SELF__.season.id %}
     {% else %}
-        {% partial '@overview' divisions=__SELF__.season.divisions playoffs=__SELF__.season.playoffs %}
+        {% partial 'season/overview' season=__SELF__.season %}
     {% endif %} 
 {% else %}
 No such season exists!
