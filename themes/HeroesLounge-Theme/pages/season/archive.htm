@@ -15,7 +15,7 @@ function onStart()
 <div id="accordion">
   {% for season in previous_seasons %}
   <div class="card">
-    <div class="card-header" id="season _{{loop.index}}">
+    <div class="card-header" id="season_{{loop.index}}">
 			<h5 class="mb-0">
         <a class="collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapse_{{loop.index}}"> {{season.title}} </a>
       </h5>
