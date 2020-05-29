@@ -13,9 +13,11 @@ teams:
             columns:
                 title:
                     label: Name
+                    searchable: true
                 pivot[seed]:
                     label: Seed
         showSearch: true
+        recordsPerPage: 20
     pivot:
         form:
             fields:
