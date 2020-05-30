@@ -25,7 +25,7 @@ class NotificationHelper
             NotificationHelper::checkParticipation($sloth, $retVal);
 
             if ($sloth->isCaptain()) {
-                NotificationHelper::checkBans($user, $retVal);
+                NotificationHelper::checkBans($retVal);
             }
 
             foreach ($sloth->teams as $key => $team) {
