@@ -20,7 +20,6 @@ class NotificationHelper
         $sloth = $user->sloth;
         $retVal = array();
         if (isset($sloth)) {
-            // NotificationHelper::checkHotSLogsProfileStatus($sloth, $retVal);
             NotificationHelper::checkApplications($user, $retVal);
             NotificationHelper::checkParticipation($sloth, $retVal);
 
@@ -198,17 +197,6 @@ class NotificationHelper
                 'type' => 'warning',
                 'message' => 'You aren\'t listed to participate in '.$season->title.'. You can register as a free agent or join a particpating team.',
                 'entity' => $season->toArray()
-            ];
-        }
-    }
-
-    public static function checkHotSLogsProfileStatus($sloth, &$retVal)
-    {
-        if ($sloth->hotslogs_id == null) {
-            $retVal[]=  [
-                'type' => 'info',
-                'message' => 'Your HotSLogs profile is currently hidden. Please set it to public. This will be required for the next season.',
-                'entity' => $sloth->toArray()
             ];
         }
     }
