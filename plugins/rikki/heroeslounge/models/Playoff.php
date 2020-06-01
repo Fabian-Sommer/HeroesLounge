@@ -426,8 +426,8 @@ class Playoff extends Model
                         1 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
                         2 => Carbon::create($year, $month, $day, 20, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
                         3 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        4 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
-                        5 => Carbon::create($year, $month, $day, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())
+                        4 => Carbon::create($year, $month, $day, 22, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        5 => Carbon::create($year, $month, $day, 23, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())
                     ];
             $otherTime = Carbon::create($year, $month, $day, 20, 0, 0, $timezone);
             $matchArray = $this->createSEMatches(6, $times);
