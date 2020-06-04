@@ -62,11 +62,11 @@ class HeroUpdater
                     $talent->replay_title = $talent_data['talentTreeId'];
                     $talent->save();
                     Log::info('New talent added: '.$talent_data['name']);
+                } else {
+                    $talent = Talent::where('title', $talent_data['name'])->where('hero_id', $hero_model->id)->first();
                 }
 
-                if ($talent) {
-                    Self::setTalentImage($talent, $talent_data['icon']);
-                }
+                Self::setTalentImage($talent, $talent_data['icon']);
             }
         }
     }
