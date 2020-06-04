@@ -25,8 +25,8 @@ import argparse
 import pprint
 import json
 
-from heroprotocol.mpyq import mpyq
-from heroprotocol import protocol29406
+import mpyq
+from heroprotocol.versions import build, latest
 
 class EventLogger:
     def __init__(self):
@@ -119,16 +119,14 @@ if __name__ == '__main__':
 
     # Read the protocol header, this can be read with any protocol
     contents = archive.header['user_data_header']['content']
-    header = protocol29406.decode_replay_header(contents)
+    header = latest().decode_replay_header(contents)
     if args.header:
         logger.log(sys.stdout, header)
 
     # The header's baseBuild determines which protocol to use
     baseBuild = header['m_version']['m_baseBuild']
     try:
-        protocolVersion = 'protocol%s' % (baseBuild,)
-        _temp = __import__('heroprotocol', globals(), locals(), [protocolVersion])
-        protocol = getattr(_temp,protocolVersion)
+        protocol = build(baseBuild)
     except:
         print >> sys.stderr, 'Unsupported base build: %d' % baseBuild
         sys.exit(1)

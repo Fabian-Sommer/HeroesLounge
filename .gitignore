@@ -16,3 +16,5 @@
 !Vagrantfile
 !install_october.sh
 !install_hl.sh
+
+*.pyc
