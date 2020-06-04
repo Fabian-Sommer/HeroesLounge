@@ -90,35 +90,35 @@ class NotificationHelper
     {
         foreach($bans as $ban)
         {
-            $banMsg = 'BANNED: ';
+            $banMessage = 'BANNED: ';
             if(!empty($ban->literal))
             {
-                $banMsg .= $ban->literal;
+                $banMessage .= $ban->literal;
             }
             else
             {
                 if(isset($ban->hero))
                 {
-                    $banMsg .= $ban->hero->title.' ';
+                    $banMessage .= $ban->hero->title.' ';
                 }
                 if(isset($ban->talent))
                 {
-                    $banMsg .= $ban->talent->title.' ';
+                    $banMessage .= $ban->talent->title.' ';
                 }
                 if(isset($ban->round_start))
                 {
-                    $banMsg .= '[Round '.$ban->round_start;
+                    $banMessage .= '[Round '.$ban->round_start;
                     if(isset($ban->round_length))
                     {
-                        $banMsg.= ' - '.($ban->round_start + $ban->round_length);
+                        $banMessage.= ' - '.($ban->round_start + $ban->round_length);
                     }
-                    $banMsg.=' ]';
+                    $banMessage.=' ]';
                 }
             }
             
             $retVal[] = [
                 'type' => 'warning',
-                'message' => $banMsg,
+                'message' => $banMessage,
                 'entity' => $ban->toArray()
             ];
         }
