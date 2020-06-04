@@ -47,7 +47,14 @@ class HeroUpdater
         $hero = Self::getHero($hero_short_name);
         foreach($hero['talents'] as $talent_tier) {
             foreach($talent_tier as $talent_data) {
-                if (Talent::where('title', $talent_data['name'])->where('hero_id', $hero_model->id)->count() == 0) {
+                if (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $hero_model->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
+                    // We encountered this talent earlier during replay parsing, but weren't able to populate all of it's data at the time.
+                    $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $hero_model->id)->firstOrFail();
+                    $talent->title = $talent_data['name'];
+                    $talent->save();
+                    Self::setTalentImage($talent, $talent_data['icon']);
+                    Log::info('Talent information updated: ' . $talent_data['name']);
+                } elseif (Talent::where('title', $talent_data['name'])->where('hero_id', $hero_model->id)->count() == 0) {
                     $talent = new Talent;
                     $talent->hero = $hero_model;
                     $talent->title = $talent_data['name'];
@@ -55,12 +62,6 @@ class HeroUpdater
                     $talent->save();
                     Self::setTalentImage($talent, $talent_data['icon']);
                     Log::info('New talent added: '.$talent_data['name']);
-                } elseif (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $hero_model->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
-                    // We encountered this talent earlier during replay parsing, but weren't able to populate all of it's data at the time.
-                    $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $hero_model->id)->firstOrFail();
-                    $talent->title = $talent_data['name'];
-                    $talent->save();
-                    Self::setTalentImage($talent, $talent_data['icon']);
                 }
             }
         }
