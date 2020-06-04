@@ -116,7 +116,6 @@ class HeroUpdater
             mkdir($talent_image_path, 0777, true);
         }
 
-        // Check if the file already exists and if it's larger than 500 bytes.
         if (file_exists($talent_image_path.DS.$icon_url) && filesize($talent_image_path.DS.$icon_url) >= 500) {
             return;
         }
