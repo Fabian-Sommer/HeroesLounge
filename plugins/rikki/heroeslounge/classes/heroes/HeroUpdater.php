@@ -47,21 +47,26 @@ class HeroUpdater
         $hero = Self::getHero($hero_short_name);
         foreach($hero['talents'] as $talent_tier) {
             foreach($talent_tier as $talent_data) {
-                if (Talent::where('title', $talent_data['name'])->where('hero_id', $hero_model->id)->count() == 0) {
+                $talent = null;
+
+                if (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $hero_model->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
+                    // We encountered this talent earlier during replay parsing, but weren't able to populate all of it's data at the time.
+                    $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $hero_model->id)->firstOrFail();
+                    $talent->title = $talent_data['name'];
+                    $talent->save();
+                    Log::info('Talent information updated: ' . $talent_data['name']);
+                } elseif (Talent::where('title', $talent_data['name'])->where('hero_id', $hero_model->id)->count() == 0) {
                     $talent = new Talent;
                     $talent->hero = $hero_model;
                     $talent->title = $talent_data['name'];
                     $talent->replay_title = $talent_data['talentTreeId'];
                     $talent->save();
-                    Self::setTalentImage($talent, $talent_data['icon']);
                     Log::info('New talent added: '.$talent_data['name']);
-                } elseif (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $hero_model->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
-                    // We encountered this talent earlier during replay parsing, but weren't able to populate all of it's data at the time.
-                    $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $hero_model->id)->firstOrFail();
-                    $talent->title = $talent_data['name'];
-                    $talent->save();
-                    Self::setTalentImage($talent, $talent_data['icon']);
+                } else {
+                    $talent = Talent::where('title', $talent_data['name'])->where('hero_id', $hero_model->id)->first();
                 }
+
+                Self::setTalentImage($talent, $talent_data['icon']);
             }
         }
     }
@@ -109,6 +114,10 @@ class HeroUpdater
         $talent_image_path = $theme_path.DS.'assets'.DS.'img'.DS.'talents';
         if (!file_exists($talent_image_path)) {
             mkdir($talent_image_path, 0777, true);
+        }
+
+        if (file_exists($talent_image_path.DS.$icon_url) && filesize($talent_image_path.DS.$icon_url) >= 500) {
+            return;
         }
 
         $ch = curl_init("https://heroespatchnotes.github.io/heroes-talents/images/talents/" . urlencode($icon_url));
