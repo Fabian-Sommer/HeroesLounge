@@ -63,7 +63,6 @@ class EventLogger:
             pprint.pprint(event, stream=output)
 
     def logUsefulTrackerEvent(self, output, event):
-        
         # update stats
         if '_event' in event and '_bits' in event:
             stat = self._event_stats.get(event['_event'], [0, 0])
@@ -121,6 +120,7 @@ if __name__ == '__main__':
     contents = archive.header['user_data_header']['content']
     header = latest().decode_replay_header(contents)
     if args.header:
+        header.pop('m_ngdpRootKey', None) # This entry causes problems when parsing from JSON and is not needed.
         logger.log(sys.stdout, header)
 
     # The header's baseBuild determines which protocol to use

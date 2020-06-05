@@ -442,12 +442,6 @@ class ReplayParsing
                 return;
             }
         }
-        if ($this->decodedHeader == null) {
-        	$this->parseHeader();
-        	if ($this->decodedHeader == null) {
-                return;
-            }
-        }
 
         $pickIndex = 0;
         $swappingPlayer1 = -1;
