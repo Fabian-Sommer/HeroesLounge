@@ -8,13 +8,12 @@ use Rikki\Heroeslounge\Models\Season;
 
 function onStart()
 {
-  $this['previous_seasons'] = Season::where('type', 1)->with('divisions', 'playoffs')->where('is_active', 0)->orderBy('created_at','desc')->get();
-  $this['groupedRegionSeasons'] = $this['previous_seasons']->groupBy('region_id');
+  $this['seasonsGroupedByRegion'] = Season::where('type', 1)->with('divisions', 'playoffs')->where('is_active', 0)->orderBy('created_at','desc')->get()->groupBy('region_id');
 }
 ==
 <h1>Amateur Series Archive</h1>
 <div id="accordion">
-  {% for regionSeasons in groupedRegionSeasons %}
+  {% for regionSeasons in seasonsGroupedByRegion %}
     {% for season in regionSeasons %}
     {% if loop.first %}
       <h2>{{season.region.title}}</h2>
@@ -22,10 +21,10 @@ function onStart()
     <div class="card">
       <div class="card-header" id="season_{{loop.index}}">
         <h5 class="mb-0">
-          <a class="collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapse_{{loop.index}}"> {{season.title}} </a>
+          <a class="collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapse_{{season.region.title}}_{{loop.index}}"> {{season.title}} </a>
         </h5>
       </div>
-      <div class="collapse" id="collapse_{{loop.index}}">
+      <div class="collapse" id="collapse_{{season.region.title}}_{{loop.index}}">
         <div class="card-body">
           {% partial 'season/overview' season=season %}
         </div>
