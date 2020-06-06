@@ -1,0 +1,28 @@
+{% if season.divisions|length > 0 %}
+<h2> Divisions </h2>
+<ul class="list-group">
+  {% for division in season.divisions|sort((a, b) => a.title <=> b.title) %}
+  <li class="list-group-item">
+    <a href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}}">{{ division.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if season.playoffs|length > 0 %}
+  {% if season.type == 1 %}
+  <h2 class="mt-1"> Playoffs </h2>
+  {% elseif season.type == 2 %}
+  <h2 class="mt-1"> Tournaments </h2>
+  {% elseif season.type == 3 %}
+  <h2 class="mt-1"> Stages </h2>
+  {% endif %}
+
+  <ul class="list-group">
+    {% for playoff in season.playoffs %}
+    <li class="list-group-item">
+      <a href="{{ 'season/playoff'|page({'season-slug': season.slug, 'playoff-title': playoff.title})}} ">{{ playoff.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+{% endif %}
