@@ -10,12 +10,12 @@
 {% endif %}
 
 {% if season.playoffs|length > 0 %}
-  {% if season.type == 3 %}
-  <h2 class="mt-1"> Stages </h2>
+  {% if season.type == 1 %}
+  <h2 class="mt-1"> Playoffs </h2>
   {% elseif season.type == 2 %}
   <h2 class="mt-1"> Tournaments </h2>
-  {% else %}
-  <h2 class="mt-1"> Playoffs </h2>
+  {% elseif season.type == 3 %}
+  <h2 class="mt-1"> Stages </h2>
   {% endif %}
 
   <ul class="list-group">
