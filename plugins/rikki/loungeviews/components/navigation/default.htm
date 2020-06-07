@@ -44,7 +44,7 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown"
                                     id="season_{{season.id}}">{{season.title}}</a>
                                 <div class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
-                                    {% for division in season.divisions|sort((a, b) => a.title <=> b.title) %}
+                                    {% for division in season.divisions|sort((a, b) => a.title > b.title) %}
                                     <a class="dropdown-item"
                                         href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} ">{{division.title}}</a>
                                     {% endfor %}

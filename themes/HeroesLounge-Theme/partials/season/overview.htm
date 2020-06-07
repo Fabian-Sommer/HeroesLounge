@@ -1,7 +1,7 @@
 {% if season.divisions|length > 0 %}
 <h2> Divisions </h2>
 <ul class="list-group">
-  {% for division in season.divisions|sort((a, b) => a.title <=> b.title) %}
+  {% for division in season.divisions|sort((a, b) => a.title > b.title) %}
   <li class="list-group-item">
     <a href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}}">{{ division.title }}</a>
   </li>
