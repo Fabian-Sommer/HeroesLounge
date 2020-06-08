@@ -35,7 +35,7 @@
     </thead>
     <tbody>
         {% for team in __SELF__.teams[__SELF__.startIndex:__SELF__.length] %}
-        <tr {% if user.sloth.team.id == team.id or __SELF__.selTeam == team.id %} class="table-success" {% endif %}>
+        <tr {% if user.sloth.isInTeam(team) or __SELF__.selTeam == team.id %} class="table-success" {% endif %}>
             <th scope="row">{{loop.index+__SELF__.startIndex}}</th>
             <td>
                 {% if team.disbanded == false %}
