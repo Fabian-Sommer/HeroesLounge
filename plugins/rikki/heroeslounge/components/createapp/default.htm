@@ -3,30 +3,29 @@
 
 {% if __SELF__.teams is not empty %}
 
-		{{form_open({request: 'onApplicationSend'})}}
+	{{form_open({request: 'onApplicationSend'})}}
 
 	<div class="input-group col-lg-3 mb-3 col-md-4">
-			<label for="team_id" class="sr-only">Team</label>
-			<div class="input-group-addon"><i class="fa fa-group" aria-hidden="true"></i></div>
-					<select class="form-control" name="team_id" id="applicationTeam" required>
-						<option value="-1" selected>--</option>
-						{% for team in __SELF__.teams %}
-						{% if not __SELF__.sloth.isInTeam(team) %}
-						<option value="{{ team.id }}">{{ team.title }}</option>
-						{% endif %}
-						{% endfor %}
-					</select>
+		<label for="team_id" class="sr-only">Team</label>
+		<div class="input-group-addon"><i class="fa fa-group" aria-hidden="true"></i></div>
+		<select class="form-control" name="team_id" id="applicationTeam" required>
+			<option value="-1" selected>--</option>
+			{% for team in __SELF__.teams %}
+			{% if not __SELF__.sloth.isInTeam(team) %}
+			<option value="{{ team.id }}">{{ team.title }}</option>
+			{% endif %}
+			{% endfor %}
+		</select>
 	</div>
 
-		<div>
-				<textarea class="form-control" placeholder="Write something to the team you're applying for" name="message" style="height:125px;"></textarea>
-		</div>
+	<div>
+			<textarea class="form-control" placeholder="Write something to the team you're applying for" name="message" style="height:125px;"></textarea>
+	</div>
+	<br>
 
-		<br>
+	<button type="submit" class="btn btn-primary form-control">Send Application</button>
 
-		<button type="submit" class="btn btn-primary form-control">Send Application</button>
-
-		{{ form_close() }}
+	{{ form_close() }}
 
 {% else %}
 	<p>There are no teams accepting applications right now that you haven't applied to yet.</p>
