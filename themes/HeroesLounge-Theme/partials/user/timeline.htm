@@ -18,20 +18,24 @@ maxPerSubentity = -1
         <li class="nav-item">
             <a class="nav-link active" href="#tl-user-{{user.id}}" data-toggle="tab" role="tab">{{user.username}}</a>
         </li>
-        {% if user.sloth.team %}
+        {% if user.sloth.teams|length > 0 %}
+        {% for team in user.sloth.teams %}
         <li class="nav-item">
-            <a class="nav-link" href="#tl-team-{{user.sloth.team.id}}" data-toggle="tab" role="tab">{{user.sloth.team.slug}}</a>
+            <a class="nav-link" href="#tl-team-{{team.id}}" data-toggle="tab" role="tab">{{team.slug}}</a>
         </li>
+        {% endfor %}
         {% endif %}
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="tl-user-{{user.id}}" role="tabpanel">
             {% component 'TimelineEntries' id= user.sloth.id %}
         </div>
-        {% if user.sloth.team %}
-        <div class="tab-pane" id="tl-team-{{user.sloth.team.id}}" role="tabpanel">
-            {% component 'teamLine' id= user.sloth.team.id %}
+        {% if user.sloth.teams|length > 0 %}
+        {% for team in user.sloth.teams %}
+        <div class="tab-pane" id="tl-team-{{team.id}}" role="tabpanel">
+            {% component 'teamLine' id= team.id %}
         </div>
+        {% endfor %}
         {% endif %}
     </div>
 </div>
