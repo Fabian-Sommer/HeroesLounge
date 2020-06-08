@@ -20,14 +20,15 @@ maxEntries = 2
         {% for team in user.sloth.teams %}
         {% if team.active_divisions | length > 0 %}
             {% for div in team.active_divisions %}
-            {% if div.season %}
-            <h4><a href="{{ 'season/division'|page({slug: div.season.slug, divslug: div.slug})}}"> {{div.title}}</a></h4>
-            {% elseif div.playoff %}
-            <h4><a href="{{ 'playoff/view'|page({'playoff-title': div.playoff.title})}}"> {{div.title}}</a></h4>
-            {% else %}
-            <h4> {{div.title}} </h4>
-            {% endif %}
             <div class="tab-pane {% if loop.first %}active{% endif %}" id="standings-{{div.id}}-{{team.id}}" role="tabpanel">
+                {% if div.season %}
+                <h4><a href="{{ 'season/division'|page({slug: div.season.slug, divslug: div.slug})}}"> {{div.title}}</a></h4>
+                {% elseif div.playoff %}
+                <h4><a href="{{ 'playoff/view'|page({'playoff-title': div.playoff.title})}}"> {{div.title}}</a></h4>
+                {% else %}
+                <h4> {{div.title}} </h4>
+                {% endif %}
+                
                 {% component 'DivisionTable' id = div.id teamId = team.id %}
             </div>
             {% endfor %}
