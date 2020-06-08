@@ -302,19 +302,11 @@
 {% else %}
 <div class="jumbotron">
     <h1 class="display-3">Hello {{__SELF__.user.username}}!</h1>
-    {% if __SELF__.user.sloth.team_id == __SELF__.team.id %}
     <p class="lead">
-        You cheeky lil' sloth wanted to mutiny against your captain, eh? <br/> Not this time! <br/> ..But you may try again
-        later.
+        You can not manage a team that you are not the captain of!
     </p>
-
-    {% else %}
     <p class="lead">
-        You cheeky lil' sloth wanted to undercut your enemy? <br/> Not this time! <br/> ..But you may try again later.
-    </p>
-    {% endif %}
-    <p class="lead">
-        <a class="btn btn-primary btn-lg float-right" href="/" role="button">End the mutiny and go back to Home!</a>
+        <a class="btn btn-primary btn-lg float-right" href="/" role="button">Go back</a>
     </p>
 </div>
 {% endif %}

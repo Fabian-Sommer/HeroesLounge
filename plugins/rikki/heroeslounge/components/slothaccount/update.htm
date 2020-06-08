@@ -292,10 +292,8 @@
 
     <!-- START APPLICATIONS TAB -->
     <div class="tab-pane" id="apps" role="tabpanel">
-
         <blockquote>
-            {% if __SELF__.sloth.team_id
-            <=0 %}<a href="{{'application/create' | page}}">Create a new application</a> {% endif %}
+            <a href="{{'application/create' | page}}">Create a new application</a>
         </blockquote>
 
         {% component 'viewApps' %}
