@@ -48,17 +48,15 @@ force_show = 0
 
     {% partial 'user/posts' %}
 
-        {% partial 'user/notifications' %}
+    {% partial 'user/notifications' %}
 
-        {% partial 'user/standings' %}
+    {% partial 'user/standings' %}
 
-        {% if user.sloth.teams|length > 0 %}
-            {% partial 'user/matches' %}
-        {% endif %}
+    {% partial 'user/matches' %}
 
-        {% partial 'user/recentResults' %}
+    {% partial 'user/recentResults' %}
 
-        {% partial 'user/timeline' %}
+    {% partial 'user/timeline' %}
 
     </div>
 
