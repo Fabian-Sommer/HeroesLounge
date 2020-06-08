@@ -3,18 +3,36 @@ maxEntries = 2
 
 [viewBag]
 ==
-{% if user.sloth.team  and user.sloth.team.active_divisions | length > 0 %}
+{% if user.sloth.teams|length > 0 %}
 <div class="col-md-6 col-12">
-    <h3>Standings</h3>
-    {% for div in user.sloth.team.active_divisions %}
-        {% if div.season %}
-        <h4><a href="{{ 'season/division'|page({slug: div.season.slug, divslug: div.slug})}}"> {{div.title}}</a></h4>
-        {% elseif div.playoff %}
-        <h4><a href="{{ 'playoff/view'|page({'playoff-title': div.playoff.title})}}"> {{div.title}}</a></h4>
-        {% else %}
-        <h4> {{div.title}} </h4>
+    <ul class="nav nav-tabs">
+        {% for team in user.sloth.teams %}
+        {% if team.active_divisions | length > 0 %}
+            {% for div in team.active_divisions %}
+            <li class="nav-item">
+                <a class="nav-link {% if loop.first %}active{% endif %}" href="#standings-{{div.id}}-{{team.id}}" data-toggle="tab" role="tab">{{team.slug}}</a>
+            </li>
+            {% endfor %}
         {% endif %}
-        {% component 'DivisionTable' id = div.id teamId = user.sloth.team.id%}
-    {% endfor %}
+        {% endfor %}
+    </ul>
+    <div class="tab-content">
+        {% for team in user.sloth.teams %}
+        {% if team.active_divisions | length > 0 %}
+            {% for div in team.active_divisions %}
+            {% if div.season %}
+            <h4><a href="{{ 'season/division'|page({slug: div.season.slug, divslug: div.slug})}}"> {{div.title}}</a></h4>
+            {% elseif div.playoff %}
+            <h4><a href="{{ 'playoff/view'|page({'playoff-title': div.playoff.title})}}"> {{div.title}}</a></h4>
+            {% else %}
+            <h4> {{div.title}} </h4>
+            {% endif %}
+            <div class="tab-pane {% if loop.first %}active{% endif %}" id="standings-{{div.id}}-{{team.id}}" role="tabpanel">
+                {% component 'DivisionTable' id = div.id teamId = team.id %}
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </div>
 </div>
 {% endif %}
