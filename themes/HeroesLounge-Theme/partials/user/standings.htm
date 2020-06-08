@@ -3,22 +3,19 @@ maxEntries = 2
 
 [viewBag]
 ==
-{% if user.sloth.teams|length > 0 %}
+{% if user.sloth.teams is not empty %}
 <div class="col-md-6 col-12">
     <ul class="nav nav-tabs">
         {% for team in user.sloth.teams %}
-        {% if team.active_divisions | length > 0 %}
             {% for div in team.active_divisions %}
             <li class="nav-item">
-                <a class="nav-link {% if loop.first %}active{% endif %}" href="#standings-{{div.id}}-{{team.id}}" data-toggle="tab" role="tab">{{team.slug}}</a>
+                <a class="nav-link {% if loop.first %}active{% endif %}" href="#standings-{{div.id}}-{{team.id}}" data-toggle="tab" role="tab">{{team.title}}</a>
             </li>
             {% endfor %}
-        {% endif %}
         {% endfor %}
     </ul>
     <div class="tab-content">
         {% for team in user.sloth.teams %}
-        {% if team.active_divisions | length > 0 %}
             {% for div in team.active_divisions %}
             <div class="tab-pane {% if loop.first %}active{% endif %}" id="standings-{{div.id}}-{{team.id}}" role="tabpanel">
                 {% if div.season %}
@@ -32,7 +29,6 @@ maxEntries = 2
                 {% component 'DivisionTable' id = div.id teamId = team.id %}
             </div>
             {% endfor %}
-        {% endif %}
         {% endfor %}
     </div>
 </div>

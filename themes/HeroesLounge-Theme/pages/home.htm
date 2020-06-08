@@ -7,69 +7,34 @@ force_show = 0
 
 ==
 {% if user %}
-
 <div class="container">
-
     <div class="row my-5">
-
         <div class="column col-md-8">
-
             {% partial 'user/welcome' %}
-
         </div>
-
         <div class="column col-md-4">
-
             <form role="search" method="get" class="search-form" name="form" action="{{ 'search' | page }}" style="margin-top: 15px;">
-
-                <input
-
-                    type="search"
-
-                    class="search-field form-control"
-
-                    placeholder="{{ 'sidebar.search.placeholder' | _ }}"
-
+                <input type="search" class="search-field form-control" placeholder="{{ 'sidebar.search.placeholder' | _ }}"
                     value="{{ q }}" name="q" title="Search for:"  />
 
                 <button class="btn btn-primary-custom" type="submit">
-
                     <i class="fa fa-search" aria-hidden="true" color="white"></i>
-
                 </button>
-
             </form>
-
         </div>
-
     </div>
-
     <div class="row">
-
-    {% partial 'user/posts' %}
-
-    {% partial 'user/notifications' %}
-
-    {% partial 'user/standings' %}
-
-    {% partial 'user/matches' %}
-
-    {% partial 'user/recentResults' %}
-
-    {% partial 'user/timeline' %}
-
+        {% partial 'user/posts' %}
+        {% partial 'user/notifications' %}
+        {% partial 'user/standings' %}
+        {% partial 'user/matches' %}
+        {% partial 'user/recentResults' %}
+        {% partial 'user/timeline' %}
     </div>
-
 </div>
-
 {% else %}
-
 {% partial 'sections/intro' %}
-
 {% partial 'sections/features' %}
-
 {% partial 'sections/posts' %}
-
 {% partial 'sections/follow' %}
-
 {% endif %}

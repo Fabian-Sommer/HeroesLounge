@@ -9,12 +9,12 @@ type = "team"
 casterFilter = "off"
 
 ==
-{% if user.sloth.teams|length > 0 %}
+{% if user.sloth.teams is not empty %}
 <div class="col-md-6 col-12">
     <ul class="nav nav-tabs">
         {% for team in user.sloth.teams %}
         <li class="nav-item">
-            <a class="nav-link {% if loop.first %}active{% endif %}" href="#upcomingMatches-{{team.id}}" data-toggle="tab" role="tab">{{team.slug}}</a>
+            <a class="nav-link {% if loop.first %}active{% endif %}" href="#upcomingMatches-{{team.id}}" data-toggle="tab" role="tab">{{team.title}}</a>
         </li>
         {% endfor %}
     </ul>

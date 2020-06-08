@@ -45,7 +45,7 @@ class CreateApp extends ComponentBase
             return Redirect::to('/');
         }
 
-        $appliedTo = Application::where('user_id', $this->sloth->user_id)->lists('team_id');
+        $appliedTo = Application::where('user_id', $this->sloth->user_id)->pluck('team_id');
         $this->teams = Teams::where('disbanded', 0)->where('accepting_apps', 1)->where('region_id', $this->sloth->region_id)->whereNotIn('id', $appliedTo)->orderBy('title')->get();
     }
 
