@@ -6,4 +6,11 @@ is_hidden = 0
 [CasterSchedule]
 daysInFuture = 50
 ==
+
+{% if user %}
 {% component 'CasterSchedule' %}
+{% else %}
+<div>
+  You must be logged in to view this page.
+</div>
+{% endif %}
