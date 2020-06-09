@@ -3,7 +3,7 @@
  
 
 use Cms\Classes\ComponentBase;
-use Rikki\Heroeslounge\Models\Sloth as Sloths;
+use Rikki\Heroeslounge\Models\Sloth;
 use Auth;
 
 class CasterSchedule extends ComponentBase
@@ -19,50 +19,53 @@ class CasterSchedule extends ComponentBase
     public $caster = null;
     public function init()
     {
-        $this->caster = Auth::getUser()->sloth;
+        $user = Auth::getUser();
+        if ($user) {
+            $this->caster = Sloth::getFromUser($user);
 
-        $component = $this->addComponent(
-                        'Rikki\Heroeslounge\Components\UpcomingMatches',
-                        'upcomingMatchesPending',
-                        [
-                            'deferredBinding'   => true,
-                            'daysInFuture'           => $this->property('daysInFuture'),
-                            'showLogo'          => true,
-                            'showName' => false,
-                            'type' => 'caster',
-                            'showCasters' => true,
-                            'id' => $this->caster->id,
-                            'casterFilter' => 'pending'
-                        ]
-                    );
-        $component = $this->addComponent(
-                        'Rikki\Heroeslounge\Components\UpcomingMatches',
-                        'upcomingMatchesAccepted',
-                        [
-                            'deferredBinding'   => true,
-                            'daysInFuture'           => $this->property('daysInFuture'),
-                            'showLogo'          => true,
-                            'showName' => false,
-                            'type' => 'caster',
-                            'showCasters' => true,
-                            'id' => $this->caster->id,
-                            'casterFilter' => 'accepted'
-                        ]
-                    );
-        $component = $this->addComponent(
-                        'Rikki\Heroeslounge\Components\UpcomingMatches',
-                        'upcomingMatchesDenied',
-                        [
-                            'deferredBinding'   => true,
-                            'daysInFuture'           => $this->property('daysInFuture'),
-                            'showLogo'          => true,
-                            'showName' => false,
-                            'type' => 'caster',
-                            'showCasters' => true,
-                            'id' => $this->caster->id,
-                            'casterFilter' => 'denied'
-                        ]
-                    );
+            $component = $this->addComponent(
+                            'Rikki\Heroeslounge\Components\UpcomingMatches',
+                            'upcomingMatchesPending',
+                            [
+                                'deferredBinding'   => true,
+                                'daysInFuture'           => $this->property('daysInFuture'),
+                                'showLogo'          => true,
+                                'showName' => false,
+                                'type' => 'caster',
+                                'showCasters' => true,
+                                'id' => $this->caster->id,
+                                'casterFilter' => 'pending'
+                            ]
+                        );
+            $component = $this->addComponent(
+                            'Rikki\Heroeslounge\Components\UpcomingMatches',
+                            'upcomingMatchesAccepted',
+                            [
+                                'deferredBinding'   => true,
+                                'daysInFuture'           => $this->property('daysInFuture'),
+                                'showLogo'          => true,
+                                'showName' => false,
+                                'type' => 'caster',
+                                'showCasters' => true,
+                                'id' => $this->caster->id,
+                                'casterFilter' => 'accepted'
+                            ]
+                        );
+            $component = $this->addComponent(
+                            'Rikki\Heroeslounge\Components\UpcomingMatches',
+                            'upcomingMatchesDenied',
+                            [
+                                'deferredBinding'   => true,
+                                'daysInFuture'           => $this->property('daysInFuture'),
+                                'showLogo'          => true,
+                                'showName' => false,
+                                'type' => 'caster',
+                                'showCasters' => true,
+                                'id' => $this->caster->id,
+                                'casterFilter' => 'denied'
+                            ]
+                        );
+        }
     }
 
     public function defineProperties()
