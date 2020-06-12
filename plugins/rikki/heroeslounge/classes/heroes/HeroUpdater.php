@@ -13,6 +13,8 @@ class HeroUpdater
 {
     public static function updateHeroes()
     {
+        Log::info('Updating hero and talent images');
+        
         $hero_list = SELF::getHeroesList();
         foreach($hero_list as $hero_entry) {
             if (Hero::where('title', $hero_entry['name'])->count() == 0) {
@@ -49,9 +51,9 @@ class HeroUpdater
             foreach($talent_tier as $talent_data) {
                 $talent = null;
 
-                if (Talent::where('title', 'IS NOT', $talent_data['name'])->where('hero_id', $hero_model->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
+                if (Talent::where('title', '<>', $talent_data['name'])->where('hero_id', $hero_model->id)->where('replay_title', $talent_data['talentTreeId'])->first()) {
                     // We encountered this talent earlier during replay parsing, but weren't able to populate all of it's data at the time.
-                    $talent = Talent::where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $hero_model->id)->firstOrFail();
+                    $talent = Talent::where('title', '<>', $talent_data['name'])->where('replay_title', $talent_data['talentTreeId'])->where('hero_id', $hero_model->id)->firstOrFail();
                     $talent->title = $talent_data['name'];
                     $talent->save();
                     Log::info('Talent information updated: ' . $talent_data['name']);
@@ -117,6 +119,10 @@ class HeroUpdater
         }
 
         if (file_exists($talent_image_path.DS.$icon_url) && filesize($talent_image_path.DS.$icon_url) >= 500) {
+            if ($talent_model->image_url != $icon_url) {
+                $talent_model->image_url = $icon_url;
+                $talent_model->save();
+            }
             return;
         }
 
