@@ -279,7 +279,7 @@ class Team extends Model
         $this->_saveTimelineEntry('Team.Deleted');
     }
     
-    private function _saveTimelineEntry($timelineEntryType)
+    public function _saveTimelineEntry($timelineEntryType)
     {
         $timeline = new Timeline();
         $timeline->type = $timelineEntryType;
