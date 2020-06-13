@@ -79,6 +79,14 @@
                 <p><a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a> failed to upload results in time and is now inactive.</p>
                 <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
 
+            {% elseif timelineEntry.type == 'Team.leftDivision' %}
+                <p><a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a> is unable to continue and is now inactive.</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
+            {% elseif timelineEntry.type == 'Team.rejoinedDivision' %}
+                <p><a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a> has rejoined the division and is now active.</p>
+                <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
+
             {%  elseif timelineEntry.type == 'Team.Created'  %}
                 <p>A new challenger approaches. <a href="{{ 'user/view'|page({ id: timelineEntry.sloths[0].id }) }}">{{ timelineEntry.sloths[0].title }}</a> has created the new team <a href="{{ 'team/view'|page({ slug: timelineEntry.teams[0].slug }) }}">{{timelineEntry.teams[0].title}}</a>!</p>
                 <span class="cd-date">{{ timelineEntry.created_at | date('M d H:i')}}</span>
