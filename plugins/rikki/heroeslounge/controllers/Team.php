@@ -89,29 +89,6 @@ class Team extends Controller
         }
     }
 
-    public function onRelationManagePivotUpdate($model)
-    {
-        if ($_POST['_relation_field'] == 'divisions') {
-            $divisionId = $_POST['manage_id'];
-            $newActivityStatus = $_POST['Division']['pivot']['active'];
-            $team = TeamModel::findOrFail($model);
-
-            $updatedModel = $team->divisions->first(function($division) use($divisionId) {
-                return $division->id == $divisionId;
-            });
-
-            if ($updatedModel && $updatedModel->pivot->active != $newActivityStatus ) {
-                if ($newActivityStatus) {
-                    $team->_saveTimelineEntry('Team.rejoinedDivision');
-                } else if (!$newActivityStatus) {
-                    $team->_saveTimelineEntry('Team.leftDivision');
-                }
-            }
-        }
-
-        Controller::onRelationManagePivotUpdate();
-    }
-
     public function onAddSloth()
     {
         $team = TeamModel::find(post('model_id'));

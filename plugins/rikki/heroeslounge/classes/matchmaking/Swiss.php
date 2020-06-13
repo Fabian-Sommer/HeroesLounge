@@ -228,7 +228,6 @@ class Swiss
         $matchesToHandle = [];
 
         foreach ($div->teams()->where('active', 1)->get() as $team) {
-            $timelineType = "";
             //Games is now two weeks old
             $prevWeekMatch = $team->matches()->where('div_id', $div->id)->where('round', $r-1)->first();
             $remove = false;
@@ -238,7 +237,6 @@ class Swiss
                 $team->save();
                 $inactiveTeamCount += 1;
                 $logMessage .= 'Team '.$team->title.' was set inactive due to not playing a match within two weeks. Match ID: ' . $prevWeekMatch->id . "\n";
-                $timelineType = 'Team.failedToUpload';
             }
             //Game is now one week old
             $schedulePrevMatch = $team->matches()->where('div_id', $div->id)->where('round', $r)->first();
@@ -248,12 +246,10 @@ class Swiss
                 $team->save();
                 $inactiveTeamCount += 1;
                 $logMessage .= 'Team '.$team->title.' was set inactive due to not scheduling a match within one week.' . $schedulePrevMatch->id . "\n";
-                $timelineType = 'Team.failedToSchedule';
             }
             if ($remove == true) {
                 $team->pivot->active = false;
                 $team->pivot->save();
-                $team->_saveTimelineEntry($timelineType);
             }
         }
 
