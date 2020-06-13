@@ -84,7 +84,7 @@ class Team extends Controller
                 $timeline->sloths()->add($sloth);
                 $timeline->teams()->add($team);
             }
-        } else { 
+        } else {
             Controller::onRelationButtonRemove();
         }
     }
