@@ -54,7 +54,7 @@ class Navigation extends UserAccount
             }
         }
 
-        $component = $this->addComponent(
+        $this->addComponent(
             'RainLab\Pages\Components\StaticMenu',
             'staticMenuGuides',
             [
@@ -69,6 +69,15 @@ class Navigation extends UserAccount
             [
                 'deferredBinding'   => true,
                 'code' => 'general'
+            
+            ]
+        );
+        $this->addComponent(
+            'RainLab\Pages\Components\StaticMenu',
+            'staticMenuFeatured',
+            [
+                'deferredBinding'   => true,
+                'code' => 'navigation_featured'
             
             ]
         );

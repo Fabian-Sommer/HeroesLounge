@@ -90,20 +90,19 @@
                             <a class="dropdown-item" href="{{ 'season/archive' | page }}">Archive</a>
                         </ul>
                     </li>
+
+                    {% for item in staticMenuFeatured.menuItems %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">Method Mayhem</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">{{item.title}}</a>
                         <ul role="menu" class="dropdown-menu pull-right">
-                            <a class="dropdown-item" href="/method-mayhem-overview">Overview</a>
-                            <a class="dropdown-item" href="/method-mayhem-point-standings">Point Standings</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'method-mayhem-cup-1'})}}">Cup 1</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'method-mayhem-cup-2'})}}">Cup 2</a>
-                            <a class="dropdown-item" href="{{ 'playoff/view' | page({'playoff-title': 'method-mayhem-cup-3'})}}">Signups Cup 3</a>
-                            <a class="dropdown-item" href="/guides/signup-guide">Sign-up Guide</a>
-                            <a class="dropdown-item" href="/method-mayhem-hots-ruleset">Ruleset</a>
-                            <a class="dropdown-item" href="https://matcherino.com/tournaments/29415/overview">Crowdfunding</a>
+                            {% for child in item.items %}
+                            <a class="dropdown-item" href="{{ child.url }}">{{child.title}}</a>
+                            {% endfor %}
                         </ul>
                     </li>
+                    {% endfor %}
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="divsnav" data-toggle="dropdown" aria-haspopup="true"
                           aria-expanded="false">Events</a>
