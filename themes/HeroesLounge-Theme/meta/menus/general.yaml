@@ -1,0 +1,13 @@
+name: general
+items:
+    -
+        title: General
+        nesting: '1'
+        type: static-page
+        code: ''
+        reference: general
+        replace: '1'
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'

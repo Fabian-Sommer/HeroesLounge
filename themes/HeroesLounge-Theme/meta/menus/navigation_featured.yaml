@@ -1,0 +1,83 @@
+name: navigation_featured
+items:
+    -
+        title: 'Method Mayhem'
+        type: header
+        code: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: Overview
+                type: url
+                url: /method-mayhem-overview
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: Standings
+                type: url
+                url: /method-mayhem-point-standings
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Cup 1'
+                type: url
+                url: /tournament/method-mayhem-cup-1
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: dropdown-item
+                    isExternal: '0'
+            -
+                title: 'Cup 2'
+                type: url
+                url: /tournament/method-mayhem-cup-2
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: dropdown-item
+                    isExternal: '0'
+            -
+                title: 'Cup 3'
+                type: url
+                url: /tournament/method-mayhem-cup-3
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: dropdown-item
+                    isExternal: '0'
+            -
+                title: 'Sign-up Guide'
+                type: url
+                url: /guides/signup-guide
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: Ruleset
+                type: url
+                url: /method-mayhem-hots-ruleset
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: Crowdfunding
+                type: url
+                url: 'https://matcherino.com/tournaments/29415/overview'
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
