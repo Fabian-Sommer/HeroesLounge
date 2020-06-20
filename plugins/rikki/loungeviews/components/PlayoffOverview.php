@@ -282,8 +282,15 @@ class PlayoffOverview extends ComponentBase
                 $diff = 4.625;
                 $top = 40.0625 + (2**(floor(($dec_position['round']-1)/2)) - 1) * $diff / 2 + ($dec_position['matchnumber']-1) * $diff* 2**(floor(($dec_position['round']-1)/2));
             } else if ($dec_position['bracket'] == 3) {
-                $left = $round_width*7;
-                $top = 33.0625;
+                if ($this->playoff->type == 'de8') {
+                    $roundsBeforeFinal = 5;
+                    $top = 25;
+                } else {
+                    $roundsBeforeFinal = 7;
+                    $top = 33.0625;
+                }
+                $left = $round_width*$roundsBeforeFinal;
+                
             }
         } else if ($this->playoff->type == 'de8short') {
             if ($dec_position['bracket'] == 1) {
