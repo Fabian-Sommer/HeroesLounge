@@ -2,7 +2,46 @@ title = "Events Archive"
 url = "/events/archive"
 layout = "plain"
 is_hidden = 0
-==
+contentType = "html"
+force_show = 0
 
+[staticMenu staticMenuEventsArchive]
+code = "events_archive"
+==
 <h1>Events Archive</h1>
-{% content 'static-pages/events-archive' %}
+
+<div id="accordion">
+
+	{% for item in staticMenuEventsArchive.menuItems %}
+
+	<div class="card">
+
+		<div class="card-header" id="card{{loop.index}}">
+
+			<h5 class="mb-0"><a class="collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapse_card{{loop.index}}">{{item.title}}</a></h5>
+
+		</div>
+
+		<div class="collapse" id="collapse_card{{loop.index}}">
+
+			<div class="card-body">
+
+				<ul class="list-group">
+
+					{% for child in item.items %}
+
+					<li class="list-group-item"><a href="{{ child.url }}">{{child.title}}</a></li>
+
+					{% endfor %}
+
+				</ul>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	{% endfor %}
+
+</div>
