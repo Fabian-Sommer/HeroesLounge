@@ -164,12 +164,12 @@ class HeroUpdater
         curl_close($ch);
         if ($content_type != 'application/xml') {
             $portrait_url = ucfirst($hero_short_name);
-            $file = fopen($hero_image_path.DS.$portrait_url, "w+");
+            $file = fopen($hero_image_path.DS.$portrait_url.".png", "w+");
             fputs($file, $hero_portrait);
             fclose($file);
-            Resizer::open($hero_image_path.DS.$portrait_url)
+            Resizer::open($hero_image_path.DS.$portrait_url.".png")
                 ->resize(75, 75)
-                ->save($hero_image_path.DS.$portrait_url, 100);
+                ->save($hero_image_path.DS.$portrait_url.".png", 100);
 
             $hero_model->image_url = $portrait_url;
             $hero_model->save();
