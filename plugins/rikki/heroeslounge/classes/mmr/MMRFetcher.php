@@ -6,6 +6,9 @@ use Log;
 
 class MMRFetcher
 {
+    const DEFAULT_MMR = 3000;
+    const MINIMUM_MATCHES_PER_GAMEMODE = 150;
+
     public static function fetchMMR()
     {
         $sloths = SlothModel::where('mmr', 0)->get();
@@ -52,7 +55,7 @@ class MMRFetcher
 
         curl_close($ch);
 
-        SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => 2700]);
+        SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => self::DEFAULT_MMR]);
         if ($output != "null") {
             $data = json_decode($output, true);
 
@@ -83,16 +86,16 @@ class MMRFetcher
                     $sumWeight = 0;
                     $sumMMR = 0;
 
-                    if ($mmrs["Storm League"] != -1000 && $games_played["Storm League"] >= 10) {
+                    if ($mmrs["Storm League"] != -1000 && $games_played["Storm League"] >= self::MINIMUM_MATCHES_PER_GAMEMODE) {
                         $sumWeight += $slWeight;
                         $sumMMR += $mmrs["Storm League"] * $slWeight;
                     }
-                    if ($mmrs["Unranked Draft"] != -1000 && $games_played["Unranked Draft"] >= 20) {
+                    if ($mmrs["Unranked Draft"] != -1000 && $games_played["Unranked Draft"] >= self::MINIMUM_MATCHES_PER_GAMEMODE) {
                         $sumWeight += $udWeight;
                         $sumMMR += $mmrs["Unranked Draft"] * $udWeight;
                     }
 
-                    if ($sumMMR == 0 && $games_played["Quick Match"] >= 25) {
+                    if ($sumMMR == 0 && $games_played["Quick Match"] >= self::MINIMUM_MATCHES_PER_GAMEMODE) {
                         $sumMMR += $mmrs["Quick Match"];
                         $sumWeight = 1;
                     } else {
