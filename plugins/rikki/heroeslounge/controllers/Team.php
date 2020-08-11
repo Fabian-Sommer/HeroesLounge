@@ -76,7 +76,13 @@ class Team extends Controller
         if ($_POST['_relation_field'] == 'sloths') {
             foreach ($_POST['checked'] as $key => $sloth_id) {
                 $team = TeamModel::where('title', $_POST['Team']['title'])->first();
+                $sloth = Sloth::findOrFail($sloth_id);
                 Db::table('rikki_heroeslounge_sloth_team')->where('team_id', $team->id)->where('sloth_id', $sloth_id)->where('deleted_at', NULL)->update(['deleted_at' => Carbon::now()]);
+                $timeline = new Timeline();
+                $timeline->type = 'Sloth.Left.Team';
+                $timeline->save();
+                $timeline->sloths()->add($sloth);
+                $timeline->teams()->add($team);
             }
         } else {
             Controller::onRelationButtonRemove();
@@ -92,6 +98,11 @@ class Team extends Controller
             return $team->id == $team_id;
         })) {
             Db::insert('insert into rikki_heroeslounge_sloth_team (sloth_id, team_id, created_at, updated_at) values (?, ?, ?, ?)', [$sloth->id, $team->id, Carbon::now(), Carbon::now()]);
+            $timeline = new Timeline();
+            $timeline->type = 'Sloth.Joins.Team';
+            $timeline->save();
+            $timeline->sloths()->add($sloth);
+            $timeline->teams()->add($team);
         }
         return Redirect::refresh();
     }
