@@ -35,7 +35,7 @@
     </thead>
     <tbody>
         {% for team in __SELF__.teams[__SELF__.startIndex:__SELF__.length] %}
-        <tr {% if user.sloth.team.id == team.id or __SELF__.selTeam == team.id %} class="table-success" {% endif %}>
+        <tr {% if user.sloth.isInTeam(team) or __SELF__.selTeam == team.id %} class="table-success" {% endif %}>
             <th scope="row">{{loop.index+__SELF__.startIndex}}</th>
             <td>
                 {% if team.disbanded == false %}
@@ -47,12 +47,12 @@
             <td><a href="{{ 'team/view'|page({ slug: team.slug }) }}" style="color:#34495e;text-decoration:underline">{{team.title}}</a></td>
             <td>{{team.pivot.match_count}}</td>
             {% if __SELF__.showScore %}
-            <td class="score notext">{{team.score}}</td>
-            <td class="score notext">{{team.map_score}}</td>
+            <td class="score">{{team.score}}</td>
+            <td class="score">{{team.map_score}}</td>
             {% else %}
-            <td class="score notext">{{team.pivot.win_count}}</td>
-            <td class="score notext">{{team.game_wins}}</td>
-            <td class="score notext">{{team.game_wins - team.game_losses}}</td>
+            <td class="score">{{team.pivot.win_count}}</td>
+            <td class="score">{{team.game_wins}}</td>
+            <td class="score">{{team.game_wins - team.game_losses}}</td>
             {% endif %}
         </tr>
         {% endfor %}

@@ -9,9 +9,21 @@ type = "team"
 casterFilter = "off"
 
 ==
-{% if user.sloth.team %}
-    <div class="col-md-6 col-12">
-	<h3>Upcoming Matches</h3>
-    {% component 'UpcomingMatches' id = user.sloth.team.id %}
+{% if user.sloth.teams is not empty %}
+<div class="col-md-6 col-12">
+    <ul class="nav nav-tabs">
+        {% for team in user.sloth.teams %}
+        <li class="nav-item">
+            <a class="nav-link {% if loop.first %}active{% endif %}" href="#upcomingMatches-{{team.id}}" data-toggle="tab" role="tab">{{team.title}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="tab-content">
+        {% for team in user.sloth.teams %}
+        <div class="tab-pane {% if loop.first %}active{% endif %}" id="upcomingMatches-{{team.id}}" role="tabpanel">
+            {% component 'UpcomingMatches' id = team.id %}
+        </div>
+        {% endfor %}
     </div>
+</div>
 {% endif %}

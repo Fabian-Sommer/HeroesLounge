@@ -5,51 +5,36 @@ is_hidden = 0
 contentType = "html"
 force_show = 0
 
-[UpcomingMatches]
-daysInFuture = 14
-showLogo = 1
-showName = 1
-showCasters = 1
-type = "team"
-id = "all"
-casterFilter = "off"
 ==
-{% if user %}
-<div class="container">
-    <div class="row my-5">
-        <div class="column col-md-8">
-            {% partial 'user/welcome' %}
-        </div>
-        <div class="column col-md-4">
-            <form role="search" method="get" class="search-form" name="form" action="{{ 'search' | page }}" style="margin-top: 15px;">
-                <input
-                    type="search"
-                    class="search-field form-control"
-                    placeholder="{{ 'sidebar.search.placeholder' | _ }}"
-                    value="{{ q }}" name="q" title="Search for:"  />
-                <button class="btn btn-primary-custom" type="submit">
-                    <i class="fa fa-search" aria-hidden="true" color="white"></i>
-                </button>
-            </form>
-        </div>
-    </div>
-    <div class="row">
-    {% partial 'user/posts' %}
-        {% partial 'user/notifications' %}
-        {% partial 'user/standings' %}
-        {% if user.sloth.team %}
-            <div class="col-md-6 col-12">
-        	<h3>Your Upcoming Matches</h3>
-            {% component 'UpcomingMatches' id = user.sloth.team.id %}
-            </div>
-        {% endif %}
-        {% partial 'user/recentResults' %}
-        {% partial 'user/timeline' %}
-    </div>
-</div>
-{% else %}
-{% partial 'sections/intro' %}
-{% partial 'sections/features' %}
-{% partial 'sections/posts' %}
-{% partial 'sections/follow' %}
+{% if user %}
+<div class="container">
+    <div class="row my-5">
+        <div class="column col-md-8">
+            {% partial 'user/welcome' %}
+        </div>
+        <div class="column col-md-4">
+            <form role="search" method="get" class="search-form" name="form" action="{{ 'search' | page }}" style="margin-top: 15px;">
+                <input type="search" class="search-field form-control" placeholder="{{ 'sidebar.search.placeholder' | _ }}"
+                    value="{{ q }}" name="q" title="Search for:"  />
+
+                <button class="btn btn-primary-custom" type="submit">
+                    <i class="fa fa-search" aria-hidden="true" color="white"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        {% partial 'user/posts' %}
+        {% partial 'user/notifications' %}
+        {% partial 'user/standings' %}
+        {% partial 'user/matches' %}
+        {% partial 'user/recentResults' %}
+        {% partial 'user/timeline' %}
+    </div>
+</div>
+{% else %}
+{% partial 'sections/intro' %}
+{% partial 'sections/features' %}
+{% partial 'sections/posts' %}
+{% partial 'sections/follow' %}
 {% endif %}
