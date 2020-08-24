@@ -49,6 +49,7 @@ tabs:
             label: 'Current Round'
             span: auto
             type: number
+            comment: 'This needs to be 0 before matchmaking runs for the first time!'
             disabled: 0
             tab: General
         is_active:
