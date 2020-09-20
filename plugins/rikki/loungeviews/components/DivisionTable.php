@@ -42,6 +42,7 @@ class DivisionTable extends ComponentBase
             } else {
                 //calculate game wins
                 foreach ($this->teams as $team) {
+                    $team->match_wins = 0;
                     $team->game_wins = 0;
                     $team->game_losses = 0;
                 }
@@ -52,18 +53,20 @@ class DivisionTable extends ComponentBase
                         $teamTwo = $this->teams->where('id', $match->teams[1]->id)->first();
 
                         if ($teamOne) {
-                            $this->teams->where('id', $teamOne->id)->first()->game_wins += $match->teams[0]->pivot->team_score;
-                            $this->teams->where('id', $teamOne->id)->first()->game_losses += $match->teams[1]->pivot->team_score;
+                            $teamOne->match_wins += $match->teams[0]->pivot->team_score > $match->teams[1]->pivot->team_score;
+                            $teamOne->game_wins += $match->teams[0]->pivot->team_score;
+                            $teamOne->game_losses += $match->teams[1]->pivot->team_score;
                         }
 
                         if ($teamTwo) {
-                            $this->teams->where('id', $teamTwo->id)->first()->game_wins += $match->teams[1]->pivot->team_score;
-                            $this->teams->where('id', $teamTwo->id)->first()->game_losses += $match->teams[0]->pivot->team_score;
+                            $teamTwo->match_wins += $match->teams[1]->pivot->team_score > $match->teams[0]->pivot->team_score;
+                            $teamTwo->game_wins += $match->teams[1]->pivot->team_score;
+                            $teamTwo->game_losses += $match->teams[0]->pivot->team_score;
                         } 
                     }        
                 }
                 $this->teams = $this->teams->sortByDesc(function ($team) {
-                    return 1000000*$team->pivot->win_count + 1000*$team->game_wins - 0.01*$team->game_losses - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
+                    return 1000000*$team->match_wins + 1000*$team->game_wins - 0.01*$team->game_losses - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
                 });
             }
 
