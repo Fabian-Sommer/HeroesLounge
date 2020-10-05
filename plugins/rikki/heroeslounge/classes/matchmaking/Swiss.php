@@ -74,7 +74,7 @@ class Swiss
     public function isValidPairing($tId, $oppId, $div)
     {
         //Check if teams played each other before
-        foreach (Teams::find($tId)->matches()->get() as $match) {
+        foreach (Teams::find($tId)->matches()->where('div_id', $div->id)->get() as $match) {
             if (count($match->teams()->where('team_id', $oppId)->get())==1) {
                 return false;
             }
