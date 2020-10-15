@@ -3,7 +3,7 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class BuilderTableUpdateRikkiHeroesloungeSloths11 extends Migration
+class BuilderTableUpdateRikkiHeroesloungeSloths11b extends Migration
 {
     public function up()
     {

@@ -3,13 +3,13 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class BuilderTableUpdateRikkiHeroesloungeSloths9 extends Migration
+class BuilderTableUpdateRikkiHeroesloungeSloths7b extends Migration
 {
     public function up()
     {
         Schema::table('rikki_heroeslounge_sloths', function($table)
         {
-            $table->integer('all_mmr');
+            $table->integer('hotslogs_id')->nullable()->unsigned();
         });
     }
     
@@ -17,7 +17,7 @@ class BuilderTableUpdateRikkiHeroesloungeSloths9 extends Migration
     {
         Schema::table('rikki_heroeslounge_sloths', function($table)
         {
-            $table->dropColumn('all_mmr');
+            $table->dropColumn('hotslogs_id');
         });
     }
 }
