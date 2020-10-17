@@ -325,7 +325,7 @@
                                     <span class="text-dark">{{player.title}}</span>
                                     {% endif %}
                                 </td>
-                                {% for talent in player.talents|sort((a, b) => a.talent_tier > b.talent_tier) %} {% set path = 'assets/img/talents/' ~talent.image_url %}
+                                {% for talent in player.talents %} {% set path = 'assets/img/talents/' ~talent.image_url %}
                                 <td class="align-middle">
                                     <img src="{{path | theme}}" class="Icon32x" alt="{{talent.title}}" title="{{talent.title}}" loading="lazy">
                                 </td>
