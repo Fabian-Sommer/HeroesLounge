@@ -198,26 +198,13 @@ class TimelineEntries extends ComponentBase
                     break;
                 case 'sloth':
                     $timeline = new Collection([]);
-                    Timeline::with('sloths')->orderBy('created_at', 'desc')->chunk(100, function ($someTimelines) use ($id, $timeline) {
-                        foreach ($someTimelines as $timelineEntry) {
-                            $include = false;
-                            if (!empty($timelineEntry->sloths)) {
-                                foreach ($timelineEntry->sloths as $sloth) {
-                                    if ($sloth->id == $id) {
-                                        $include = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if ($include) {
-                                $timeline->push($timelineEntry);
-                                if ($timeline->count() == $this->property('maxItems')) {
-                                    return false;
-                                    break;
-                                }
-                            }
+                    $sloth = Sloth::with('timeline')->where('id', $id)->first();
+                    foreach ($sloth->timeline->sortByDesc('created_at') as $timelineEntry) {
+                        $timeline->push($timelineEntry);
+                        if ($timeline->count() == $this->property('maxItems')) {
+                            break;
                         }
-                    });
+                    }
                     break;
                 case 'match':
                     $timeline = new Collection([]);
