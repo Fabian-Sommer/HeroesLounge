@@ -28,6 +28,9 @@ class GameStatistics extends ComponentBase
     public function onRender()
     {
         $this->game = Game::find($this->property('game_id'));
+        if ($this->game->winner_id) {
+            $this->game->load('gameParticipations', 'gameParticipations.sloth', 'gameParticipations.hero', 'gameParticipations.talents');
+        }
         $this->lazy = $this->property('lazy') ? 'lazy' : 'auto';
     }
 
