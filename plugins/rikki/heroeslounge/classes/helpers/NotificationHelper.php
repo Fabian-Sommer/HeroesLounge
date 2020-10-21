@@ -182,20 +182,20 @@ class NotificationHelper
             if ($sloth->isCaptain()) {
                 $retVal[] = [
                     'type' => 'warning',
-                    'message' => 'You arent\'t listed to participate in '.$season->title.'. You can register as a free agent or you can sign up your team on the season page!',
+                    'message' => 'You are not listed to participate in '.$season->title.'. You can register as a free agent or you can sign up your team on the season page!',
                     'entity' => $season->toArray()
                 ];
             } else {
                 $retVal[] = [
                     'type' => 'warning',
-                    'message' => 'Your arent\'t listed to participate in '.$season->title.'. You can register as a free agent or your captain can sign up the team on the season page!.',
+                    'message' => 'Your are not listed to participate in '.$season->title.'. You can register as a free agent or your captain can sign up the team on the season page!.',
                     'entity' => $season->toArray()
                 ];
             }
         } else {
             $retVal[] = [
                 'type' => 'warning',
-                'message' => 'You aren\'t listed to participate in '.$season->title.'. You can register as a free agent or join a particpating team.',
+                'message' => 'You are not listed to participate in '.$season->title.'. You can register as a free agent or join a particpating team.',
                 'entity' => $season->toArray()
             ];
         }
