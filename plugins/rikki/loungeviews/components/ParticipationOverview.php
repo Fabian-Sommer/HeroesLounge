@@ -29,7 +29,7 @@ class ParticipationOverview extends ComponentBase
     public function onRender()
     {
         $this->user = Auth::getUser();
-        $this->season = Seasons::find($this->property('id'));
+        $this->season = Seasons::with('teams', 'teams.sloths', 'teams.sloths.user', 'teams.sloths.role', 'teams.logo', 'free_agents', 'free_agents.user.avatar', 'free_agents.role')->where('id', $this->property('id'))->first();
         if ($this->user && $this->season) {
             $this->userCaptainedTeams = $this->user->sloth->getCaptainedTeams();
             foreach ($this->user->sloth->teams as $key => $team) {
