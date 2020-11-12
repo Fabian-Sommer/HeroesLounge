@@ -1,82 +1,89 @@
 name: navigation_featured
 items:
     -
-        title: 'Method Mayhem'
+        title: Events
+        nesting: ''
         type: header
+        url: ''
         code: ''
+        reference: ''
+        cmsPage: ''
+        replace: ''
         viewBag:
             isHidden: '0'
             cssClass: ''
             isExternal: '0'
         items:
             -
-                title: Overview
+                title: 'Nexus Rumble Upper'
+                nesting: ''
                 type: url
-                url: /method-mayhem-overview
+                url: /nexus-rumble-1/nexus-rumble-upper-1
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Nexus Rumble Lower'
+                nesting: ''
+                type: url
+                url: /nexus-rumble-1/nexus-rumble-lower-1
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '1'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: Archive
+                nesting: ''
+                type: url
+                url: /events/archive
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] Offseason 13-14 ARAM'
+                type: url
+                url: /eu-offseason-13-14-aram
                 code: ''
                 viewBag:
                     isHidden: '0'
                     cssClass: ''
                     isExternal: '0'
             -
-                title: Standings
+                title: 'ARAM League Ruleset'
+                nesting: ''
                 type: url
-                url: /method-mayhem-point-standings
+                url: /aram-league-ruleset
                 code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
                 viewBag:
                     isHidden: '0'
                     cssClass: ''
                     isExternal: '0'
             -
-                title: 'Cup 1'
+                title: 'Just For Fun Charity Tournament'
+                nesting: ''
                 type: url
-                url: /tournament/method-mayhem-cup-1
+                url: /tournament/charity-tournament
                 code: ''
-                viewBag:
-                    isHidden: '0'
-                    cssClass: dropdown-item
-                    isExternal: '0'
-            -
-                title: 'Cup 2'
-                type: url
-                url: /tournament/method-mayhem-cup-2
-                code: ''
-                viewBag:
-                    isHidden: '0'
-                    cssClass: dropdown-item
-                    isExternal: '0'
-            -
-                title: 'Cup 3'
-                type: url
-                url: /tournament/method-mayhem-cup-3
-                code: ''
-                viewBag:
-                    isHidden: '0'
-                    cssClass: dropdown-item
-                    isExternal: '0'
-            -
-                title: 'Sign-up Guide'
-                type: url
-                url: /guides/signup-guide
-                code: ''
-                viewBag:
-                    isHidden: '0'
-                    cssClass: ''
-                    isExternal: '0'
-            -
-                title: Ruleset
-                type: url
-                url: /method-mayhem-hots-ruleset
-                code: ''
-                viewBag:
-                    isHidden: '0'
-                    cssClass: ''
-                    isExternal: '0'
-            -
-                title: Crowdfunding
-                type: url
-                url: 'https://matcherino.com/tournaments/29415/overview'
-                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
                 viewBag:
                     isHidden: '0'
                     cssClass: ''

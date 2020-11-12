@@ -1,0 +1,15 @@
+title = "timezone"
+url = "/timezone"
+is_hidden = 0
+contentType = "html"
+force_show = 0
+==
+<?php
+function onStart()
+{
+    session_start();
+    $_SESSION['time'] = $_GET['time'];
+    echo($_SESSION['time']);
+}
+?>
+==
