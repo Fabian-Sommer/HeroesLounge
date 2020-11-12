@@ -181,6 +181,11 @@ class Sloth extends Model
         }
     }
 
+    public function isInTeam($team)
+    {
+        return $this->teams->contains($team);
+    }
+
     //checks if any of this users teams are signed up for the season.
     //Just for signup phase of seasons.
     public function isInTeamParticipatingInSeason($season) {
