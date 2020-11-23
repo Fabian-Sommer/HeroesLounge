@@ -274,6 +274,10 @@ class SlothAccount extends UserAccount
             $sloth->user->rules['username'] = 'required|unique:users|between:2,18';
         }
 
+        if ($data['email']) {
+            unset($data['email']);
+        }
+
         $validation = Validator::make($data, $sloth->user->rules);
         if ($validation->fails()) {
             //throw new ValidationException($validation);
