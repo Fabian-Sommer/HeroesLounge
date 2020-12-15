@@ -3,8 +3,10 @@ modelClass: Rikki\Heroeslounge\Models\Playoff
 list: $/rikki/heroeslounge/models/playoff/columns.yaml
 recordUrl: 'rikki/heroeslounge/playoff/update/:id'
 noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: '20'
 showSetup: true
 showCheckboxes: true
+showSorting: 1
 toolbar:
     buttons: list_toolbar
     search:

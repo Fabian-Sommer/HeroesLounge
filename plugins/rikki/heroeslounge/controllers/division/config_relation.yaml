@@ -10,6 +10,8 @@ teams:
         toolbarButtons: add|remove
     manage:
         showSearch: true
+        recordsPerPage: 20
+        list: $/rikki/heroeslounge/models/team/relation_columns.yaml
 timeline:
     label: Timeline Entries
     view:

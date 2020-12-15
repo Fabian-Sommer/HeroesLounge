@@ -3,8 +3,13 @@ modelClass: Rikki\Heroeslounge\Models\Division
 list: $/rikki/heroeslounge/models/division/columns.yaml
 recordUrl: 'rikki/heroeslounge/division/update/:id'
 noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: '20'
 showSetup: true
 showCheckboxes: true
+showSorting: 1
+defaultSort:
+    column: title
+    direction: asc
 toolbar:
     buttons: list_toolbar
     search:
