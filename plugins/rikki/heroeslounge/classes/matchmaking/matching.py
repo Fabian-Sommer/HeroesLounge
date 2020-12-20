@@ -19,4 +19,4 @@ for i in range(len(matching_assignment)):
     if (i < matching_assignment[i]):
         matching_edges.append([i, matching_assignment[i]])
 
-print matching_edges
+print(matching_edges)

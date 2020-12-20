@@ -15,7 +15,7 @@ class Swiss
     public $byeId = 204; //Stores the ID of the BYE team
     public $matchesToHandle; //Stores unscheduled/unplayed matches to take care off after deporting teams
     public $currentRound;
-    private static $pythonPath = 'python2.7 ';
+    private static $pythonPath = 'python3 ';
 
     public function createMatches($pairings, $div) {
         $timeoffset = ($pairings[0][0]->region_id - 1)*36000;
@@ -166,7 +166,7 @@ class Swiss
 
         fclose($file);
         
-        exec(Swiss::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'matchmaking'.DS.'matching.py '.$graph_file_path.' 2>&1', $output, $state);
+        exec(Swiss::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'matchmaking'.DS.'matching.py '.$graph_file_path.' 2>&1', $output);
         $matching = json_decode($output[0]);
         $team_pairs = [];
         foreach ($matching as $key => $m) {
@@ -203,8 +203,6 @@ class Swiss
         if ($byePair != null) {
             $pairings[] = $byePair;
         }
-
-        Log::info("Matching for " . $div->slug . " : " . json_encode($pairings));
 
         $this->createMatches($pairings, $div);
 

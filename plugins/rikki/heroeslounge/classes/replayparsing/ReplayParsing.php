@@ -32,7 +32,7 @@ class ReplayParsing
     private $participationList = null;
     private $talentTierCounters = null;
     private $indizesToSlotId = null;
-    private static $pythonPath = 'python2.7 ';//'python '
+    private static $pythonPath = 'python3 ';
 
     public static function parseAllReplays($modify_winners = false)
     {

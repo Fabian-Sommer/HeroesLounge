@@ -32,6 +32,16 @@ class EventLogger:
     def __init__(self):
         self._event_stats = {}
 
+    def makeJsonCompatibleDict(self, myobject):
+        if isinstance(myobject, dict):
+            for key, value in myobject.items():
+                myobject[key] = self.makeJsonCompatibleDict(value)
+        elif isinstance(myobject, list):
+            myobject = [self.makeJsonCompatibleDict(value) for value in myobject]
+        elif isinstance(myobject, bytes):
+            myobject = myobject.decode('utf-8')
+        return myobject
+
     def log(self, output, event):
         # update stats
         if '_event' in event and '_bits' in event:
@@ -41,10 +51,10 @@ class EventLogger:
             self._event_stats[event['_event']] = stat
         # write structure
         if args.json:
-            s = json.dumps(event, ensure_ascii=False, encoding="utf-8");
-            print(s);
+            s = json.dumps(self.makeJsonCompatibleDict(event), ensure_ascii=False)
+            print(s)
         else:
-            pprint.pprint(event, stream=output)
+            pprint.pprint(self.makeJsonCompatibleDict(event), stream=output)
 
     def logExceptMCache(self, output, event):
         # remove m_cacheHandles
@@ -57,10 +67,10 @@ class EventLogger:
             self._event_stats[event['_event']] = stat
         # write structure
         if args.json:
-            s = json.dumps(event, ensure_ascii=False, encoding="utf-8");
-            print(s);
+            s = json.dumps(self.makeJsonCompatibleDict(event), ensure_ascii=False)
+            print(s)
         else:
-            pprint.pprint(event, stream=output)
+            pprint.pprint(self.makeJsonCompatibleDict(event), stream=output)
 
     def logUsefulTrackerEvent(self, output, event):
         # update stats
@@ -78,10 +88,10 @@ class EventLogger:
                     'm_eventName' in event and 
                     event['m_eventName'] == 'TalentChosen'))):
             if args.json:
-                s = json.dumps(event, ensure_ascii=False, encoding="utf-8");
-                print(s);
+                s = json.dumps(self.makeJsonCompatibleDict(event), ensure_ascii=False)
+                print(s)
             else:
-                pprint.pprint(event, stream=output)
+                pprint.pprint(self.makeJsonCompatibleDict(event), stream=output)
 
     def log_stats(self, output):
         for name, stat in sorted(self._event_stats.iteritems(), key=lambda x: x[1][1]):
@@ -114,7 +124,7 @@ if __name__ == '__main__':
     archive = mpyq.MPQArchive(args.replay_file)
 
     logger = EventLogger()
-    logger.args = args;
+    logger.args = args
 
     # Read the protocol header, this can be read with any protocol
     contents = archive.header['user_data_header']['content']
