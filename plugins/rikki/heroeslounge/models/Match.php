@@ -304,12 +304,12 @@ class Match extends Model
                 $this->is_played = true;
 
                 if ($this->wbp == null) {
-                    $this->wbp = time();
+                    $this->wbp = date('Y-m-d H:i:s');
                 }
 
                 $this->save();
             } else {
-                $scheduledTimelineEntry->created_at = time();
+                $scheduledTimelineEntry->created_at = date('Y-m-d H:i:s');
                 $scheduledTimelineEntry->save();
             }
             //playoff
