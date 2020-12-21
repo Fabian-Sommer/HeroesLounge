@@ -127,6 +127,8 @@ class Sloth extends Model
         if ($user->sloth) {
             return $user->sloth;
         }
+
+        return self::where('user_id', $user->id)->first();
     }
 
     public function afterCreate()
