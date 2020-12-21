@@ -127,6 +127,8 @@ class Sloth extends Model
         if ($user->sloth) {
             return $user->sloth;
         }
+
+        return self::where('user_id', $user->id)->first();
     }
 
     public function afterCreate()
@@ -179,6 +181,11 @@ class Sloth extends Model
         } else {
             Flash::error('You are the captain of this team and cannot leave it');
         }
+    }
+
+    public function isInTeam($team)
+    {
+        return $this->teams->contains($team);
     }
 
     //checks if any of this users teams are signed up for the season.

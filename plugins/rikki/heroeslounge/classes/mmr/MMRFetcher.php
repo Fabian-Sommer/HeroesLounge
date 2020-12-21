@@ -32,7 +32,7 @@ class MMRFetcher
 
         foreach ($sloths as $sloth) {
             set_time_limit(30);
-            MMRFetcher::updateMMR($sloth);
+            self::updateMMR($sloth);
         }
         Log::info("Finished fetching MMRs");
     }
@@ -42,7 +42,7 @@ class MMRFetcher
         $sloths = SlothModel::all()->reverse();
         foreach ($sloths as $sloth) {
             set_time_limit(30);
-            MMRFetcher::updateMMR($sloth);
+            self::updateMMR($sloth);
         }
         Log::info("Finished updating MMRs");
     }
@@ -88,7 +88,7 @@ class MMRFetcher
             if ($throttleTime > 0) {
                 set_time_limit($throttleTime + 30);
                 sleep($throttleTime);
-                MMRFetcher::updateMMR($sloth);
+                self::updateMMR($sloth);
             }
         }
     }

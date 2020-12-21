@@ -1,0 +1,222 @@
+name: events_archive
+items:
+    -
+        title: 'Offseason Fiestas'
+        nesting: ''
+        type: header
+        url: ''
+        code: ''
+        reference: ''
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: '[EU] ARAM Season 1'
+                nesting: ''
+                type: url
+                url: '/eu-aram-season 1'
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] ARAM Season 2'
+                nesting: ''
+                type: url
+                url: /eu-aram-season-2/playoff/Group%20Stage
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] Offmeta Maps'
+                nesting: ''
+                type: url
+                url: /tournament/eu-offmeta-maps-season-1-1
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[NA] ARAM League'
+                nesting: ''
+                type: url
+                url: /na-aram-league
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU]Offseason 12-13 ARAM'
+                type: url
+                url: //eu-offseason-12-13-aram
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: 'Partnered Tournaments'
+        nesting: ''
+        type: header
+        url: ''
+        code: ''
+        reference: ''
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: 'Nut Cup'
+                nesting: ''
+                type: url
+                url: /tournament/nut-cup
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Method Mayhem Cup 1'
+                nesting: ''
+                type: url
+                url: /tournament/method-mayhem-cup-1
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Method Mayhem Cup 2'
+                nesting: ''
+                type: url
+                url: /tournament/method-mayhem-cup-2
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Method Mayhem Cup 3'
+                nesting: ''
+                type: url
+                url: /tournament/method-mayhem-cup-3
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Method Mayhem Finals'
+                nesting: ''
+                type: url
+                url: /tournament/method-mayhem-june-tournament
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: 'Division S'
+        nesting: ''
+        type: header
+        url: ''
+        code: ''
+        reference: ''
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: '[EU] Season 1'
+                nesting: ''
+                type: url
+                url: /eu-division-s-season-1
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] Season 2'
+                nesting: ''
+                type: url
+                url: /eu-division-s-season-2
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[NA] Season 1'
+                nesting: ''
+                type: url
+                url: /na-division-s-season-1
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[NA] Season 2'
+                nesting: ''
+                type: url
+                url: /na-division-s-season-2
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'

@@ -165,36 +165,13 @@ class TimelineEntries extends ComponentBase
                     break;
                 case 'team':
                     $timeline = new Collection([]);
-                    Timeline::with('teams', 'matches.teams', 'teams.logo')->orderBy('created_at', 'desc')->chunk(100, function ($someTimelines) use ($id, $timeline) {
-                        foreach ($someTimelines as $timelineEntry) {
-                            $include = false;
-                            if (!empty($timelineEntry->teams)) {
-                                foreach ($timelineEntry->teams as $team) {
-                                    if ($team->id == $id) {
-                                        $include = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (!$include && !empty($timelineEntry->matches)) {
-                                foreach ($timelineEntry->matches as $match) {
-                                    foreach ($match->teams as $team) {
-                                        if ($team->id == $id) {
-                                            $include = true;
-                                            break(2);
-                                        }
-                                    }
-                                }
-                            }
-                            if ($include) {
-                                $timeline->push($timelineEntry);
-                                if ($timeline->count() == $this->property('maxItems')) {
-                                    return false;
-                                    break;
-                                }
-                            }
+                    $team = Team::with('timeline')->where('id', $id)->first();
+                    foreach ($team->timeline->sortByDesc('created_at') as $timelineEntry) {
+                        $timeline->push($timelineEntry);
+                        if ($timeline->count() == $this->property('maxItems')) {
+                            break;
                         }
-                    });
+                    }
                     break;
                 case 'sloth':
                     $timeline = new Collection([]);

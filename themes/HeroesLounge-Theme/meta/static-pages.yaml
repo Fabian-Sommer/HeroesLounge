@@ -2,3 +2,30 @@ static-pages:
     guides:
         guides-new-captains-guide-heroes-lounge: {  }
         guides-scheduling-and-reporting-matches: {  }
+        guides-signup-guide: {  }
+        guides-aram-signup-guide: {  }
+        guides-guide-scheduling-and-playing-your-frist-game: {  }
+        guides-uploading-replays: {  }
+    privacy-statement:
+        general-rules: {  }
+    general:
+        playoff-rules: {  }
+        general-test: {  }
+        schedule: {  }
+        general-hall-fame: {  }
+    general-staff: {  }
+    faqpage: {  }
+    division-s-overview: {  }
+    division-s-ruleset:
+        division-s-ruleset-division-s-playoffs: {  }
+    division-s-crew: {  }
+    division-s-standings: {  }
+    division-s-schedule: {  }
+    heroes-cup-emim: {  }
+    aram-league-ruleset: {  }
+    testriggingpage: {  }
+    division-s-qualifier-standings: {  }
+    ruleset: {  }
+    tournament-ruleset: {  }
+    method-mayhem-overview: {  }
+    method-mayhem-point-standings: {  }

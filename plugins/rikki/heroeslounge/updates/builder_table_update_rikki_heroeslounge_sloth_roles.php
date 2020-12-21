@@ -12,7 +12,8 @@ class BuilderTableUpdateRikkiHeroesloungeSlothRoles extends Migration
         {
             $table->renameColumn('role', 'title');
         });
-                 Db::table('rikki_heroeslounge_sloth_roles')->insert([
+        
+        Db::table('rikki_heroeslounge_sloth_roles')->insert([
             ['title' => 'Tank'],
             ['title' => 'Support'],
             ['title' => 'Flex'],
