@@ -48,7 +48,7 @@ class Navigation extends UserAccount
         if ($this->user != null) {
             $this->sloth = SlothModel::getFromUser($this->user);
 
-            if ($this->sloth->timezone == '') {
+            if ($this->sloth && $this->sloth->timezone == '') {
                 $this->sloth->timezone = TimezoneHelper::getTimezone();
                 $this->sloth->save();
             }
