@@ -26,7 +26,7 @@ class BlogPage extends origin
 
     protected function getPostSibling($direction = 1)
     {
-        if (!$this->post) {
+        if (get_class($this->post) !== 'Indikator\Content\Models\Blog') {
             return;
         }
 
