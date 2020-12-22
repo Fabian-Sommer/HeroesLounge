@@ -78,7 +78,7 @@ class MMRFetcher
             $data = json_decode($output, true);
             if ($data != null && array_key_exists($battletag, $data)) {
                 $mmrData = $data[$battletag];
-                SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => getMMR($mmrData)]);
+                SlothModel::where('id', $sloth->id)->update(['heroesprofile_mmr' => self::getMMR($mmrData)]);
             }
         }
 
