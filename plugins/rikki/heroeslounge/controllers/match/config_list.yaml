@@ -4,10 +4,12 @@ list: $/rikki/heroeslounge/models/match/columns.yaml
 recordUrl: 'rikki/heroeslounge/match/update/:id'
 noRecordsMessage: 'backend::lang.list.no_records'
 recordsPerPage: '20'
-showPageNumbers: false
 showSetup: true
 showCheckboxes: true
 showSorting: 1
+defaultSort:
+    column: wbp
+    direction: desc
 toolbar:
     buttons: list_toolbar
     search:
