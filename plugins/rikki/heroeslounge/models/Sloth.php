@@ -171,6 +171,10 @@ class Sloth extends Model
         if ($this->isDirty('battle_tag') || $this->heroesprofile_id == null) {
             IDFetcher::fetchIDHeroesProfile($this);
         }
+
+        if ($this->isDirty('role_id') && $this->role_id == -1) {
+            $this->role_id = null;
+        }
     }
 
     public function leaveTeam($team)
