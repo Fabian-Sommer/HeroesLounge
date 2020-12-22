@@ -1,4 +1,7 @@
 columns:
+    id:
+        label: id
+        type: number
     teamA:
         label: 'Team A'
         type: text
