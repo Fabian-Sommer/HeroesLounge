@@ -98,7 +98,7 @@
         <div class="text-center">
             <figure class="fixure mx-auto mb-0">
                 {% if __SELF__.game.replay %}
-                    <a href="{{__SELF__.game.replay.path}}">
+                    <a href="{{__SELF__.game.replay.path}}" download>
                         <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{game.map.title}}" title="Click to download the replay file"
                             style="max-width:234px" loading={{__SELF__.lazy}}>
                     </a>
