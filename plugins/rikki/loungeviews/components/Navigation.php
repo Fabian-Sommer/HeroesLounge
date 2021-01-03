@@ -35,6 +35,8 @@ class Navigation extends UserAccount
     public $user = null;
     public $sloth = null;
     public $current_amateurseasons = null;
+    public $current_eu_amateurseasons = null;
+    public $current_na_amateurseasons = null;
     public $divsseasons = null;
 
     public function init()
@@ -42,6 +44,11 @@ class Navigation extends UserAccount
         parent::init();
 
         $this->current_amateurseasons = Season::where('type', 1)->with('divisions', 'playoffs')->where('is_active', 1)->orderBy('created_at','desc')->get();
+        $this->current_amateurseasons = $this->current_amateurseasons->groupBy('region_id');
+
+        $this->current_eu_amateurseasons = $this->current_amateurseasons->get('1');
+        $this->current_na_amateurseasons = $this->current_amateurseasons->get('2');
+
         $this->divsseasons = Season::where('type', 2)->orderBy('created_at','desc')->get();
 
         $this->user = Auth::getUser();
