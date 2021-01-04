@@ -77,7 +77,7 @@ class ReplayParsing
             return;
         }
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
+        @chdir('/var/www/html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         exec(ReplayParsing::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'replayparsing'.DS.'parseReplay.py --details --json ' . $this->replay->getLocalPath(), $output);
         if (is_array($output) && array_key_exists(0, $output)) {
             $this->decodedDetails = json_decode($output[0], true);
@@ -103,7 +103,7 @@ class ReplayParsing
             return;
         }
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
+        @chdir('/var/www/html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         exec(ReplayParsing::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'replayparsing'.DS.'parseReplay.py --attributeevents --json ' . $this->replay->getLocalPath(), $output);
         if (is_array($output) && array_key_exists(0, $output)) {
             $this->decodedAttributeEvents = json_decode($output[0], true);
@@ -122,7 +122,7 @@ class ReplayParsing
             return;
         }
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
+        @chdir('/var/www/html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         exec(ReplayParsing::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'replayparsing'.DS.'parseReplay.py --header --json ' . $this->replay->getLocalPath(), $output);
         if (is_array($output) && array_key_exists(0, $output)) {
             $this->decodedHeader = json_decode($output[0], true);
@@ -141,7 +141,7 @@ class ReplayParsing
             return;
         }
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
+        @chdir('/var/www/html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         exec(ReplayParsing::$pythonPath.'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'replayparsing'.DS.'parseReplay.py --trackerevents --json ' . $this->replay->getLocalPath(), $output);
         if (is_array($output) && array_key_exists(0, $output)) {
             $this->decodedTrackerEvents = [];

@@ -128,7 +128,7 @@ class Swiss
         $matches = $div->matches;
         $teams = $teams->values();
         defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-        @chdir('public_html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
+        @chdir('/var/www/html'); //working directory may already be here depending from where this is called, the @ suppresses the error in that case
         $graph_file_path = 'plugins'.DS.'rikki'.DS.'heroeslounge'.DS.'classes'.DS.'matchmaking'.DS.'matching.txt';
         $file = fopen($graph_file_path, "w");
 
