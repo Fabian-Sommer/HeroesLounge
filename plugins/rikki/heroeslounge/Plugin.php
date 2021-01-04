@@ -105,10 +105,10 @@ class Plugin extends PluginBase
 
     public function boot()
     {
-        Event::listen('rainlab.user.login', function ($user) {
-            $msg = NotificationHelper::generateMessages($user);
-            Session::put('notifications',$msg);
-        });
+        // Event::listen('rainlab.user.login', function ($user) {
+        //     $msg = NotificationHelper::generateMessages($user);
+        //     Session::put('notifications',$msg);
+        // });
 
         Event::listen('offline.sitesearch.query', function ($query) {
             $items = SlothModel::where('title', 'like', "%${query}%")->get();
