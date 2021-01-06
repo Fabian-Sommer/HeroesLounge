@@ -86,7 +86,7 @@ class EventLogger:
                 event['_event'] == 'NNet.Replay.Tracker.SHeroPickedEvent' or 
                 (event['_event'] == 'NNet.Replay.Tracker.SStatGameEvent' and 
                     'm_eventName' in event and 
-                    event['m_eventName'] == 'TalentChosen'))):
+                    event['m_eventName'].decode('utf-8') == 'TalentChosen'))):
             if args.json:
                 s = json.dumps(self.makeJsonCompatibleDict(event), ensure_ascii=False)
                 print(s)
