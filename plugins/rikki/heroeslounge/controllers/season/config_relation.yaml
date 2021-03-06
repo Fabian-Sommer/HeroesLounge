@@ -62,7 +62,6 @@ free_agents:
                     label: Title
         toolbarButtons: add|remove
     manage:
-        list:
-            columns:
-                title:
-                    label: Title
+        showSearch: true
+        recordsPerPage: 20
+        list: $/rikki/heroeslounge/models/sloth/free_agent_columns.yaml

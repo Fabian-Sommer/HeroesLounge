@@ -1,0 +1,13 @@
+columns:
+    id:
+        label: Sloth ID
+        type: number
+        searchable: true
+    title:
+        label: Title
+        type: text
+        searchable: true
+        sortable: true
+    battle_tag:
+        label: Battletag
+        type: text
