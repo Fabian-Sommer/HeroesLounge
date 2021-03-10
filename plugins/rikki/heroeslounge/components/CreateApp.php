@@ -58,7 +58,7 @@ class CreateApp extends ComponentBase
                 $this->sloth = SlothModel::getFromUser($user);
                 $team = Teams::findOrFail(post('team_id'));
 
-                if ($sloth->isInTeam($team)) {
+                if ($this->sloth->isInTeam($team)) {
                     Flash::error('You are already a member of ' . $team->title . '!');
                     return Redirect::refresh();
                 }
