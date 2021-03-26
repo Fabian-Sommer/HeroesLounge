@@ -26,11 +26,11 @@ class Team extends Model
     public $rules = [
         'title' => 'unique:rikki_heroeslounge_teams,title|required|between:4,127',
         'slug' => 'unique:rikki_heroeslounge_teams,slug|required|between:2,50',
-        'twitch_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?twitch\.tv\/[a-zA-Z0-9][\w]{2,24}(\/)?$/u'],
-        'facebook_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?facebook\.com\/[A-Za-z0-9\.]{3,}(\/)?$/u'],
-        'twitter_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?twitter\.com\/([a-zA-Z0-9_]+)(\/)?$/u'],
-        'youtube_url' => ['url', 'regex:/^http[s]?:\/\/(www\.)?youtube\.com\/(channel|user|c)\/([a-zA-Z0-9_\-]+)(\/)?$/u'],
-        'website_url' => ['url', 'regex:/^((?!porn).)*$/u']
+        'twitch_url' => ['nullable', 'url', 'regex:/^http[s]?:\/\/(www\.)?twitch\.tv\/[a-zA-Z0-9][\w]{2,24}(\/)?$/u'],
+        'facebook_url' => ['nullable', 'url', 'regex:/^http[s]?:\/\/(www\.)?facebook\.com\/[A-Za-z0-9\.]{3,}(\/)?$/u'],
+        'twitter_url' => ['nullable', 'url', 'regex:/^http[s]?:\/\/(www\.)?twitter\.com\/([a-zA-Z0-9_]+)(\/)?$/u'],
+        'youtube_url' => ['nullable', 'url', 'regex:/^http[s]?:\/\/(www\.)?youtube\.com\/(channel|user|c)\/([a-zA-Z0-9_\-]+)(\/)?$/u'],
+        'website_url' => ['nullable', 'url', 'regex:/^((?!porn).)*$/u']
     ];
 
     protected $slugs = ['slug' => 'title'];
