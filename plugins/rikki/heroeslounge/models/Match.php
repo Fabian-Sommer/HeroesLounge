@@ -405,4 +405,9 @@ class Match extends Model
         $bracket = $w2 - $round;
         return ['bracket' => $bracket, 'round' => $round, 'matchnumber' => $matchnumber];
     }
+
+    public function getPlayoffRound()
+    {
+        return Self::decodePlayoffPosition($this->playoff_position)['round'];
+    }
 }

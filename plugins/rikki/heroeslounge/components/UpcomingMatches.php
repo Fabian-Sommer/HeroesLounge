@@ -15,6 +15,7 @@ use Request;
 use Carbon\Carbon;
 use Log;
 use RainLab\User\facades\Auth;
+use October\Rain\Support\Collection;
 
 class UpcomingMatches extends ComponentBase
 {
@@ -84,25 +85,39 @@ class UpcomingMatches extends ComponentBase
         }
         if ($myEntity) {
             if ($type == 'all') {
-                $matches = Matches::with('teams', 'teams.logo', 'casters', 'channels', 'division')->where('winner_id', null)->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->orderBy('wbp', 'asc')->get();
+                $matches = Matches::with('teams', 'teams.logo', 'casters', 'channels', 'division')->where('winner_id', null)->orderBy('wbp', 'asc')->orderBy('id', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
             } elseif ($type == 'caster') {
                 if ($this->idApp == 'denied') {
-                    $matches = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '2')->where('winner_id', null)->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
+                    $matches = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '2')->where('winner_id', null)->orderBy('wbp', 'asc')->orderBy('id', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
                 } elseif ($this->idApp == 'accepted') {
-                    $matches = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '1')->where('winner_id', null)->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
+                    $matches = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '1')->where('winner_id', null)->orderBy('wbp', 'asc')->orderBy('id', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
                 } elseif ($this->idApp == 'pending') {
-                    $matches = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '0')->where('winner_id', null)->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
+                    $matches = $myEntity->castMatches()->where('rikki_heroeslounge_match_caster.approved', '=', '0')->where('winner_id', null)->orderBy('wbp', 'asc')->orderBy('id', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
                 } else {
-                    $matches = $myEntity->castMatches()->orderBy('wbp', 'asc')->where('winner_id', null)->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
+                    $matches = $myEntity->castMatches()->where('winner_id', null)->orderBy('wbp', 'asc')->orderBy('id', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
                 }
             } else {
                 $matches = $myEntity->matches()->with('teams', 'teams.logo', 'casters', 'channels')->orderBy('wbp', 'asc')->where('wbp', '>=', Carbon::today())->where('wbp', '<=', Carbon::today()->addDays($daysInFuture))->get();
             }
-            $this->datesToMatches = $matches->groupBy(
-                function ($match) use ($timezoneName) {
+            $this->datesToMatches = $matches->groupBy(function ($match) use ($timezoneName) {
                     return Carbon::parse($match->wbp)->setTimezone($timezoneName)->format('d-M-y');
                 }
-            );
+            )->map(function($dateMatches) {
+                $listedRounds = new Collection([]);
+
+                return $dateMatches->filter(function($match) use($listedRounds) {
+                    if (!$match->playoff) {
+                        return true;
+                    } else {
+                        $roundNumber = $match->getPlayoffRound();
+                        if (!$listedRounds->contains($roundNumber)) {
+                            $listedRounds->push($match->getPlayoffRound());
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+            });
         }
     }
 
