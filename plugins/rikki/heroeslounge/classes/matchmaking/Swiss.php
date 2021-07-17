@@ -21,6 +21,12 @@ class Swiss
         $timeoffset = ($pairings[0][0]->region_id - 1)*36000;
         $schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 21:55')+$timeoffset);
         $tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 21:55')+$timeoffset);
+        
+        // if it's the last round, games must be played until next friday (+5 days)
+        if ($div->season->current_round == 10) {
+	        $tbp = date('Y-m-d H:i:s', strtotime('+5 days sunday 21:55')+$timeoffset);
+        } 
+        
         $created_at = date('Y-m-d H:i:s' , strtotime('now'));
         foreach ($pairings as $pairing) {
             $this->createMatch($pairing, $div, $div->season->current_round, $created_at, $schedule_date, $tbp);
