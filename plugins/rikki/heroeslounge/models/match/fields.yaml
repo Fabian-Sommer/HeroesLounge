@@ -4,14 +4,12 @@ tabs:
             label: To be played before
             span: auto
             type: datepicker
-            disabled: true
             mode: datetime
             tab: General
         schedule_date:
             label: To be scheduled before
             span: auto
             type: datepicker
-            disabled: true
             mode: datetime
             tab: General
         wbp:
