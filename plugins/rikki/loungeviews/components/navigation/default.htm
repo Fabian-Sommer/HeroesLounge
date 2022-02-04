@@ -76,7 +76,11 @@
                             aria-expanded="false">{{item.title}}</a>
                         <ul role="menu" class="dropdown-menu pull-right">
                             {% for child in item.items %}
-                            <a class="dropdown-item" href="{{ child.url }}" target="_blank">{{child.title}}</a>
+                            {% if item.title == "Merch+" %}
+                                <a class="dropdown-item" href="{{ child.url }}" target="_blank">{{child.title}}</a>
+                            {% else %}
+                                <a class="dropdown-item" href="{{ child.url }}">{{child.title}}</a>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                     </li>
