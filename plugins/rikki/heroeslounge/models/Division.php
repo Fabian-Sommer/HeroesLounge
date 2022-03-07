@@ -119,11 +119,17 @@ class Division extends Model
         }
         foreach ($this->matches as $match) {
             if ($match->winner) {
-                $teams->where('id', $match->winner->id)->first()->score += 3;
+                $winningTeam = $teams->where('id', $match->winner->id)->first();
+                if ($winningTeam) {
+                    $winningTeam->score += 3;
+                }
             } elseif ($match->is_played) {
                 //tie
                 foreach($match->teams as $team) {
-                    $teams->where('id', $team->id)->first()->score++;
+                    $t = $teams->where('id', $team->id)->first();
+                    if ($t) {
+                        $t->score += 1;
+                    }
                 }
             }
 
