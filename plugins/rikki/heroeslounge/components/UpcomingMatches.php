@@ -109,7 +109,7 @@ class UpcomingMatches extends ComponentBase
     public function onCastRequest()
     {
         $match = Match::findOrFail(input('match_id'));
-        $match->casters()->attach(Sloths::findOrFail(input('caster_id')));
+        $match->casters()->syncWithoutDetaching(Sloths::findOrFail(input('caster_id')));
         $divId = "#divCasterRequests" . input('match_id');
         return [
             $divId => $this->renderPartial('@casterRequests', ['user' => Auth::getUser(), 'match' => $match])
