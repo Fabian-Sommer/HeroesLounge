@@ -49,6 +49,7 @@ class Plugin extends PluginBase
             'Rikki\Heroeslounge\Components\CreateApp' => 'CreateApp',
             'Rikki\Heroeslounge\Components\ViewApps' => 'ViewApps',
             'Rikki\Heroeslounge\Components\RssFeed' => 'RssFeed',
+            'Rikki\Heroeslounge\Components\ReplayList' => 'ReplayList',
         ];
     }
 
