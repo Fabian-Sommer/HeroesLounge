@@ -138,8 +138,12 @@ if __name__ == '__main__':
     try:
         protocol = build(baseBuild)
     except:
-        print >> sys.stderr, 'Unsupported base build: %d' % baseBuild
-        sys.exit(1)
+        # Usually, versions don't change anything. Try with v87306
+        try:
+            protocol = build(87306)
+        except:
+            print('Unsupported base build: %d' % baseBuild, file=sys.stderr)
+            sys.exit(1)
 
     # Print protocol details
     if args.details:
