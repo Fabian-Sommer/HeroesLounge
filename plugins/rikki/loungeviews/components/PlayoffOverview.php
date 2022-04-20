@@ -373,12 +373,12 @@ class PlayoffOverview extends ComponentBase
             $team = $this->user->sloth->teams->where('id', $_POST['team_id'])->first();
             if ($team != null && $team->pivot->is_captain && $team->region_id == $this->playoff->region_id && !$this->playoff->teams->contains($team)) {
                 $eligible = $team->isEligibleForPlayoff($this->playoff);
-                if ($eligible === true && $team->sloths->count() >= 5) {
+                if ($eligible === true && $team->sloths->count() >= 2) {
                     $this->playoff->teams()->add($team);
                     Flash::success('Your team is now signed up for '.$this->playoff->title);
                     return Redirect::refresh();
-                } elseif ($team->sloths->count() < 5) {
-                    Flash::error('Your team must contain at least 5 players!');
+                } elseif ($team->sloths->count() < 2) {
+                    Flash::error('Your team must contain at least 2 players!');
                     return Redirect::refresh();
                 } else {
                     //$eligible holds a sloth that is already participating with another team
