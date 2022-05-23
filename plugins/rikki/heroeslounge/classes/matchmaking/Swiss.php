@@ -298,6 +298,9 @@ class Swiss
 
         foreach ($divs as $div) {
             $this->saveUnsavedMatches($div);
+            if ($s->title == "[EU]Season 18" && $div->title == "Division 1") {
+                continue;
+            }
             $this->findInactiveTeams($div, $s->current_round);
         }
 
@@ -312,6 +315,9 @@ class Swiss
         $s->save();
 
         foreach ($divs as $div) {
+            if ($s->title == "[EU]Season 18" && $div->title == "Division 1") {
+                continue;
+            }
             $this->makeMatches($div);
         }
     }
