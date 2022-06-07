@@ -254,6 +254,8 @@ class ReplayParsing
             $map = Map::where('translations', 'LIKE', '%'.$this->decodedDetails["m_title"].'%')->first();
         }
         $this->game->map = $map;
+        $this->game->teamOne = $this->match->teams[0];
+        $this->game->teamTwo = $this->match->teams[1];
 
         //identify teams - replay has teams 0 and 1, website has teams 0 and 1, we need to match them
         $getBattleTagNames = function ($sloth) {
@@ -291,8 +293,6 @@ class ReplayParsing
             $secondReplayTeam = 1;
         }
 
-        $this->game->teamOne = $this->match->teams[$firstReplayTeam];
-        $this->game->teamTwo = $this->match->teams[$secondReplayTeam];
         $prevGameParts = GameParticipation::where('game_id', $this->game->id)->get();
         foreach ($prevGameParts as $pgp) {
         	$pgp->talents()->detach();
@@ -300,81 +300,82 @@ class ReplayParsing
         GameParticipation::where('game_id', $this->game->id)->delete();
         //get details for each player, build GameParticipation for each
         foreach ($this->decodedDetails["m_playerList"] as $playerDetails) {
-            if ($playerDetails["m_observe"] == 0) {
-                $participation = new GameParticipation();
-                $participation->game_id = $this->game->id;
-                $participation->title = $playerDetails["m_name"];
-                $hero = Hero::where('title', $playerDetails["m_hero"])->first();
-                if (!$hero) {
-                    //game client might be localized, try translations
-                    if ($playerDetails["m_hero"] == "Ана") {
-                        $hero = Hero::where('title', "Ana")->first(); //otherwise, this would match Sylvanas instead of Ana
-                    } else {
-                        $hero = Hero::where('translations', 'LIKE', '%'.$playerDetails["m_hero"].'%')->first();
-                    }
-                }
-                if (!$hero) {
-                    $hero = Hero::orderBy('id', 'desc')->first();
-                    $hero->translations = $hero->translations . "," . $playerDetails["m_hero"];
-                    $hero->save();
-                    Log::error("Hero not found: " . $playerDetails["m_hero"] . ". Guessed " . $hero->title);
-                }
-                $participation->hero = $hero;
-                if ($playerDetails["m_teamId"] == 0) {
-                    $participation->team_id = $this->match->teams[$firstReplayTeam]->id;
-                    // Retrieve all the sloths with matching Heroes Profile ID and then filter on battletag name.
-                    $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->get()->first(function ($sloth) use ($playerDetails) {
-                        return strtolower(explode('#', $sloth->battle_tag)[0]) == strtolower($playerDetails["m_name"]);
-                    });
-
-                    if (isset($participatingSloth)) {
-                        $participation->sloth = $participatingSloth;
-                    } else {
-                        $teamKey = array_search(strtolower($playerDetails["m_name"]), $firstTeamNames);
-                        if ($teamKey !== false) {
-                            $participation->sloth = $this->match->teams[$firstReplayTeam]->sloths[$teamKey];
-                        } else {
-                            //player might be a sub, we got to check all sloths now
-                            $allKey = array_search(strtolower($playerDetails["m_name"]), $this->allSlothNames);
-                            if ($allKey !== false) {
-                                $participation->sloth = Sloth::all()[$allKey];
-                            }
-                        }
-                    }
-                } elseif ($playerDetails["m_teamId"] == 1) {
-                    $participation->team_id = $this->match->teams[$secondReplayTeam]->id;
-                    // Retrieve all the sloths with matching Heroes Profile ID and then filter on battletag name.
-                    $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->get()->first(function ($sloth) use ($playerDetails) {
-                        return strtolower(explode('#', $sloth->battle_tag)[0]) == strtolower($playerDetails["m_name"]);
-                    });
-
-                    if (isset($participatingSloth)) {
-                        $participation->sloth = $participatingSloth;
-                    } else {
-                        $teamKey = array_search(strtolower($playerDetails["m_name"]), $secondTeamNames);
-                        if ($teamKey !== false) {
-                            $participation->sloth = $this->match->teams[$secondReplayTeam]->sloths[$teamKey];
-                        } else {
-                            //player might be a sub, we got to check all sloths now
-                            $allKey = array_search(strtolower($playerDetails["m_name"]), $this->allSlothNames);
-                            if ($allKey !== false) {
-                                $participation->sloth = Sloth::all()[$allKey];
-                            }
-                        }
-                    }
-                }
-                if ($playerDetails["m_result"] == 1 && $modify_winner) {
-                    if ($playerDetails["m_teamId"] == 0) {
-                        $this->game->winner_id = $this->match->teams[$firstReplayTeam]->id;
-                    } elseif ($playerDetails["m_teamId"] == 1) {
-                        $this->game->winner_id = $this->match->teams[$secondReplayTeam]->id;
-                    }
-                }
-                $participation->save();
-                $this->participationList[$playerDetails["m_workingSetSlotId"]] = $participation;
-                $this->talentTierCounters[$playerDetails["m_workingSetSlotId"]] = 0;
-                $this->indizesToSlotId[] = $playerDetails["m_workingSetSlotId"];
+            if ($playerDetails["m_observe"] != 0) {
+                continue;
             }
+            $participation = new GameParticipation();
+            $participation->game_id = $this->game->id;
+            $participation->title = $playerDetails["m_name"];
+            $hero = Hero::where('title', $playerDetails["m_hero"])->first();
+            if (!$hero) {
+                //game client might be localized, try translations
+                if ($playerDetails["m_hero"] == "Ана") {
+                    $hero = Hero::where('title', "Ana")->first(); //otherwise, this would match Sylvanas instead of Ana
+                } else {
+                    $hero = Hero::where('translations', 'LIKE', '%'.$playerDetails["m_hero"].'%')->first();
+                }
+            }
+            if (!$hero) {
+                $hero = Hero::orderBy('id', 'desc')->first();
+                $hero->translations = $hero->translations . "," . $playerDetails["m_hero"];
+                $hero->save();
+                Log::error("Hero not found: " . $playerDetails["m_hero"] . ". Guessed " . $hero->title);
+            }
+            $participation->hero = $hero;
+            if ($playerDetails["m_teamId"] == 0) {
+                $participation->team_id = $this->match->teams[$firstReplayTeam]->id;
+                // Retrieve all the sloths with matching Heroes Profile ID and then filter on battletag name.
+                $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->get()->first(function ($sloth) use ($playerDetails) {
+                    return strtolower(explode('#', $sloth->battle_tag)[0]) == strtolower($playerDetails["m_name"]);
+                });
+
+                if (isset($participatingSloth)) {
+                    $participation->sloth = $participatingSloth;
+                } else {
+                    $teamKey = array_search(strtolower($playerDetails["m_name"]), $firstTeamNames);
+                    if ($teamKey !== false) {
+                        $participation->sloth = $this->match->teams[$firstReplayTeam]->sloths[$teamKey];
+                    } else {
+                        //player might be a sub, we got to check all sloths now
+                        $allKey = array_search(strtolower($playerDetails["m_name"]), $this->allSlothNames);
+                        if ($allKey !== false) {
+                            $participation->sloth = Sloth::all()[$allKey];
+                        }
+                    }
+                }
+            } elseif ($playerDetails["m_teamId"] == 1) {
+                $participation->team_id = $this->match->teams[$secondReplayTeam]->id;
+                // Retrieve all the sloths with matching Heroes Profile ID and then filter on battletag name.
+                $participatingSloth = Sloth::where('heroesprofile_id', $playerDetails["m_toon"]["m_id"])->get()->first(function ($sloth) use ($playerDetails) {
+                    return strtolower(explode('#', $sloth->battle_tag)[0]) == strtolower($playerDetails["m_name"]);
+                });
+
+                if (isset($participatingSloth)) {
+                    $participation->sloth = $participatingSloth;
+                } else {
+                    $teamKey = array_search(strtolower($playerDetails["m_name"]), $secondTeamNames);
+                    if ($teamKey !== false) {
+                        $participation->sloth = $this->match->teams[$secondReplayTeam]->sloths[$teamKey];
+                    } else {
+                        //player might be a sub, we got to check all sloths now
+                        $allKey = array_search(strtolower($playerDetails["m_name"]), $this->allSlothNames);
+                        if ($allKey !== false) {
+                            $participation->sloth = Sloth::all()[$allKey];
+                        }
+                    }
+                }
+            }
+            if ($playerDetails["m_result"] == 1 && $modify_winner) {
+                if ($playerDetails["m_teamId"] == 0) {
+                    $this->game->winner_id = $this->match->teams[$firstReplayTeam]->id;
+                } elseif ($playerDetails["m_teamId"] == 1) {
+                    $this->game->winner_id = $this->match->teams[$secondReplayTeam]->id;
+                }
+            }
+            $participation->save();
+            $this->participationList[$playerDetails["m_workingSetSlotId"]] = $participation;
+            $this->talentTierCounters[$playerDetails["m_workingSetSlotId"]] = 0;
+            $this->indizesToSlotId[] = $playerDetails["m_workingSetSlotId"];
         }
         
         if ($this->game->map->title != "Lost Cavern") {
@@ -396,14 +397,22 @@ class ReplayParsing
                 }
             }
 
+            $teamOneBanKeys = ["4023", "4025", "4043"];
+            $teamTwoBanKeys = ["4028", "4030", "4045"];
+            // If team one and two are swapped on the site vs the replay, swap these keys
+            if ($teamIdentity > 0) {
+                $teamOneBanKeys = ["4028", "4030", "4045"];
+                $teamTwoBanKeys = ["4023", "4025", "4043"];
+            }
+
             //get bans from attributeevents
-            $this->game->teamOneFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4023"][0]["value"])->first();
-            $this->game->teamOneSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4025"][0]["value"])->first();
-            $this->game->teamTwoFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4028"][0]["value"])->first();
-            $this->game->teamTwoSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4030"][0]["value"])->first();
+            $this->game->teamOneFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"][$teamOneBanKeys[0]][0]["value"])->first();
+            $this->game->teamOneSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"][$teamOneBanKeys[1]][0]["value"])->first();
+            $this->game->teamTwoFirstBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"][$teamTwoBanKeys[0]][0]["value"])->first();
+            $this->game->teamTwoSecondBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"][$teamTwoBanKeys[1]][0]["value"])->first();
             if (array_key_exists("4043", $this->decodedAttributeEvents["scopes"]["16"])) {
-                $this->game->teamOneThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4043"][0]["value"])->first();
-                $this->game->teamTwoThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"]["4045"][0]["value"])->first();
+                $this->game->teamOneThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"][$teamOneBanKeys[2]][0]["value"])->first();
+                $this->game->teamTwoThirdBan = Hero::where('attribute_name', $this->decodedAttributeEvents["scopes"]["16"][$teamTwoBanKeys[2]][0]["value"])->first();
             } else {
                 $this->game->teamOneThirdBan = null;
                 $this->game->teamTwoThirdBan = null;
