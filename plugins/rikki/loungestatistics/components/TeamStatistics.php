@@ -20,7 +20,7 @@ class TeamStatistics extends ComponentBase
     public $heroes = null;
     public $maps = null;
     public $participatedSeasons = null;
-    public $selectedSeason = null;
+    public $selectedSeasons = [];
     public $lastThree = null;
 
     public function init()
@@ -57,25 +57,25 @@ class TeamStatistics extends ComponentBase
             }
         )->take(3)->pluck('title', 'id');
 
-        $this->selectedSeason = $this->participatedSeasons->filter(
+        $this->selectedSeasons = $this->participatedSeasons->filter(
             function ($season) {
                 return $season->is_active;
             }
         )->last() ?? $this->participatedSeasons->first();
 
-        $this->calculateStats($this->selectedSeason);
+        $this->calculateStats([$this->selectedSeasons->id]);
     }
 
-    public function calculateStats($season)
+    public function calculateStats($seasons)
     {
-        $heroes = Statistics::calculateHeroStatisticsForTeam($this->team, $season);
+        $heroes = Statistics::calculateHeroStatisticsForTeam($this->team, $seasons);
         $this->heroes = $heroes->sortByDesc(
             function ($hero_array) {
                 return $hero_array['picks'] + $hero_array['bans_by_team'] + $hero_array['bans_against_team'];
             }
         );
 
-        $maps = Statistics::calculateMapStatisticsForTeam($this->team, $season);
+        $maps = Statistics::calculateMapStatisticsForTeam($this->team, $seasons);
         $this->maps = $maps->sortByDesc(
             function ($map_array) {
                 return $map_array['picks_by'] + $map_array['picks_vs'];
@@ -87,15 +87,15 @@ class TeamStatistics extends ComponentBase
     {
         $season_id = input('season_id');
         if ($season_id === 'all-time') {
-            $this->selectedSeason = null;
+            $this->selectedSeasons = Season::pluck('id')->toArray();
         } else if ($season_id === 'all-time-real-seasons') {
-            $this->selectedSeason = Season::whereIn('type', [1, 2])->pluck('id')->toArray();
+            $this->selectedSeasons = Season::whereIn('type', [1, 2])->pluck('id')->toArray();
         } else if ($season_id === 'last-three') {
-            $this->selectedSeason = $this->lastThree->keys()->toArray();
+            $this->selectedSeasons = $this->lastThree->keys()->toArray();
         } else {
-            $this->selectedSeason = Season::find($season_id);
+            $this->selectedSeasons = [Season::find($season_id)->id];
         }
-        $this->calculateStats($this->selectedSeason);
+        $this->calculateStats($this->selectedSeasons);
         return [
             '#teamstatistics' => $this->renderPartial('@stats'),
         ];
