@@ -95,7 +95,7 @@ class Division extends Model
 
     public static function listDivisionsWithLongTitle()
     {
-        return Division::all()->keyBy('id')->map(function ($division) { return $division->longTitle; })->toArray();
+        return Division::orderBy('created_at', 'desc')->get()->keyBy('id')->map(function ($division) { return $division->longTitle; })->toArray();
     }
 
     public function getActiveTeamsAttribute()
