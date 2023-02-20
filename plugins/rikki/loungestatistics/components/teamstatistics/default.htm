@@ -23,7 +23,9 @@ Displaying stats of
   {% for season in __SELF__.participatedSeasons %}
   <option value="{{season.id}}"{% if __SELF__.selectedSeason.id==season.id%}selected="selected"{%endif%}>{{season.title}}</option>
   {% endfor %}
-  <option value="-1" >all time</option>
+  <option value="all-time" >all time</option>
+  <option value="all-time-real-seasons" >all time, only seasons (no events)</option>
+  <option value="last-three" >last three seasons ({{__SELF__.lastThree | join(', ')}})</option>
 </select>
 <button type="submit">Update</button>
 </form>

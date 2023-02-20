@@ -179,6 +179,9 @@ class Match extends Model
 
     public function belongsToSeason($season)
     {
+        if (is_array($season)) {
+            return $this->season && in_array($this->season->id, $season);
+        }
         return $this->season && $this->season->id == $season->id;
     }
 
