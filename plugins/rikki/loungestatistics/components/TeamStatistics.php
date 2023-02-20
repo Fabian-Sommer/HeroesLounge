@@ -57,13 +57,15 @@ class TeamStatistics extends ComponentBase
             }
         )->take(3)->pluck('title', 'id');
 
-        $this->selectedSeasons = $this->participatedSeasons->filter(
+        $activeSeasons = $this->participatedSeasons->filter(
             function ($season) {
                 return $season->is_active;
             }
-        )->last() ?? $this->participatedSeasons->first();
+        );
+        $selectedSeason = $activeSeasons->count() > 0 ? $activeSeasons->take(1) : $this->participatedSeasons->take(1);
+        $this->selectedSeasons = $selectedSeason->pluck('id')->toArray();
 
-        $this->calculateStats([$this->selectedSeasons->id]);
+        $this->calculateStats($this->selectedSeasons);
     }
 
     public function calculateStats($seasons)
