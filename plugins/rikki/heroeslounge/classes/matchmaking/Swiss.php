@@ -18,13 +18,14 @@ class Swiss
     private static $pythonPath = 'python3 ';
 
     public function createMatches($pairings, $div) {
-        $timeoffset = ($pairings[0][0]->region_id - 1)*36000;
-        $schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 21:55')+$timeoffset);
-        $tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 21:55')+$timeoffset);
+        // Determine timezone region == 1 --> do Central Europe Time (e.g. Amsterdam), region == 2 PT (e.g. in Los Angeles)
+        $timezone = $pairings[0][0]->region_id == 1 ? 'Europe/Amsterdam' : 'America/Los_Angeles';
+        $schedule_date = date('Y-m-d H:i:s', strtotime('next sunday 23:55 '.$timezone));
+        $tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 23:55 '.$timezone));
         
         // If it's the last round, games must be played until Friday instead of Sunday.
         if ($div->season->current_round == $div->season->round_length) {
-	        $tbp = date('Y-m-d H:i:s', strtotime('+1 weeks friday 21:55')+$timeoffset);
+	        $tbp = date('Y-m-d H:i:s', strtotime('+1 weeks friday 23:55 '.$timezone));
         } 
         
         $created_at = date('Y-m-d H:i:s' , strtotime('now'));
