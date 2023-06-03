@@ -67,6 +67,8 @@ class URLHelper
             return "https://www.youtube.com" . $userstring;
         } elseif (URLHelper::startsWith($userstring, "/c/")) {
             return "https://www.youtube.com" . $userstring;
+        } elseif (URLHelper::startsWith($userstring, "/@/")) {
+            return "https://www.youtube.com" . $userstring;
         } elseif (URLHelper::startsWith($userstring, "/")) {
             return "https://www.youtube.com/channel" . $userstring;
         }
