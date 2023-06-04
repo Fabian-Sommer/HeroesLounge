@@ -180,7 +180,7 @@ class CreateTeam extends ComponentBase
                 'twitch_url' => ['url', 'regex:/^https:\/\/www\.twitch\.tv\/[a-zA-Z0-9][\w]{2,24}$/u'],
                 'facebook_url' => ['url', 'regex:/^https:\/\/www\.facebook\.com\/[a-z\d.]{3,}$/u'],
                 'twitter_url' => ['url', 'regex:/^https:\/\/twitter\.com\/([a-zA-Z0-9_]+)$/u'],
-                'youtube_url' => ['url', 'regex:/^https:\/\/www\.youtube\.com\/(channel|user)\/([a-zA-Z0-9_\-]+)$/u'],
+                'youtube_url' => ['url', 'regex:/^https:\/\/www\.youtube\.com\/(channel|user|c|@)\/([a-zA-Z0-9_\-]+)$/u'],
                 'website_url' => ['url', 'regex:/^((?!porn).)*$/u']
                 ]
             );
