@@ -172,7 +172,7 @@ class SlothAccount extends UserAccount
                 'email'    => 'required|email|unique:users|between:6,255|confirmed',
                 'password' => 'required|between:4,255|confirmed',
                 'battle_tag' => 'required|unique:rikki_heroeslounge_sloths|regex:/^[\p{L}\p{Mn}][\p{L}\p{Mn}0-9]{2,11}#[0-9]{1,8}+$/u',
-                'discord_tag' => 'required|unique:rikki_heroeslounge_sloths|regex:/[\s\S]*#[0-9]{1,10}+$/u',
+                'discord_tag' => 'required|unique:rikki_heroeslounge_sloths',
                 'region_id' => 'required|exists:rikki_heroeslounge_regions,id'
             ];
 

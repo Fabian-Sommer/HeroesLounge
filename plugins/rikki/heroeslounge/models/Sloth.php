@@ -152,7 +152,10 @@ class Sloth extends Model
     public function beforeUpdate()
     {
         if ($this->isDirty('discord_tag')) {
-            $this->discord_id = Discord\Attendance::GetDiscordUserId($this->discord_tag);
+            $new_id = Discord\Attendance::GetDiscordUserId($this->discord_tag);
+            if ($new_id) {
+                $this->discord_id = Discord\Attendance::GetDiscordUserId($this->discord_tag);
+            }
         }
 
         if ($this->isDirty('region_id') && !empty($this->discord_id)) {

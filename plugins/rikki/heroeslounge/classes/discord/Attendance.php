@@ -54,7 +54,10 @@ class Attendance
 
     public static function FetchUserBySearch($discordTag)
     {
-      $username = explode("#", $discordTag)[0];
+      $username = $discordTag;
+      if (str_contains($discordTag, '#')) {
+        $username = explode("#", $discordTag)[0];
+      }
       
       $url = 'https://discordapp.com/api/guilds/200267155479068672/members/search';
       $urlData = http_build_query(array("query" => $username, "limit" => 1000));
@@ -90,17 +93,23 @@ class Attendance
     public static function GetDiscordUserId($discordTag)
     {
         $presentUsers = Attendance::FetchUserBySearch($discordTag);
+        if (!$presentUsers) {
+          return '';
+        }
+
         $userId = '';
 
-        if ($presentUsers) {
-          foreach ($presentUsers as $user) {
+        foreach ($presentUsers as $user) {
+          $userTag = $user["username"];
+          if (in_array("discriminator", $user) && $user["discriminator"] != "0") {
             $userTag = $user["username"] . "#" . $user["discriminator"];
-            if ($userTag == $discordTag) {
-              $userId = $user["id"];
-              break;
-            }
+          }
+          if ($userTag == $discordTag) {
+            $userId = $user["id"];
+            break;
           }
         }
+
         return $userId;
     }
 
@@ -134,7 +143,11 @@ class Attendance
       $presntDiscordTags = [];
 
       foreach ($users as $user) {
-        $presentDiscordTags[] = $user["username"] . "#" . $user["discriminator"];
+        $userTag = $user["username"];
+        if (in_array("discriminator", $user) && $user["discriminator"] != "0") {
+          $userTag = $user["username"] . "#" . $user["discriminator"];
+        }
+        $presentDiscordTags[] = $userTag;
       }
 
       return $presentDiscordTags;
@@ -144,16 +157,43 @@ class Attendance
     {
       $sloths = SlothModel::where('discord_id', '=', "")->get();
       $presentUsers = Attendance::FetchUsers();
+      if (!$presentUsers) {
+        return;
+      }
 
-      if ($presentUsers) {
-        foreach ($presentUsers as $user) {
+      foreach ($presentUsers as $user) {
+        $userTag = $user["username"];
+        if (in_array("discriminator", $user) && $user["discriminator"] != "0") {
           $userTag = $user["username"] . "#" . $user["discriminator"];
-          foreach ($sloths as $sloth) {
-            if ($userTag == $sloth->discord_tag) {
-              $sloth->discord_id = $user["id"];
-              $sloth->save();
-              break;
-            }
+        }
+        foreach ($sloths as $sloth) {
+          if ($userTag == $sloth->discord_tag) {
+            $sloth->discord_id = $user["id"];
+            $sloth->save();
+            break;
+          }
+        }
+      }
+    }
+
+    public static function migrateIdsToDiscordTags()
+    {
+      $sloths = SlothModel::where('discord_id', '!=', "")->get();
+      $presentUsers = Attendance::FetchUsers();
+      if (!$presentUsers) {
+        return;
+      }
+
+      foreach ($presentUsers as $user) {
+        $userTag = $user["username"];
+        if (in_array("discriminator", $user) && $user["discriminator"] != "0") {
+          $userTag = $user["username"] . "#" . $user["discriminator"];
+        }
+        foreach ($sloths as $sloth) {
+          if ($sloth->discord_id == $user["id"]) {
+            $sloth->discord_tag = $userTag;
+            $sloth->save();
+            break;
           }
         }
       }
@@ -180,7 +220,12 @@ class Attendance
       }
       curl_close($ch);
 
-      $userData = json_decode($output, true);
-      return $userData["username"] . '#' . $userData["discriminator"];
+      $user = json_decode($output, true);
+      
+      $userTag = $user["username"];
+      if (in_array("discriminator", $user) && $user["discriminator"] != "0") {
+        $userTag = $user["username"] . "#" . $user["discriminator"];
+      }
+      return $userTag;
     }
 }
