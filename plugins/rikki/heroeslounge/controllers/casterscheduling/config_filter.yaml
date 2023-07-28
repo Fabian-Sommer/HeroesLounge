@@ -2,6 +2,7 @@ scopes:
   is_played:
     label: 'Is Played'
     type: switch
+    default: 1
     conditions: 
       - is_played <> true
       - is_played = true
