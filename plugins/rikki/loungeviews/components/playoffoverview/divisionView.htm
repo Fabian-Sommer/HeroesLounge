@@ -1,14 +1,52 @@
 {% if div is null %}
     Group not found
 {% else %}
-<h4>Standings</h4>
 
-<div class="col-md-12">
-    {% component 'divisionTable' id=div.id %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="col-md-12">
+            {% component 'divisionTable' id=div.id %}
+        </div>
+        {% if div.matches().count() != 0 %}
+            {% set minRound = div.matches().min("round") %}
+            {% set maxRound = div.matches().max("round") %}
+            {% if minRound < maxRound %}
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand">Round</a>
+                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        data-target="#{{div.slug}}_rounds" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="{{div.slug}}_rounds">
+                        <ul class="nav nav-tabs mr-auto">
+                            {% for key,i in minRound..maxRound %}
+                            <li class="nav-item">
+                                <a class="nav-link{% if key==maxRound %} active{% endif %}"
+                                    data-toggle="tab" href="#round_{{i}}">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;{{i}} &nbsp;&nbsp;&nbsp;&nbsp;
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    {% for key,i in minRound..maxRound %}
+                    <div class="tab-pane{% if key==maxRound %} active{% endif %}"
+                        id="round_{{i}}" role="tabpanel">
+                        {% component 'roundMatches' id=div.id round=i %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-12">
+                {% component 'roundMatches' id=div.id round=minRound %}
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
 </div>
-<h4>Matches</h4>
-<div class="col-md-12">
-    {% component 'roundMatches' id=div.id round=0 %}
-</div>
-
 {% endif %}
