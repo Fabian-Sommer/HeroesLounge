@@ -1,1 +1,3 @@
-<?= $this->relationRender('divisions') ?>
+<?= ($this->user->hasAccess('rikki.heroeslounge.single_playoff') ||
+!$this->user->hasAccess('rikki.heroeslounge.season')) ?
+$this->relationRender('divisions',['readOnly' => true]) : $this->relationRender('divisions') ?>

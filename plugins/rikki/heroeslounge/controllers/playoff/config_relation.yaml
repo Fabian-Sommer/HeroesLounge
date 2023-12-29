@@ -40,4 +40,31 @@ divisions:
         toolbarButtons: create|add|remove
     manage:
         form: $/rikki/heroeslounge/models/division/create_fields.yaml
-        
+backend_users:
+    label: Admin
+    view:
+        list:
+            columns:
+                login:
+                    label: Username
+                email:
+                    label: Email
+                first_name:
+                    label: First Name
+                last_name:
+                    label: Last Name
+        toolbarButtons: link|unlink
+    manage:
+        list:
+            columns:
+                login:
+                    label: Username
+                email:
+                    label: Email
+                first_name:
+                    label: First Name
+                last_name:
+                    label: Last Name
+        showSearch: true
+        recordsPerPage: 20
+    emptyMessage: There are no backend users to be assigned.

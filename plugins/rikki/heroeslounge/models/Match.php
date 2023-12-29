@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 use Log;
+use BackendAuth;
+
 /**
  * Model
  */
@@ -86,6 +88,27 @@ class Match extends Model
             'table' => 'rikki_heroeslounge_match_channel'
         ]
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        // Check if BackendAuth exists, as its missing in some environments like console commands / cronjobs
+        if (class_exists('BackendAuth')) {
+            $user = BackendAuth::getUser();
+            // Check if the user really exists
+            if (is_object($user)) {
+                // Add scope that only shows playoffs that the user has access to
+                static::addGlobalScope('limit_playoff_access', function ($builder) use ($user) {
+                    $builder->whereHas(
+                        'playoff.backend_users',
+                        function ($backendUserBuilder) use ($user) {
+                            $backendUserBuilder->where('backend_users.id', $user->id);
+                        }
+                    );
+                });
+            }
+        }
+    }
 
     public function listParticipatingTeamsForBackend($fieldname, $value, $formData)
     {
