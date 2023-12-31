@@ -7,6 +7,13 @@ teams:
                     label: Team
                 pivot[seed]:
                     label: Seed
+                top_three_m_m_r:
+                    label: Top 3 MMR
+                captain[title]:
+                    label: Captain
+                captain[discord_tag]:
+                    Label: Captain Discord Tag
+
         toolbarButtons: Add|Remove
     manage:
         list:

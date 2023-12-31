@@ -247,6 +247,19 @@ class Team extends Model
         }) / $topFivePlayers[0]->count();
     }
 
+    public function getTopThreeMMRAttribute()
+    {
+        $topThreePlayers = $this->sloths->reject(function ($sloth) {
+            return $sloth->heroesprofile_mmr == 0;
+        })->sortByDesc('heroesprofile_mmr')->chunk(3);
+        if ($topThreePlayers->count() == 0) {
+            return 0;
+        }
+        return round($topThreePlayers[0]->reduce(function ($carry, $sloth) {
+            return $carry + $sloth->heroesprofile_mmr;
+        }) / $topThreePlayers[0]->count());
+    }
+
     public function getNumOfPlayersAttribute()
     {
         return $this->sloths->count();
