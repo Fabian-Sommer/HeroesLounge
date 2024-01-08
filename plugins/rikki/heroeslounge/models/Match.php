@@ -93,21 +93,24 @@ class Match extends Model
     {
         parent::boot();
         // Check if BackendAuth exists, as its missing in some environments like console commands / cronjobs
-        if (class_exists('BackendAuth')) {
-            $user = BackendAuth::getUser();
-            // Check if the user really exists
-            if (is_object($user)) {
-                // Add scope that only shows playoffs that the user has access to
-                static::addGlobalScope('limit_playoff_access', function ($builder) use ($user) {
-                    $builder->whereHas(
-                        'playoff.backend_users',
-                        function ($backendUserBuilder) use ($user) {
-                            $backendUserBuilder->where('backend_users.id', $user->id);
-                        }
-                    );
-                });
-            }
+        if (!class_exists('BackendAuth')) {
+            return
         }
+        $user = BackendAuth::getUser();
+            // Check if the user really exists
+        if (!is_object($user)) {
+            return
+        }
+
+        // Add scope that only shows matches that the user has access to
+        static::addGlobalScope('limit_match_access', function ($builder) use ($user) {
+            $builder->whereHas(
+                'playoff.backend_users',
+                function ($backendUserBuilder) use ($user) {
+                    $backendUserBuilder->where('backend_users.id', $user->id);
+                }
+            );
+        });
     }
 
     public function listParticipatingTeamsForBackend($fieldname, $value, $formData)
