@@ -18,3 +18,4 @@
 !install_hl.sh
 
 *.pyc
+.DS_Store
