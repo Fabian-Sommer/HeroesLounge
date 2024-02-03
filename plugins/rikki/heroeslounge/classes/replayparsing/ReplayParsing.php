@@ -28,6 +28,7 @@ class ReplayParsing
     private $decodedAttributeEvents = null;
     private $decodedHeader = null;
     private $decodedTrackerEvents = null;
+    private $sScoreResultEvent = null;
     private $allSlothNames = null;
     private $participationList = null;
     private $talentTierCounters = null;
@@ -146,7 +147,13 @@ class ReplayParsing
         if (is_array($output) && array_key_exists(0, $output)) {
             $this->decodedTrackerEvents = [];
             foreach ($output as $jsonTrackerEvent) {
-                $this->decodedTrackerEvents[] = json_decode($jsonTrackerEvent, true);
+                $decodedEvent = json_decode($jsonTrackerEvent, true);
+                if ($decodedEvent['_event'] == 'NNet.Replay.Tracker.SScoreResultEvent') {
+                    // If there are multiple SScoreResultEvents, we only care about the last one
+                    $this->sScoreResultEvent = $decodedEvent;
+                } else {
+                    $this->decodedTrackerEvents[] = $decodedEvent;
+                }
             }
         } else {
             if ($this->game) {
@@ -435,6 +442,85 @@ class ReplayParsing
         $this->game->save();
     }
 
+    public function parseScoreEvent() {
+        foreach ($this->sScoreResultEvent['m_instanceList'] as $stats) {
+            $data = new Collection($stats['m_values']);
+            switch ($stats['m_name']) {
+                case 'Deaths':
+                    $data->each(function ($value, $key) use (&$participationList) {
+                        if (!empty($value)) {
+                            $this->participationList[$key]->deaths = $value[0]['m_value'];
+                        }
+                    });
+                    break;
+                case 'SoloKill':
+                    $data->each(function ($value, $key) use (&$participationList) {
+                        if (!empty($value)) {
+                            $this->participationList[$key]->kills = $value[0]['m_value'];
+                        }
+                    });
+                    break;
+                case 'Assists':
+                    $data->each(function ($value, $key) use (&$participationList) {
+                        if (!empty($value)) {
+                            $this->participationList[$key]->assists = $value[0]['m_value'];
+                        }
+                    });
+                    break;
+                case 'ExperienceContribution':
+                    $data->each(function ($value, $key) use (&$participationList) {
+                        if (!empty($value)) {
+                            $this->participationList[$key]->experience_contribution = $value[0]['m_value'];
+                        }
+                    });
+                    break;
+                case 'Healing':
+                case 'SelfHealing':
+                    $data->each(function ($value, $key) use (&$participationList) {
+                        if (!empty($value)) {
+                            $this->participationList[$key]->healing = max($value[0]['m_value'], $this->participationList[$key]->healing);
+                        }
+                    });
+                    break;
+                case 'SiegeDamage':
+                    $data->each(function ($value, $key) use (&$participationList) {
+                        if (!empty($value)) {
+                            $this->participationList[$key]->siege_damage = $value[0]['m_value'];
+                        }
+                    });
+                    break;
+                case 'HeroDamage':
+                    $data->each(function ($value, $key) use (&$participationList) {
+                        if (!empty($value)) {
+                            $this->participationList[$key]->hero_damage = $value[0]['m_value'];
+                        }
+                    });
+                    break;
+                case 'DamageTaken':
+                    $data->each(function ($value, $key) use (&$participationList) {
+                        if (!empty($value)) {
+                            $this->participationList[$key]->damage_taken = $value[0]['m_value'];
+                        }
+                    });
+                    break;
+                case 'Level':
+                    $data->each(function ($value, $key) use (&$participationList) {
+                        if (!empty($value)) {
+                            if ($this->participationList[$key]->team_id == $this->game->team_one_id) {
+                                $this->game->team_one_level = $value[0]['m_value'];
+                            } else {
+                                $this->game->team_two_level = $value[0]['m_value'];
+                            }
+                        }
+                    });
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+    }
+
     //gets draft order, damage done and other statistics
     //assumpution: Details were already parsed and saved (saveResult())
     public function addTrackerDetails()
@@ -487,85 +573,9 @@ class ReplayParsing
                     $pivotData = ['talent_tier' => $this->talentTierCounters[$listIndex]];
                     $this->participationList[$listIndex]->talents()->add($talent, $pivotData);
                 }
-            } elseif ($decodedTrackerEvent['_event'] == 'NNet.Replay.Tracker.SScoreResultEvent') {
-                foreach ($decodedTrackerEvent['m_instanceList'] as $stats) {
-                    $data = new Collection($stats['m_values']);
-                    switch ($stats['m_name']) {
-                        case 'Deaths':
-                            $data->each(function ($value, $key) use (&$participationList) {
-                                if (!empty($value)) {
-                                    $this->participationList[$key]->deaths = $value[0]['m_value'];
-                                }
-                            });
-                            break;
-                        case 'SoloKill':
-                            $data->each(function ($value, $key) use (&$participationList) {
-                                if (!empty($value)) {
-                                    $this->participationList[$key]->kills = $value[0]['m_value'];
-                                }
-                            });
-                            break;
-                        case 'Assists':
-                            $data->each(function ($value, $key) use (&$participationList) {
-                                if (!empty($value)) {
-                                    $this->participationList[$key]->assists = $value[0]['m_value'];
-                                }
-                            });
-                            break;
-                        case 'ExperienceContribution':
-                            $data->each(function ($value, $key) use (&$participationList) {
-                                if (!empty($value)) {
-                                    $this->participationList[$key]->experience_contribution = $value[0]['m_value'];
-                                }
-                            });
-                            break;
-                        case 'Healing':
-                        case 'SelfHealing':
-                            $data->each(function ($value, $key) use (&$participationList) {
-                                if (!empty($value)) {
-                                    $this->participationList[$key]->healing = max($value[0]['m_value'], $this->participationList[$key]->healing);
-                                }
-                            });
-                            break;
-                        case 'SiegeDamage':
-                            $data->each(function ($value, $key) use (&$participationList) {
-                                if (!empty($value)) {
-                                    $this->participationList[$key]->siege_damage = $value[0]['m_value'];
-                                }
-                            });
-                            break;
-                        case 'HeroDamage':
-                            $data->each(function ($value, $key) use (&$participationList) {
-                                if (!empty($value)) {
-                                    $this->participationList[$key]->hero_damage = $value[0]['m_value'];
-                                }
-                            });
-                            break;
-                        case 'DamageTaken':
-                            $data->each(function ($value, $key) use (&$participationList) {
-                                if (!empty($value)) {
-                                    $this->participationList[$key]->damage_taken = $value[0]['m_value'];
-                                }
-                            });
-                            break;
-                        case 'Level':
-                            $data->each(function ($value, $key) use (&$participationList) {
-                                if (!empty($value)) {
-                                    if ($this->participationList[$key]->team_id == $this->game->team_one_id) {
-                                        $this->game->team_one_level = $value[0]['m_value'];
-                                    } else {
-                                        $this->game->team_two_level = $value[0]['m_value'];
-                                    }
-                                }
-                            });
-                            break;
-                        
-                        default:
-                            break;
-                    }
-                }
             }
         }
+        $this->parseScoreEvent();
         $this->game->save();
         $this->participationList->each(function ($p) {
             $p->save();
