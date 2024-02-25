@@ -94,15 +94,19 @@ class Match extends Model
         parent::boot();
         // Check if BackendAuth exists, as its missing in some environments like console commands / cronjobs
         if (!class_exists('BackendAuth')) {
-            return
+            return;
         }
         $user = BackendAuth::getUser();
-            // Check if the user really exists
+        // Check if the user really exists
         if (!is_object($user)) {
-            return
+            return;
+        }
+        // If the user has access to the whole season don't filter
+        if ($user->hasAccess('rikki.heroeslounge.season')){
+            return;
         }
 
-        // Add scope that only shows matches that the user has access to
+        // Add scope that only shows matches that the user has access to    
         static::addGlobalScope('limit_match_access', function ($builder) use ($user) {
             $builder->whereHas(
                 'playoff.backend_users',
