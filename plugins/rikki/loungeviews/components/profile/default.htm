@@ -62,7 +62,7 @@
             <img src="{{'assets/img/btns/battlenet.svg' | theme}}" class="mr-2 rounded" title="Battle Tag"
                 alt="Battle Tag" style="max-height:30px;max-width:30px;color:white;background-color:#2e93cd" />
             {% if  __SELF__.sloth.heroesprofile_id %}
-            <a href="https://www.heroesprofile.com/Profile/?blizz_id={{ __SELF__.sloth.heroesprofile_id }}&battletag={{ __SELF__.sloth.getHeroesProfileBattletagReformatted }}&region={{ __SELF__.sloth.getHeroesProfileRegionId }}"
+            <a href="https://www.heroesprofile.com/Player/{{ __SELF__.sloth.getHeroesProfileBattletagReformatted }}/{{ __SELF__.sloth.heroesprofile_id }}/{{ __SELF__.sloth.getHeroesProfileRegionId }}"
                 alt="HeroesProfile ID" rel="noopener" target="_blank">
                 {{__SELF__.sloth.battle_tag}}
             </a>
