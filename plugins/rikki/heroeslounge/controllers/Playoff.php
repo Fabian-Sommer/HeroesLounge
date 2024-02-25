@@ -11,7 +11,7 @@ use Redirect;
 class Playoff extends Controller
 {
     public $implement = ['Backend\Behaviors\ListController','Backend\Behaviors\FormController', 'Backend\Behaviors\RelationController'];
-    public $requiredPermissions = ['rikki.heroeslounge.season'];
+    public $requiredPermissions = ['rikki.heroeslounge.season', 'rikki.heroeslounge.individual_playoffs'];
     public $listConfig = 'config_list.yaml';
     public $formConfig = 'config_form.yaml';
     public $relationConfig = 'config_relation.yaml';
