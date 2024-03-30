@@ -398,6 +398,9 @@ class Playoff extends Model
                         'teams' => [], 
                         'wbp' => $Time7]
             ];
+        } else if ($this->type == 'playoffv4') {
+            $finalsTime = Carbon::create($year, $month, $day, 15, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
+            $matchArray = $this->createPlayoffV4Matches($finalsTime, $timezone);
         } else if ($this->type == 'se16') {
             $times = [  0 => Carbon::create($year, $month, $day, 13, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
                         1 => Carbon::create($year, $month, $day, 14, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
@@ -590,10 +593,18 @@ class Playoff extends Model
         foreach ($matchArray as $key => $matchEntry) {
             $match = new Match;
             $match->playoff_id = $playoff->id;
-            $match->wbp = $matchEntry['wbp'];
             $match->playoff_position = $matchEntry['pos'];
             $match->playoff_winner_next = $matchEntry['wn'];
             $match->playoff_loser_next = $matchEntry['ln'];
+            if (array_key_exists('wbp', $matchEntry) {
+                $match->wbp = $matchEntry['wbp'];
+            }
+            if (array_key_exists('tbp', $matchEntry) {
+                $match->tbp = $matchEntry['tbp'];
+            }
+            if (array_key_exists('schedule_date', $matchEntry) {
+                $match->schedule_date = $matchEntry['schedule_date'];
+            }
             $match->save();
             foreach ($matchEntry['teams'] as $key => $team) {
                 $match->teams()->add($team);
@@ -699,6 +710,49 @@ class Playoff extends Model
         return $matchArray;
     }
 
+    public function createPlayoffV4Matches($finalsTime, $timezone)
+    {
+        $matchArray = [];
+        $matchArrayIndex = 0;
+        $semifinalsTime = Carbon::createFromTimeStamp(strtotime("friday last week 23:59" . $timezone, $finalsTime->timestamp));
+        $quarterfinalsTime = Carbon::createFromTimeStamp(strtotime("friday last week 23:59" . $timezone, $semifinalsTime->timestamp));
+        
+        // Quarterfinals
+        for ($i = 0; $i < 4; $i++) {
+            $wn = Match::encodePlayoffPosition(1,2,floor($i/2)+1);
+            $matchArray[$matchArrayIndex] = [
+                'pos' => Match::encodePlayoffPosition(1,1,$i+1), 
+                'wn' => $wn, 
+                'ln' => null, 
+                'teams' => [], 
+                'tbp' => $quarterfinalsTime->setTimezone(TimezoneHelper::defaultTimezone()),
+                'schedule_date' => $quarterfinalsTime->setTimezone(TimezoneHelper::defaultTimezone())];
+            $matchArrayIndex++;
+        }
+        
+        // Semifinals
+        for ($i = 0; $i < 2; $i++) {
+            $wn = Match::encodePlayoffPosition(1,3,floor($i/2)+1);
+            $matchArray[$matchArrayIndex] = [
+                'pos' => Match::encodePlayoffPosition(1,2,$i+1), 
+                'wn' => $wn, 
+                'ln' => null, 
+                'teams' => [], 
+                'tbp' => $semifinalsTime->setTimezone(TimezoneHelper::defaultTimezone()),
+                'schedule_date' => $semifinalsTime->setTimezone(TimezoneHelper::defaultTimezone())];
+            $matchArrayIndex++;
+        }
+       
+        // Finals
+        $matchArray[$matchArrayIndex] = [
+            'pos' => Match::encodePlayoffPosition(1,3,1), 
+            'wn' => null, 
+            'ln' => null, 
+            'teams' => [], 
+            'wbp' => $finalsTime];
+        return $matchArray;
+    }
+
     //assign seeded teams to knockout stage matches
     public function seedTeams()
     {
@@ -770,7 +824,7 @@ class Playoff extends Model
             $match1->teams()->add($this->teams()->where('seed', 3)->firstOrFail());
             $match2->teams()->add($this->teams()->where('seed', 5)->firstOrFail());
             $match3->teams()->add($this->teams()->where('seed', 6)->firstOrFail());
-        } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64' || $this->type == 'de8' || $this->type == 'de16' || $this->type == 'de8short') {
+        } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64' || $this->type == 'de8' || $this->type == 'de16' || $this->type == 'de8short' || $this->type == 'playoffv4') {
             $tems = [];
             $teamcount = 16;
             $seedToMatch = [1 => 1,
@@ -782,7 +836,7 @@ class Playoff extends Model
                             3 => 7,
                             6 => 8,
                 ];
-            if ($this->type == 'se8' || $this->type == 'de8' || $this->type == 'playoffv2' || $this->type == 'de8short') {
+            if ($this->type == 'se8' || $this->type == 'de8' || $this->type == 'playoffv2' || $this->type == 'playoffv4' || $this->type == 'de8short') {
                 $teamcount = 8;
                 $seedToMatch = [1 => 1,
                                 4 => 2,

@@ -66,7 +66,7 @@ class PlayoffOverview extends ComponentBase
             } else if ($this->playoff->type == 'se16') {
                 $this->total_height = 43.9375;
                 $this->total_width = 60;
-            } else if ($this->playoff->type == 'se8' || $this->playoff->type == 'playoffv2') {
+            } else if ($this->playoff->type == 'se8' || $this->playoff->type == 'playoffv2' || $this->playoff->type == 'playoffv4') {
                 $this->total_height = 43.9375;
                 $this->total_width = 45;
             } else if ($this->playoff->type == 'se32') {
@@ -236,7 +236,7 @@ class PlayoffOverview extends ComponentBase
                 $left = 5 * $round_width;
                 $top = 13.09375;
             }
-        } else if ($this->playoff->type == 'se16' || $this->playoff->type == 'se8' || $this->playoff->type == 'se32' || $this->playoff->type == 'se64' || $this->playoff->type == 'playoffv2') {
+        } else if ($this->playoff->type == 'se16' || $this->playoff->type == 'se8' || $this->playoff->type == 'se32' || $this->playoff->type == 'se64' || $this->playoff->type == 'playoffv2' || $this->playoff->type == 'playoffv4') {
             //winners bracket only
             $left = $round_width * ($dec_position['round']-1);
             $diff = 4.625;
