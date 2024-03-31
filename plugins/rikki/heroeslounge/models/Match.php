@@ -380,6 +380,10 @@ class Match extends Model
     public function allowRescheduleByCaptain()
     {
         $season = $this->getSeasonAttribute();
+        // Allow rescheduling for playoffv4 matches, except for finals.
+        if ($this->playoff != null && $this->playoff->type == 'playoffv4' && $this->playoff_winner_next != null) {
+            return true;
+        }
         if ($this->playoff != null || ($season != null && $season->type  == 2)) {
             return false;
         }
