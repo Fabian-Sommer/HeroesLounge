@@ -596,13 +596,13 @@ class Playoff extends Model
             $match->playoff_position = $matchEntry['pos'];
             $match->playoff_winner_next = $matchEntry['wn'];
             $match->playoff_loser_next = $matchEntry['ln'];
-            if (array_key_exists('wbp', $matchEntry) {
+            if (array_key_exists('wbp', $matchEntry)) {
                 $match->wbp = $matchEntry['wbp'];
             }
-            if (array_key_exists('tbp', $matchEntry) {
+            if (array_key_exists('tbp', $matchEntry)) {
                 $match->tbp = $matchEntry['tbp'];
             }
-            if (array_key_exists('schedule_date', $matchEntry) {
+            if (array_key_exists('schedule_date', $matchEntry)) {
                 $match->schedule_date = $matchEntry['schedule_date'];
             }
             $match->save();
