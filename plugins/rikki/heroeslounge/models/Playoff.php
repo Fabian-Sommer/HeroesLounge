@@ -714,7 +714,7 @@ class Playoff extends Model
     {
         $matchArray = [];
         $matchArrayIndex = 0;
-        $semifinalsTime = Carbon::createFromTimeStamp(strtotime("friday last week 23:59" . $timezone, $finalsTime->timestamp));
+        $semifinalsTime = Carbon::createFromTimeStamp(strtotime("friday this week 23:59" . $timezone, $finalsTime->timestamp));
         $quarterfinalsTime = Carbon::createFromTimeStamp(strtotime("friday last week 23:59" . $timezone, $semifinalsTime->timestamp));
         
         // Quarterfinals
