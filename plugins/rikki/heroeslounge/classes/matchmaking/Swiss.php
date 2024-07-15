@@ -194,6 +194,9 @@ class Swiss
         $teamCount = count($teams);
 
         Log::info("There are " . $teamCount . " teams in division " . $div->slug);
+        if ($teamCount < 2) {
+            return;
+        }
         $byeTeam = Teams::where("title", "BYE!")->firstOrFail();
 
         $byePair = null;
