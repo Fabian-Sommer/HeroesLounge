@@ -13,7 +13,7 @@ class Match extends Controller
 {
     public $implement = ['Backend\Behaviors\ListController','Backend\Behaviors\FormController',
     'Backend\Behaviors\RelationController'];
-    public $requiredPermissions = ['rikki.heroeslounge.match'];
+    public $requiredPermissions = ['rikki.heroeslounge.match', 'rikki.heroeslounge.individual_playoffs'];
     public $formConfig = 'config_form.yaml';
     public $relationConfig = 'config_relation.yaml';
     public $listConfig = 'config_list.yaml';
