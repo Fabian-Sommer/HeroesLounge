@@ -6,7 +6,7 @@ use Log;
 
 class MMRFetcher
 {
-    const DEFAULT_MMR = 3000;
+    const DEFAULT_MMR = 3100;
     const MINIMUM_MATCHES_PER_GAMEMODE = 150;
 
     public static function getMMR($mmrData)
