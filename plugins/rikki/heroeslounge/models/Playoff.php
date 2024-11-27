@@ -263,52 +263,57 @@ class Playoff extends Model
             $matchArray[2]['wbp'] = $thirdFourthQuarterTime;
             $matchArray[3]['wbp'] = $thirdFourthQuarterTime;
             $matchArray[5]['wbp'] = $secondSemiFinalTime;
-        } else if ($this->type == 'playoffv3') {
-            $dayOfWeek = Carbon::create($year, $month, $day)->dayOfWeek;
-            $groupStageDeadlineDifference = 0;
-            if ($dayOfWeek == 0) {
-                //Sunday
-                $groupStageDeadlineDifference = 3;
-            } elseif ($dayOfWeek == 6) {
-                //Saturday
-                $groupStageDeadlineDifference = 2;
+        } else if ($this->type == 'playoffv3' || $this->type == 'de6') {
+            // Group Stage
+            if ($this->type == 'playoffv3') {
+                $dayOfWeek = Carbon::create($year, $month, $day)->dayOfWeek;
+                $groupStageDeadlineDifference = 0;
+                if ($dayOfWeek == 0) {
+                    //Sunday
+                    $groupStageDeadlineDifference = 3;
+                } elseif ($dayOfWeek == 6) {
+                    //Saturday
+                    $groupStageDeadlineDifference = 2;
+                }
+
+                $a1 = $this->teams()->where('seed', 1)->firstOrFail();
+                $a2 = $this->teams()->where('seed', 3)->firstOrFail();
+                $a3 = $this->teams()->where('seed', 5)->firstOrFail();
+                $a4 = $this->teams()->where('seed', 7)->firstOrFail();
+
+                $b1 = $this->teams()->where('seed', 2)->firstOrFail();
+                $b2 = $this->teams()->where('seed', 4)->firstOrFail();
+                $b3 = $this->teams()->where('seed', 6)->firstOrFail();
+                $b4 = $this->teams()->where('seed', 8)->firstOrFail();
+
+                $groups = [
+                    0 => ['title' => 'Group A', 'slug' => 'group-a',
+                            'teams' => [0 =>$a1,1 => $a2,2 => $a3,3 => $a4]],
+                    1 => ['title' => 'Group B', 'slug' => 'group-b',
+                            'teams' => [0 =>$b1,1 => $b2,2 => $b3,3 => $b4]]
+                ];
+                $groups_until = Carbon::create($year, $month, $day, 23, 59, 59, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())->subDays($groupStageDeadlineDifference);
+                foreach ($groups as $key => $groupe) {
+                    $gr = new Division;
+                    $gr->playoff = $playoff;
+                    $gr->title = $groupe['title'];
+                    $gr->slug = $groupe['slug'];
+                    $gr->save();
+                    $gr->teams()->add($groupe['teams'][0]);
+                    $gr->teams()->add($groupe['teams'][1]);
+                    $gr->teams()->add($groupe['teams'][2]);
+                    $gr->teams()->add($groupe['teams'][3]);
+                    $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][1], $gr, $groups_until);
+                    $this->createGroupMatch($groupe['teams'][2], $groupe['teams'][3], $gr, $groups_until);
+                    $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][2], $gr, $groups_until);
+                    $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][3], $gr, $groups_until);
+                    $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][3], $gr, $groups_until);
+                    $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][2], $gr, $groups_until);   
+                }
+
             }
 
-            $a1 = $this->teams()->where('seed', 1)->firstOrFail();
-            $a2 = $this->teams()->where('seed', 3)->firstOrFail();
-            $a3 = $this->teams()->where('seed', 5)->firstOrFail();
-            $a4 = $this->teams()->where('seed', 7)->firstOrFail();
-
-            $b1 = $this->teams()->where('seed', 2)->firstOrFail();
-            $b2 = $this->teams()->where('seed', 4)->firstOrFail();
-            $b3 = $this->teams()->where('seed', 6)->firstOrFail();
-            $b4 = $this->teams()->where('seed', 8)->firstOrFail();
-
-            $groups = [
-                0 => ['title' => 'Group A', 'slug' => 'group-a',
-                        'teams' => [0 =>$a1,1 => $a2,2 => $a3,3 => $a4]],
-                1 => ['title' => 'Group B', 'slug' => 'group-b',
-                        'teams' => [0 =>$b1,1 => $b2,2 => $b3,3 => $b4]]
-            ];
-            $groups_until = Carbon::create($year, $month, $day, 23, 59, 59, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())->subDays($groupStageDeadlineDifference);
-            foreach ($groups as $key => $groupe) {
-                $gr = new Division;
-                $gr->playoff = $playoff;
-                $gr->title = $groupe['title'];
-                $gr->slug = $groupe['slug'];
-                $gr->save();
-                $gr->teams()->add($groupe['teams'][0]);
-                $gr->teams()->add($groupe['teams'][1]);
-                $gr->teams()->add($groupe['teams'][2]);
-                $gr->teams()->add($groupe['teams'][3]);
-                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][1], $gr, $groups_until);
-                $this->createGroupMatch($groupe['teams'][2], $groupe['teams'][3], $gr, $groups_until);
-                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][2], $gr, $groups_until);
-                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][3], $gr, $groups_until);
-                $this->createGroupMatch($groupe['teams'][0], $groupe['teams'][3], $gr, $groups_until);
-                $this->createGroupMatch($groupe['teams'][1], $groupe['teams'][2], $gr, $groups_until);   
-            }
-
+            // Double elimination with 2 teams in the upper bracket and 4 in the lower bracket.
             $Time1 = Carbon::create($year, $month, $day, 13, 00, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
             $Time2 = Carbon::create($year, $month, $day, 14, 20, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
             $Time3 = Carbon::create($year, $month, $day, 15, 20, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
@@ -786,7 +791,7 @@ class Playoff extends Model
                     $match->save();
                 }
             }
-        } else if ($this->type == 'playoffv3') {
+        } else if ($this->type == 'playoffv3' || $this->type == 'de6') {
             $tems = [];
             for ($i=1; $i <= 6; $i++) { 
                 $team = $this->teams()->where('seed', $i)->first();

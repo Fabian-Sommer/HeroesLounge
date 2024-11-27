@@ -84,7 +84,7 @@ class PlayoffOverview extends ComponentBase
             } else if ($this->playoff->type == 'de8short') {
                 $this->total_height = 60;
                 $this->total_width = 60;
-            } else if ($this->playoff->type == 'playoffv3') {
+            } else if ($this->playoff->type == 'playoffv3' || $this->playoff->type == 'de6') {
                 $this->total_height = 43.9375;
                 $this->total_width = 60;
             } else if ($this->playoff->type == 'DivSv1') {
@@ -241,7 +241,7 @@ class PlayoffOverview extends ComponentBase
             $left = $round_width * ($dec_position['round']-1);
             $diff = 4.625;
             $top = 2.6875 + (2**($dec_position['round']-1) - 1) * $diff / 2 + ($dec_position['matchnumber']-1) * $diff* 2**($dec_position['round']-1);
-        } else if ($this->playoff->type == 'playoffv3') {
+        } else if ($this->playoff->type == 'playoffv3' || $this->playoff->type == 'de6') {
             if ($dec_position['bracket'] == 1) {
                 //winners bracket
                 $left = $round_width + (2 * $round_width * ($dec_position['round'] - 1));
