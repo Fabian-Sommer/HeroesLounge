@@ -1,0 +1,7 @@
+{% if __SELF__.playoff is null%}
+Unknown Playoff
+{% else %}
+{% if __SELF__.path %}
+<a href="{{__SELF__.path}}" download>Download Replays</a><br>
+{% endif %}
+{% endif %}

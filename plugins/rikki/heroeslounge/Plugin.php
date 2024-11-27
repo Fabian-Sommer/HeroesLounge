@@ -50,6 +50,7 @@ class Plugin extends PluginBase
             'Rikki\Heroeslounge\Components\ViewApps' => 'ViewApps',
             'Rikki\Heroeslounge\Components\RssFeed' => 'RssFeed',
             'Rikki\Heroeslounge\Components\ReplayList' => 'ReplayList',
+            'Rikki\Heroeslounge\Components\PlayoffReplayList' => 'PlayoffReplayList',
         ];
     }
 
@@ -89,7 +90,7 @@ class Plugin extends PluginBase
 
         $schedule->call(function () {
             MMR\MMRFetcher::updateMMRs();
-        })->weekly()->fridays()->at('3:00');
+        })->weekly()->sundays()->at('3:00');
 
         $schedule->call(function () {
             classes\Discord\Attendance::migrateDiscordTagsToIds();
