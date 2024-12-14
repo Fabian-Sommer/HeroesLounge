@@ -6,6 +6,7 @@ use Rikki\Heroeslounge\Models\Match;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Carbon\Carbon;
 use Log;
+use BackendAuth;
 
 class Playoff extends Model
 {
@@ -36,7 +37,43 @@ class Playoff extends Model
             'table' => 'rikki_heroeslounge_team_playoff',
             'pivot' => ['seed']
         ],
+        'backend_users' =>
+        [
+            'Backend\Models\User',
+            'key' => 'playoff_id',
+            'otherKey' => 'backend_user_id',
+            'table' => 'rikki_heroeslounge_backend_users_playoff'
+        ]
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        // Check if BackendAuth exists, as its missing in some environments like console commands / cronjobs
+        if (!class_exists('BackendAuth')) {
+            return;
+        }
+        $user = BackendAuth::getUser();
+        // Check if the user really exists
+        if (!is_object($user)) {
+            return;
+        }
+
+        // If the user has access to the whole season don't filter
+        if ($user->hasAccess('rikki.heroeslounge.season')) {
+            return;
+        }
+
+        // Add scope that only shows playoffs that the user has access to
+        static::addGlobalScope('limit_playoff_access', function ($builder) use ($user) {
+            $builder->whereHas(
+                'backend_users',
+                function ($backendUserBuilder) use ($user) {
+                    $backendUserBuilder->where('backend_users.id', $user->id);
+                }
+            );
+        });
+    }
 
     public function getLongTitleAttribute() 
     {

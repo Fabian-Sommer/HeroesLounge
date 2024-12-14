@@ -7,10 +7,11 @@ plugin:
 navigation:
     manage-seasons:
         label: 'Manage Seasons'
-        url: rikki/heroeslounge/season
+        url: rikki/heroeslounge/playoff
         icon: icon-tag
         permissions:
             - rikki.heroeslounge.league
+            - rikki.heroeslounge.individual_playoffs
         order: '4'
         sideMenu:
             manage-seasons:
@@ -25,6 +26,7 @@ navigation:
                 icon: icon-tag
                 permissions:
                     - rikki.heroeslounge.season
+                    - rikki.heroeslounge.individual_playoffs
             manage-divisions:
                 label: 'Manage Divisions'
                 url: rikki/heroeslounge/division
@@ -101,6 +103,7 @@ navigation:
         icon: icon-futbol-o
         permissions:
             - rikki.heroeslounge.matches
+            - rikki.heroeslounge.individual_playoffs
         order: '3'
         sideMenu:
             manage-matches:
@@ -109,6 +112,7 @@ navigation:
                 icon: icon-futbol-o
                 permissions:
                     - rikki.heroeslounge.match
+                    - rikki.heroeslounge.individual_playoffs
 permissions:
     rikki.heroeslounge.match:
         tab: 'rikki.heroeslounge::lang.plugin.name'
@@ -122,6 +126,9 @@ permissions:
     rikki.heroeslounge.casterscheduling:
         tab: 'rikki.heroeslounge::lang.plugin.name'
         label: 'Appove casters, assign channels'
+    rikki.heroeslounge.individual_playoffs:
+        tab: 'rikki.heroeslounge::lang.plugin.name'
+        label: 'Manage individual playoffs and its matches'
     rikki.heroeslounge.division:
         tab: 'rikki.heroeslounge::lang.plugin.name'
         label: 'Manage Divisions'
