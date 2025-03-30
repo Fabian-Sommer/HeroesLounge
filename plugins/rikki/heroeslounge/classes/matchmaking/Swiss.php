@@ -24,7 +24,7 @@ class Swiss
         $tbp = date('Y-m-d H:i:s', strtotime('+1 weeks sunday 23:55 '.$timezone));
         
         // If it's the last round, games must be played until Friday instead of Sunday.
-        if ($div->season->current_round == $div->season->round_length) {
+        if ($this->currentRound == $div->season->round_length) {
 	        $tbp = date('Y-m-d H:i:s', strtotime('+1 weeks friday 23:55 '.$timezone));
         } 
         
@@ -308,8 +308,8 @@ class Swiss
             $this->findInactiveTeams($div, $s->current_round);
         }
 
+        $this->currentRound = $s->current_round + 1;
         $s->current_round += 1;
-        $this->currentRound = $s->current_round;
         Log::info("Updated current_round to " . $s->current_round);
 
         if ($s->current_round == $s->round_length) {
@@ -319,9 +319,6 @@ class Swiss
         $s->save();
 
         foreach ($divs as $div) {
-            if ($s->title == "[EU]Season 18" && $div->title == "Division 1") {
-                continue;
-            }
             $this->makeMatches($div);
         }
     }
