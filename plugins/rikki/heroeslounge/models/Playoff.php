@@ -440,6 +440,14 @@ class Playoff extends Model
             $otherTime = Carbon::create($year, $month, $day, 20, 0, 0, $timezone);
             $matchArray = $this->createSEMatches(6, $times);
             $matchArray[61]['wbp'] = $otherTime;
+        } else if ($this->type == 'de4') {
+            $times = [  0 => Carbon::create($year, $month, $day, 18, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        1 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        2 => Carbon::create($year, $month, $day, 20, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        3 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                        4 => Carbon::create($year, $month, $day, 22, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
+                    ];
+            $matchArray = $this->createDEMatches(2, $times);
         } else if ($this->type == 'de8') {
             $times = [  0 => Carbon::create($year, $month, $day, 18, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
                         1 => Carbon::create($year, $month, $day, 19, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
@@ -829,7 +837,7 @@ class Playoff extends Model
             $match1->teams()->add($this->teams()->where('seed', 3)->firstOrFail());
             $match2->teams()->add($this->teams()->where('seed', 5)->firstOrFail());
             $match3->teams()->add($this->teams()->where('seed', 6)->firstOrFail());
-        } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64' || $this->type == 'de8' || $this->type == 'de16' || $this->type == 'de8short' || $this->type == 'playoffv4') {
+        } else if ($this->type == 'se16' || $this->type == 'playoffv2' || $this->type == 'se8' || $this->type == 'se32' || $this->type == 'se64' || $this->type == 'de4' || $this->type == 'de8' || $this->type == 'de16' || $this->type == 'de8short' || $this->type == 'playoffv4') {
             $tems = [];
             $teamcount = 16;
             $seedToMatch = [1 => 1,
@@ -847,6 +855,12 @@ class Playoff extends Model
                                 4 => 2,
                                 2 => 3,
                                 3 => 4,
+                ];
+            }
+            if ($this->type == 'de4') {
+                $teamcount = 4;
+                $seedToMatch = [1 => 1,
+                                2 => 2,
                 ];
             }
             if ($this->type == 'se32') {

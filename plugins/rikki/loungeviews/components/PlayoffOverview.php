@@ -75,6 +75,9 @@ class PlayoffOverview extends ComponentBase
             } else if ($this->playoff->type == 'se64') {
                 $this->total_height = 153;
                 $this->total_width = 90;
+            } else if ($this->playoff->type == 'de4') {
+                $this->total_height = 45;
+                $this->total_width = 61;
             } else if ($this->playoff->type == 'de8') {
                 $this->total_height = 60;
                 $this->total_width = 76;
@@ -272,7 +275,7 @@ class PlayoffOverview extends ComponentBase
                 $left = 3 * $round_width;
                 $top = 5;
             }
-        } else if ($this->playoff->type == 'de16' || $this->playoff->type == 'de8') {
+        } else if ($this->playoff->type == 'de16' || $this->playoff->type == 'de8' || $this->playoff->type == 'de4') {
             if ($dec_position['bracket'] == 1) {
                 $left = 2 * $round_width * ($dec_position['round']-1);
                 $diff = 4.625;
@@ -282,7 +285,10 @@ class PlayoffOverview extends ComponentBase
                 $diff = 4.625;
                 $top = 40.0625 + (2**(floor(($dec_position['round']-1)/2)) - 1) * $diff / 2 + ($dec_position['matchnumber']-1) * $diff* 2**(floor(($dec_position['round']-1)/2));
             } else if ($dec_position['bracket'] == 3) {
-                if ($this->playoff->type == 'de8') {
+                if ($this->playoff->type == 'de4') {
+                    $roundsBeforeFinal = 3;
+                    $top = 16.9375;
+                } else if ($this->playoff->type == 'de8') {
                     $roundsBeforeFinal = 5;
                     $top = 25;
                 } else {
