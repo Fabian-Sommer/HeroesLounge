@@ -25,9 +25,29 @@
         {% endif %}
     {% endif %}
 
-    {% if __SELF__.match.playoff %}
+    {% if __SELF__.match.playoff and  __SELF__.match.playoff.season %}
         <h1>
             <a href="{{ 'season/playoff' |page({'season-slug': __SELF__.match.playoff.season.slug, 'playoff-title': __SELF__.match.playoff.title})}}">
+                {{__SELF__.match.playoff.longTitle}}
+            </a>
+        </h1>
+        {% if __SELF__.decoded_playoff_position %}
+            {% if __SELF__.decoded_playoff_position['bracket'] == 3 %}
+                <h2>Finals</h2>
+            {% else %}
+                {% if __SELF__.decoded_playoff_position['bracket'] == 1 %}
+                    <h2>Winner Bracket</h2>
+                {% elseif __SELF__.decoded_playoff_position['bracket'] == 2 %}
+                    <h2>Loser Bracket</h2>
+                {% endif %}
+                    <h3>Round {{__SELF__.decoded_playoff_position['round']}} - Match {{__SELF__.decoded_playoff_position['matchnumber']}}</h3>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+    {% if __SELF__.match.playoff and not __SELF__.match.playoff.season %}
+        <h1>
+            <a href="{{ 'playoff/view' |page({'playoff-title': __SELF__.match.playoff.slug})}}">
                 {{__SELF__.match.playoff.longTitle}}
             </a>
         </h1>
