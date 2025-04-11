@@ -76,16 +76,16 @@ class PlayoffOverview extends ComponentBase
                 $this->total_height = 153;
                 $this->total_width = 90;
             } else if ($this->playoff->type == 'de4') {
-                $this->total_height = 45;
+                $this->total_height = 30;
                 $this->total_width = 61;
             } else if ($this->playoff->type == 'de8') {
-                $this->total_height = 60;
+                $this->total_height = 35;
                 $this->total_width = 76;
             } else if ($this->playoff->type == 'de16') {
                 $this->total_height = 60;
                 $this->total_width = 106;
             } else if ($this->playoff->type == 'de8short') {
-                $this->total_height = 60;
+                $this->total_height = 45;
                 $this->total_width = 60;
             } else if ($this->playoff->type == 'playoffv3' || $this->playoff->type == 'de6') {
                 $this->total_height = 43.9375;
@@ -276,6 +276,13 @@ class PlayoffOverview extends ComponentBase
                 $top = 5;
             }
         } else if ($this->playoff->type == 'de16' || $this->playoff->type == 'de8' || $this->playoff->type == 'de4') {
+            $topoffset = 40.0625;
+            if ($this->playoff->type == 'de8') {
+                $topoffset -= 15;
+            }
+            if ( $this->playoff->type == 'de4') {
+                $topoffset -= 20;
+            }
             if ($dec_position['bracket'] == 1) {
                 $left = 2 * $round_width * ($dec_position['round']-1);
                 $diff = 4.625;
@@ -283,14 +290,14 @@ class PlayoffOverview extends ComponentBase
             } else if ($dec_position['bracket'] == 2) {
                 $left = $round_width * $dec_position['round'];
                 $diff = 4.625;
-                $top = 40.0625 + (2**(floor(($dec_position['round']-1)/2)) - 1) * $diff / 2 + ($dec_position['matchnumber']-1) * $diff* 2**(floor(($dec_position['round']-1)/2));
+                $top = $topoffset + (2**(floor(($dec_position['round']-1)/2)) - 1) * $diff / 2 + ($dec_position['matchnumber']-1) * $diff* 2**(floor(($dec_position['round']-1)/2));
             } else if ($dec_position['bracket'] == 3) {
                 if ($this->playoff->type == 'de4') {
                     $roundsBeforeFinal = 3;
-                    $top = 16.9375;
+                    $top = 13;
                 } else if ($this->playoff->type == 'de8') {
                     $roundsBeforeFinal = 5;
-                    $top = 25;
+                    $top = 19;
                 } else {
                     $roundsBeforeFinal = 7;
                     $top = 33.0625;
