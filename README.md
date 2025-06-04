@@ -27,10 +27,22 @@ On OS X, install with Brew: https://brew.sh/
 
 On Linux you should be able to figure this out yourself. ;)
 
+Once Vagrant is installed, head to your desired folder and clone the repository:
+
+```bash
+git clone https://github.com/Fabian-Sommer/HeroesLounge.git
+cd HeroesLounge
+```
+
+Next, we download xampp version `xampp-linux-x64-8.2.12-0-installer.run` and place it inside the HeroesLounge directory.
+
+**NOTE: If you downloaded a more up-to-date xampp version, you must modify `install_october.sh` file, more specifically line 10 - `cp /vagrant/xampp-linux-x64-8.2.12-0-installer.run .` and replace `xampp-linux-x64-8.2.12-0-installer.run` with your xampp file version name.**
+
 Now run the Virtualbox UI and make sure that the Virtualbox Guest Additions are up to date with the Virtualbox version (it should prompt you automatically if not).
 
 
 Download the database zip from the link you should have received (discord pins/email from team) and put it in this directory (after cloning this repo locally).
+
 
 Run Vagrant:
 
