@@ -3,7 +3,11 @@
 BASE=/opt/lampp
 HTDOCS=$BASE/htdocs
 
-wget https://www.apachefriends.org/xampp-files/7.2.14/xampp-linux-x64-7.2.14-0-installer.run
+# Remove existing installer if any
+rm -f xampp-linux-*-installer.run
+
+# Copy from shared folder instead of downloading
+cp /vagrant/xampp-linux-x64-8.2.12-0-installer.run .
 chmod +x xampp-linux-*-installer.run
 sudo ./xampp-linux-*-installer.run
 rm ./xampp-linux-*-installer.run
