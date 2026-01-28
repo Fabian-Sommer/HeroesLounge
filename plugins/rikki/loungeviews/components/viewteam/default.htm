@@ -199,7 +199,7 @@
     <div class="col-md-3 sidebar">
         {% if __SELF__.team.short_description %}
         <h3 class="widget-title">Team Description</h3>
-        {{ __SELF__.team.short_description | raw}} {% endif %} {% for div in __SELF__.team.active_divisions %}
+        {{ __SELF__.team.short_description | striptags | raw}} {% endif %} {% for div in __SELF__.team.active_divisions %}
         <h3 class="widget-title">Standings
             <a href="{{ 'season/division' |page({'slug':div.season.slug,'divslug':div.slug})}}">{{div.title}}</a>
         </h3>

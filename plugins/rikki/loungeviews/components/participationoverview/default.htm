@@ -111,7 +111,7 @@
                             <div class="col-12">
                                 <h6>Team Description:</h6>
                                 <p class="lead">
-                                    {{team.short_description | raw}}
+                                    {{team.short_description | striptags | raw}}
                                 </p>
                             </div>
                         </div>
@@ -152,7 +152,7 @@
                         /> {{agent.discord_tag}}</p>{% endif %} {% if agent.user.country_id %}
                     <p class="card-text"><strong>Country:</strong> {{agent.user.country.name}}</p>{% endif %} {% if agent.birthday %}
                     <p class="card-text"><strong>Birthday:</strong> {{agent.birthday}}</p>{% endif %} {% if agent.short_description %}
-                    <p class="card-text"><strong>Description:</strong><br/>{{agent.short_description}}</p>{% endif %}
+                    <p class="card-text"><strong>Description:</strong><br/>{{agent.short_description | striptags}}</p>{% endif %}
                 </div>
             </div>
             {% endfor %}

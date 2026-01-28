@@ -82,7 +82,7 @@
         {% if __SELF__.sloth.birthday %}
         <p class="card-text"><strong>Birthday:</strong> {{__SELF__.sloth.birthday}}</p>{% endif %}
         {% if __SELF__.sloth.short_description %}
-        <p class="card-text"><strong>Description:</strong><br />{{__SELF__.sloth.short_description}}</p>{% endif %}
+        <p class="card-text"><strong>Description:</strong><br />{{__SELF__.sloth.short_description | striptags}}</p>{% endif %}
     </div>
 </div>
 <br>

@@ -213,7 +213,7 @@
         <form>
             <div>
                 <textarea class="form-control" placeholder="Say something about your team!" name="short_description" maxlength="255" style="height:75px"
-                    aria-describedby="shortDescBlock">{{__SELF__.team.short_description}}</textarea>
+                    aria-describedby="shortDescBlock">{{__SELF__.team.short_description | striptags}}</textarea>
                 <small id="shortDescBlock" class="text-muted">
                 Can be 255 characters long.
             </small>

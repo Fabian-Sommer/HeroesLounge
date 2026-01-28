@@ -63,7 +63,7 @@
                                 <div class="col-12">
                                     <h6>Team Description:</h6>
                                     <p class="lead">
-                                        {{team.short_description | raw}}
+                                        {{team.short_description | striptags | raw}}
                                     </p>
                                 </div>
                             </div>
