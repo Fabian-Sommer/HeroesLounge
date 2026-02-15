@@ -48,3 +48,9 @@ tabs:
             type: partial
             path: ~/plugins/rikki/heroeslounge/controllers/playoff/_teams.htm
             tab: Groups & Teams
+        admins:
+            label: Admins for this playoff
+            type: partial
+            path: ~/plugins/rikki/heroeslounge/controllers/playoff/_admins.htm
+            tab: General
+            permissions: rikki.heroeslounge.season
