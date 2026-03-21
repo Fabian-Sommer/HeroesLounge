@@ -34,3 +34,7 @@ columns:
         sortable: true
         relation: free_agents_count
         valueFrom: count
+    created_at:
+        label: Created
+        type: text
+        sortable: true

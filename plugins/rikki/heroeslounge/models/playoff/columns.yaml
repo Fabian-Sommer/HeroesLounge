@@ -14,3 +14,7 @@ columns:
         sortable: true
         relation: season
         valueFrom: title
+    created_at:
+        label: Created
+        type: text
+        sortable: true

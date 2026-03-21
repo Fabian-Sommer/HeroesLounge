@@ -35,3 +35,7 @@ columns:
         type: text
         searchable: true
         sortable: true
+    created_at:
+        label: Created
+        type: text
+        sortable: true

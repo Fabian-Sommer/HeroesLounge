@@ -5,6 +5,9 @@ recordUrl: 'rikki/heroeslounge/season/update/:id'
 noRecordsMessage: 'backend::lang.list.no_records'
 showSetup: true
 showCheckboxes: true
+defaultSort:
+    column: created_at
+    direction: desc
 toolbar:
     buttons: list_toolbar
     search:
