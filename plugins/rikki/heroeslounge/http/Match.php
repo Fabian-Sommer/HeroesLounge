@@ -30,6 +30,11 @@ class Match extends Controller
         return MatchModel::findOrFail($id)->channels;
     }
 
+    public function mmrBound($id)
+    {
+        return MatchModel::findOrFail($id)->mmrBound;
+    }
+
     public function teams($id)
     {
         return MatchModel::findOrFail($id)->teams;

@@ -14,6 +14,10 @@ fields:
     overview_display_title:
         label: Overview Display Title
         comment: Equal to division title if empty
+    mmr_bound:
+        label: Upper MMR Bound
+        span: auto
+        type: text
     logo:
         label: Logo
         span: auto

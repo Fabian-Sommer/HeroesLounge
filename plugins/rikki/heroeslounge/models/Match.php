@@ -139,6 +139,22 @@ class Match extends Model
         return null;
     }
 
+    public function getMmrBoundAttribute() {
+        if ($this->division != null) {
+            return $this->division->mmr_bound;
+        }
+        if ($this->season != null) {
+            // Try to look at the bound of one of the division a team was in
+            $team = $this->teams()->first();
+            foreach ($this->season->divisions as $div) {
+                if ($div->teams->contains($team)) {
+                    return $div->mmr_bound;
+                }
+            }
+        }
+        return null;
+    }
+
     public function getCasterIds()
     {
         return $this->casters

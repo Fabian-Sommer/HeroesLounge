@@ -45,6 +45,11 @@ tabs:
             descriptionFrom: description
             placeholder: 'null'
             tab: General
+        mmr_bound:
+            label: 'Upper MMR Bound'
+            span: auto
+            type: text
+            tab: General
         teams:
             label: Teams
             span: full
