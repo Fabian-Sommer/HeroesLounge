@@ -109,6 +109,12 @@ navigation:
                 icon: icon-futbol-o
                 permissions:
                     - rikki.heroeslounge.match
+            manage-substitutes:
+                label: 'Substitutes'
+                url: rikki/heroeslounge/substituteregistration
+                icon: icon-users
+                permissions:
+                    - rikki.heroeslounge.match
 permissions:
     rikki.heroeslounge.match:
         tab: 'rikki.heroeslounge::lang.plugin.name'

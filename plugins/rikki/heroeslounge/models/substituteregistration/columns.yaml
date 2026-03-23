@@ -1,0 +1,33 @@
+columns:
+    id:
+        label: id
+        type: number
+    created_at:
+        label: Created
+        type: text
+        sortable: true
+    subSloth:
+        label: Substitute
+        type: text
+        searchable: true
+        sortable: true
+        select: title
+        relation: subSloth
+    registrantSloth:
+        label: Registrant
+        type: text
+        searchable: true
+        sortable: true
+        select: title
+        relation: registrantSloth
+    team:
+        label: Team
+        type: text
+        searchable: true
+        sortable: true
+        select: title
+        relation: team
+    approved:
+        label: Approved
+        type: text
+        

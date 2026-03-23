@@ -1,0 +1,13 @@
+name: SubstituteRegistration
+modelClass: Rikki\Heroeslounge\Models\SubstituteRegistration
+form: $/rikki/heroeslounge/models/substituteregistration/fields.yaml
+defaultRedirect: rikki/heroeslounge/substituteregistration
+create:
+    form: $/rikki/heroeslounge/models/substituteregistration/fields.yaml
+    redirect: 'rikki/heroeslounge/substituteregistration/update/:id'
+    redirectClose: rikki/heroeslounge/substituteregistration
+update:
+    redirect: rikki/heroeslounge/substituteregistration
+    redirectClose: rikki/heroeslounge/substituteregistration
+preview:
+    title: 'View Substitute Registrations'

@@ -11,6 +11,7 @@ use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Playoff;
 use Rikki\Heroeslounge\Models\Team;
+use Rikki\Heroeslounge\Models\SubstituteRegistration;
 use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
@@ -37,8 +38,14 @@ class Match extends Model
      */
     public $table = 'rikki_heroeslounge_match';
 
-    public $hasMany = ['games' => ['Rikki\Heroeslounge\Models\Game']];
-
+    public $hasMany = [
+        'games' => ['Rikki\Heroeslounge\Models\Game'],
+        'substituteRegistrations' =>  [
+                'Rikki\Heroeslounge\Models\SubstituteRegistration',
+                'key' => 'match_id',
+                'otherKey' => 'id'
+        ]
+    ];
 
     public $belongsTo = [
         'winner' => [
@@ -56,7 +63,6 @@ class Match extends Model
             'otherKey' => 'id'
         ]
     ];
-
     
     public $morphToMany = [
         'timeline' => ['Rikki\Heroeslounge\Models\Timeline',

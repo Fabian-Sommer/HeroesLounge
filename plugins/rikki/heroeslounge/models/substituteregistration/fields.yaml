@@ -1,0 +1,25 @@
+fields:
+    subSloth:
+        label: 'Substitute (Discord)'
+        span: auto
+        type: relation
+        nameFrom: discord_tag
+    registrantSloth:
+        label: 'Registrant (Discord)'
+        span: auto
+        type: relation
+        nameFrom: discord_tag
+    team:
+        label: 'Team'
+        span: auto
+        type: relation
+        nameFrom: title
+        descriptionFrom: description
+    match_id:
+        label: 'Match ID'
+        span: auto
+        type: text
+    approved:
+        label: Approved
+        type: text
+        span: auto

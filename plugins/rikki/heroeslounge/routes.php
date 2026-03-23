@@ -35,6 +35,7 @@ Route::group(['prefix' => 'api/v2', 'middleware' => ['Rikki\Heroeslounge\Classes
     Route::get('matches/{id}/games','Rikki\Heroeslounge\Http\Match@games');
     Route::get('matches/{id}/mmrBound','Rikki\Heroeslounge\Http\Match@mmrBound');
     Route::get('matches/{id}/replays','Rikki\Heroeslounge\Http\Match@replays');
+    Route::get('matches/{id}/season','Rikki\Heroeslounge\Http\Match@season');
     Route::get('matches/today/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getMatchesForToday');
     Route::get('matches/forDate/{date}/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getMatchesForDate');
     Route::get('matches/withApprovedCastBetween/{startdate}/{enddate}','Rikki\Heroeslounge\Http\Match@withApprovedCastBetween');
@@ -61,6 +62,12 @@ Route::group(['prefix' => 'api/v2', 'middleware' => ['Rikki\Heroeslounge\Classes
     Route::resource('timeline', 'Rikki\Heroeslounge\Http\Timeline');
     Route::get('maps', 'Rikki\Heroeslounge\Http\Map@getEnabled');
     Route::get('logos', 'Rikki\Heroeslounge\Http\Team@logos');
+
+    Route::get('substitutes/all', 'Rikki\Heroeslounge\Http\SubstituteRegistration@indexAll');
+    Route::get('substitutes/getForMatch/{match_id}', 'Rikki\Heroeslounge\Http\SubstituteRegistration@getForMatch');
+    Route::put('substitutes/register/{sub_id}/{registrant_id}/{match_id}', 'Rikki\Heroeslounge\Http\SubstituteRegistration@addSubstitute');
+    Route::put('substitutes/approve/{id}', 'Rikki\Heroeslounge\Http\SubstituteRegistration@approveSubstitute');
+    Route::delete('substitutes/delete/{id}','Rikki\Heroeslounge\Http\SubstituteRegistration@delete');
 });
 
 Route::resource('api/v1/matches', 'Rikki\Heroeslounge\Http\Match');

@@ -1,0 +1,16 @@
+# ===================================
+#  Rest Behavior Config
+# ===================================
+
+# Allowed Rest Actions
+allowedActions:
+  index:
+      pageSize: 20
+  indexAll:
+  getForMatch:
+  addSubstitute:
+  approveSubstitute:
+  delete:
+
+# Model Class name
+modelClass: Rikki\Heroeslounge\Models\SubstituteRegistration

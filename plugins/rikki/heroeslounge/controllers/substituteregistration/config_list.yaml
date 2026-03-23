@@ -1,0 +1,16 @@
+title: Substitutes
+modelClass: Rikki\Heroeslounge\Models\SubstituteRegistration
+list: $/rikki/heroeslounge/models/substituteregistration/columns.yaml
+recordUrl: 'rikki/heroeslounge/substituteregistration/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: '20'
+showSetup: true
+showCheckboxes: true
+showSorting: 1
+defaultSort:
+    column: created_at
+    direction: desc
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
