@@ -14,6 +14,6 @@ class Map extends Controller
     public function __construct()
     {
         parent::__construct();
-        BackendMenu::setContext('Rikki.Heroeslounge', 'manage-matches', 'maps-selection');
+        BackendMenu::setContext('Rikki.Heroeslounge', 'manage-general', 'maps-selection');
     }
 }
