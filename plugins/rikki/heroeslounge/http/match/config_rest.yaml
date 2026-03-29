@@ -7,10 +7,7 @@ allowedActions:
   index:
       pageSize: 20
   indexAll:
-  store:
   show:
-  update:
-  destroy:
   teams:
   replays:
   games:
