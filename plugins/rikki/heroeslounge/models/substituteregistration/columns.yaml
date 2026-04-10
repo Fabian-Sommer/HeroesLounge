@@ -30,4 +30,9 @@ columns:
     approved:
         label: Approved
         type: text
+    match_id:
+        label: Match ID
+        type: text
+        searchable: true
+        sortable: true
         
