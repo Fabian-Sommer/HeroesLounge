@@ -75,6 +75,7 @@
 </div>
 <div class="row mx-3">
     <div class="col">
+        {% if __SELF__.game.teamOneFirstBan %}
         <figure class="figure float-left m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamOneFirstBan.image_url ~ '.png' %}
             <img src="{{path | theme}}" title="{{__SELF__.game.teamOneFirstBan.title}}" alt="{{__SELF__.game.teamOneFirstBan.title}}"
@@ -85,6 +86,7 @@
             <img src="{{path | theme}}" title="{{__SELF__.game.teamOneSecondBan.title}}" alt="{{__SELF__.game.teamOneSecondBan.title}}"
                 class="rounded Icon75x" loading={{__SELF__.lazy}} />
         </figure>
+        {% endif %}
         {% if __SELF__.game.teamOneThirdBan %}
         <figure class="figure float-left m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamOneThirdBan.image_url ~ '.png' %}
@@ -121,6 +123,7 @@
         </div>
     </div>
     <div class="col">
+        {% if __SELF__.game.teamTwoFirstBan %}
         <figure class="figure float-right m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamTwoFirstBan.image_url ~ '.png' %}
             <img src="{{path | theme}}" title="{{__SELF__.game.teamTwoFirstBan.title}}" alt="{{__SELF__.game.teamTwoFirstBan.title}}"
@@ -131,6 +134,7 @@
             <img src="{{path | theme}}" title="{{__SELF__.game.teamTwoSecondBan.title}}" alt="{{__SELF__.game.teamTwoSecondBan.title}}"
                 class="rounded Icon75x" loading={{__SELF__.lazy}} />
         </figure>
+        {% endif %}
         {% if __SELF__.game.teamTwoThirdBan %}
         <figure class="figure float-right m-1">
             {% set path = 'assets/img/heroes/' ~ __SELF__.game.teamTwoThirdBan.image_url ~ '.png' %}
