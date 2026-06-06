@@ -15,10 +15,6 @@ class MMRFetcher
             return $mmrData["Storm League"]["mmr"];
         }
 
-        if (array_key_exists("Unranked Draft", $mmrData) && $mmrData["Unranked Draft"]["games_played"] >= self::MINIMUM_MATCHES_PER_GAMEMODE) {
-            return $mmrData["Unranked Draft"]["mmr"];
-        }
-
         if (array_key_exists("Quick Match", $mmrData) && $mmrData["Quick Match"]["games_played"] >= self::MINIMUM_MATCHES_PER_GAMEMODE) {
             return $mmrData["Quick Match"]["mmr"];
         }
