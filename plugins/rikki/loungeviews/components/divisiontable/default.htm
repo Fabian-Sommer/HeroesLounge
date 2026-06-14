@@ -51,8 +51,8 @@
             <td class="score">{{team.map_score}}</td>
             {% else %}
             <td class="score">{{team.match_wins}}</td>
-            <td class="score">{{team.game_wins}}</td>
-            <td class="score">{{team.game_wins - team.game_losses}}</td>
+            <td class="score">{{team.map_wins}}</td>
+            <td class="score">{{team.map_score}}</td>
             {% endif %}
         </tr>
         {% endfor %}

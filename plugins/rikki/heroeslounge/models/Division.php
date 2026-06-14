@@ -157,36 +157,106 @@ class Division extends Model
 
     public function getDivisionTableStandings()
     {
-        $teams = $this->teams()->withPivot('win_count')->withPivot('match_count')->withPivot('bye')->withPivot('free_win_count')->
+        $teams = $this->teams()->where('active', 1)->withPivot('win_count')->withPivot('match_count')->withPivot('bye')->withPivot('free_win_count')->
                         whereNull('rikki_heroeslounge_teams.deleted_at')->get();
         
         //calculate game wins
         foreach ($teams as $team) {
-            $team->game_wins = 0;
+            $team->match_wins = 0;
+            $team->map_wins = 0;
+            $team->map_score = 0;
+            $team->wins_vs = collect([]);
         }
 
         foreach ($this->matches as $match) {
             foreach ($match->games as $game) {
-                if ($game->winner) {
-                    $winner = $teams->where('id', $game->winner->id)->first();
-                    if ($winner) {
-                        $winner->game_wins++;
-                    }
+                if ($game->winner && $teams->contains($game->winner)) {
+                    $winningTeam = $teams->where('id', $game->winner->id)->first();
+                    $winningTeam->map_wins++;
+                    $winningTeam->map_score++;
+                }
+                if ($game->loser && $teams->contains($game->loser)) {
+                    $losingTeam = $teams->where('id', $game->loser->id)->first();
+                    $losingTeam->map_score--;
                 }
             }
+            if ($match->winner && $teams->contains($match->winner)) {
+                $winningTeam = $teams->where('id', $match->winner->id)->first();
+                $winningTeam->match_wins++;
+                $winningTeam->wins_vs->push($match->loser->id);
+            }
         }
+        //Log::info($teams->first()->wins_vs->toJson());
+        Log::info(new Collection($teams));
 
         $sortedTeams = $teams->sortByDesc(function ($team) {
-            return 1000000*$team->pivot->win_count + 1000*$team->game_wins + $team->pivot->match_count - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
+            return 1000000*$team->pivot->win_count + 1000*$team->map_wins + 1000*$team->map_wins + $team->pivot->map_score - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
         })->values()->all();
-
+        $initialSortedTeams = new Collection($sortedTeams);
         $tempTeams = new Collection($sortedTeams);
-
-        return $tempTeams->map(function ($team, $key) {
+        /*
+        $initialSortedTeams = $sortedTeams->map(function ($team, $key) {
             $team["pivot"]["position"] = $key + 1;;
             
             return new Collection($team);
         });
+        */
+        // Apply first Head to Head
+        for ($i = 1; $i < $initialSortedTeams->count(); $i++) {
+            $currentPosition = $i+1;
+            while ($currentPosition < $initialSortedTeams->count()) {
+                if ($initialSortedTeams[$currentPosition]["match_wins"] == $initialSortedTeams[$i]["match_wins"]
+                    && $initialSortedTeams[$currentPosition]["map_wins"] == $initialSortedTeams[$i]["map_wins"]) {
+                    $currentPosition++;
+                } else {
+                    break;
+                }
+            }
+            
+            $currentPosition--;
+            if ($currentPosition == $i) {
+                continue;
+            }
+            if ($currentPosition == $i+1) {
+                // We can apply head-to-head
+                if ($initialSortedTeams[$currentPosition]["wins_vs"]->contains($initialSortedTeams[$i]["id"])) {
+                    $a1 = $initialSortedTeams[$currentPosition];
+                    $initialSortedTeams[$currentPosition] = $initialSortedTeams[$i];
+                    $initialSortedTeams[$i] = $a1;
+                }
+                $i = $currentPosition;
+                continue;
+            }
+
+            // We have more than two teams tied for map wins, look at map score
+            $currentPosition = $i+1;
+            while ($currentPosition < $initialSortedTeams->count()) {
+                if ($initialSortedTeams[$currentPosition]["match_wins"] == $initialSortedTeams[$i]["match_wins"]
+                    && $initialSortedTeams[$currentPosition]["map_wins"] == $initialSortedTeams[$i]["map_wins"]
+                    && $initialSortedTeams[$currentPosition]["map_score"] == $initialSortedTeams[$i]["map_score"]) {
+                    $currentPosition++;
+                } else {
+                    break;
+                }
+            }
+            $currentPosition--;
+
+            if ($currentPosition == $i) {
+                continue;
+            }
+            if ($currentPosition == $i+1) {
+                // We can apply head-to-head
+                if ($initialSortedTeams[$currentPosition]["wins_vs"]->contains($initialSortedTeams[$i]["id"])) {
+                    $a1 = $initialSortedTeams[$currentPosition];
+                    $initialSortedTeams[$currentPosition] = $initialSortedTeams[$i];
+                    $initialSortedTeams[$i] = $a1;
+                }
+                $i = $currentPosition;
+                continue;
+            }
+        }
+
+        return $initialSortedTeams;
     }
 
     public function herostatistics()

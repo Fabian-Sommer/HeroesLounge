@@ -26,7 +26,7 @@ class Division extends Controller
     {
         $standingsTable = DivisionModel::findOrFail($divisionId)->getDivisionTableStandings();
         return $standingsTable->first(function ($team) use ($teamId) {
-            return $team['id'] == $teamId;
+            return $team->id == $teamId;
         });
     }
 
