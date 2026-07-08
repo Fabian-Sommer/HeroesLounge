@@ -31,17 +31,13 @@ class DivisionTable extends ComponentBase
         $div = Divisions::find($id);
         $this->showScore = $this->property('showScore');
         if ($div) {
-            $this->teams = $div->teams()->where('active', 1)->withPivot('win_count')->withPivot('match_count')->withPivot('bye')->withPivot('free_win_count')->
-                                    whereNull('rikki_heroeslounge_teams.deleted_at')->
-                                    orderBy('win_count', "DESC")->orderBy('free_win_count', "ASC")->orderBy('bye', "ASC")->orderBy('match_count', "DESC")->get();
-
             if ($this->property('showScore')) {
                 //used for playoffs
                 //we want teams that since then disbanded as well
                 $this->teams = $div->getTeamsSortedByScore();
             } else {
                 $this->teams = $div->getDivisionTableStandings();
-            }
+            }            
 
             if(null !== $this->property('teamId')) {
                 $this->selTeam = $this->property('teamId');

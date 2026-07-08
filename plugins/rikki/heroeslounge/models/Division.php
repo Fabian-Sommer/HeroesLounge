@@ -159,8 +159,8 @@ class Division extends Model
     {
         $teams = $this->teams()->where('active', 1)->withPivot('win_count')->withPivot('match_count')->withPivot('bye')->withPivot('free_win_count')->
                         whereNull('rikki_heroeslounge_teams.deleted_at')->get();
-        
-        //calculate game wins
+
+        // Calculate game wins
         foreach ($teams as $team) {
             $team->match_wins = 0;
             $team->map_wins = 0;
@@ -186,22 +186,13 @@ class Division extends Model
                 $winningTeam->wins_vs->push($match->loser->id);
             }
         }
-        //Log::info($teams->first()->wins_vs->toJson());
-        Log::info(new Collection($teams));
 
         $sortedTeams = $teams->sortByDesc(function ($team) {
-            return 1000000*$team->pivot->win_count + 1000*$team->map_wins + 1000*$team->map_wins + $team->pivot->map_score - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
+            return 1000000*$team->pivot->win_count + 1000*$team->map_wins + $team->map_score - 0.001 * $team->pivot->free_win_count - 0.001 * $team->pivot->bye;
         })->values()->all();
         $initialSortedTeams = new Collection($sortedTeams);
-        $tempTeams = new Collection($sortedTeams);
-        /*
-        $initialSortedTeams = $sortedTeams->map(function ($team, $key) {
-            $team["pivot"]["position"] = $key + 1;;
-            
-            return new Collection($team);
-        });
-        */
-        // Apply first Head to Head
+
+        // Apply Head to Head
         for ($i = 1; $i < $initialSortedTeams->count(); $i++) {
             $currentPosition = $i+1;
             while ($currentPosition < $initialSortedTeams->count()) {
@@ -217,8 +208,9 @@ class Division extends Model
             if ($currentPosition == $i) {
                 continue;
             }
+
+            // Only two teams tied, we can apply head-to-head
             if ($currentPosition == $i+1) {
-                // We can apply head-to-head
                 if ($initialSortedTeams[$currentPosition]["wins_vs"]->contains($initialSortedTeams[$i]["id"])) {
                     $a1 = $initialSortedTeams[$currentPosition];
                     $initialSortedTeams[$currentPosition] = $initialSortedTeams[$i];
