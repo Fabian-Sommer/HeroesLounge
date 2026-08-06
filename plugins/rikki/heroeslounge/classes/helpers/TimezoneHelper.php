@@ -7,6 +7,7 @@ use Redirect;
 use Log;
 use DateTime;
 use DateTimeZone;
+use Exception;
 
 class TimezoneHelper
 {
@@ -51,16 +52,30 @@ class TimezoneHelper
 
     public static function setTimezone()
     {
-        if (isset($_POST[self::TIMEZONE_KEY])) {
-            $timezoneName = $_POST[self::TIMEZONE_KEY];
-        } else {
-            $timezoneName = self::defaultTimezone();
+        $timezoneName = isset($_POST[self::TIMEZONE_KEY]) ? $_POST[self::TIMEZONE_KEY] : null;
+
+        if (!is_string($timezoneName) || !self::isValidTimezone($timezoneName)) {
+            // Leave the session alone so hasTimezone() stays false and detection
+            // is retried on the next page load, instead of pinning the visitor
+            // to the default timezone for the rest of the session.
+            return;
         }
-        if (!in_array($timezoneName, timezone_identifiers_list())) {
-            $timezoneName = self::defaultTimezone();
-        }
+
         Session::put(self::TIMEZONE_KEY, $timezoneName);
         return Redirect::refresh();
+    }
+
+    private static function isValidTimezone($timezoneName)
+    {
+        // timezone_identifiers_list() only returns the canonical identifiers, so it
+        // rejects the backwards compatible aliases browsers still report, such as
+        // Europe/Kiev, Asia/Calcutta and Etc/GMT+5. All of them are valid here.
+        try {
+            new DateTimeZone($timezoneName);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     public static function hasTimezone()
