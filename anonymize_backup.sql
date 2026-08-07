@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE DEFINER=`zalz`@`localhost` PROCEDURE `hl_main_copy`.`RemovePersonalData`()
 BEGIN
     DECLARE n INT DEFAULT 0;
