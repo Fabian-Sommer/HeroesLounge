@@ -4,7 +4,6 @@ namespace Rikki\Heroeslounge\Classes;
 use Closure;
 use Response;
 use Rikki\Heroeslounge\Models\ApiKeys;
-use Log;
 
 /**
  * Class ApiMiddleware
@@ -25,7 +24,7 @@ class ApiMiddleware
     {
         $key = $request->header('key');
         
-        if (ApiKeys::getAccessForKey($key)) {
+        if (ApiKeys::getAccessForKey($key, $request->method())) {
             return $next($request);
         } else {
             return Response::make('Access Denied', 403);

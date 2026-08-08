@@ -16,10 +16,12 @@ class ApiKeys extends Model
      */
     public $table = 'rikki_heroeslounge_api_keys';
 
-    public static function getAccessForKey($key) {
+    public static function getAccessForKey($key, $method) {
         $api_key = ApiKeys::where('key', $key)->first();
         if ($api_key) {
-            return $api_key->getAccess();
+            if ($method == "GET" || $api_key->has_write_access == 1) {
+                return $api_key->getAccess();
+            }
         }
         return false;
     }
