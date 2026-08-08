@@ -69,6 +69,10 @@ Route::group(['prefix' => 'api/v2', 'middleware' => ['Rikki\Heroeslounge\Classes
     Route::put('substitutes/register/{sub_id}/{registrant_id}/{match_id}', 'Rikki\Heroeslounge\Http\SubstituteRegistration@addSubstitute');
     Route::put('substitutes/approve/{id}', 'Rikki\Heroeslounge\Http\SubstituteRegistration@approveSubstitute');
     Route::delete('substitutes/delete/{id}','Rikki\Heroeslounge\Http\SubstituteRegistration@delete');
+
+    Route::get('mapbans/all', 'Rikki\Heroeslounge\Http\MapBan@indexAll');
+    Route::put('mapbans/register/{match_id}/{team_id}/{map_id}', 'Rikki\Heroeslounge\Http\MapBan@addMapBan');
+    Route::delete('mapbans/delete/{id}','Rikki\Heroeslounge\Http\MapBan@delete');
 });
 
 Route::resource('api/v1/matches', 'Rikki\Heroeslounge\Http\Match');

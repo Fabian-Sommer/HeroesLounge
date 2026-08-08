@@ -44,6 +44,11 @@ class Match extends Model
                 'Rikki\Heroeslounge\Models\SubstituteRegistration',
                 'key' => 'match_id',
                 'otherKey' => 'id'
+        ],
+        'mapBans' => [
+            'Rikki\Heroeslounge\Models\MapBan',
+            'key' => 'match_id',
+            'otherKey' => 'id'
         ]
     ];
 

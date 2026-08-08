@@ -22,6 +22,8 @@ class ViewMatch extends ComponentBase
     public $timezone = null;
     public $timezoneOffset = null;
     public $datetimeFormat = null;
+    public $teamOneBans = [];
+    public $teamTwoBans = [];
 
     public function componentDetails()
     {
@@ -47,6 +49,17 @@ class ViewMatch extends ComponentBase
         $this->match = Match::find($this->param('id'));
         if ($this->match != null && $this->match->playoff_position != null) {
             $this->decoded_playoff_position = Match::decodePlayoffPosition($this->match->playoff_position);
+        }
+        if ($this->match) {
+            if ($this->match->teams->count() == 2 && $this->match->mapBans->count() > 0) {
+
+                if ($this->match->teams[0]) {
+                    $this->teamOneBans = $this->match->mapBans->where('team_id', '=', $this->match->teams[0]->id);
+                }
+                if ($this->match->teams[1]) {
+                    $this->teamTwoBans = $this->match->mapBans->where('team_id', $this->match->teams[1]->id);
+                }
+            }
         }
         $this->timezone = TimezoneHelper::getTimezone();
         $this->timezoneOffset = TimezoneHelper::getTimezoneOffset();

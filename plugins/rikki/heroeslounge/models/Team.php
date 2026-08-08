@@ -50,8 +50,9 @@ class Team extends Model
     public $hasMany = [
             //'sloths_count' => ['Rikki\Heroeslounge\Models\Sloth', 'count' => true],
             'apps' => ['Rikki\Heroeslounge\Models\Apps'],
-            'gameParticipants' => ['Rikki\Heroeslounge\Models\GameParticipation']
-            ];
+            'gameParticipants' => ['Rikki\Heroeslounge\Models\GameParticipation'],
+            'mapBans' => ['Rikki\Heroeslounge\Models\MapBan']
+    ];
     
 
     public $morphMany = [

@@ -1,33 +1,5 @@
 {% if __SELF__.game.gameParticipations is not empty %}
 <div class="row">
-    <div class="col-6">
-        <div class="media text-right">
-            <div class="media-body">
-                <h3>
-                    <a href="{{ 'team/view' |page({slug: __SELF__.game.teamOne.slug})}}">
-                            {{__SELF__.game.teamOne.title}}
-                    </a>
-                </h3>
-            </div>
-            <img src="{% if __SELF__.game.teamOne.logo.path %}{{__SELF__.game.teamOne.logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}"
-                class="d-flex align-self-start ml-2" style="max-height: 50px" alt="{{__SELF__.game.teamOne.title}}" title="{{__SELF__.game.teamOne.title}}">
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="media text-left">
-            <img src="{% if __SELF__.game.teamTwo.logo.path %}{{__SELF__.game.teamTwo.logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}"
-                class="d-flex align-self-start mr-2" style="max-height: 50px" alt="{{__SELF__.game.teamTwo.title}}" title="{{__SELF__.game.teamTwo.title}}">
-            <div class="media-body">
-                <h3>
-                    <a href="{{ 'team/view' |page({slug: __SELF__.game.teamTwo.slug})}}">
-                                    {{__SELF__.game.teamTwo.title}}
-                                </a> </h3>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
     <div class="col">
         <span class="float-{% if __SELF__.game.getFirstPickTeamId == __SELF__.game.teamOne.id %}left{% else %}right{% endif %} badge badge-info">
             First Pick</span>

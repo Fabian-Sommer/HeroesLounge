@@ -79,8 +79,8 @@
     {% endif %}
 
     {% if __SELF__.match.wbp %}
-        <div id="matchtime">
-            <h3>Scheduled for {{__SELF__.match.wbp | date(__SELF__.datetimeFormat, __SELF__.timezone)}}</h3>
+        <div id="matchtime" class="mb-3">
+            <h4>Scheduled for {{__SELF__.match.wbp | date(__SELF__.datetimeFormat, __SELF__.timezone)}}</h4>
             ({{__SELF__.timezone}} {{__SELF__.timezoneOffset}})
         </div>
     {% else %}
@@ -122,6 +122,80 @@
             {% endfor %}
         </div>
     {% else %}
+        {% if __SELF__.match.teams|length == 2 %}
+        <div class="row mb-3 justify-content-center">
+            <div class="col-5">
+                <div class="media align-items-center justify-content-end">
+                    <h2><a href="{{ 'team/view' |page({slug: __SELF__.match.teams[0].slug})}}">
+                        {{__SELF__.match.teams[0].title}}
+                    </a></h2>
+                    <img src="{% if __SELF__.match.teams[0].logo.path %}{{__SELF__.match.teams[0].logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}"
+                        class="d-flex align-self-start ml-2" style="max-height: 50px" alt="{{__SELF__.match.teams[0].title}}" title="{{__SELF__.match.teams[0].title}}">
+                </div>
+            </div>
+            <div class="col-1 align-items-center text-center">
+                <h3 class="mt-2">VS</h3>
+            </div>
+            <div class="col-5">
+                <div class="media align-items-center justify-content-start">
+                    <img src="{% if __SELF__.match.teams[1].logo.path %}{{__SELF__.match.teams[1].logo.path}}{% else %}/plugins/rikki/heroeslounge/assets/img/profile-icon.png{% endif %}"
+                        class="d-flex align-self-start mr-2" style="max-height: 50px" alt="{{__SELF__.match.teams[1].title}}" title="{{__SELF__.match.teams[1].title}}">
+                    <h2><a href="{{ 'team/view' |page({slug: __SELF__.match.teams[1].slug})}}">
+                        {{__SELF__.match.teams[1].title}}
+                    </a></h2>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if __SELF__.match.mapBans is not empty %}
+        <div class="row justify-content-center">
+            <div class="mb-2">
+                <span class="float-center badge badge-danger">
+                    Map Bans</span>
+            </div>
+        </div>
+         
+        <div class="row mb-2">
+        {% if __SELF__.teamOneBans is not empty %}
+            <div class="col-6">
+                <div class="row flex-row-reverse">
+                {% for mapBan in __SELF__.teamOneBans %}
+                    <div class="col-4 text-center">
+                        {% set map = 'assets/img/maps/bg_' ~mapBan.map.title|replace({' ':'-'})|lower ~ '.jpg'%}
+                        <figure class="fixure mx-auto mb-0" style="max-width:100px">
+                            <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{mapBan.map.title}}"
+                                style="max-width:100px" loading={{__SELF__.lazy}}>
+                            <figcaption class="figure-caption">
+                                <span class="badge badge-info">{{mapBan.map.title}}</span>
+                            </figcaption>
+                        </figure>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if __SELF__.teamTwoBans is not empty %}
+            <div class="col-6">
+                <div class="row">
+                {% for mapBan in __SELF__.teamTwoBans %}
+                    <div class="col-4 text-center">
+                        {% set map = 'assets/img/maps/bg_' ~mapBan.map.title|replace({' ':'-'})|lower ~ '.jpg'%}
+                        <figure class="fixure mx-auto mb-0" style="max-width:100px">
+                            <img src="{{ map| theme }}" class=" figure-img rounded" alt="{{mapBan.map.title}}"
+                                style="max-width:100px" loading={{__SELF__.lazy}}>
+                            <figcaption class="figure-caption">
+                                <span class="badge badge-info">{{mapBan.map.title}}</span>
+                            </figcaption>
+                        </figure>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        </div>
+        {% endif %}
+
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="navbar-header">
                 <a class="navbar-brand d-lg-none">Games</a>
@@ -130,8 +204,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-            <div class="collapse navbar-collapse" id="gameNav">
-                <ul class="nav nav-tabs mr-auto">
+            <div class="collapse navbar-collapse justify-content-center" id="gameNav">
+                <ul class="nav nav-tabs">
                     {% for game in __SELF__.match.games %}
                     <li class="nav-item">
                         <a class="nav-link {% if loop.first %}active{% endif %}" href="#game{{game.id}}" data-toggle="tab" role="tab">Game {{loop.index}}</a>
