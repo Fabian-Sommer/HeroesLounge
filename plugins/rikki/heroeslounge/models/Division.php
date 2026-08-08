@@ -183,7 +183,9 @@ class Division extends Model
             if ($match->winner && $teams->contains($match->winner)) {
                 $winningTeam = $teams->where('id', $match->winner->id)->first();
                 $winningTeam->match_wins++;
-                $winningTeam->wins_vs->push($match->loser->id);
+                if ($match->loser) {
+                    $winningTeam->wins_vs->push($match->loser->id);
+                }
             }
         }
 
