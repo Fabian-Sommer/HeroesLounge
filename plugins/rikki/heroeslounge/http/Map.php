@@ -14,7 +14,6 @@ class Map extends Controller
 
     public $restConfig = 'config_rest.yaml';
 
-   
     public function getEnabled()
     {
         $data = Input::all();
@@ -22,5 +21,9 @@ class Map extends Controller
         return MapModel::where('enabled',$enabled)->get();
     }
     
+    public function indexAll()
+    {
+        return MapModel::all();
+    }
     
 }

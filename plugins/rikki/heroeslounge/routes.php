@@ -61,6 +61,7 @@ Route::group(['prefix' => 'api/v2', 'middleware' => ['Rikki\Heroeslounge\Classes
     Route::resource('channel', 'Rikki\Heroeslounge\Http\Twitchchannel');
     Route::resource('timeline', 'Rikki\Heroeslounge\Http\Timeline');
     Route::get('maps', 'Rikki\Heroeslounge\Http\Map@getEnabled');
+    Route::get('mapsAll', 'Rikki\Heroeslounge\Http\Map@indexAll');
     Route::get('logos', 'Rikki\Heroeslounge\Http\Team@logos');
 
     Route::get('substitutes/all', 'Rikki\Heroeslounge\Http\SubstituteRegistration@indexAll');
