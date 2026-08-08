@@ -1,5 +1,6 @@
 <?php namespace Rikki\Heroeslounge\Http;
 
+use App;
 use Backend\Classes\Controller;
 use Rikki\Heroeslounge\Models\Match;
 use Rikki\Heroeslounge\Models\SubstituteRegistration as SubModel;
