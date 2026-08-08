@@ -65,7 +65,7 @@
         {% endif %}
     {% endif %}
 
-    {% if __SELF__.match.getAcceptedCasters %}
+    {% if __SELF__.match.getAcceptedCasters is not empty %}
     <h4>Casted by:
         {% for caster in __SELF__.match.getAcceptedCasters %}
             {{caster.title}}{% if not loop.last %}, {%endif%}
