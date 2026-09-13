@@ -11,7 +11,9 @@ allowedActions:
   update:
   destroy:
   herostatistics:
+  detailedHerostatistics:
   seasonHerostatistics:
+  seasonDetailedHerostatistics:
 
 # Model Class name
 modelClass: Rikki\Heroeslounge\Models\Sloth

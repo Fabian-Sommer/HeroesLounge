@@ -20,9 +20,20 @@ class Sloth extends Controller
         return SlothModel::findOrFail($id)->herostatistics(null);
     }
 
+    public function detailedHerostatistics($id)
+    {
+        return SlothModel::findOrFail($id)->detailedHerostatistics(null);
+    }
+
     public function seasonHerostatistics($id, $seasonId)
     {
         $season = Season::findOrFail($seasonId);
         return SlothModel::findOrFail($id)->herostatistics($season);
+    }
+
+    public function seasonDetailedHerostatistics($id, $seasonId)
+    {
+        $season = Season::findOrFail($seasonId);
+        return SlothModel::findOrFail($id)->detailedHerostatistics($season);
     }
 }

@@ -325,6 +325,14 @@ class Sloth extends Model
         });
     }
 
+    public function detailedHerostatistics($season)
+    {
+        $stats = Stats::calculateHeroStatistics("slothAll", $this->gameParticipations, null, $season);
+        return $stats->sortByDesc(function ($hero_array) {
+            return $hero_array['picks'] * 1000000 + $hero_array['wins'];
+        });
+    }
+
     public function getHeroesProfileRegionId()
     {
         return $this->region_id == 2 ? 1 : 2;

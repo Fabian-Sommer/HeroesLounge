@@ -5,6 +5,8 @@ Route::group(['prefix' => 'api/v2', 'middleware' => ['Rikki\Heroeslounge\Classes
     Route::get('divisions/{id}/herostatistics', 'Rikki\LoungeStatistics\Http\Division@herostatistics');
     Route::get('sloths/{sloth}/herostatistics', 'Rikki\LoungeStatistics\Http\Sloth@herostatistics');
     Route::get('sloths/{sloth}/season/{season}/herostatistics', 'Rikki\LoungeStatistics\Http\Sloth@seasonHerostatistics');
+    Route::get('sloths/{sloth}/detailedherostatistics', 'Rikki\LoungeStatistics\Http\Sloth@detailedHerostatistics');
+    Route::get('sloths/{sloth}/season/{season}/detailedherostatistics', 'Rikki\LoungeStatistics\Http\Sloth@seasonDetailedHerostatistics');
     Route::get('teams/{team}/herostatistics', 'Rikki\LoungeStatistics\Http\Team@herostatistics');
     Route::get('teams/{team}/season/{season}/herostatistics', 'Rikki\LoungeStatistics\Http\Team@seasonHerostatistics');
     Route::get('teams/{team}/mapstatistics', 'Rikki\LoungeStatistics\Http\Team@mapstatistics');
