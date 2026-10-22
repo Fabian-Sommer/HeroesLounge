@@ -1,3 +1,6 @@
 *        text=auto
 *.txt    text
 *.sh     text eol=lf
+
+# Patches must keep their exact line endings (some patched files use CRLF)
+*.patch -text
