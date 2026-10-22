@@ -51,7 +51,6 @@ tabs:
             tab: General
         banner:
             label: Banner
-            span: left
             type: fileupload
             mode: image
             useCaption: true

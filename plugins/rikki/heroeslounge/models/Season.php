@@ -9,6 +9,8 @@ use Rikki\Heroeslounge\Models\Apps as Applications;
  */
 class Season extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     use \October\Rain\Database\Traits\Validation;
     
     use \October\Rain\Database\Traits\SoftDelete;

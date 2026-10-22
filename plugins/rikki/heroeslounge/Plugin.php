@@ -117,7 +117,7 @@ class Plugin extends PluginBase
         // });
 
         Event::listen('offline.sitesearch.query', function ($query) {
-            $items = SlothModel::where('title', 'like', "%${query}%")->get();
+            $items = SlothModel::where('title', 'like', "%{$query}%")->get();
             $results = $items->map(function ($item) use ($query) {
                 $relevance = mb_stripos($item->title, $query) !== false ? 2: 1;
                 return [
@@ -136,7 +136,7 @@ class Plugin extends PluginBase
         });
 
         Event::listen('offline.sitesearch.query', function ($query) {
-            $items = Teams::where('title', 'like', "%${query}%")->get();
+            $items = Teams::where('title', 'like', "%{$query}%")->get();
             $results = $items->map(function ($item) use ($query) {
                 $relevance = mb_stripos($item->title, $query) !== false ? 2: 1;
                 return [

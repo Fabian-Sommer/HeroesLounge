@@ -7,6 +7,8 @@ use Model;
  */
 class Apps extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     use \October\Rain\Database\Traits\Validation;
 
     /*

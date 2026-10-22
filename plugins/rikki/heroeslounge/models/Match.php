@@ -21,6 +21,8 @@ use Log;
  */
 class Match extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     use \October\Rain\Database\Traits\Validation;
     
     use \October\Rain\Database\Traits\SoftDelete;
@@ -250,7 +252,7 @@ class Match extends Model
                 $newDate = new DateTime($this->wbp, new DateTimeZone(TimezoneHelper::defaultTimezone()));
                 $oldDate = new DateTime($this->original['wbp'], new DateTimeZone(TimezoneHelper::defaultTimezone()));
 
-                $regionDefaultTimezone;
+                $regionDefaultTimezone = new DateTimeZone(TimezoneHelper::defaultTimezone());
                 if ($this->teams[0]->region_id == 1) {
                     $regionDefaultTimezone = new DateTimeZone('Europe/Berlin');
                 } else if ($this->teams[0]->region_id == 2) {

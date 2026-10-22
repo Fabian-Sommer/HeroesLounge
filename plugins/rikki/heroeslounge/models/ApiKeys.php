@@ -8,6 +8,8 @@ use Carbon\Carbon;
  */
 class ApiKeys extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     
     public $timestamps = true;
 

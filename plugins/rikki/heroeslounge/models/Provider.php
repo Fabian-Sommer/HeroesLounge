@@ -11,6 +11,8 @@ use October\Rain\Support\Markdown;
  */
 class Provider extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
 	public $timestamps = false;
 
 	/**

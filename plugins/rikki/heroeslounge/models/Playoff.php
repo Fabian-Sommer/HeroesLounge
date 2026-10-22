@@ -9,6 +9,8 @@ use Log;
 
 class Playoff extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     public $table = 'rikki_heroeslounge_playoffs';
 
     protected $slugs = ['slug' => 'title'];

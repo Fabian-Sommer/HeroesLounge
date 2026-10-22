@@ -36,7 +36,7 @@
     </div>
     {% endif %}
 
-    {% for agent in __SELF__.season.free_agents if __SELF__.user and agent.id == __SELF__.user.sloth.id %}
+    {% for agent in __SELF__.season.free_agents|filter(agent => __SELF__.user and agent.id == __SELF__.user.sloth.id) %}
     <div>
         You are signed up as a free agent.<br>
         No longer want to particpate as a free agent?<br>

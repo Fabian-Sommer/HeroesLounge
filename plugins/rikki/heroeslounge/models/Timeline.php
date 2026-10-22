@@ -3,7 +3,6 @@ namespace Rikki\Heroeslounge\Models;
 
 use October\Rain\Database\Model;
 
-//use Rikki\Heroeslounge\Classes\BelongsToMorph;
 
 /**
  * Class Timeline
@@ -11,6 +10,8 @@ use October\Rain\Database\Model;
  */
 class Timeline extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     public $table = 'rikki_heroeslounge_timeline';
 
     public $morphedByMany = [

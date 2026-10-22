@@ -9,6 +9,8 @@ use Indikator\content\models\Blog as Blog;
  */
 class RssEntry extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
 
     public $belongsTo = ['blog' => ['Indikator\content\models\Blog']
     ];
