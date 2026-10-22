@@ -3,13 +3,13 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class BuilderTableUpdateRikkiHeroesloungeSloths11b extends Migration
+class BuilderTableUpdateRikkiHeroesloungeSloths10 extends Migration
 {
     public function up()
     {
         Schema::table('rikki_heroeslounge_sloths', function($table)
         {
-            $table->boolean('newsletter_subscription')->default(0);
+            $table->integer('hotslogs_id')->nullable()->unsigned();
         });
     }
     
@@ -17,7 +17,7 @@ class BuilderTableUpdateRikkiHeroesloungeSloths11b extends Migration
     {
         Schema::table('rikki_heroeslounge_sloths', function($table)
         {
-            $table->dropColumn('newsletter_subscription');
+            $table->dropColumn('hotslogs_id');
         });
     }
 }

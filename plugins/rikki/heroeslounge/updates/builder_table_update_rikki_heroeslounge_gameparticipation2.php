@@ -12,7 +12,7 @@ class BuilderTableUpdateRikkiHeroesloungeGameparticipation2 extends Migration
             $table->dropColumn('deleted_at');
         });
     }
-
+    
     public function down()
     {
         Schema::table('rikki_heroeslounge_gameparticipation', function($table)

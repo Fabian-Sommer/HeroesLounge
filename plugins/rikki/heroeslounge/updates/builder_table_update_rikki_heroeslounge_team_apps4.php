@@ -9,7 +9,7 @@ class BuilderTableUpdateRikkiHeroesloungeTeamApps4 extends Migration
     {
         Schema::table('rikki_heroeslounge_team_apps', function($table)
         {
-            $table->boolean('withdrawn');
+            $table->boolean('accepted');
         });
     }
     
@@ -17,7 +17,7 @@ class BuilderTableUpdateRikkiHeroesloungeTeamApps4 extends Migration
     {
         Schema::table('rikki_heroeslounge_team_apps', function($table)
         {
-            $table->dropColumn('withdrawn');
+            $table->dropColumn('accepted');
         });
     }
 }

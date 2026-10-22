@@ -9,15 +9,15 @@ class BuilderTableUpdateRikkiHeroesloungeSloths11 extends Migration
     {
         Schema::table('rikki_heroeslounge_sloths', function($table)
         {
-            $table->string('timezone', 255);
+            $table->boolean('newsletter_subscription')->default(0);
         });
     }
-
+    
     public function down()
     {
         Schema::table('rikki_heroeslounge_sloths', function($table)
         {
-            $table->dropColumn('timezone');
+            $table->dropColumn('newsletter_subscription');
         });
     }
 }

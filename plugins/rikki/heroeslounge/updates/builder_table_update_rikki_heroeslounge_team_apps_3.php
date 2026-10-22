@@ -3,13 +3,13 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class BuilderTableUpdateRikkiHeroesloungeTeamApps5 extends Migration
+class BuilderTableUpdateRikkiHeroesloungeTeamApps43 extends Migration
 {
     public function up()
     {
         Schema::table('rikki_heroeslounge_team_apps', function($table)
         {
-            $table->boolean('accepted');
+            $table->boolean('withdrawn');
         });
     }
     
@@ -17,7 +17,7 @@ class BuilderTableUpdateRikkiHeroesloungeTeamApps5 extends Migration
     {
         Schema::table('rikki_heroeslounge_team_apps', function($table)
         {
-            $table->dropColumn('accepted');
+            $table->dropColumn('withdrawn');
         });
     }
 }

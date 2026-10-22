@@ -3,13 +3,14 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class BuilderTableUpdateRikkiHeroesloungeGames8 extends Migration
+class BuilderTableUpdateRikkiHeroesloungeGamess7 extends Migration
 {
     public function up()
     {
         Schema::table('rikki_heroeslounge_games', function($table)
         {
-            $table->string('yt_link')->nullable();
+            $table->integer('team_one_level')->nullable()->unsigned();
+            $table->integer('team_two_level')->nullable()->unsigned();
         });
     }
     
@@ -17,7 +18,8 @@ class BuilderTableUpdateRikkiHeroesloungeGames8 extends Migration
     {
         Schema::table('rikki_heroeslounge_games', function($table)
         {
-            $table->dropColumn('yt_link');
+            $table->dropColumn('team_one_level');
+            $table->dropColumn('team_two_level');
         });
     }
 }

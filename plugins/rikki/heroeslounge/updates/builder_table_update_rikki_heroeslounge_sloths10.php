@@ -11,9 +11,8 @@ class BuilderTableUpdateRikkiHeroesloungeSloths10 extends Migration
         {
             $table->integer('hotslogs_id')->nullable()->unsigned();
         });
-
     }
-
+    
     public function down()
     {
         Schema::table('rikki_heroeslounge_sloths', function($table)

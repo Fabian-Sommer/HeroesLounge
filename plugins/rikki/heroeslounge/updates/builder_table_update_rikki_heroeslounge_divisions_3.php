@@ -9,7 +9,7 @@ class BuilderTableUpdateRikkiHeroesloungeDivisions3 extends Migration
     {
         Schema::table('rikki_heroeslounge_divisions', function($table)
         {
-            $table->string('overview_display_title', 255)->nullable();
+            $table->integer('mmr_bound')->nullable();
         });
     }
     
@@ -17,7 +17,7 @@ class BuilderTableUpdateRikkiHeroesloungeDivisions3 extends Migration
     {
         Schema::table('rikki_heroeslounge_divisions', function($table)
         {
-            $table->dropColumn('overview_display_title');
+            $table->dropColumn('mmr_bound');
         });
     }
 }

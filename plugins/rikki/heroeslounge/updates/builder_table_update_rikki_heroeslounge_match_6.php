@@ -3,7 +3,7 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class BuilderTableUpdateRikkiHeroesloungeMatch6 extends Migration
+class BuilderTableUpdateRikkiHeroesloungeMatch4 extends Migration
 {
     public function up()
     {
@@ -12,8 +12,8 @@ class BuilderTableUpdateRikkiHeroesloungeMatch6 extends Migration
             $table->dropColumn('channel_id');
             $table->dropColumn('yt_playlist');
         });
-    }    
-
+    }
+    
     public function down()
     {
         Schema::table('rikki_heroeslounge_match', function($table)
