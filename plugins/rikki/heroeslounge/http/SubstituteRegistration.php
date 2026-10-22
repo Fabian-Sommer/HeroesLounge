@@ -2,7 +2,7 @@
 
 use App;
 use Backend\Classes\Controller;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\SubstituteRegistration as SubModel;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Team;
@@ -24,14 +24,14 @@ class SubstituteRegistration extends Controller
     }
 
     public function getForMatch($match_id) {
-        $match = Match::findOrFail($match_id);
+        $match = MatchModel::findOrFail($match_id);
         return $match->substituteRegistrations;
     }
 
     public function addSubstitute($sub_id, $registrant_id, $match_id) {
         $subSloth = Sloth::findOrFail($sub_id);
         $registrantSloth = Sloth::findOrFail($registrant_id);
-        $match = Match::findOrFail($match_id);
+        $match = MatchModel::findOrFail($match_id);
         $team = $match->teams->filter(function ($team) use ($registrantSloth) {
             return $registrantSloth->teams->contains($team);
         })->first();

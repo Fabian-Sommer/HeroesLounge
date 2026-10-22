@@ -2,11 +2,11 @@
 
  
 use Cms\Classes\ComponentBase;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Team as Teams;
 use Rikki\Heroeslounge\Models\Season as Seasons;
 use Rikki\Heroeslounge\Models\Division as Divisions;
-use Rikki\Heroeslounge\Models\Match as Matches;
+use Rikki\Heroeslounge\Models\MatchModel as Matches;
 use Rikki\Heroeslounge\Models\Sloth as Sloths;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 
@@ -108,7 +108,7 @@ class UpcomingMatches extends ComponentBase
 
     public function onCastRequest()
     {
-        $match = Match::findOrFail(input('match_id'));
+        $match = MatchModel::findOrFail(input('match_id'));
         $match->casters()->syncWithoutDetaching(Sloths::findOrFail(input('caster_id')));
         $divId = "#divCasterRequests" . input('match_id');
         return [
@@ -118,7 +118,7 @@ class UpcomingMatches extends ComponentBase
 
     public function onCastRetract()
     {
-        $match = Match::findOrFail(input('match_id'));
+        $match = MatchModel::findOrFail(input('match_id'));
         $match->casters()->detach(Sloths::findOrFail(input('caster_id')));
         $divId = "#divCasterRequests" . input('match_id');
         return [

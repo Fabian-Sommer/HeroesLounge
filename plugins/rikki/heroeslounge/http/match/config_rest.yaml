@@ -15,4 +15,4 @@ allowedActions:
   caster:
   withApprovedCastSince:
 # Model Class name
-modelClass: Rikki\Heroeslounge\Models\Match
+modelClass: Rikki\Heroeslounge\Models\MatchModel

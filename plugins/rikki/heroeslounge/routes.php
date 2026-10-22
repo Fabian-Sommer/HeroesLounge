@@ -29,16 +29,16 @@ Route::group(['prefix' => 'api/v2', 'middleware' => ['Rikki\Heroeslounge\Classes
     Route::get('slothsAll','Rikki\Heroeslounge\Http\Sloth@indexAll');
     Route::get('slothDiscordId/{discord_id}', 'Rikki\Heroeslounge\Http\Sloth@byDiscordId');
 
-    Route::get('matchesAll','Rikki\Heroeslounge\Http\Match@indexAll');
-    Route::get('matches/{id}/caster','Rikki\Heroeslounge\Http\Match@caster');
-    Route::get('matches/{id}/channels', 'Rikki\Heroeslounge\Http\Match@channels');
-    Route::get('matches/{id}/games','Rikki\Heroeslounge\Http\Match@games');
-    Route::get('matches/{id}/mmrBound','Rikki\Heroeslounge\Http\Match@mmrBound');
-    Route::get('matches/{id}/replays','Rikki\Heroeslounge\Http\Match@replays');
-    Route::get('matches/{id}/season','Rikki\Heroeslounge\Http\Match@season');
-    Route::get('matches/today/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getMatchesForToday');
-    Route::get('matches/forDate/{date}/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Match@getMatchesForDate');
-    Route::get('matches/withApprovedCastBetween/{startdate}/{enddate}','Rikki\Heroeslounge\Http\Match@withApprovedCastBetween');
+    Route::get('matchesAll','Rikki\Heroeslounge\Http\Matches@indexAll');
+    Route::get('matches/{id}/caster','Rikki\Heroeslounge\Http\Matches@caster');
+    Route::get('matches/{id}/channels', 'Rikki\Heroeslounge\Http\Matches@channels');
+    Route::get('matches/{id}/games','Rikki\Heroeslounge\Http\Matches@games');
+    Route::get('matches/{id}/mmrBound','Rikki\Heroeslounge\Http\Matches@mmrBound');
+    Route::get('matches/{id}/replays','Rikki\Heroeslounge\Http\Matches@replays');
+    Route::get('matches/{id}/season','Rikki\Heroeslounge\Http\Matches@season');
+    Route::get('matches/today/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Matches@getMatchesForToday');
+    Route::get('matches/forDate/{date}/{tz1?}/{tz2?}','Rikki\Heroeslounge\Http\Matches@getMatchesForDate');
+    Route::get('matches/withApprovedCastBetween/{startdate}/{enddate}','Rikki\Heroeslounge\Http\Matches@withApprovedCastBetween');
     
     Route::resource('games', 'Rikki\Heroeslounge\Http\Game');
     Route::get('gamesAll','Rikki\Heroeslounge\Http\Game@indexAll');
@@ -75,6 +75,6 @@ Route::group(['prefix' => 'api/v2', 'middleware' => ['Rikki\Heroeslounge\Classes
     Route::delete('mapbans/delete/{id}','Rikki\Heroeslounge\Http\MapBan@delete');
 });
 
-Route::resource('api/v1/matches', 'Rikki\Heroeslounge\Http\Match');
+Route::resource('api/v1/matches', 'Rikki\Heroeslounge\Http\Matches');
 Route::get('api/v1/teams/{team}/logo', 'Rikki\Heroeslounge\Http\Team@logo');
-Route::get('api/v1/matches/{id}/teams','Rikki\Heroeslounge\Http\Match@teams');
+Route::get('api/v1/matches/{id}/teams','Rikki\Heroeslounge\Http\Matches@teams');

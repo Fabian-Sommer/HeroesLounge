@@ -3,7 +3,7 @@
  
 use Backend\Classes\Controller;
 use BackendMenu;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Twitchchannel;
 use Rikki\Heroeslounge\Models\Sloth;
 
@@ -35,7 +35,7 @@ class Casterscheduling extends Controller
 
     public function onChannelAssignment()
     {
-        $match = Match::findOrFail(post('match_id'));
+        $match = MatchModel::findOrFail(post('match_id'));
         if (post('channel_id') == 0) {
             $match->channels()->detach();
         } else {
@@ -47,7 +47,7 @@ class Casterscheduling extends Controller
 
     public function onRequestApproval()
     {
-        $match = Match::findOrFail(post('match_id'));
+        $match = MatchModel::findOrFail(post('match_id'));
         $caster = $match->casters()->findOrFail(post('caster_id'));
         $caster->pivot->approved = 1;
         $caster->pivot->save();
@@ -60,7 +60,7 @@ class Casterscheduling extends Controller
     public function onRelationButtonApprove()
     {
         if (($checkedIds = post('checked')) && is_array($checkedIds)) {
-            $match = Match::findOrFail(post('model_id'));
+            $match = MatchModel::findOrFail(post('model_id'));
             foreach ($checkedIds as $casterId) {
                 $match->casters()->updateExistingPivot($casterId, ['approved' => 1]);
             }
@@ -74,7 +74,7 @@ class Casterscheduling extends Controller
 
     public function onRequestDenial()
     {
-        $match = Match::findOrFail(post('match_id'));
+        $match = MatchModel::findOrFail(post('match_id'));
         $caster = $match->casters()->findOrFail(post('caster_id'));
         $caster->pivot->approved = 2;
         $caster->pivot->save();
@@ -87,7 +87,7 @@ class Casterscheduling extends Controller
     public function onRelationButtonDeny()
     {
         if (($checkedIds = post('checked')) && is_array($checkedIds)) {
-            $match = Match::findOrFail(post('model_id'));
+            $match = MatchModel::findOrFail(post('model_id'));
             foreach ($checkedIds as $casterId) {
                 $match->casters()->updateExistingPivot($casterId, ['approved' => 2]);
             }

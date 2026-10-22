@@ -33,7 +33,7 @@ class Game extends Model
 
     public $belongsTo = [
         'match' => [
-            'Rikki\Heroeslounge\Models\Match',
+            'Rikki\Heroeslounge\Models\MatchModel',
             'key' => 'match_id',
             'otherKey' => 'id'
         ],

@@ -126,7 +126,7 @@ class Team extends Model
             ],
         'matches' =>
         [
-            'Rikki\Heroeslounge\Models\Match',
+            'Rikki\Heroeslounge\Models\MatchModel',
             'key' => 'team_id',
             'otherKey' => 'match_id',
             'table' => 'rikki_heroeslounge_team_match',

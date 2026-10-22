@@ -5,12 +5,22 @@ use Backend\Classes\Controller;
 use BackendMenu;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Timeline;
-use Rikki\Heroeslounge\Models\Match as MatchModel;
+use Rikki\Heroeslounge\Models\MatchModel as MatchModel;
 use Rikki\Heroeslounge\Models\Game;
 use Rikki\Heroeslounge\Models\Division;
 
-class Match extends Controller
+class Matches extends Controller
 {
+    /**
+     * The class was renamed from Match ("match" is reserved since PHP 8),
+     * keep its views and config files in the existing "match" folder.
+     */
+    public function guessViewPath(string $suffix = '', bool $isPublic = false): ?string
+    {
+        $path = __DIR__ . DIRECTORY_SEPARATOR . 'match' . $suffix;
+        return $isPublic ? \File::localToPublic($path) : $path;
+    }
+
     public $implement = ['Backend\Behaviors\ListController','Backend\Behaviors\FormController',
     'Backend\Behaviors\RelationController'];
     public $requiredPermissions = ['rikki.heroeslounge.match'];

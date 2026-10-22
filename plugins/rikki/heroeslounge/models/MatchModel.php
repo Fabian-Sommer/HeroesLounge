@@ -19,7 +19,7 @@ use Log;
 /**
  * Model
  */
-class Match extends Model
+class MatchModel extends Model
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 
@@ -39,6 +39,15 @@ class Match extends Model
      * @var string The database table used by the model.
      */
     public $table = 'rikki_heroeslounge_match';
+
+    /**
+     * The model was renamed from Match (reserved keyword since PHP 8), keep the
+     * conventional foreign key "match_id" instead of the derived "match_model_id".
+     */
+    public function getForeignKey()
+    {
+        return 'match_id';
+    }
 
     public $hasMany = [
         'games' => ['Rikki\Heroeslounge\Models\Game'],
@@ -102,7 +111,7 @@ class Match extends Model
 
     public function listParticipatingTeamsForBackend($fieldname, $value, $formData)
     {
-        $match = Match::findOrFail($formData["id"]);
+        $match = MatchModel::findOrFail($formData["id"]);
         $list = [];
         foreach ($match->teams as $key => $team) {
             $list[$team->id] = $team->title;
@@ -112,7 +121,7 @@ class Match extends Model
 
     public function getRegionAttribute()
     {
-        $match = Match::with('teams')->find($this->id);
+        $match = MatchModel::with('teams')->find($this->id);
 
         if (isset($match->teams[0])) {
             return $match->teams[0]->region->title;

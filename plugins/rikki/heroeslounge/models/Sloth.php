@@ -98,7 +98,7 @@ class Sloth extends Model
     
     public $belongsToMany = [
         'castMatches' => [
-            'Rikki\Heroeslounge\Models\Match',
+            'Rikki\Heroeslounge\Models\MatchModel',
             'key' => 'caster_id',
             'otherKey' => 'match_id',
             'table' => 'rikki_heroeslounge_match_caster',

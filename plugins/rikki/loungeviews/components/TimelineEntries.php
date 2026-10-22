@@ -5,7 +5,7 @@ use Rikki\Heroeslounge\Models\Division;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Team;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Timeline;
 use October\Rain\Support\Collection;
 use Request;
@@ -223,7 +223,7 @@ class TimelineEntries extends ComponentBase
                     $timeline = Sloth::find($id)->timeline->orderBy('created_at', 'desc')->get($this->property('maxItems'));
                     break;
                 case 'match':
-                    $timeline = Match::find($id)->timeline->orderBy('created_at', 'desc')->get($this->property('maxItems'));
+                    $timeline = MatchModel::find($id)->timeline->orderBy('created_at', 'desc')->get($this->property('maxItems'));
                     break;
                 case 'site':
                     $timeline = new Collection([]);

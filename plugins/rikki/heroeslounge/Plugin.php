@@ -9,7 +9,7 @@ use RainLab\User\Models\User as UserModel;
 use RainLab\User\Controllers\Users as UsersController;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 use Rikki\Heroeslounge\Models\Team as Teams;
-use Rikki\Heroeslounge\Models\Match as MatchModel;
+use Rikki\Heroeslounge\Models\MatchModel as MatchModel;
 use Rikki\Heroeslounge\Models\Game as Games;
 use Rikki\Heroeslounge\Models\Map as Maps;
 use Rikki\Heroeslounge\Models\Season as Seasons;
@@ -28,6 +28,7 @@ use Indikator\content\models\Blog as Blog;
 use Session;
 use Flash;
 use BackendAuth;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Plugin extends PluginBase
 {
@@ -111,6 +112,18 @@ class Plugin extends PluginBase
 
     public function boot()
     {
+        // The Match model was renamed to MatchModel ("match" is reserved since PHP 8).
+        // Keep the old class name in polymorphic relations so the stored data stays valid.
+        Relation::morphMap([
+            'Rikki\\Heroeslounge\\Models\\Match' => MatchModel::class,
+        ]);
+
+        // The backend controller was renamed to Matches for the same reason. Backend URLs are
+        // resolved from the class name, so keep rikki/heroeslounge/match working with an alias.
+        if (!class_exists('Rikki\\Heroeslounge\\Controllers\\Match', false)) {
+            class_alias(\Rikki\Heroeslounge\Controllers\Matches::class, 'Rikki\\Heroeslounge\\Controllers\\Match');
+        }
+
         // Event::listen('rainlab.user.login', function ($user) {
         //     $msg = NotificationHelper::generateMessages($user);
         //     Session::put('notifications',$msg);

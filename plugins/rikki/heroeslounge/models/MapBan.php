@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\DB;
 use October\Rain\Database\Model;
 use Rikki\Heroeslounge\Models\Map;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Team;
 use Carbon\Carbon;
 use DateTime;
@@ -40,7 +40,7 @@ class MapBan extends Model
             'otherKey' => 'id'
         ],
         'match' => [
-            'Rikki\Heroeslounge\Models\Match',
+            'Rikki\Heroeslounge\Models\MatchModel',
             'key' => 'match_id',
             'otherKey' => 'id'
         ]
