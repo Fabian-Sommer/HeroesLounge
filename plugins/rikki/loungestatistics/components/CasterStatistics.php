@@ -32,7 +32,7 @@ class CasterStatistics extends ComponentBase
         $this->season = Seasons::find($this->property('season'));
         $this->addCss('/plugins/rikki/heroeslounge/assets/css/heroeslounge.css');
         $component = $this->addComponent(
-                        'RainLab\User\Components\Session',
+                        'Winter\User\Components\Session',
                         'session',
                         [
                             'deferredBinding'   => true,
