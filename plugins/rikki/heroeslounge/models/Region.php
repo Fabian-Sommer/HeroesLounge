@@ -7,6 +7,8 @@ use October\Rain\Database\Model;
  */
 class Region extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     public $hasMany = [
         'seasons' => ['Rikki\Heroeslounge\Models\Season'],
         'sloths' => ['Rikki\Heroeslounge\Models\Sloth'],

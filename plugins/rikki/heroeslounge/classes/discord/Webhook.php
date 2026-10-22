@@ -5,7 +5,7 @@ use Log;
 
 class Webhook
 {
-    public static function sendMatchReschedule($message = "", $embed)
+    public static function sendMatchReschedule($message, $embed)
     {
         $url = 'https://discordapp.com/api/webhooks/' . Authcode::getCasterWebhookId() . '/' . Authcode::getCasterWebhookSecret();
 

@@ -44,7 +44,7 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown"
                                     id="season_{{season.id}}">{{season.title}}</a>
                                 <div class="dropdown-menu" aria-labelledby="#season_{{season.id}}">
-                                    {% for division in season.divisions|sort((a, b) => a.title > b.title) %}
+                                    {% for division in season.divisions|sort((a, b) => a.title <=> b.title) %}
                                     <a class="dropdown-item"
                                         href="{{ 'season/division'|page({slug: season.slug, divslug: division.slug})}} ">{{division.title}}</a>
                                     {% endfor %}
@@ -158,13 +158,13 @@
                             </div>
                             <div style="display:flex">
                                 <button type="submit"
-                                    class="btn btn-primary menu-user-widget-signin-btn">{{ _('login', 'rainlab.user::lang.account') }}</button>
+                                    class="btn btn-primary menu-user-widget-signin-btn">{{ 'rainlab.user::lang.account.login'|trans }}</button>
                                 {{ form_close()}}
                                 <a class="btn btn-default" href="{{ 'user/account' |page }}"
-                                    title="{{ _('register', 'rainlab.user::lang.account') }}"><i class="fa fa-sign-in"
+                                    title="{{ 'rainlab.user::lang.account.register'|trans }}"><i class="fa fa-sign-in"
                                         aria-hidden="true"></i></a> &nbsp;
                                 <a class="btn btn-default" href="{{ 'user/forgotpassword' |page }}"
-                                    title="{{ _('reset_password', 'rainlab.user::lang.reset_password') }}"><i
+                                    title="{{ 'rainlab.user::lang.reset_password.reset_password'|trans }}"><i
                                         class="fa fa-question" aria-hidden="true"></i></a>
                             </div>
                         </div>

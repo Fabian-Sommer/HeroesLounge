@@ -10,6 +10,8 @@ use October\Rain\Support\Collection;
  */
 class Talent extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
 
     public $table = 'rikki_heroeslounge_talents';
 

@@ -12,6 +12,8 @@ use Log;
 
 class MapBan extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     use \October\Rain\Database\Traits\SoftDelete;
 
     protected $dates = ['deleted_at'];

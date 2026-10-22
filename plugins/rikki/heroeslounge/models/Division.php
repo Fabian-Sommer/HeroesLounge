@@ -10,6 +10,8 @@ use Log;
  */
 class Division extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     use \October\Rain\Database\Traits\Validation;
     
     use \October\Rain\Database\Traits\SoftDelete;

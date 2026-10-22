@@ -11,6 +11,8 @@ use Log;
  */
 class Game extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     /**
      * @var string The database table used by the model.
      */

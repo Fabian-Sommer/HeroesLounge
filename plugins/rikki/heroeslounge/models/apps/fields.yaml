@@ -3,7 +3,7 @@ fields:
         label: Username
         span: auto
         type: relation
-        select: title
+        nameFrom: title
         descriptionFrom: description
         comment: 'Select a username'
     team:

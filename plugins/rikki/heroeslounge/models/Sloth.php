@@ -20,6 +20,8 @@ use October\Rain\Support\Collection;
  */
 class Sloth extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     use \October\Rain\Database\Traits\Validation;
     
     use \October\Rain\Database\Traits\SoftDelete;

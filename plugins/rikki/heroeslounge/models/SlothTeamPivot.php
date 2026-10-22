@@ -7,6 +7,8 @@ use Log;
 
 class SlothTeamPivot extends Pivot
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     public $timestamps = true;
 
     public $table = 'rikki_heroeslounge_sloth_team';

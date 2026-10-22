@@ -9,6 +9,8 @@ use October\Rain\Database\Model;
  */
 class GameParticipation extends Model
 {
+    use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
+
     use \October\Rain\Database\Traits\Validation;
 
 
