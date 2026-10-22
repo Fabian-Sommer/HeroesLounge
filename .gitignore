@@ -1,20 +1,47 @@
+# Whitelist: everything in the project root is ignored unless listed here.
+# (Keeps local dumps, notebooks, CSVs and the .env out of the repository.)
 /*
-/*/
+!/.editorconfig
+!/.env.example
+!/.gitattributes
+!/.gitignore
+!/.htaccess
+!/Vagrantfile
+!/install_hl.sh
+!/install_october.sh
+!/LICENSE
+!/anonymize_backup.sql
+!/README.md
+!/artisan
+!/bootstrap/
+!/composer.json
+!/composer.lock
+!/config/
+!/index.php
+!/phpcs.xml
+!/phpunit.xml
 !/plugins/
+!/themes/
+!/upgrade/
+
+# Only our own plugins are committed. Winter plugins are installed with Composer,
+# other third-party plugins are copied in and patched, see README.
 /plugins/*/
 !/plugins/rikki/
-!/themes/
+
 /themes/*/
 !/themes/HeroesLounge-Theme/
-*.gitignore
 
 /plugins/rikki/.idea/*
 /plugins/rikki/heroeslounge/assets/partials/*
 /plugins/rikki/heroeslounge/assets/scss/*
 /themes/HeroesLounge-Theme/pages/test.htm
 
-!Vagrantfile
-!install_october.sh
-!install_hl.sh
-
+/bootstrap/compiled.php
+.DS_Store
 *.pyc
+
+# Production-only secrets and runtime checkouts
+/plugins/rikki/heroeslounge/classes/*/AuthCode.php
+/plugins/rikki/heroeslounge/classes/*/Authcode.php
+/plugins/rikki/heroeslounge/classes/replayparsing/heroprotocol-master/
