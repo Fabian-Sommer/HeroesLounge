@@ -1,0 +1,98 @@
+--- a/plugins/indikator/content/models/slideshowstyle/fields.yaml
++++ b/plugins/indikator/content/models/slideshowstyle/fields.yaml
+@@ -30,7 +30,7 @@
+             tab: indikator.content::lang.form.color
+             label: indikator.content::lang.form.title_color
+             type: colorpicker
+-            availableColors: [#fff, #7f8c8d, #34495e, #27ae60, #3498db, #9b59b6, #f1c40f, #c0392b]
++            availableColors: ['#fff', '#7f8c8d', '#34495e', '#27ae60', '#3498db', '#9b59b6', '#f1c40f', '#c0392b']
+             span: storm
+             cssClass: col-xs-12 col-lg-6
+ 
+@@ -38,7 +38,7 @@
+             tab: indikator.content::lang.form.color
+             label: indikator.content::lang.form.subtitle_color
+             type: colorpicker
+-            availableColors: [#fff, #7f8c8d, #34495e, #27ae60, #3498db, #9b59b6, #f1c40f, #c0392b]
++            availableColors: ['#fff', '#7f8c8d', '#34495e', '#27ae60', '#3498db', '#9b59b6', '#f1c40f', '#c0392b']
+             span: storm
+             cssClass: col-xs-12 col-lg-6
+ 
+@@ -46,7 +46,7 @@
+             tab: indikator.content::lang.form.color
+             label: indikator.content::lang.form.text_color
+             type: colorpicker
+-            availableColors: [#fff, #7f8c8d, #34495e, #27ae60, #3498db, #9b59b6, #f1c40f, #c0392b]
++            availableColors: ['#fff', '#7f8c8d', '#34495e', '#27ae60', '#3498db', '#9b59b6', '#f1c40f', '#c0392b']
+             span: storm
+             cssClass: col-xs-12 col-lg-6
+ 
+@@ -54,7 +54,7 @@
+             tab: indikator.content::lang.form.color
+             label: indikator.content::lang.form.bg_color
+             type: colorpicker
+-            availableColors: [#fff, #7f8c8d, #34495e, #27ae60, #3498db, #9b59b6, #f1c40f, #c0392b]
++            availableColors: ['#fff', '#7f8c8d', '#34495e', '#27ae60', '#3498db', '#9b59b6', '#f1c40f', '#c0392b']
+             span: storm
+             cssClass: col-xs-12 col-lg-6
+ 
+@@ -62,7 +62,7 @@
+             tab: indikator.content::lang.form.color
+             label: indikator.content::lang.form.btn_bg_color
+             type: colorpicker
+-            availableColors: [#fff, #7f8c8d, #34495e, #27ae60, #3498db, #9b59b6, #f1c40f, #c0392b]
++            availableColors: ['#fff', '#7f8c8d', '#34495e', '#27ae60', '#3498db', '#9b59b6', '#f1c40f', '#c0392b']
+             span: storm
+             cssClass: col-xs-12 col-lg-6
+ 
+@@ -70,7 +70,7 @@
+             tab: indikator.content::lang.form.color
+             label: indikator.content::lang.form.btn_text_color
+             type: colorpicker
+-            availableColors: [#fff, #7f8c8d, #34495e, #27ae60, #3498db, #9b59b6, #f1c40f, #c0392b]
++            availableColors: ['#fff', '#7f8c8d', '#34495e', '#27ae60', '#3498db', '#9b59b6', '#f1c40f', '#c0392b']
+             span: storm
+             cssClass: col-xs-12 col-lg-6
+ 
+--- a/plugins/kurtjensen/passage/updates/version.yaml
++++ b/plugins/kurtjensen/passage/updates/version.yaml
+@@ -1,7 +1,7 @@
+ 1.0.1:
+     - Initialize plugin.
+     - create_tables.php
+-1.0.2: Added replacement twig tag for hasRole() called inGroup(). This checks to see if user belongs to RainLab\User\Models\UserGroup.
++1.0.2: 'Added replacement twig tag for hasRole() called inGroup(). This checks to see if user belongs to RainLab\User\Models\UserGroup.'
+ 1.0.3: Fixed error caused by inGroup($group) on non-logged in user.
+ 1.0.4: Added messageURL() to enable Author Notices
+ 1.0.5:
+--- a/plugins/martin/ssbuttons/models/Settings.php
++++ b/plugins/martin/ssbuttons/models/Settings.php
+@@ -16,7 +16,7 @@
+         public $settingsCode   = 'martin_ssbuttons_settings';
+         public $settingsFields = 'fields.yaml';
+ 
+-        public function __construct() {
++        public function __construct(array $attributes = []) {
+             $this->attributeNames = [
+                 'twitter'     => Lang::get('martin.ssbuttons::lang.settings.twitter'),
+                 'facebook'    => Lang::get('martin.ssbuttons::lang.settings.facebook'),
+@@ -24,7 +24,7 @@
+                 'stumbleupon' => Lang::get('martin.ssbuttons::lang.settings.stumbleupon'),
+                 'linkedin'    => Lang::get('martin.ssbuttons::lang.settings.linkedin'),
+             ];
+-            parent::__construct();
++            parent::__construct($attributes);
+         }
+ 
+     }
+--- a/plugins/mohsin/rest/console/CreateRestController.php
++++ b/plugins/mohsin/rest/console/CreateRestController.php
+@@ -38,7 +38,7 @@
+      * Prepare variables for stubs.
+      * return @array
+      */
+-    protected function prepareVars()
++    protected function prepareVars(): array
+     {
+         $pluginCode = $this->argument('plugin');
+ 
