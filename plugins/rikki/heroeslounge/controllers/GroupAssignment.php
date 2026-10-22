@@ -36,7 +36,7 @@ class GroupAssignment extends Controller
 
     public function index()
     {
-        $this->addJs('/plugins/rainlab/user/assets/js/bulk-actions.js');
+        $this->addJs('/plugins/winter/user/assets/js/bulk-actions.js');
 
         $this->asExtension('ListController')->index();
     }

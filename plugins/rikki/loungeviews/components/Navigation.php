@@ -62,7 +62,7 @@ class Navigation extends UserAccount
         }
 
         $this->addComponent(
-            'RainLab\Pages\Components\StaticMenu',
+            'Winter\Pages\Components\StaticMenu',
             'staticMenuGuides',
             [
                 'deferredBinding'   => true,
@@ -71,7 +71,7 @@ class Navigation extends UserAccount
             ]
         );
         $this->addComponent(
-            'RainLab\Pages\Components\StaticMenu',
+            'Winter\Pages\Components\StaticMenu',
             'staticMenuGeneral',
             [
                 'deferredBinding'   => true,
@@ -80,7 +80,7 @@ class Navigation extends UserAccount
             ]
         );
         $this->addComponent(
-            'RainLab\Pages\Components\StaticMenu',
+            'Winter\Pages\Components\StaticMenu',
             'staticMenuFeatured',
             [
                 'deferredBinding'   => true,
