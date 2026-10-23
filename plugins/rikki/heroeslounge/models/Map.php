@@ -1,11 +1,11 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
-use Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 
 /**
  * Model
  */
-class Map extends Model
+class Map extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

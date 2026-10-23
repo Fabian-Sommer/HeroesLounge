@@ -2,14 +2,14 @@
 namespace Rikki\Heroeslounge\Models;
 
  
-use October\Rain\Database\Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Rikki\Heroeslounge\Models\Timeline;
 use Rikki\Heroeslounge\Models\Sloth as SlothModel;
 
 /**
  * Model
  */
-class Team extends Model
+class Team extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

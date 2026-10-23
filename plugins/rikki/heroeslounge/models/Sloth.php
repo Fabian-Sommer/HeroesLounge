@@ -1,7 +1,7 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
  
-use October\Rain\Database\Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Rikki\Heroeslounge\Models\Timeline;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Hero;
@@ -18,7 +18,7 @@ use October\Rain\Support\Collection;
 /**
  * Model
  */
-class Sloth extends Model
+class Sloth extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

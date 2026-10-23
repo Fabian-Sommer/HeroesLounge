@@ -2,14 +2,14 @@
 
 use App;
 use Str;
-use Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Carbon\Carbon;
 use October\Rain\Support\Markdown;
 
 /**
  * Post Model
  */
-class Provider extends Model
+class Provider extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

@@ -2,7 +2,7 @@
 
  
 use Illuminate\Support\Facades\DB;
-use October\Rain\Database\Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Rikki\Heroeslounge\Models\Timeline;
 use October\Rain\Exception\SystemException;
 use Rikki\Heroeslounge\classes\hotfixes;
@@ -19,7 +19,7 @@ use Log;
 /**
  * Model
  */
-class MatchModel extends Model
+class MatchModel extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

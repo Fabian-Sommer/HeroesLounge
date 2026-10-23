@@ -1,12 +1,12 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
-use Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Carbon\Carbon;
 
 /**
  * Model
  */
-class ApiKeys extends Model
+class ApiKeys extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

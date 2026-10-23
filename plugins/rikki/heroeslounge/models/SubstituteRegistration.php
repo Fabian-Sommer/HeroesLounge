@@ -1,7 +1,7 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
 use Illuminate\Support\Facades\DB;
-use October\Rain\Database\Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\MatchModel;
@@ -11,7 +11,7 @@ use DateTime;
 use DateTimeZone;
 use Log;
 
-class SubstituteRegistration extends Model
+class SubstituteRegistration extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

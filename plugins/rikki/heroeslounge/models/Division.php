@@ -3,12 +3,12 @@
 use Rikki\LoungeStatistics\classes\statistics\Statistics as Stats;
  
 use October\Rain\Support\Collection;
-use Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Log;
 /**
  * Model
  */
-class Division extends Model
+class Division extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

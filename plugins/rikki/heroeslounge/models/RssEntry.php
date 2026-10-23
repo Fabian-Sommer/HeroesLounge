@@ -1,13 +1,13 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
  
-use Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 
 use Indikator\content\models\Blog as Blog;
 /**
  * Model
  */
-class RssEntry extends Model
+class RssEntry extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

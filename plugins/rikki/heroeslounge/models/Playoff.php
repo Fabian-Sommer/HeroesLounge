@@ -1,13 +1,13 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
-use Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Carbon\Carbon;
 use Log;
 
-class Playoff extends Model
+class Playoff extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

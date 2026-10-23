@@ -1,6 +1,6 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
-use October\Rain\Database\Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Illuminate\Support\Facades\DB;
 use Rikki\Heroeslounge\classes\ReplayParsing\ReplayParsing;
 use October\Rain\Support\Collection;
@@ -9,7 +9,7 @@ use Log;
 /**
  * Model
  */
-class Game extends Model
+class Game extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 
