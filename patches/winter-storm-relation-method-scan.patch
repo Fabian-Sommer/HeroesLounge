@@ -1,0 +1,40 @@
+diff --git a/src/Database/Concerns/HasRelationships.php b/src/Database/Concerns/HasRelationships.php
+index 2373a01c..4fdfc00d 100644
+--- a/src/Database/Concerns/HasRelationships.php
++++ b/src/Database/Concerns/HasRelationships.php
+@@ -171,6 +171,12 @@ trait HasRelationships
+      */
+     protected static array $resolvedNonRelationMethods = [];
+ 
++    /**
++     * @var array<string, string[]> Stores the relation methods found by scanning a class, by class name.
++     * Also set when a class has none, so the scan runs once per class.
++     */
++    protected static array $scannedRelationMethods = [];
++
+     //
+     // Relations
+     //
+@@ -721,7 +727,7 @@ public function getRelationMethods(bool $ignoreResolved = false): array
+     {
+         $relationMethods = [];
+ 
+-        if ($ignoreResolved || !isset(static::$resolvedRelationMethods[static::class])) {
++        if ($ignoreResolved || !isset(static::$scannedRelationMethods[static::class])) {
+             $validMethods = [];
+             $reflection = new \ReflectionClass($this);
+ 
+@@ -740,8 +746,12 @@ public function getRelationMethods(bool $ignoreResolved = false): array
+                     $relationMethods[] = $method;
+                 }
+             }
++
++            if (!$ignoreResolved) {
++                static::$scannedRelationMethods[static::class] = $relationMethods;
++            }
+         } else {
+-            $relationMethods += array_keys(static::$resolvedRelationMethods[static::class]);
++            $relationMethods = static::$scannedRelationMethods[static::class];
+         }
+ 
+         if (count($this->extensionData['methods'] ?? [])) {

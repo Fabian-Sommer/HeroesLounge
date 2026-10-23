@@ -19,7 +19,8 @@
         "winter/wn-builder-plugin": "^2.2",
         "winter/wn-notify-plugin": "^2.1",
         "winter/wn-userplus-plugin": "^2.0",
-        "winter/wn-googleanalytics-plugin": "^3.1"
+        "winter/wn-googleanalytics-plugin": "^3.1",
+        "cweagans/composer-patches": "^1.7"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.8",
@@ -59,12 +60,19 @@
             "replace": false,
             "merge-replace": false,
             "merge-dev": false
+        },
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "winter/storm": {
+                "Remember the relation method scan for classes without relation methods (wintercms/storm#250), remove once released": "patches/winter-storm-relation-method-scan.patch"
+            }
         }
     },
     "config": {
         "allow-plugins": {
             "composer/installers": true,
-            "wikimedia/composer-merge-plugin": true
+            "wikimedia/composer-merge-plugin": true,
+            "cweagans/composer-patches": true
         },
         "policy": {
             "advisories": {

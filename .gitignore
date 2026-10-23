@@ -22,6 +22,7 @@
 !/phpunit.xml
 !/plugins/
 !/themes/
+!/patches/
 !/upgrade/
 
 # Only our own plugins are committed. Winter plugins are installed with Composer,
