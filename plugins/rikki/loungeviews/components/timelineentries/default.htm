@@ -5,7 +5,7 @@
         {%  if timelineEntry.type == 'Sloth.Created' or timelineEntry.type == 'Sloth.Deleted' or timelineEntry.type == 'Sloth.Logo'  %}
         <div class="cd-timeline-img">
             {%  if timelineEntry.sloths[0].user.avatar %}
-                <img src="{{timelineEntry.sloths[0].user.avatar.path | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.sloths[0].title}} Avatar" title="{{match.teams[0].title}} Avatar" />
+                <img src="{{timelineEntry.sloths[0].user.avatar | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.sloths[0].title}} Avatar" title="{{match.teams[0].title}} Avatar" />
             {% else %}
                 <i class="fa fa-user fa-3x" style="padding-top:3px;"></i>
             {% endif %}
@@ -38,9 +38,9 @@
         {%  elseif timelineEntry.type == 'Match.Scheduled' or timelineEntry.type == 'Match.Played'  %}
         <div class="cd-timeline-img">
             {%  if timelineEntry.matches[0].teams[0].logo.path  %}
-                <img src="{{timelineEntry.matches[0].teams[0].logo.path | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.matches[0].teams[0].title}} Logo" title="{{timelineEntry.matches[0].teams[0].title}} Logo"  /> 
+                <img src="{{timelineEntry.matches[0].teams[0].logo | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.matches[0].teams[0].title}} Logo" title="{{timelineEntry.matches[0].teams[0].title}} Logo"  /> 
             {%  elseif timelineEntry.matches[0].teams[1].logo.path  %}
-                <img src="{{timelineEntry.matches[0].teams[1].logo.path | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.matches[0].teams[1].title}} Logo" title="{{timelineEntry.matches[0].teams[1].title}} Logo"  /> 
+                <img src="{{timelineEntry.matches[0].teams[1].logo | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.matches[0].teams[1].title}} Logo" title="{{timelineEntry.matches[0].teams[1].title}} Logo"  /> 
             {%  else  %}
                 <i class="fa fa-users fa-3x" style="padding-top:3px;"></i>
             {%  endif  %}
@@ -57,7 +57,7 @@
         {%  else  %}
         <div class="cd-timeline-img">
             {%  if timelineEntry.teams[0].logo.path %}
-                <img src="{{timelineEntry.teams[0].logo.path | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.teams[0].title}} Logo" title="{{timelineEntry.teams[0].title}} Logo"  /> 
+                <img src="{{timelineEntry.teams[0].logo | resize(64,64)}}" style="max-height: 60px" class="img-fluid" alt="{{timelineEntry.teams[0].title}} Logo" title="{{timelineEntry.teams[0].title}} Logo"  /> 
             {% else %}
                 <i class="fa fa-users fa-3x" style="padding-top:3px;"></i>
             {% endif %}

@@ -22,7 +22,7 @@
     
         <div class="row">
             <div class="col-8 text-truncate">
-                <img src="{{ team1.logo.path | resize(64,64) }}" class="img-fluid mr-1 Icon28x" alt="{{team1.title}} Logo">
+                <img src="{{ team1.logo | resize(64,64) }}" class="img-fluid mr-1 Icon28x" alt="{{team1.title}} Logo">
                 <a href="{{ 'team/view' | page({slug : team1.slug }) }}" title="View {{team1.title}}">{{ team1.title }}</a>
             </div>
             <div class="col-4">
@@ -35,7 +35,7 @@
         </div>
         <div class="row mt-1">
                 <div class="col-8 text-truncate">
-                    <img src="{{ team2.logo.path | resize(64,64)}}" class="img-fluid mr-1 Icon28x" alt="{{team2.title}} Logo">
+                    <img src="{{ team2.logo | resize(64,64)}}" class="img-fluid mr-1 Icon28x" alt="{{team2.title}} Logo">
                     <a href="{{ 'team/view' | page({slug : team2.slug }) }}" title="View {{team2.title}}">{{ team2.title }}</a>
                 </div>
                 <div class="col-4">

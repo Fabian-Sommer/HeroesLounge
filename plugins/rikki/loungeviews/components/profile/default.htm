@@ -91,7 +91,7 @@
     {% for team in __SELF__.sloth.teams %}
     <div class="card-body">
         <p class="card-text">
-            <img class="img-fluid mr-1 Icon28x" src="{{team.logo.path | resize(64, 64) }}" alt="Logo" title="{{team.title}}">
+            <img class="img-fluid mr-1 Icon28x" src="{{team.logo | resize(64, 64) }}" alt="Logo" title="{{team.title}}">
             <a href="{{ 'team/view' | page({slug: team.slug})}}">{{team.title}}</a>
         </p>
     </div>
