@@ -2,7 +2,7 @@
 
  
 use Cms\Classes\ComponentBase;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Team;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\Playoff;
@@ -102,17 +102,17 @@ class PlayoffOverview extends ComponentBase
                 $offset_left = 30;
                 $offset_top = 2.6875;
                 //for now, special case only
-                $decoded_playoff_position = Match::decodePlayoffPosition($match->playoff_position);
+                $decoded_playoff_position = MatchModel::decodePlayoffPosition($match->playoff_position);
                 $array['position_bracket_name'] = $this->getBracketName($decoded_playoff_position);
                 $offsets = $this->getOffsetsForMatch($decoded_playoff_position);
                 $array['offset_left'] = $offsets['left'];
                 $array['offset_top'] = $offsets['top'];
                 if ($match->playoff_winner_next) {
-                    $decoded_playoff_winner_next = Match::decodePlayoffPosition($match->playoff_winner_next);
+                    $decoded_playoff_winner_next = MatchModel::decodePlayoffPosition($match->playoff_winner_next);
                     $this->addWinnerLinkBetweenMatches($decoded_playoff_position, $decoded_playoff_winner_next);
                 }
                 if ($match->playoff_loser_next) {
-                    $decoded_playoff_loser_next = Match::decodePlayoffPosition($match->playoff_loser_next);
+                    $decoded_playoff_loser_next = MatchModel::decodePlayoffPosition($match->playoff_loser_next);
                     $this->addLoserLinkToMatch($decoded_playoff_loser_next);
                 }
                 $this->matches[] = $array;

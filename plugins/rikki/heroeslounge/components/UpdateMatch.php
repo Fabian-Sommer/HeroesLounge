@@ -6,7 +6,7 @@ use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Game;
 use Rikki\Heroeslounge\Models\Map;
 use Rikki\Heroeslounge\Models\Team;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\classes\ReplayParsing\ReplayParsing;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use DateTime;
@@ -48,7 +48,7 @@ class UpdateMatch extends ComponentBase
         }
 
         $this->addJs('/plugins/rikki/heroeslounge/assets/js/selectFile.js');
-        $this->match = Match::find($this->property('id'));
+        $this->match = MatchModel::find($this->property('id'));
         if ($this->match) {
             $this->maps = Map::where('enabled', true)->whereNotIn('id', $this->match->games()->lists('map_id'))->get();
             if ($this->match->teams->count() == 2) {
@@ -80,7 +80,7 @@ class UpdateMatch extends ComponentBase
 
     public function onRescheduleMatch()
     {
-        $match = Match::find(post('match_id'));
+        $match = MatchModel::find(post('match_id'));
         if ($match) {
             $date = post('date');
             $timezone = TimezoneHelper::getTimezone();
@@ -136,7 +136,7 @@ class UpdateMatch extends ComponentBase
         $replay->save();
         
         $replayParser = new ReplayParsing;
-        $replayParser->match = Match::find(post('match'));
+        $replayParser->match = MatchModel::find(post('match'));
         $replayParser->replay = $replay;
         $replayParser->uploadingTeam = Team::find(post('uploading_team_id'));
 
@@ -165,7 +165,7 @@ class UpdateMatch extends ComponentBase
 
     public function onMatchSave()
     {
-        $match = Match::findOrFail(post('match_id'));
+        $match = MatchModel::findOrFail(post('match_id'));
         $match->determineWinnerAndSave();
         Flash::success('The match has been saved!');
         return Redirect::refresh();

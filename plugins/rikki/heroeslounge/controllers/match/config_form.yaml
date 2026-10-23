@@ -1,5 +1,5 @@
 name: Match
-modelClass: Rikki\Heroeslounge\Models\Match
+modelClass: Rikki\Heroeslounge\Models\MatchModel
 form: $/rikki/heroeslounge/models/match/fields.yaml
 defaultRedirect: rikki/heroeslounge/match
 create:

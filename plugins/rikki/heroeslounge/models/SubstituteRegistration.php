@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\DB;
 use October\Rain\Database\Model;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Season;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Team;
 use Carbon\Carbon;
 use DateTime;
@@ -45,7 +45,7 @@ class SubstituteRegistration extends Model
             'otherKey' => 'id'
         ],
         'match' => [
-            'Rikki\Heroeslounge\Models\Match',
+            'Rikki\Heroeslounge\Models\MatchModel',
             'key' => 'match_id',
             'otherKey' => 'id'
         ]

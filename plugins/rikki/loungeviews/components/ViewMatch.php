@@ -5,7 +5,7 @@ namespace Rikki\LoungeViews\Components;
 use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\Game;
 use Rikki\Heroeslounge\Models\Map;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Auth;
@@ -46,9 +46,9 @@ class ViewMatch extends ComponentBase
 
     public function onRender()
     {
-        $this->match = Match::find($this->param('id'));
+        $this->match = MatchModel::find($this->param('id'));
         if ($this->match != null && $this->match->playoff_position != null) {
-            $this->decoded_playoff_position = Match::decodePlayoffPosition($this->match->playoff_position);
+            $this->decoded_playoff_position = MatchModel::decodePlayoffPosition($this->match->playoff_position);
         }
         if ($this->match) {
             if ($this->match->teams->count() == 2 && $this->match->mapBans->count() > 0) {

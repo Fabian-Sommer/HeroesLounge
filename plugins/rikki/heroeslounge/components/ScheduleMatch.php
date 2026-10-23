@@ -2,7 +2,7 @@
 
 use Cms\Classes\ComponentBase;
 use Auth;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Input;
 use Redirect;
 use Log;
@@ -39,7 +39,7 @@ class ScheduleMatch extends ComponentBase
     public function onRender()
     {
         $this->user = Auth::getUser();
-        $this->match = Match::find($this->property('id'));
+        $this->match = MatchModel::find($this->property('id'));
         if ($this->match) {
             $sloth = $this->user->sloth;
             $ownTeam = $this->match->teams->filter(function ($team) use ($sloth) {
@@ -56,7 +56,7 @@ class ScheduleMatch extends ComponentBase
 
     public function onSaveDate()
     {
-        $match = Match::find(post('match_id'));
+        $match = MatchModel::find(post('match_id'));
         if ($match) {
             $date = post('date');
             $timezone = TimezoneHelper::getTimezone();

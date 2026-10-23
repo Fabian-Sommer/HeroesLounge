@@ -2,7 +2,7 @@
 
  
 use Cms\Classes\ComponentBase;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Team as Teams;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Season as Seasons;

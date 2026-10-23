@@ -46,7 +46,7 @@ class Division extends Model
 
     public $hasMany = [
         'matches' =>  [
-            'Rikki\Heroeslounge\Models\Match',
+            'Rikki\Heroeslounge\Models\MatchModel',
             'key' => 'div_id',
             'otherKey' => 'id'
         ]

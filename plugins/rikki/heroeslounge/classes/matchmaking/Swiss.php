@@ -2,7 +2,7 @@
 
 
 use Rikki\Heroeslounge\Models\Division;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Team as Teams;
 use Rikki\Heroeslounge\Models\Game;
 
@@ -44,7 +44,7 @@ class Swiss
         $match_id = $mid[0]->id + 1;
         Db::insert('insert into rikki_heroeslounge_match (id , div_id , round , created_at , updated_at , schedule_date , tbp) values (?,?,?,?,?,?,?)' , [$match_id , $div->id , $round , $created_at , $created_at , $schedule_date , $tbp]);
 
-        $match = Match::find($match_id);
+        $match = MatchModel::find($match_id);
         $match->teams()->save($teamA);
         $match->teams()->save($teamB);
 

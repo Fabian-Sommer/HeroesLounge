@@ -86,7 +86,7 @@ class Season extends Model
 
     public $hasManyThrough = [
         'matches' => [
-            'Rikki\Heroeslounge\Models\Match',
+            'Rikki\Heroeslounge\Models\MatchModel',
             'key' => 'season_id',
             'through' => 'Rikki\Heroeslounge\Models\Division',
             'throughKey' => 'div_id'

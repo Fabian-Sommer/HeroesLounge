@@ -1,5 +1,5 @@
 title: Match
-modelClass: Rikki\Heroeslounge\Models\Match
+modelClass: Rikki\Heroeslounge\Models\MatchModel
 list: $/rikki/heroeslounge/models/match/columns.yaml
 recordUrl: 'rikki/heroeslounge/match/update/:id'
 noRecordsMessage: 'backend::lang.list.no_records'

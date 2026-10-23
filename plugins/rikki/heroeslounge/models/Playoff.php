@@ -2,7 +2,7 @@
 
 use Model;
 use Rikki\Heroeslounge\Models\Team;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Classes\Helpers\TimezoneHelper;
 use Carbon\Carbon;
 use Log;
@@ -26,7 +26,7 @@ class Playoff extends Model
 
     public $hasMany = [
         'divisions' => ['Rikki\Heroeslounge\Models\Division'],
-        'matches' => ['Rikki\Heroeslounge\Models\Match']
+        'matches' => ['Rikki\Heroeslounge\Models\MatchModel']
     ];
 
     public $belongsToMany = [
@@ -124,73 +124,73 @@ class Playoff extends Model
             $Time9 = Carbon::create($year2, $month2, $day2, 20, 30, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
             
             $matchArray = [
-                0 => [  'pos' => Match::encodePlayoffPosition(1,1,1), 
-                        'wn' => Match::encodePlayoffPosition(1,2,1), 
-                        'ln' => Match::encodePlayoffPosition(2,3,2), 
+                0 => [  'pos' => MatchModel::encodePlayoffPosition(1,1,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,1), 
+                        'ln' => MatchModel::encodePlayoffPosition(2,3,2), 
                         'teams' => [], 
                         'wbp' => $Time3],
-                1 => [  'pos' => Match::encodePlayoffPosition(1,1,2), 
-                        'wn' => Match::encodePlayoffPosition(1,2,1), 
-                        'ln' => Match::encodePlayoffPosition(2,3,1), 
+                1 => [  'pos' => MatchModel::encodePlayoffPosition(1,1,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,1), 
+                        'ln' => MatchModel::encodePlayoffPosition(2,3,1), 
                         'teams' => [], 
                         'wbp' => $Time3],
-                2 => [  'pos' => Match::encodePlayoffPosition(2,1,1), 
-                        'wn' => Match::encodePlayoffPosition(2,2,1), 
+                2 => [  'pos' => MatchModel::encodePlayoffPosition(2,1,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,2,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time1],
-                3 => [  'pos' => Match::encodePlayoffPosition(2,1,2), 
-                        'wn' => Match::encodePlayoffPosition(2,2,1), 
+                3 => [  'pos' => MatchModel::encodePlayoffPosition(2,1,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,2,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time1],
-                4 => [  'pos' => Match::encodePlayoffPosition(2,1,3), 
-                        'wn' => Match::encodePlayoffPosition(2,2,2), 
+                4 => [  'pos' => MatchModel::encodePlayoffPosition(2,1,3), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,2,2), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time2],
-                5 => [  'pos' => Match::encodePlayoffPosition(2,1,4), 
-                        'wn' => Match::encodePlayoffPosition(2,2,2), 
+                5 => [  'pos' => MatchModel::encodePlayoffPosition(2,1,4), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,2,2), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time2],
-                6 => [  'pos' => Match::encodePlayoffPosition(2,2,1), 
-                        'wn' => Match::encodePlayoffPosition(2,3,1), 
+                6 => [  'pos' => MatchModel::encodePlayoffPosition(2,2,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,3,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time4],
-                7 => [  'pos' => Match::encodePlayoffPosition(2,2,2), 
-                        'wn' => Match::encodePlayoffPosition(2,3,2), 
+                7 => [  'pos' => MatchModel::encodePlayoffPosition(2,2,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,3,2), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time4],
-                8 => [  'pos' => Match::encodePlayoffPosition(2,3,1), 
-                        'wn' => Match::encodePlayoffPosition(2,4,1), 
+                8 => [  'pos' => MatchModel::encodePlayoffPosition(2,3,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,4,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time5],
-                9 => [  'pos' => Match::encodePlayoffPosition(2,3,2), 
-                        'wn' => Match::encodePlayoffPosition(2,4,1), 
+                9 => [  'pos' => MatchModel::encodePlayoffPosition(2,3,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,4,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time5],
-                10 => [ 'pos' => Match::encodePlayoffPosition(2,4,1), 
-                        'wn' => Match::encodePlayoffPosition(2,5,1), 
+                10 => [ 'pos' => MatchModel::encodePlayoffPosition(2,4,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,5,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time7],
-                11 => [ 'pos' => Match::encodePlayoffPosition(1,2,1), 
-                        'wn' => Match::encodePlayoffPosition(3,1,1), 
-                        'ln' => Match::encodePlayoffPosition(2,5,1), 
+                11 => [ 'pos' => MatchModel::encodePlayoffPosition(1,2,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(3,1,1), 
+                        'ln' => MatchModel::encodePlayoffPosition(2,5,1), 
                         'teams' => [], 
                         'wbp' => $Time6],
-                12 => [ 'pos' => Match::encodePlayoffPosition(3,1,1), 
+                12 => [ 'pos' => MatchModel::encodePlayoffPosition(3,1,1), 
                         'wn' => null, 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time9],
-                13 => [ 'pos' => Match::encodePlayoffPosition(2,5,1), 
-                        'wn' => Match::encodePlayoffPosition(3,1,1), 
+                13 => [ 'pos' => MatchModel::encodePlayoffPosition(2,5,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(3,1,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time8]
@@ -323,32 +323,32 @@ class Playoff extends Model
             $Time5 = Carbon::create($year, $month, $day, 17, 40, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone());
             
             $matchArray = [
-                0 => [  'pos' => Match::encodePlayoffPosition(1,1,1), 
-                        'wn' => Match::encodePlayoffPosition(3,1,1), 
-                        'ln' => Match::encodePlayoffPosition(2,3,1), 
+                0 => [  'pos' => MatchModel::encodePlayoffPosition(1,1,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(3,1,1), 
+                        'ln' => MatchModel::encodePlayoffPosition(2,3,1), 
                         'teams' => [], 
                         'wbp' => $Time3],
-                1 => [  'pos' => Match::encodePlayoffPosition(2,1,1), 
-                        'wn' => Match::encodePlayoffPosition(2,2,1), 
+                1 => [  'pos' => MatchModel::encodePlayoffPosition(2,1,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,2,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time1],
-                2 => [  'pos' => Match::encodePlayoffPosition(2,1,2), 
-                        'wn' => Match::encodePlayoffPosition(2,2,1), 
+                2 => [  'pos' => MatchModel::encodePlayoffPosition(2,1,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,2,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time1],
-                3 => [  'pos' => Match::encodePlayoffPosition(2,2,1), 
-                        'wn' => Match::encodePlayoffPosition(2,3,1), 
+                3 => [  'pos' => MatchModel::encodePlayoffPosition(2,2,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,3,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time2],
-                4 => [  'pos' => Match::encodePlayoffPosition(2,3,1), 
-                        'wn' => Match::encodePlayoffPosition(3,1,1), 
+                4 => [  'pos' => MatchModel::encodePlayoffPosition(2,3,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(3,1,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time4],
-                5 => [ 'pos' => Match::encodePlayoffPosition(3,1,1), 
+                5 => [ 'pos' => MatchModel::encodePlayoffPosition(3,1,1), 
                         'wn' => null, 
                         'ln' => null, 
                         'teams' => [], 
@@ -364,42 +364,42 @@ class Playoff extends Model
             $Time6 = Carbon::create($year, $month, $day, 17, 00, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())->addDays(1);
             $Time7 = Carbon::create($year, $month, $day, 19, 00, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone())->addDays(1);
             $matchArray = [
-                0 => [  'pos' => Match::encodePlayoffPosition(1,1,1), 
-                        'wn' => Match::encodePlayoffPosition(1,2,1), 
-                        'ln' => Match::encodePlayoffPosition(2,1,1), 
+                0 => [  'pos' => MatchModel::encodePlayoffPosition(1,1,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,1), 
+                        'ln' => MatchModel::encodePlayoffPosition(2,1,1), 
                         'teams' => [], 
                         'wbp' => $Time0],
-                1 => [  'pos' => Match::encodePlayoffPosition(1,1,2), 
-                        'wn' => Match::encodePlayoffPosition(1,2,2), 
-                        'ln' => Match::encodePlayoffPosition(2,1,2), 
+                1 => [  'pos' => MatchModel::encodePlayoffPosition(1,1,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,2), 
+                        'ln' => MatchModel::encodePlayoffPosition(2,1,2), 
                         'teams' => [], 
                         'wbp' => $Time1],
-                2 => [  'pos' => Match::encodePlayoffPosition(2,1,1), 
-                        'wn' => Match::encodePlayoffPosition(1,2,2), 
+                2 => [  'pos' => MatchModel::encodePlayoffPosition(2,1,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,2), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time2],
-                3 => [  'pos' => Match::encodePlayoffPosition(2,1,2), 
-                        'wn' => Match::encodePlayoffPosition(1,2,1), 
+                3 => [  'pos' => MatchModel::encodePlayoffPosition(2,1,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time3],
-                4 => [  'pos' => Match::encodePlayoffPosition(1,2,1), 
-                        'wn' => Match::encodePlayoffPosition(3,1,1), 
-                        'ln' => Match::encodePlayoffPosition(3,1,2), 
+                4 => [  'pos' => MatchModel::encodePlayoffPosition(1,2,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(3,1,1), 
+                        'ln' => MatchModel::encodePlayoffPosition(3,1,2), 
                         'teams' => [], 
                         'wbp' => $Time4],
-                5 => [  'pos' => Match::encodePlayoffPosition(1,2,2), 
-                        'wn' => Match::encodePlayoffPosition(3,1,1), 
-                        'ln' => Match::encodePlayoffPosition(3,1,2), 
+                5 => [  'pos' => MatchModel::encodePlayoffPosition(1,2,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(3,1,1), 
+                        'ln' => MatchModel::encodePlayoffPosition(3,1,2), 
                         'teams' => [], 
                         'wbp' => $Time5],
-                6 => [  'pos' => Match::encodePlayoffPosition(3,1,2), 
+                6 => [  'pos' => MatchModel::encodePlayoffPosition(3,1,2), 
                         'wn' => null, 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $Time6],
-                7 => [  'pos' => Match::encodePlayoffPosition(3,1,1), 
+                7 => [  'pos' => MatchModel::encodePlayoffPosition(3,1,1), 
                         'wn' => null, 
                         'ln' => null, 
                         'teams' => [], 
@@ -474,52 +474,52 @@ class Playoff extends Model
                         9 => Carbon::create($year, $month, $day, 21, 0, 0, $timezone)->setTimezone(TimezoneHelper::defaultTimezone()),
                     ];
             $matchArray = [
-                0 => [  'pos' => Match::encodePlayoffPosition(1,1,1), 
-                        'wn' => Match::encodePlayoffPosition(1,2,1),
-                        'ln' => Match::encodePlayoffPosition(2,1,1), 
+                0 => [  'pos' => MatchModel::encodePlayoffPosition(1,1,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,1),
+                        'ln' => MatchModel::encodePlayoffPosition(2,1,1), 
                         'teams' => [], 
                         'wbp' => $times[0]],
-                1 => [  'pos' => Match::encodePlayoffPosition(1,1,2), 
-                        'wn' => Match::encodePlayoffPosition(1,2,1),
-                        'ln' => Match::encodePlayoffPosition(2,1,1),
+                1 => [  'pos' => MatchModel::encodePlayoffPosition(1,1,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,1),
+                        'ln' => MatchModel::encodePlayoffPosition(2,1,1),
                         'teams' => [], 
                         'wbp' => $times[1]],
-                2 => [  'pos' => Match::encodePlayoffPosition(1,1,3), 
-                        'wn' => Match::encodePlayoffPosition(1,2,2),
-                        'ln' => Match::encodePlayoffPosition(2,1,2),
+                2 => [  'pos' => MatchModel::encodePlayoffPosition(1,1,3), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,2),
+                        'ln' => MatchModel::encodePlayoffPosition(2,1,2),
                         'teams' => [], 
                         'wbp' => $times[2]],
-                3 => [  'pos' => Match::encodePlayoffPosition(1,1,4), 
-                        'wn' => Match::encodePlayoffPosition(1,2,2),
-                        'ln' => Match::encodePlayoffPosition(2,1,2),
+                3 => [  'pos' => MatchModel::encodePlayoffPosition(1,1,4), 
+                        'wn' => MatchModel::encodePlayoffPosition(1,2,2),
+                        'ln' => MatchModel::encodePlayoffPosition(2,1,2),
                         'teams' => [], 
                         'wbp' => $times[3]],
-                4 => [  'pos' => Match::encodePlayoffPosition(2,1,1), 
-                        'wn' => Match::encodePlayoffPosition(2,2,1), 
+                4 => [  'pos' => MatchModel::encodePlayoffPosition(2,1,1), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,2,1), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $times[4]],
-                5 => [ 'pos' => Match::encodePlayoffPosition(2,1,2), 
-                        'wn' => Match::encodePlayoffPosition(2,2,2), 
+                5 => [ 'pos' => MatchModel::encodePlayoffPosition(2,1,2), 
+                        'wn' => MatchModel::encodePlayoffPosition(2,2,2), 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $times[5]],
-                6 => [ 'pos' => Match::encodePlayoffPosition(1,2,1), 
+                6 => [ 'pos' => MatchModel::encodePlayoffPosition(1,2,1), 
                         'wn' => null, 
-                        'ln' => Match::encodePlayoffPosition(2,2,2), 
+                        'ln' => MatchModel::encodePlayoffPosition(2,2,2), 
                         'teams' => [], 
                         'wbp' => $times[6]],
-                7 => [ 'pos' => Match::encodePlayoffPosition(1,2,2), 
+                7 => [ 'pos' => MatchModel::encodePlayoffPosition(1,2,2), 
                         'wn' => null, 
-                        'ln' => Match::encodePlayoffPosition(2,2,1), 
+                        'ln' => MatchModel::encodePlayoffPosition(2,2,1), 
                         'teams' => [], 
                         'wbp' => $times[7]],
-                8 => [ 'pos' => Match::encodePlayoffPosition(2,2,1), 
+                8 => [ 'pos' => MatchModel::encodePlayoffPosition(2,2,1), 
                         'wn' => null, 
                         'ln' => null, 
                         'teams' => [], 
                         'wbp' => $times[8]],
-                9 => [ 'pos' => Match::encodePlayoffPosition(2,2,2), 
+                9 => [ 'pos' => MatchModel::encodePlayoffPosition(2,2,2), 
                         'wn' => null, 
                         'ln' => null, 
                         'teams' => [], 
@@ -606,7 +606,7 @@ class Playoff extends Model
         }
 
         foreach ($matchArray as $key => $matchEntry) {
-            $match = new Match;
+            $match = new MatchModel;
             $match->playoff_id = $playoff->id;
             $match->playoff_position = $matchEntry['pos'];
             $match->playoff_winner_next = $matchEntry['wn'];
@@ -629,7 +629,7 @@ class Playoff extends Model
 
     public function createGroupMatch($team1, $team2, $group, $deadline)
     {
-        $match = new Match;
+        $match = new MatchModel;
         $match->division = $group;
         $match->tbp = $deadline;
         $match->schedule_date = $deadline;
@@ -646,11 +646,11 @@ class Playoff extends Model
         for ($roundnumber = 0; $roundnumber < $rounds; $roundnumber++) {
             $time = $timeArray[$roundnumber];
             for ($i = 0; $i < 2**($rounds - $roundnumber - 1); $i++) {
-                $wn = Match::encodePlayoffPosition(1,$roundnumber+2,floor($i/2)+1);
+                $wn = MatchModel::encodePlayoffPosition(1,$roundnumber+2,floor($i/2)+1);
                 if ($roundnumber+1 == $rounds) {
                     $wn = null;
                 }
-                $matchArray[$x] = [ 'pos' => Match::encodePlayoffPosition(1,$roundnumber+1,$i+1), 
+                $matchArray[$x] = [ 'pos' => MatchModel::encodePlayoffPosition(1,$roundnumber+1,$i+1), 
                                     'wn' => $wn, 
                                     'ln' => null, 
                                     'teams' => [], 
@@ -670,20 +670,20 @@ class Playoff extends Model
         for ($roundnumber = 0; $roundnumber < $rounds; $roundnumber++) {
             $time = $timeArray[$roundnumber];
             for ($i = 0; $i < 2**($rounds - $roundnumber - 1); $i++) {
-                $wn = Match::encodePlayoffPosition(1,$roundnumber+2,floor($i/2)+1);
+                $wn = MatchModel::encodePlayoffPosition(1,$roundnumber+2,floor($i/2)+1);
                 if ($roundnumber+1 == $rounds) {
-                    $wn = Match::encodePlayoffPosition(3,1,1);
+                    $wn = MatchModel::encodePlayoffPosition(3,1,1);
                 }
                 $ln = null;
                 if ($roundnumber == 0) {
-                    $ln = Match::encodePlayoffPosition(2,1,floor($i/2)+1);
+                    $ln = MatchModel::encodePlayoffPosition(2,1,floor($i/2)+1);
                 } else if ($roundnumber%2 == 0) {
-                    $ln = Match::encodePlayoffPosition(2,2*$roundnumber,$i+1);
+                    $ln = MatchModel::encodePlayoffPosition(2,2*$roundnumber,$i+1);
                 } else {
-                    $ln = Match::encodePlayoffPosition(2,2*$roundnumber,2**($rounds - $roundnumber - 1) - $i);
+                    $ln = MatchModel::encodePlayoffPosition(2,2*$roundnumber,2**($rounds - $roundnumber - 1) - $i);
                 }
 
-                $matchArray[$MAI] = ['pos' => Match::encodePlayoffPosition(1,$roundnumber+1,$i+1), 
+                $matchArray[$MAI] = ['pos' => MatchModel::encodePlayoffPosition(1,$roundnumber+1,$i+1), 
                                     'wn' => $wn, 
                                     'ln' => $ln, 
                                     'teams' => [], 
@@ -696,16 +696,16 @@ class Playoff extends Model
         for ($roundnumber = 0; $roundnumber < 2*($rounds-1); $roundnumber++) {
             $time = $timeArray[$rounds+$roundnumber];                
             for ($i = 0; $i < 2**($rounds - floor($roundnumber/2) - 2); $i++) {
-                $wn = Match::encodePlayoffPosition(2,$roundnumber+2,floor($i/2)+1);
+                $wn = MatchModel::encodePlayoffPosition(2,$roundnumber+2,floor($i/2)+1);
                 if ($roundnumber%2 == 0) {
                     //next round will have the same number of matches
-                    $wn = Match::encodePlayoffPosition(2,$roundnumber+2,$i+1);
+                    $wn = MatchModel::encodePlayoffPosition(2,$roundnumber+2,$i+1);
                 }
                 if ($roundnumber+1 == 2*($rounds-1)) {
-                    $wn = Match::encodePlayoffPosition(3,1,1);
+                    $wn = MatchModel::encodePlayoffPosition(3,1,1);
                 }
 
-                $matchArray[$MAI] = ['pos' => Match::encodePlayoffPosition(2,$roundnumber+1,$i+1), 
+                $matchArray[$MAI] = ['pos' => MatchModel::encodePlayoffPosition(2,$roundnumber+1,$i+1), 
                                     'wn' => $wn, 
                                     'ln' => null, 
                                     'teams' => [], 
@@ -716,7 +716,7 @@ class Playoff extends Model
 
         //finals
         $time = $timeArray[$rounds + 2*($rounds-1)];
-        $matchArray[$MAI] = ['pos' => Match::encodePlayoffPosition(3,1,1), 
+        $matchArray[$MAI] = ['pos' => MatchModel::encodePlayoffPosition(3,1,1), 
                             'wn' => null, 
                             'ln' => null, 
                             'teams' => [], 
@@ -734,9 +734,9 @@ class Playoff extends Model
         
         // Quarterfinals
         for ($i = 0; $i < 4; $i++) {
-            $wn = Match::encodePlayoffPosition(1,2,floor($i/2)+1);
+            $wn = MatchModel::encodePlayoffPosition(1,2,floor($i/2)+1);
             $matchArray[$matchArrayIndex] = [
-                'pos' => Match::encodePlayoffPosition(1,1,$i+1), 
+                'pos' => MatchModel::encodePlayoffPosition(1,1,$i+1), 
                 'wn' => $wn, 
                 'ln' => null, 
                 'teams' => [], 
@@ -747,9 +747,9 @@ class Playoff extends Model
         
         // Semifinals
         for ($i = 0; $i < 2; $i++) {
-            $wn = Match::encodePlayoffPosition(1,3,floor($i/2)+1);
+            $wn = MatchModel::encodePlayoffPosition(1,3,floor($i/2)+1);
             $matchArray[$matchArrayIndex] = [
-                'pos' => Match::encodePlayoffPosition(1,2,$i+1), 
+                'pos' => MatchModel::encodePlayoffPosition(1,2,$i+1), 
                 'wn' => $wn, 
                 'ln' => null, 
                 'teams' => [], 
@@ -760,7 +760,7 @@ class Playoff extends Model
        
         // Finals
         $matchArray[$matchArrayIndex] = [
-            'pos' => Match::encodePlayoffPosition(1,3,1), 
+            'pos' => MatchModel::encodePlayoffPosition(1,3,1), 
             'wn' => null, 
             'ln' => null, 
             'teams' => [], 
@@ -783,12 +783,12 @@ class Playoff extends Model
                 }
             }
             $mat = [];
-            $mat[1] = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(1,1,1))->firstOrFail();
-            $mat[2] = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(1,1,2))->firstOrFail();
-            $mat[3] = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(2,1,1))->firstOrFail();
-            $mat[4] = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(2,1,2))->firstOrFail();
-            $mat[5] = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(2,1,3))->firstOrFail();
-            $mat[6] = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(2,1,4))->firstOrFail();
+            $mat[1] = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(1,1,1))->firstOrFail();
+            $mat[2] = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(1,1,2))->firstOrFail();
+            $mat[3] = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(2,1,1))->firstOrFail();
+            $mat[4] = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(2,1,2))->firstOrFail();
+            $mat[5] = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(2,1,3))->firstOrFail();
+            $mat[6] = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(2,1,4))->firstOrFail();
             for ($i=1; $i <= 6; $i++) { 
                 $match = $mat[$i];
                 $team1 = $tems[2*$i-1];
@@ -813,9 +813,9 @@ class Playoff extends Model
                 }
             }
             $mat = [];
-            $mat[1] = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(1,1,1))->firstOrFail();
-            $mat[2] = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(2,1,1))->firstOrFail();
-            $mat[3] = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(2,1,2))->firstOrFail();
+            $mat[1] = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(1,1,1))->firstOrFail();
+            $mat[2] = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(2,1,1))->firstOrFail();
+            $mat[3] = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(2,1,2))->firstOrFail();
             for ($i=1; $i <= 3; $i++) { 
                 $match = $mat[$i];
                 $team1 = $tems[2*$i-1];
@@ -829,10 +829,10 @@ class Playoff extends Model
                 }
             }
         } else if ($this->type == 'DivSv1') {
-            $match0 = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(1,1,1))->firstOrFail();
-            $match1 = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(1,1,2))->firstOrFail();
-            $match2 = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(2,1,1))->firstOrFail();
-            $match3 = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(2,1,2))->firstOrFail();
+            $match0 = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(1,1,1))->firstOrFail();
+            $match1 = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(1,1,2))->firstOrFail();
+            $match2 = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(2,1,1))->firstOrFail();
+            $match3 = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(2,1,2))->firstOrFail();
             $match0->teams()->add($this->teams()->where('seed', 1)->firstOrFail());
             $match0->teams()->add($this->teams()->where('seed', 4)->firstOrFail());
             $match1->teams()->add($this->teams()->where('seed', 2)->firstOrFail());
@@ -933,7 +933,7 @@ class Playoff extends Model
                 }
             }
             for ($i=1; $i <= floor($teamcount/2); $i++) { 
-                $match = $this->matches()->where('playoff_position', Match::encodePlayoffPosition(1,1,$seedToMatch[$i]))->firstOrFail();
+                $match = $this->matches()->where('playoff_position', MatchModel::encodePlayoffPosition(1,1,$seedToMatch[$i]))->firstOrFail();
                 $team1 = $tems[$i];
                 $team2 = $tems[$teamcount+1-$i];
                 $match->teams()->detach();

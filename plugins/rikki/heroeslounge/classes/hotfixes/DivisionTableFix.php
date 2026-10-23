@@ -1,7 +1,7 @@
 <?php namespace Rikki\Heroeslounge\classes\hotfixes;
 
 use Rikki\Heroeslounge\Models\Division;
-use Rikki\Heroeslounge\Models\Match as Matches;
+use Rikki\Heroeslounge\Models\MatchModel as Matches;
 use Rikki\Heroeslounge\Models\Team as Teams;
 use Rikki\Heroeslounge\Models\Game;
 

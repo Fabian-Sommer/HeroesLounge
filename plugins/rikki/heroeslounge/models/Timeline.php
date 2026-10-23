@@ -27,7 +27,7 @@ class Timeline extends Model
         'seasons' => ['Rikki\Heroeslounge\Models\Season',
                     'name' => 'timelineable',
                     'table' => 'rikki_heroeslounge_timelineables'],
-        'matches' => ['Rikki\Heroeslounge\Models\Match',
+        'matches' => ['Rikki\Heroeslounge\Models\MatchModel',
                     'name' => 'timelineable',
                     'table' => 'rikki_heroeslounge_timelineables']
     ];

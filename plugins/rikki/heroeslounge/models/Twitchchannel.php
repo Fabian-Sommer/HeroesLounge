@@ -31,7 +31,7 @@ class Twitchchannel extends Model
 
     public $belongsToMany = [
         'matches' => [
-            'Rikki\Heroeslounge\Models\Match',
+            'Rikki\Heroeslounge\Models\MatchModel',
             'key' => 'channel_id',
             'otherKey' => 'match_id',
             'table' => 'rikki_heroeslounge_match_channel'

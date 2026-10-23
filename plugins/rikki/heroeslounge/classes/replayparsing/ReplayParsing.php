@@ -11,7 +11,7 @@ use Rikki\Heroeslounge\Models\Hero;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\GameParticipation;
 use Rikki\Heroeslounge\Models\Game;
-use Rikki\Heroeslounge\Models\Match;
+use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Talent;
 use Rikki\Heroeslounge\classes\Heroes\HeroUpdater;
 use Rikki\Heroeslounge\classes\deployment\Deployment;
