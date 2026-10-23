@@ -6,26 +6,42 @@ static-pages:
         guides-aram-signup-guide: {  }
         guides-guide-scheduling-and-playing-your-frist-game: {  }
         guides-uploading-replays: {  }
-    privacy-statement:
-        general-rules: {  }
+        guides-heroicsloth: {  }
+    privacy-statement: {  }
     general:
+        general-rules: {  }
         playoff-rules: {  }
         general-test: {  }
         schedule: {  }
-        general-hall-fame: {  }
+        general-playoff-rules-new: {  }
+    general-hall-fame: {  }
+    general-hall-of-fame-eu: {  }
+    general-hall-of-fame-na: {  }
     general-staff: {  }
     faqpage: {  }
-    division-s-overview: {  }
-    division-s-ruleset:
-        division-s-ruleset-division-s-playoffs: {  }
-    division-s-crew: {  }
-    division-s-standings: {  }
-    division-s-schedule: {  }
+    division-s-overview:
+        division-s-schedule: {  }
+        division-s-standings: {  }
+        division-s-crew: {  }
+        division-s-qualifier-standings: {  }
+        division-s-ruleset:
+            division-s-ruleset-division-s-playoffs: {  }
     heroes-cup-emim: {  }
-    aram-league-ruleset: {  }
     testriggingpage: {  }
-    division-s-qualifier-standings: {  }
     ruleset: {  }
-    tournament-ruleset: {  }
-    method-mayhem-overview: {  }
-    method-mayhem-point-standings: {  }
+    method-mayhem-overview:
+        meta-madness-ruleset: {  }
+        tournament-ruleset: {  }
+        method-mayhem-point-standings: {  }
+    nexus-rumble:
+        nexus-rumble-hall-fame: {  }
+    athena-championship-rules: {  }
+    nexus-forces-ruleset: {  }
+    general-staff-page: {  }
+    eggs-cup: {  }
+    offseason-rulesets:
+        aram-league-ruleset: {  }
+        offseason-rulesets-spin-wheel-ruleset: {  }
+    master-maps: {  }
+    copy-rules: {  }
+    poppin-test: {  }

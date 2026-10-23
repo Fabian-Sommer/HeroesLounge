@@ -28,6 +28,10 @@ tabs:
             default: false
             comment: Intro image is fullscreen
 
+        header_email:
+            tab: Header
+            label: Email
+            default: contact@heroeslounge.gg
         header_phone:
             tab: Header
             label: Phone
@@ -43,6 +47,11 @@ tabs:
             label: Phone
             default:
             span: right
+        footer_email:
+            tab: Footer
+            label: Email
+            default: contact@heroeslounge.gg
+            span: left
         footer_facebook:
             tab: Footer
             label: Facebook link

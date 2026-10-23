@@ -1,19 +1,476 @@
 name: events_archive
 items:
     -
-        title: 'Offseason Fiestas'
-        nesting: ''
+        title: 'Nexus Rumble'
+        nesting: null
         type: header
-        url: ''
+        url: null
         code: ''
-        reference: ''
-        cmsPage: ''
-        replace: ''
+        reference: null
+        cmsPage: null
+        replace: null
         viewBag:
             isHidden: '0'
             cssClass: ''
             isExternal: '0'
         items:
+            -
+                title: 'Upper Rumble  I'
+                nesting: null
+                type: url
+                url: /nexus-rumble-1/nexus-rumble-upper-1
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble I'
+                nesting: null
+                type: url
+                url: /nexus-rumble-1/nexus-rumble-lower-1
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble II'
+                nesting: null
+                type: url
+                url: /nexus-rumble-ii/nexus-rumble-upper-II
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble II'
+                nesting: null
+                type: url
+                url: /nexus-rumble-ii/nexus-rumble-lower-II
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble III'
+                nesting: null
+                type: url
+                url: /nexus-rumble-iii/nexus-rumble-upper-III
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble III'
+                nesting: null
+                type: url
+                url: /nexus-rumble-iii/nexus-rumble-lower-III
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble IV'
+                nesting: null
+                type: url
+                url: /nexus-rumble-IV/nexus-rumble-upper-IV
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble IV'
+                nesting: null
+                type: url
+                url: /nexus-rumble-IV/nexus-rumble-upper-IV
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble V'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-v/playoff/Nexus%20Rumble%20V%20Leader%20board'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble V'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-v/playoff/Nexus%20Rumble%20V%20Lower%20Leader%20board'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble S18'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-18/playoff/Nexus%20Rumble%20S18%20Upper%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble S18'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-18/playoff/Nexus%20Rumble%20S18%20Lower%20Rumble%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble Season 20'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-20/playoff/Nexus%20Rumble%20Upper%20Season%2020%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble Season 20'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-20/playoff/Nexus%20Rumble%20Lower%20Season%2020%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble Season 21'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-21/playoff/Nexus%20Rumble%20Upper%20Season%2021%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble Season 21'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-21/playoff/Nexus%20Rumble%20Lower%20Season%2021%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble Season 22'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-22/playoff/Nexus%20Rumble%20Upper%20Season%2022%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble Season 22'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-22/playoff/Nexus%20Rumble%20Lower%20Season%2022%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble Season 23'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-23/playoff/Nexus%20Rumble%20Upper%20Season%2023%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble Season 23'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-23/playoff/Nexus%20Rumble%20Lower%20Season%2023%20Leaderboard'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble Season 24'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-24/playoff/Nexus%20Rumble%20Lower%20Leaderboard%20Season%2024'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble Season 24'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-24/playoff/Nexus%20Rumble%20Upper%20Leaderboard%20Season%2024'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Upper Rumble Season 25'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-25/playoff/Nexus%20Rumble%20Upper%20Leaderboard%20Season%2025'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Lower Rumble Season 25'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-rumble-season-25/playoff/Nexus%20Rumble%20Lower%20Leaderboard%20Season%2025'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: 'Athena Championship'
+        nesting: null
+        type: header
+        url: null
+        code: ''
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: 'Athena Championship'
+                nesting: null
+                type: url
+                url: /athena-championship/athena-championship
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Athena Championship II'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/athena-championship-ii/'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Athena Championship Rules'
+                nesting: 0
+                type: static-page
+                url: null
+                code: ''
+                reference: athena-championship-rules
+                cmsPage: null
+                replace: 0
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Athena III'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/athena-championship-iii/'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Athena IV'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/athena-championships-iv/athena-championships-iv'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Athena Championship V EU'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/athena-championships-v/playoff/Athena%20Championships%20V%20EU'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Athena Championship V NA'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/athena-championships-v-na/playoff/Athena%20Championship%20V%20NA'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Athena Championship VI'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/athena-championship-vi/playoff/Athena%20Championships%20VI'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: 'Offseason Tournaments'
+        nesting: null
+        type: header
+        url: null
+        code: ''
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: '[EU]Offseason 12-13 ARAM'
+                nesting: ''
+                type: url
+                url: /eu-offseason-12-13-aram
+                code: ''
+                reference: ''
+                cmsPage: ''
+                replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
             -
                 title: '[EU] ARAM Season 1'
                 nesting: ''
@@ -67,10 +524,157 @@ items:
                     cssClass: ''
                     isExternal: '0'
             -
-                title: '[EU]Offseason 12-13 ARAM'
+                title: '[EU] Offseason 14-15'
+                nesting: null
                 type: url
-                url: //eu-offseason-12-13-aram
+                url: /eu-offseason-14-15/offseason-14-15
                 code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] Offseason 14-15 Playoff'
+                nesting: null
+                type: url
+                url: /eu-offseason-14-15/playoff/Offseason%2014-15%20Playoff
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Off season 15-16'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eu-offseason-15-16'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Offseason 16-17'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eu-offseason-16-17-aram/playoff/Offseason%2016-17%20Groupstage'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] Offseason 17 -18 2v2 ARAM'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eu-offseason-17-18/playoff/Offseason%2017-18%20Playoffs%202v2%20ARAM'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '2v2 Aram Ruleset'
+                nesting: null
+                type: url
+                url: /aram-league-ruleset
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] Offseason 18-19 Upper Bracket'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eu-offseason-18-19/playoff/%5BEU%5D%20Offseason%2018-19%20Upper%20Bracket'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] Offseason 18-19 Lower Bracket'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eu-offseason-18-19/eu-offseason-18-19-lower-bracket'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Offseason 18-19 - ARAM Tournament'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eu-offseason-18-19/playoff/Offseason%2018-19%20-%20ARAM%20Tournament'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Offseason 25-26'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/offseason-25-26'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] OffSeason 21-22 Meta Groups'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/meta-madness-season-21-22/playoff/Meta%20madness%2021-22'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: '[EU] Offseason 27-28'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eu-offseason-27-28'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
                 viewBag:
                     isHidden: '0'
                     cssClass: ''
@@ -89,6 +693,32 @@ items:
             cssClass: ''
             isExternal: '0'
         items:
+            -
+                title: 'Battle of Constellations'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/tournament/battle-constellations'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Loukas Meta Mayhem'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/loukas-meta-mayhem/'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
             -
                 title: 'Nut Cup'
                 nesting: ''
@@ -154,6 +784,86 @@ items:
                     isHidden: '0'
                     cssClass: ''
                     isExternal: '0'
+            -
+                title: 'Master of Maps'
+                nesting: null
+                type: header
+                url: null
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+                items:
+                    -
+                        title: 'Cursed Hollow'
+                        nesting: null
+                        type: url
+                        url: 'https://heroeslounge.gg/tournament/master-maps-cursed-hollow'
+                        code: ''
+                        reference: null
+                        cmsPage: null
+                        replace: null
+                        viewBag:
+                            isHidden: '0'
+                            cssClass: ''
+                            isExternal: '0'
+                    -
+                        title: 'Towers of Doom'
+                        nesting: null
+                        type: url
+                        url: 'https://heroeslounge.gg/tournament/master-maps-towers-doom'
+                        code: ''
+                        reference: null
+                        cmsPage: null
+                        replace: null
+                        viewBag:
+                            isHidden: '0'
+                            cssClass: ''
+                            isExternal: '0'
+            -
+                title: 'Khaldor''s Underdog Cup'
+                nesting: null
+                type: header
+                url: null
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+                items:
+                    -
+                        title: 'Division 2 and 3'
+                        nesting: null
+                        type: url
+                        url: 'https://heroeslounge.gg/khaldors-underdog-cup-division-2-3/'
+                        code: ''
+                        reference: null
+                        cmsPage: null
+                        replace: null
+                        viewBag:
+                            isHidden: '0'
+                            cssClass: ''
+                            isExternal: '0'
+                    -
+                        title: 'Division 4 and 5'
+                        nesting: null
+                        type: url
+                        url: 'https://heroeslounge.gg/tournament/khaldors-underdog-cup-divisions-4-5'
+                        code: ''
+                        reference: null
+                        cmsPage: null
+                        replace: null
+                        viewBag:
+                            isHidden: '0'
+                            cssClass: ''
+                            isExternal: '0'
     -
         title: 'Division S'
         nesting: ''
@@ -216,6 +926,322 @@ items:
                 reference: ''
                 cmsPage: ''
                 replace: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: 'Nexus Forces'
+        nesting: null
+        type: header
+        url: null
+        code: ''
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: 'Nexus Forces Qualifier 1'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/tournament/nexus-forces-tournament-qualifier-1'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Nexus Forces Qualifier 2'
+                nesting: null
+                type: url
+                url: '/https://heroeslounge.gg/tournament/nexus-forces-tournament-qualifier-2'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Nexus Forces Qualifier 3'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/tournament/nexus-forces-tournament-qualifier-3'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Nexus Forces Tournament Finals'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/tournament/nexus-forces-tournament-finals'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Nexus Forces Ruleset'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/nexus-forces-ruleset'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Nexus Forces Announcement'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/blog/post/nexus-forces-tournament'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: 'Halloween Heroes'
+        nesting: null
+        type: url
+        url: /heroes-cosplay-fundraiser
+        code: ''
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+    -
+        title: 'Eggs Cup'
+        nesting: null
+        type: header
+        url: null
+        code: ''
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: 'Eggs Cup Qualifier 1'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eggs-cup-Q/playoff/Eggs%20Cup%20Q1%20Bracket'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Eggs Cup Qualifier 2'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eggs-cup-Q/playoff/Eggs%20Cup%20Q2'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Eggs Cup Qualifier 3'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eggs-cup-Q/playoff/Eggs%20Cup%20Q3'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Eggs Cup Overview'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eggs-cup'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Eggs Cup Movember'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/eggs-cup-movember/'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: 'Ukraine Fundraiser Show Matches'
+        nesting: null
+        type: header
+        url: null
+        code: ''
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: 'Division 6 vs 7'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/match/view/17032'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Division 4 vs 5'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/match/view/17033'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Division 2 vs 3'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/match/view/17034'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Division 1 vs 1+'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/match/view/17035'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'EU vs NA'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/match/view/17036'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: 'Heroes 10th'
+        nesting: null
+        type: header
+        url: null
+        code: ''
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: 'Division 1'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/hots-10/playoff/Heroes%2010%20Division%201'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Division 2'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/hots-10/playoff/Heroes%2010%20Division%202'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Division 3'
+                nesting: null
+                type: url
+                url: 'https://heroeslounge.gg/hots-10/playoff/Heroes%2010%20Division%203'
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
                 viewBag:
                     isHidden: '0'
                     cssClass: ''

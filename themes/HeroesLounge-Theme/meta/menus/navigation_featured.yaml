@@ -1,90 +1,288 @@
-name: navigation_featured
 items:
     -
         title: Events
-        nesting: ''
+        nesting: null
         type: header
-        url: ''
+        url: null
         code: ''
-        reference: ''
-        cmsPage: ''
-        replace: ''
+        reference: null
+        cmsPage: null
+        replace: null
         viewBag:
             isHidden: '0'
             cssClass: ''
             isExternal: '0'
         items:
             -
-                title: 'Nexus Rumble Upper'
-                nesting: ''
+                title: 'Khaldor Big Cup Bracket'
+                nesting: null
                 type: url
-                url: /nexus-rumble-1/nexus-rumble-upper-1
+                url: 'https://heroeslounge.gg/KODC0826/playoff/Khaldor%20Big%20Dog%20Cup%20August.26'
                 code: ''
-                reference: ''
-                cmsPage: ''
-                replace: ''
+                reference: null
+                cmsPage: null
+                replace: null
                 viewBag:
                     isHidden: '0'
                     cssClass: ''
                     isExternal: '0'
             -
-                title: 'Nexus Rumble Lower'
-                nesting: ''
+                title: 'Open Rumble Standings'
+                nesting: null
                 type: url
-                url: /nexus-rumble-1/nexus-rumble-lower-1
+                url: /tournament/Nexus-Rumble-Open-Table
                 code: ''
-                reference: ''
-                cmsPage: ''
-                replace: ''
+                reference: null
+                cmsPage: null
+                replace: null
                 viewBag:
-                    isHidden: '1'
+                    isHidden: '0'
                     cssClass: ''
                     isExternal: '0'
             -
-                title: Archive
-                nesting: ''
+                title: 'Offseason 30-31 Group A'
+                type: url
+                url: 'https://heroeslounge.gg/offseason-30-31/group-a'
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Offseason 30-31 Group B'
+                type: url
+                url: 'https://heroeslounge.gg/offseason-30-31/group-b'
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Offseason 30-31 Group C'
+                type: url
+                url: 'https://heroeslounge.gg/offseason-30-31/group-c'
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Offseason 30-31 Group D'
+                type: url
+                url: 'https://heroeslounge.gg/offseason-30-31/group-d'
+                code: ''
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Offseason Ruleset'
+                nesting: null
+                type: url
+                url: /aram-ruleset
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: Guides
+        nesting: null
+        type: header
+        url: null
+        code: ''
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: 'Signup Guide'
+                nesting: null
+                type: url
+                url: /guides/signup-guide
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Captain''s Guide'
+                nesting: null
+                type: url
+                url: /guides/captains-guide
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Scheduling and Reporting Matches'
+                nesting: null
+                type: url
+                url: /guides/scheduling-and-reporting-matches
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Scheduling and Playing Your First Game'
+                nesting: null
+                type: url
+                url: /guides/scheduling-and-playing-your-first-game
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'HeroicSloth - Commands & more'
+                nesting: 0
+                type: static-page
+                url: null
+                code: ''
+                reference: guides-heroicsloth
+                cmsPage: null
+                replace: 0
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: FAQ
+                nesting: null
+                type: url
+                url: /faq
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Uploading Replays'
+                nesting: null
+                type: url
+                url: /guides/uploading-replays
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+    -
+        title: 'About us'
+        nesting: null
+        type: header
+        url: null
+        code: ''
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+        items:
+            -
+                title: 'Our volunteers'
+                nesting: null
+                type: url
+                url: /general/staff
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Hall of Fame EU'
+                nesting: null
+                type: url
+                url: /general/hall-of-fame-eu
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Hall of Fame NA'
+                nesting: null
+                type: url
+                url: /general/hall-of-fame-na
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Nexus Rumble Hall of Fame'
+                nesting: null
+                type: url
+                url: /general/nexus-rumble-hall-of-fame
+                code: ''
+                reference: null
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Event archive'
+                nesting: null
                 type: url
                 url: /events/archive
                 code: ''
-                reference: ''
-                cmsPage: ''
-                replace: ''
+                reference: null
+                cmsPage: null
+                replace: null
                 viewBag:
                     isHidden: '0'
                     cssClass: ''
                     isExternal: '0'
             -
-                title: '[EU] Offseason 13-14 ARAM'
+                title: 'Season archive'
+                nesting: null
                 type: url
-                url: /eu-offseason-13-14-aram
+                url: /season/archive
                 code: ''
+                reference: null
+                cmsPage: null
+                replace: null
                 viewBag:
                     isHidden: '0'
                     cssClass: ''
                     isExternal: '0'
-            -
-                title: 'ARAM League Ruleset'
-                nesting: ''
-                type: url
-                url: /aram-league-ruleset
-                code: ''
-                reference: ''
-                cmsPage: ''
-                replace: ''
-                viewBag:
-                    isHidden: '0'
-                    cssClass: ''
-                    isExternal: '0'
-            -
-                title: 'Just For Fun Charity Tournament'
-                nesting: ''
-                type: url
-                url: /tournament/charity-tournament
-                code: ''
-                reference: ''
-                cmsPage: ''
-                replace: ''
-                viewBag:
-                    isHidden: '0'
-                    cssClass: ''
-                    isExternal: '0'
+name: navigation_featured

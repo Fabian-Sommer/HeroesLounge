@@ -4,10 +4,65 @@ items:
         title: General
         nesting: '1'
         type: static-page
+        url: null
         code: ''
         reference: general
+        cmsPage: null
         replace: '1'
         viewBag:
             isHidden: '0'
             cssClass: ''
             isExternal: '0'
+        items:
+            -
+                title: Ruleset
+                nesting: null
+                type: cms-page
+                url: null
+                code: ''
+                reference: general/ruleset
+                cmsPage: null
+                replace: null
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Playoff Rules'
+                nesting: 0
+                type: static-page
+                url: null
+                code: ''
+                reference: general-playoff-rules-new
+                cmsPage: null
+                replace: 0
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: Schedule
+                nesting: 0
+                type: static-page
+                url: null
+                code: ''
+                reference: schedule
+                cmsPage: null
+                replace: 0
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'
+            -
+                title: 'Seeding Information'
+                nesting: 0
+                type: static-page
+                url: null
+                code: ''
+                reference: general-test
+                cmsPage: null
+                replace: 0
+                viewBag:
+                    isHidden: '0'
+                    cssClass: ''
+                    isExternal: '0'

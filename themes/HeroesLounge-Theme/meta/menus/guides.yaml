@@ -2,13 +2,13 @@ name: guides
 items:
     -
         title: Guides
-        nesting: '1'
-        type: static-page
-        url: ''
+        nesting: null
+        type: header
+        url: null
         code: ''
-        reference: guides
-        cmsPage: ''
-        replace: '0'
+        reference: null
+        cmsPage: null
+        replace: null
         viewBag:
             isHidden: '0'
             cssClass: ''

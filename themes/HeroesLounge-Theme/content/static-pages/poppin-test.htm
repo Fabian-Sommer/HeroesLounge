@@ -1,0 +1,72 @@
+[viewBag]
+title = "Poppin Test"
+url = "/Poppin-test"
+layout = "plain-with-sidebar"
+is_hidden = 0
+navigation_hidden = 0
+==
+<div class="card mb-2">
+
+	<h4 class="card-header text-center text-white" style="background-color:#2e93cd;">Subs</h4>
+	<div class="card-body">
+
+		<p class="mb-3">At least 3 out of 5 people from the core roster must be playing during a match. If a team is unable to field their roster (including substitute players) on time, the ruling “Delay of Map” will apply.</p>
+		<hr>
+
+		<h4>Registering a substitute in the regular season</h4>
+
+		<p class="mb-2">Substitute players are registered using the HeroicSloth Discord bot before the match starts:</p><pre class="bg-light border rounded p-2 mb-2"><code>/register-substitute match-url: 11995 sub-url: 13</code></pre>
+
+		<p class="mb-2">Full Heroes Lounge addresses work in place of IDs too:</p><pre class="bg-light border rounded p-2 mb-2"><code style="white-space: pre-wrap; overflow-wrap: break-word;">/register-substitute match-url: https://heroeslounge.gg/match/view/11995 sub-url: https://heroeslounge.gg/user/view/13</code></pre>
+
+		<ul class="mb-2">
+			<li><code>match-url</code> (required) — the match address, or just its ID.</li>
+			<li><code>sub-url</code> (required) — the substitute's profile address, or just their ID.</li>
+			<li><code>captain-url</code> (moderators only) — used to register on behalf of another team.</li>
+		</ul>
+
+		<p class="mb-2">The bot checks the substitute's MMR and division against the match and shows a summary asking you to Confirm or Cancel. Nothing is submitted until you confirm it.</p>
+
+		<p>Once you have confirmed, a Discord DM will be sent via the bot to the opposing captain either informing them of an undeniable sub or asking them to approve/deny the sub if one of the criteria is not met. (see "When a substitute can be denied" below for more details)</p>
+
+		<p class="mb-3">An unregistered substitute is flagged after the match and turns into a moderation case, which is a far slower conversation than registering up front.</p>
+
+		<p>If a last minute sub is needed, a link to the sub’s Heroes Profile page can be sent to the opposing captain in the match lounge instead. In this case, the sub has to be registered as a user on the HeroesLounge website after the match, and then registered as a substitute using the <code>/register-substitute</code> command no later than 24 hours after the match.</p>
+		<hr>
+
+		<h4>Registering a substitute for the playoffs</h4>
+
+		<p>In the playoffs you register a substitute once for the whole bracket instead of per match:</p><pre class="bg-light border rounded p-2 mb-2"><code>/register-playoff-substitute playoff-id: 12 sub-url: 7629</code></pre>
+
+		<ul>
+			<li><code>playoff-id</code> (required) — pick the playoff from the suggestion list.</li>
+			<li><code>sub-url</code> (required) — the substitute's profile address, or just their ID.</li>
+		</ul>
+
+		<p>Once registered they stay valid for every match your team plays in that playoff, so there is no need to register them again each round.</p>
+
+		<p>Note: a team may register a maximum of <strong>five</strong> playoff substitutes, so choose them with a little thought rather than registering the first five sloths who answer.</p>
+
+		<p>Full playoff rules can be found <a href="https://heroeslounge.gg/general/playoff-rules-new" target="_blank">here</a>.</p>
+		<hr>
+
+		<h4>When a substitute can be denied</h4>
+
+		<p class="mb-2">A registration may be denied if:</p>
+
+		<ul class="mb-2">
+			<li>The substitute's personal MMR (see MMR and Roster Changes) exceeds the upper bound of the division the match takes place in — Division 1 is open-ended and has no limits.</li>
+			<li>The substitute is part of an active team at least two divisions higher than the division the game takes place in.</li>
+		</ul>
+
+		<p class="mb-2">The bot checks these automatically. If the substitute is above the MMR limit the registration is not rejected — it's sent to the opposing captain for approval, so register early rather than ten minutes before the match to give them time to respond.</p>
+
+		<p class="mb-3">An individual can only be used as a substitute for other teams a maximum of 6 times a season, but a maximum of 3 times for one team. Matches played with a team before an individual leaves still count against that 3-match limit, though not against their overall season total.</p>
+		<hr>
+
+		<h4>Cancelling a registration</h4>
+
+		<p class="mb-2">To withdraw a registration your team made:</p>Lists your team's active registrations so you can pick one.<pre class="bg-light border rounded p-2 mb-2"><code>/cancel-substitute</code></pre>Goes straight to one specific match.<pre class="bg-light border rounded p-2 mb-2"><code>/cancel-substitute match-url: 11995</code></pre>
+
+		<p class="mb-3">The opposing captain is notified either way, and once a match has started only a moderator can still cancel a registration.</p>
+	</div></div>

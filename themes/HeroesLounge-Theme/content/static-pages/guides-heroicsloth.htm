@@ -1,0 +1,171 @@
+[viewBag]
+title = "HeroicSloth - Commands & more"
+url = "/guides/heroicsloth"
+layout = "plain-with-sidebar"
+is_hidden = 0
+navigation_hidden = 0
+==
+<h3><strong>Player's Guide</strong></h3>
+
+<p>Welcome to our player's guide. Our Discord bot handles match lobbies, substitutes and support tickets, and this page covers every command you will actually need as a player. Moderator commands are not listed here. If you have any further questions please don't hesitate to ask in our <a href="https://discord.gg/kNkpR9w" rel="noopener noreferrer" target="_blank">Discord</a>.</p>
+
+<p>Three things worth knowing before you start:</p>
+
+<ul>
+	<li>Almost every reply is only visible to you, so you can run a command in a busy channel without spamming it. The lobby timer and the map summary are the exceptions.</li>
+	<li>Where a command asks for a map, a hero, a playoff or one of your matches, Discord suggests the valid options as you type. Pick from the list and you cannot get the spelling wrong.</li>
+	<li>Everything starting with <strong>/lobby</strong> only works inside your match lounge channel. The bot reserves one for every scheduled match of the day.</li>
+</ul>
+
+<p>
+	<a id="menu"></a></p>
+
+<ul>
+	<li><strong><a href="?reload=1#lobby">How to open your match lobby</a></strong></li>
+	<li><strong><a href="?reload=1#maps">How to ban and pick maps</a></strong></li>
+	<li><strong><a href="?reload=1#timer">What to do when the other team is late</a></strong></li>
+	<li><strong><a href="?reload=1#subs">How to register a substitute</a></strong></li>
+	<li><strong><a href="?reload=1#playoffs">How to register substitutes for the playoffs</a></strong></li>
+	<li><strong><a href="?reload=1#cancel">How to cancel a substitute registration</a></strong></li>
+	<li><strong><a href="?reload=1#help">How to get help with a match</a></strong></li>
+	<li><strong><a href="?reload=1#trouble">What to do when a command doesn't work</a></strong></li>
+</ul>
+
+<p>
+	<a id="lobby"></a></p>
+<hr>
+
+<h3><strong>How to open your match lobby</strong></h3>
+
+<p>On match day the bot reserves a <strong>match_lounge</strong> channel for every scheduled match, so in most cases your lounge is already waiting for you and there is nothing to do. If you need to open the lobby yourself, run this inside that channel:</p>
+
+<ul>
+	<li><strong>/lobby start</strong> — finds your match from your Discord account and shows both rosters, any registered substitutes, the map pool and the coinflip result. It can also create a voice channel for the match.</li>
+	<li><strong>/match</strong> — does exactly the same thing. Use whichever you remember.</li>
+</ul>
+
+<p>Note: both commands only work in a <strong>match_lounge</strong> channel. Anywhere else the bot will tell you so rather than doing nothing.</p>
+
+<p>
+	<a id="maps"></a></p>
+<hr>
+
+<h3><strong>How to ban and pick maps</strong></h3>
+
+<p>Map bans and picks are recorded in the lounge channel, so both teams and the moderators can see what was decided without scrolling back through the conversation. Only members of the two participating teams can use them.</p>
+
+<ul>
+	<li><strong>/lobby ban map: Braxis Holdout</strong> — bans a map. How many bans each side gets follows the season's match format; a best-of-three normally gives two per team.</li>
+	<li><strong>/lobby unban map: Braxis Holdout</strong> — puts a map you banned by mistake straight back into the pool.</li>
+	<li><strong>/lobby pick map: Cursed Hollow</strong> — records a map as actually played.</li>
+	<li><strong>/lobby unpick map: Cursed Hollow</strong> — reverses a pick.</li>
+</ul>
+
+<p>Your ban is recorded against your own team, so the <strong>Match Map Summary</strong> at the bottom of the channel shows who removed what. It rewrites itself after every ban and pick.</p>
+
+<p>Picking the maps as you go is worth the two seconds — that is what feeds the map statistics after the season.</p>
+
+<p>For events that run on a hero pool, such as Nexus Rumble, there is also <strong>/ban-hero hero: Abathur</strong>. Note the hyphen: it is <strong>/ban-hero</strong>, not <strong>/banhero</strong>. In a normal season match this command has nothing to do.</p>
+
+<p>
+	<a id="timer"></a></p>
+<hr>
+
+<h3><strong>What to do when the other team is late</strong></h3>
+
+<p>Don't argue about how long you have been waiting — start the clock and let the bot keep the record:</p>
+
+<ul>
+	<li><strong>/lobby timer start</strong> — starts a ten-minute countdown, visible to everyone in the channel. Anything the other team writes while it runs is captured in the timer message.</li>
+	<li><strong>/lobby timer stop</strong> — they turned up. Any team member or a moderator can stop it.</li>
+</ul>
+
+<p>When the timer runs out the moderators are pinged automatically, so you do not need to chase anyone yourself.</p>
+
+<p>
+	<a id="subs"></a></p>
+<hr>
+
+<h3><strong>How to register a substitute</strong></h3>
+
+<p>Register the substitute <strong>before</strong> you play. An unregistered stand-in is flagged after the match and turns into a moderation case, which is a far slower conversation than this command.</p>
+
+<p><strong>/register-substitute match-url: 11995 sub-url: 13</strong></p>
+
+<p>You can pass the full addresses instead of the IDs if that is easier — both work:</p>
+
+<p><strong>/register-substitute match-url: https://heroeslounge.gg/match/view/11995 sub-url: https://heroeslounge.gg/user/view/13</strong></p>
+
+<ul>
+	<li><strong>match-url</strong> (required) — the match address, or just its ID.</li>
+	<li><strong>sub-url</strong> (required) — the substitute's profile address, or just their ID.</li>
+	<li><strong>captain-url</strong> (moderators only) — used to register on behalf of another team.</li>
+</ul>
+
+<p>The bot checks the substitute's MMR and division against the match and then shows you a summary with <strong>Confirm</strong> and <strong>Cancel</strong>. Nothing is submitted until you confirm.</p>
+
+<p>Note: if the substitute is above the MMR limit the registration is not rejected — it goes to the opposing captain for approval. Do this early rather than ten minutes before the match, so they have time to answer.</p>
+
+<p>
+	<a id="playoffs"></a></p>
+<hr>
+
+<h3><strong>How to register substitutes for the playoffs</strong></h3>
+
+<p>In the playoffs you register a substitute once for the whole bracket instead of per match:</p>
+
+<p><strong>/register-playoff-substitute playoff-id: 12 sub-url: 7629</strong></p>
+
+<ul>
+	<li><strong>playoff-id</strong> (required) — pick the playoff from the suggestion list.</li>
+	<li><strong>sub-url</strong> (required) — the substitute's profile address, or just their ID.</li>
+</ul>
+
+<p>Up to 5 subs can be registered using a single bot command.</p>
+
+<p>Once registered they stay valid for every match your team plays in that playoff, so there is no need to register them again each round.</p>
+
+<p>Note: a team may register a maximum of <strong>five</strong> playoff substitutes, so choose them with a little thought rather than registering the first five sloths who answer.</p>
+
+<p>
+	<a id="cancel"></a></p>
+<hr>
+
+<h3><strong>How to cancel a substitute registration</strong></h3>
+
+<p>Plans change. To withdraw a registration your team made:</p>
+
+<ul>
+	<li><strong>/cancel-substitute</strong> — lists your team's active registrations so you can pick the one to withdraw.</li>
+	<li><strong>/cancel-substitute match-url: 11995</strong> — goes straight to one specific match.</li>
+</ul>
+
+<p>The opposing captain is notified either way — a substitute quietly disappearing on match day is exactly what that notification exists to prevent.</p>
+
+<p>Note: once the match has started only a moderator can still cancel a registration.</p>
+
+<p>
+	<a id="help"></a></p>
+<hr>
+
+<h3><strong>How to get help with a match</strong></h3>
+
+<p>Support tickets are not a command. Open one from the <strong>ticket panel</strong> in the support channel and press the button for the category that fits your problem.</p>
+
+<p>You will get a short form to fill in. Submitting it creates a ticket channel with you and the moderators — and, for problems that involve the other team, with them as well. A ticket reaches every moderator at once and keeps its own history, which a direct message to whoever happens to be online does not.</p>
+
+<p>
+	<a id="trouble"></a></p>
+<hr>
+
+<h3><strong>What to do when a command doesn't work</strong></h3>
+
+<ul>
+	<li><strong>Check the channel.</strong> Anything starting with <strong>/lobby</strong> only works in a <strong>match_lounge</strong> channel.</li>
+	<li><strong>Check the hyphens.</strong> It is <strong>/ban-hero</strong>, <strong>/cancel-substitute</strong> and <strong>/register-playoff-substitute</strong>. Picking the command from Discord's own suggestion list is the safest way to get them right.</li>
+	<li><strong>Read the reply.</strong> If a moderator has switched a command off for the time being, the bot says so in as many words rather than failing silently.</li>
+	<li><strong>Use /help.</strong> It shows this same reference inside Discord.</li>
+	<li><strong>Still stuck?</strong> Open a ticket from the panel in the support channel, or ask in our <a href="https://discord.gg/kNkpR9w" rel="noopener noreferrer" target="_blank">Discord</a>.</li>
+</ul>
+
+<p>Captains, note that registering substitutes and scheduling matches remain your responsibility — see the <a href="https://heroeslounge.gg/general/ruleset" rel="noopener noreferrer" target="_blank">ruleset</a> for the rules these commands help you follow.</p>
