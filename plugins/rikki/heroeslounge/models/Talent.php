@@ -2,13 +2,13 @@
 
  
 
-use October\Rain\Database\Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Rikki\Heroeslounge\Models\Game;
 use October\Rain\Support\Collection;
 /**
  * Model
  */
-class Talent extends Model
+class Talent extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

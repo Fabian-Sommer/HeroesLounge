@@ -1,11 +1,11 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
  
-use October\Rain\Database\Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 /**
  * Model
  */
-class Region extends Model
+class Region extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

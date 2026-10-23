@@ -1,7 +1,7 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
 use Illuminate\Support\Facades\DB;
-use October\Rain\Database\Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Rikki\Heroeslounge\Models\Map;
 use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Team;
@@ -10,7 +10,7 @@ use DateTime;
 use DateTimeZone;
 use Log;
 
-class MapBan extends Model
+class MapBan extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 

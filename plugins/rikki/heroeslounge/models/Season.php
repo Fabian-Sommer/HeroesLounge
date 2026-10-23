@@ -1,13 +1,13 @@
 <?php namespace Rikki\Heroeslounge\Models;
 
  
-use Model;
+use Rikki\Heroeslounge\Classes\BaseModel;
 use Rikki\Heroeslounge\Models\Apps as Applications;
 
 /**
  * Model
  */
-class Season extends Model
+class Season extends BaseModel
 {
     use \Rikki\Heroeslounge\Classes\Traits\LegacyDateSerialization;
 
