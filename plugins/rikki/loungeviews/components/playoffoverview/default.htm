@@ -133,7 +133,7 @@
                                         {%if match['model'].teams[0] %}
                                         <div class="logo spoiler">
                                             {%if match['model'].teams[0].logo is not null%}
-                                            <img src="{{match['model'].teams[0].logo.path | resize(64,64)}}" style="position: relative; padding-top:0px;" title="{{match['model'].teams[0].title}}">
+                                            <img src="{{match['model'].teams[0].logo | resize(64,64)}}" style="position: relative; padding-top:0px;" title="{{match['model'].teams[0].title}}">
                                             {%endif%}
                                         </div>
                                         <div class="name spoiler">{{match['model'].teams[0].title}}</div>
@@ -152,7 +152,7 @@
                                         {%if match['model'].teams[1] %}
                                         <div class="logo spoiler">
                                             {%if match['model'].teams[1].logo is not null%}
-                                            <img src="{{match['model'].teams[1].logo.path | resize(64,64)}}" title="{{match['model'].teams[1].title}}">
+                                            <img src="{{match['model'].teams[1].logo | resize(64,64)}}" title="{{match['model'].teams[1].title}}">
                                             {%endif%}
                                         </div>
                                         <div class="name spoiler">{{match['model'].teams[1].title}}</div>

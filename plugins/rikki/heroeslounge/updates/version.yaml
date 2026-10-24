@@ -428,3 +428,6 @@
 1.0.149:
     - 'Updated table rikki_heroeslounge_match_mapbans'
     - builder_table_update_rikki_heroeslounge_mapbans.php
+1.0.150:
+    - 'Add an index on system_files.disk_name for the resize filter'
+    - add_system_files_disk_name_index.php
