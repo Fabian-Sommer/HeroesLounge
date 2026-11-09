@@ -431,3 +431,6 @@
 1.0.150:
     - 'Add an index on system_files.disk_name for the resize filter'
     - add_system_files_disk_name_index.php
+1.0.151:
+    - 'Add indexes to the timeline tables'
+    - add_timeline_indexes.php
