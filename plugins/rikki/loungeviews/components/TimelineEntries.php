@@ -9,6 +9,7 @@ use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Timeline;
 use October\Rain\Support\Collection;
 use Request;
+use Db;
 
 class TimelineEntries extends ComponentBase
 {
@@ -106,62 +107,7 @@ class TimelineEntries extends ComponentBase
                     });
                     break;
                 case 'division':
-                    $timeline = new Collection([]);
-                    Timeline::with('divisions', 'matches.teams.divisions', 'teams.divisions', 'sloths.teams.divisions', 'teams.logo')
-                            ->orderBy('created_at', 'desc')->chunk(100, function ($someTimelines) use ($id, $timeline) {
-                        foreach ($someTimelines as $timelineEntry) {
-                            $include = false;
-                            if (!empty($timelineEntry->divisions)) {
-                                foreach ($timelineEntry->divisions as $division) {
-                                    if ($division->id == $id) {
-                                        $include = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (!$include && !empty($timelineEntry->matches)) {
-                                foreach ($timelineEntry->matches as $match) {
-                                    foreach ($match->teams as $team) {
-                                        foreach ($team->divisions as $division) {
-                                            if ($division->id == $id) {
-                                                $include = true;
-                                                break(2);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if (!$include && !empty($timelineEntry->teams)) {
-                                foreach ($timelineEntry->teams as $team) {
-                                    foreach ($team->divisions as $division) {
-                                        if ($division->id == $id) {
-                                            $include = true;
-                                            break(2);
-                                        }
-                                    }
-                                }
-                            }
-                            if (!$include && !empty($timelineEntry->sloths)) {
-                                foreach ($timelineEntry->sloths as $sloth) {
-                                    foreach ($sloth->teams as $key => $team) {
-                                        foreach ($team->divisions as $division) {
-                                            if ($division->id == $id) {
-                                                $include = true;
-                                                break(2);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if ($include) {
-                                $timeline->push($timelineEntry);
-                                if ($timeline->count() == $this->property('maxItems')) {
-                                    return false;
-                                    break;
-                                }
-                            }
-                        }
-                    });
+                    $timeline = $this->getDivisionTimeline($id, $this->property('maxItems'));
                     break;
                 case 'team':
                     $timeline = new Collection([]);
@@ -441,5 +387,49 @@ class TimelineEntries extends ComponentBase
             $retOptions[$entity->id] = $entity->title;
         }
         return $retOptions;
+    }
+
+    /**
+     * Timeline entries of a division: entries of the division itself, of its teams,
+     * of matches played by its teams and of sloths currently in its teams, newest first.
+     * The matching entries are looked up from the division's side instead of walking
+     * through the whole timeline. The ids come from the model relations, so soft deleted
+     * records and relation conditions are respected like before.
+     */
+    protected function getDivisionTimeline($divisionId, $maxItems)
+    {
+        $division = Division::find($divisionId);
+        if (!$division) {
+            return new Collection([]);
+        }
+
+        $teamIds = $division->teams()->pluck('rikki_heroeslounge_teams.id');
+        $inTeams = function ($query) use ($teamIds) {
+            $query->whereIn('rikki_heroeslounge_teams.id', $teamIds);
+        };
+        $related = [
+            Division::class => [$division->id],
+            Team::class => $teamIds,
+            MatchModel::class => MatchModel::whereHas('teams', $inTeams)->pluck('id'),
+            Sloth::class => Sloth::whereHas('teams', $inTeams)->pluck('id'),
+        ];
+
+        $timelineIds = collect();
+        foreach ($related as $model => $ids) {
+            foreach (collect($ids)->chunk(1000) as $chunk) {
+                $timelineIds = $timelineIds->merge(
+                    Db::table('rikki_heroeslounge_timelineables')
+                        ->where('timelineable_type', (new $model)->getMorphClass())
+                        ->whereIn('timelineable_id', $chunk)
+                        ->pluck('timeline_id')
+                );
+            }
+        }
+
+        return Timeline::whereIn('id', $timelineIds->unique()->values())
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->take($maxItems)
+            ->get();
     }
 }
