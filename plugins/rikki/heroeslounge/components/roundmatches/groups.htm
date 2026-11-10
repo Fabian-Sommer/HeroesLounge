@@ -1,0 +1,35 @@
+{% if __SELF__.groups is empty %}
+    <p class="text-center text-muted my-3">No matches found.</p>
+{% else %}
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand d-block d-md-none">View Matches</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#{{ __SELF__.alias }}_groups"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="{{ __SELF__.alias }}_groups">
+            <ul class="nav nav-tabs mr-auto">
+                {% for group in __SELF__.groups %}
+                <li class="nav-item">
+                    <a class="nav-link{% if loop.first %} active{% endif %}" data-toggle="tab" href="#{{ __SELF__.alias }}_group_{{ group.key }}">
+                        {% if group.title %}{{ group.title }}{% else %}Playoffs{% endif %}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+    <div class="tab-content">
+        {% for group in __SELF__.groups %}
+        <div class="tab-pane{% if loop.first %} active{% endif %}" id="{{ __SELF__.alias }}_group_{{ group.key }}" role="tabpanel">
+            {% if group.matches is not null %}
+                {% partial '@showMatchGroup' matchGroup=group.matches showLogo=__SELF__.showLogo showName=__SELF__.showName %}
+            {% else %}
+                <div class="text-center text-muted my-3"
+                    data-lazy-handler="{{ __SELF__.alias }}::onLoadMatchGroup"
+                    data-request-data="group: '{{ group.key }}'">Loading matches…</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
