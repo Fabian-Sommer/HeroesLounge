@@ -1,35 +1,16 @@
-
-Displaying stats of 
-<form data-request="onSeasonChange" data-request-success="$('#heroStatisticsToggle>table').DataTable({ 
-                      'columns': [
-                          null,
-                          { 'orderDataType': 'hl-take-first', 'type': 'num' },
-                          null,
-                          { 'orderDataType': 'hl-take-first', 'type': 'num' },
-                          { 'orderDataType': 'hl-take-first', 'type': 'num' }
-                      ],
-                      'destroy': true, //use for reinitialize datatable
-                      'order': [[1, 'desc']],
-                   });
-                   jQuery('#mapStatisticsToggle>table').DataTable
-                               ({
-                                   searching: false,
-                                   paging: false,
-                                   autoWidth: false,
-                                   order: [[3, 'desc']],
-                                   info: false
-                               });">
-<select name="season_id">
-  {% for season in __SELF__.participatedSeasons %}
-  <option value="{{season.id}}"{% if __SELF__.selectedSeason.id==season.id%}selected="selected"{%endif%}>{{season.title}}</option>
-  {% endfor %}
-  <option value="all-time" >all time</option>
-  <option value="all-time-real-seasons" >all time, only seasons (no events)</option>
-  <option value="last-three" >last three seasons ({{__SELF__.lastThree | join(', ')}})</option>
-</select>
-<button type="submit">Update</button>
-</form>
-<br>
-<div id="teamstatistics">
-{%  partial '@stats' %}
+<div id="{{ __SELF__.alias }}_container">
+    {% if __SELF__.loaded %}
+        {% partial '@content' %}
+    {% else %}
+        <div class="text-center text-muted my-3"
+            data-lazy-handler="{{ __SELF__.alias }}::onLoadStatistics"
+            data-request-success="HLStatistics.initTeamTables()">Loading statistics…</div>
+    {% endif %}
 </div>
+{% if __SELF__.loaded %}
+{% put scripts %}
+<script type="text/javascript">
+    jQuery(function () { HLStatistics.initTeamTables(); });
+</script>
+{% endput %}
+{% endif %}

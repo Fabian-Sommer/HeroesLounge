@@ -94,7 +94,8 @@ class ViewTeam extends ComponentBase
                 'teamStatistics',
                 [
                     'deferredBinding'   => true,
-                    'team_id' => $this->team->id
+                    'team_id' => $this->team->id,
+                    'lazy' => true
                 ]
             );
         }
