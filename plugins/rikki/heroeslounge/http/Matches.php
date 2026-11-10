@@ -57,8 +57,12 @@ class Matches extends Controller
 
     public function replays($id)
     {
+        $matchModel = MatchModel::find($id);
+        if ($matchModel == null) {
+            return [];
+        }
+        $games = $matchModel->games;
         $retVal = [];
-        $games = MatchModel::find($id)->games;
         $games->each(function($g) use(&$retVal)
         {
             $retVal[] = $g->replay;
@@ -68,8 +72,12 @@ class Matches extends Controller
 
     public function games($id)
     {
+        $matchModel = MatchModel::find($id);
+        if ($matchModel == null) {
+            return [];
+        }
+        $games = $matchModel->games;
         $retVal = [];
-        $games = MatchModel::find($id)->games;
         $games->each(function($g) use(&$retVal)
         {
             $gameData = ['id' => $g->id,
