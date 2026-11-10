@@ -1,4 +1,12 @@
-{% if __SELF__.round is same as(null) %}
+{% if __SELF__.round is same as(null) and __SELF__.byCompetition %}
+    <div id="{{ __SELF__.alias }}_container">
+        {% if __SELF__.lazy %}
+            <div class="text-center text-muted my-3" data-lazy-handler="{{ __SELF__.alias }}::onLoadMatches">Loading matches…</div>
+        {% else %}
+            {% partial '@groups' %}
+        {% endif %}
+    </div>
+{% elseif __SELF__.round is same as(null) %}
     <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand d-block d-md-none">View Matches</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#roundmatches_groups"

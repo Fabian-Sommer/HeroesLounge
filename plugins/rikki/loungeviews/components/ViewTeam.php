@@ -74,7 +74,8 @@ class ViewTeam extends ComponentBase
                     'showName' => true,
                     'type' => 'team',
                     'id' => $this->team->id,
-                    'round' => null
+                    'round' => null,
+                    'lazy' => true
                 ]
             );
             $component = $this->addComponent(

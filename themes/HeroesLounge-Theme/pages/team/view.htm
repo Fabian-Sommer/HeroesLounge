@@ -26,6 +26,11 @@ function showHideSpoilersTeamView(showSpoilers) {
         scores.addClass('notext');
     }
 }
+
+// Matches and statistics are loaded when their tab is opened, apply the current setting to them.
+jQuery(document).on('ajaxUpdate', function () {
+    showHideSpoilersTeamView(jQuery('.spoilers-toggle input').is(':checked') ? 1 : 0);
+});
 </script>
 {% endput %}
 {% component 'SpoilersToggle' callback='showHideSpoilersTeamView' %}
