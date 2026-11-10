@@ -41,7 +41,7 @@ class DivisionTable extends ComponentBase
 
             if(null !== $this->property('teamId')) {
                 $this->selTeam = $this->property('teamId');
-                $zeroBasedPosition = array_search($this->selTeam,array_column($this->teams->toArray(),'id'));
+                $zeroBasedPosition = $this->teams->pluck('id')->search($this->selTeam);
              
                 $this->startIndex = max($zeroBasedPosition  - $this->property('surroundingEntries')/2,0);
                 $this->length = 1 + $this->property('surroundingEntries');
