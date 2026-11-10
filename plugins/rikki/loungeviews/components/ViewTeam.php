@@ -101,6 +101,14 @@ class ViewTeam extends ComponentBase
         }
     }
 
+    public function onRun()
+    {
+        // Used by the roster; loaded here instead of in init() so AJAX requests skip it.
+        if ($this->team) {
+            $this->team->load('sloths.user.avatar', 'sloths.role');
+        }
+    }
+
     public function defineProperties()
     {
         return [
