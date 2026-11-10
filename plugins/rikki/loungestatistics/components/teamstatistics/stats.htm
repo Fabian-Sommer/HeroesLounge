@@ -84,36 +84,3 @@
         </table>
     </div>
 </div>
-
-{% put scripts %}
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery('#mapStatisticsToggle>table').DataTable
-            ({
-                searching: false,
-                paging: false,
-                autoWidth: false,
-                order: [[3, 'desc']],
-                info: false
-            });
-        jQuery('#heroStatisticsToggle>table').DataTable
-            ({
-                columns: [
-                    null,
-                    { "orderDataType": "hl-take-first", "type": "num" },
-                    null,
-                    { "orderDataType": "hl-take-first", "type": "num" },
-                    { "orderDataType": "hl-take-first", "type": "num" }
-                ],
-                order: [[1, 'desc']],
-                dom: "<'row'<'col-sm-6'<'mt-2'l>><'col-sm-6'<'mt-2' f>>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>"
-            });
-        jQuery('.dataTables_wrapper').removeClass('container-fluid');
-
-    });
-
-</script>
-
-{% endput %}
