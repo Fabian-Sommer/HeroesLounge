@@ -120,13 +120,13 @@
 
 {% put scripts %}
 <script type="text/javascript">
-    jQuery(document).ready(function() {
-        var results = jQuery('div.result');
-        var f100s = jQuery('span.f100');
-        var scores = jQuery('td.score');
-        results.removeClass('spoiler');
-        f100s.removeClass('spoiler');
-        scores.removeClass('notext');
-    });
+    function showProfileSpoilers() {
+        jQuery('div.result').removeClass('spoiler');
+        jQuery('span.f100').removeClass('spoiler');
+        jQuery('td.score').removeClass('notext');
+    }
+    jQuery(document).ready(showProfileSpoilers);
+    // Matches of other competitions are loaded when their tab is opened.
+    jQuery(document).on('ajaxUpdate', showProfileSpoilers);
 </script>
 {% endput %}
