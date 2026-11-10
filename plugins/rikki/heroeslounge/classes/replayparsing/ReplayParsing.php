@@ -214,8 +214,8 @@ class ReplayParsing
                 $teamTwoPlayers++;
             }
         }
-        if (($this->uploadingTeam->id == $this->match->teams[0]->id && $teamOnePlayers < 2)
-            || ($this->uploadingTeam->id == $this->match->teams[1]->id && $teamTwoPlayers < 2)
+        if (($this->uploadingTeam->id == $this->match->teams[0]->id && $teamOnePlayers < 3)
+            || ($this->uploadingTeam->id == $this->match->teams[1]->id && $teamTwoPlayers < 3)
             ) {
             //less than 3 players of core roster
             return [true, 'Your team could not be recognized. At least 3 players have to be on your roster.'];
