@@ -6,7 +6,7 @@ jQuery.fn.dataTable.ext.order['hl-take-first'] = function  ( settings, col )
 };
 
 /*
- * DataTables setup for the team statistics. Called after the statistics are
+ * DataTables setup for the team and sloth statistics. Called after the statistics are
  * rendered, both on page load and after they are (re)loaded through AJAX.
  */
 window.HLStatistics = (function ($) {
@@ -40,6 +40,10 @@ window.HLStatistics = (function ($) {
         initTeamTables: function () {
             initMapTable();
             initHeroTable([null, takeFirst, null, takeFirst, takeFirst]);
+        },
+        initSlothTables: function () {
+            initMapTable();
+            initHeroTable([null, takeFirst, null, takeFirst, takeFirst, null, null, null, null, null, null, null, null]);
         }
     };
 })(jQuery);

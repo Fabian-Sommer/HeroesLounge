@@ -97,4 +97,18 @@ class MatchContextResolver
             Db::table('rikki_heroeslounge_team_match')->where('team_id', $teamId)->select('match_id')
         );
     }
+
+    /**
+     * Matches (not soft deleted) in which the sloth played at least one game.
+     */
+    public static function slothMatches($slothId)
+    {
+        return MatchModel::whereIn(
+            'id',
+            Db::table('rikki_heroeslounge_gameparticipation as gp')
+                ->join('rikki_heroeslounge_games as g', 'g.id', '=', 'gp.game_id')
+                ->where('gp.sloth_id', $slothId)
+                ->select('g.match_id')
+        );
+    }
 }

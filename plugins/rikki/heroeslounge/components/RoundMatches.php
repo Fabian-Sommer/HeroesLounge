@@ -4,7 +4,6 @@
 use Cms\Classes\ComponentBase;
 use Rikki\Heroeslounge\Models\MatchModel;
 use Rikki\Heroeslounge\Models\Team as Teams;
-use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Season as Seasons;
 use Rikki\Heroeslounge\Models\Division as Divisions;
 use Rikki\Heroeslounge\classes\helpers\MatchContextResolver;
@@ -48,21 +47,6 @@ class RoundMatches extends ComponentBase
             if (!$this->lazy) {
                 $this->loadGroups();
             }
-            return;
-        }
-
-        if ($type == 'sloth') {
-            $data = Sloth::findOrFail($id)->gameParticipations->map(function ($gp) {
-                return $gp->game ? $gp->game->match : null;
-            })
-            ->reject(function ($item) {
-                return $item == null;
-            })
-            ->unique('id')
-            ->sortByDesc('created_at');
-            $this->matches = $data->groupBy(function ($match) {
-                return $match->division ? $match->division->longTitle : ($match->playoff ? $match->playoff->longTitle : null);
-            });
             return;
         }
 
@@ -124,12 +108,14 @@ class RoundMatches extends ComponentBase
         $this->showName = ($this->property('showName') == true) ? true : false;
         $this->round = $this->property('round');
         $this->lazy = ($this->property('lazy') == true) ? true : false;
-        $this->byCompetition = in_array($this->property('type'), ['team']);
+        $this->byCompetition = in_array($this->property('type'), ['team', 'sloth']);
     }
 
     protected function matchesQuery()
     {
-        return MatchContextResolver::teamMatches($this->property('id'));
+        return $this->property('type') === 'sloth'
+            ? MatchContextResolver::slothMatches($this->property('id'))
+            : MatchContextResolver::teamMatches($this->property('id'));
     }
 
     /**
@@ -235,7 +221,7 @@ class RoundMatches extends ComponentBase
             ],
             'lazy' => [
                 'title' => 'Lazy',
-                'description' => 'Only load the matches once the list becomes visible (team without round)',
+                'description' => 'Only load the matches once the list becomes visible (team/sloth without round)',
                 'default' => false,
                 'type' => 'checkbox'
             ]

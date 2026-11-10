@@ -1,7 +1,7 @@
 <?php namespace Rikki\LoungeStatistics\Components;
 
 use Cms\Classes\ComponentBase;
-use Rikki\Heroeslounge\Models\Team;
+use Rikki\Heroeslounge\classes\helpers\MatchContextResolver;
 use Rikki\Heroeslounge\Models\Sloth;
 use Rikki\Heroeslounge\Models\Season;
 use Rikki\Heroeslounge\Models\GameParticipation;
@@ -26,21 +26,29 @@ class SlothStatistics extends ComponentBase
     public $participatedSeasons = null;
     public $selectedSeason = null;
 
+    /**
+     * id, hero_id, div_id, playoff_id of every participation of the sloth in a (not deleted)
+     * match, with a resolver for the seasons of those matches.
+     */
+    protected $participationIndex = null;
+    protected $resolver = null;
+
     public function init()
     {
+        // Runs for every AJAX request on the page, so no data is loaded here.
         $this->addJs('assets/js/datatables.min.js');
         $this->addJs('assets/js/loungestatistics.js');
         $this->addCss('assets/css/datatables.min.css');
+    }
 
-        $this->sloth = Sloth::where('id', $this->property('sloth_id'))
-            ->with('gameParticipations', 'gameParticipations.hero', 'gameParticipations.game', 'gameParticipations.game.map', 'gameParticipations.game.replay', 'gameParticipations.game.match.division.season', 'gameParticipations.game.teamOneFirstBan', 'gameParticipations.game.teamOneSecondBan', 'gameParticipations.game.teamOneThirdBan', 'gameParticipations.game.teamTwoFirstBan', 'gameParticipations.game.teamTwoSecondBan', 'gameParticipations.game.teamTwoThirdBan')
-            ->first();
-
-        $this->participatedSeasons = $this->sloth->gameParticipations
-            ->filter(function ($gP) { return $gP->hero != null && $gP->game != null && $gP->game->match != null; })
-            ->map(function ($gP) { return $gP->game->match->season; })
-            ->filter(function ($season) { return $season != null; })
-            ->groupBy('id')->map(function ($group) { return $group[0]; })  // unique does not work on these
+    public function onRender()
+    {
+        $this->loadSloth();
+        $this->participatedSeasons = $this->participationIndex
+            ->filter(function ($gP) { return $gP->hero_id != null; })
+            ->map(function ($gP) { return $this->resolver->season($gP->div_id, $gP->playoff_id); })
+            ->filter()
+            ->keyBy('id')
             ->sortByDesc('created_at')->values();
 
         $this->selectedSeason = $this->participatedSeasons
@@ -50,9 +58,49 @@ class SlothStatistics extends ComponentBase
         $this->calculateStats($this->selectedSeason);
     }
 
+    protected function loadSloth()
+    {
+        $this->sloth = Sloth::findOrFail($this->property('sloth_id'));
+        $this->participationIndex = Db::table('rikki_heroeslounge_gameparticipation as gp')
+            ->join('rikki_heroeslounge_games as g', 'g.id', '=', 'gp.game_id')
+            ->join('rikki_heroeslounge_match as m', 'm.id', '=', 'g.match_id')
+            ->leftJoin('rikki_heroeslounge_heroes as h', 'h.id', '=', 'gp.hero_id')
+            ->whereNull('m.deleted_at')
+            ->where('gp.sloth_id', $this->sloth->id)
+            ->select('gp.id', 'h.id as hero_id', 'm.div_id', 'm.playoff_id')
+            ->get();
+        $this->resolver = new MatchContextResolver($this->participationIndex);
+    }
+
+    /**
+     * The participations to calculate the statistics from: those in the given season,
+     * or all of them when no season is given.
+     */
+    protected function participations($season)
+    {
+        $query = GameParticipation::where('sloth_id', $this->sloth->id);
+        if ($season != null) {
+            $ids = $this->participationIndex
+                ->filter(function ($gP) use ($season) {
+                    $gPSeason = $this->resolver->season($gP->div_id, $gP->playoff_id);
+                    return $gPSeason && $gPSeason->id == $season->id;
+                })
+                ->pluck('id');
+            if ($ids->isEmpty()) {
+                return collect();
+            }
+            $query->whereIn('id', $ids);
+        }
+        return $query
+            ->with('hero', 'game', 'game.map', 'game.replay', 'game.teamOneFirstBan', 'game.teamOneSecondBan', 'game.teamOneThirdBan', 'game.teamTwoFirstBan', 'game.teamTwoSecondBan', 'game.teamTwoThirdBan')
+            ->get();
+    }
+
     public function calculateStats($season)
     {
-        $mapStats = Stats::calculateMapStatisticsForSloth($this->sloth->gameParticipations, $this->selectedSeason);
+        // The participations are already limited to the season.
+        $gameParticipations = $this->participations($season);
+        $mapStats = Stats::calculateMapStatisticsForSloth($gameParticipations, null);
         $this->maps = $mapStats->sortByDesc(function ($map_array) {
             return $map_array['picks_by'] + $map_array['picks_vs'];
         });
@@ -60,7 +108,7 @@ class SlothStatistics extends ComponentBase
             return $carry + $map["picks_by"] + $map["picks_vs"];
         }, 0);
 
-        $heroStats = Stats::calculateHeroStatistics("slothAll", $this->sloth->gameParticipations, null, $this->selectedSeason);
+        $heroStats = Stats::calculateHeroStatistics("slothAll", $gameParticipations, null, null);
         foreach ($heroStats as $key => $hero_array) {
             if ($hero_array['picks'] > 0) {
                 $hero_array['winrate'] = round($hero_array['wins'] / (0.01 * $hero_array['picks']),2);
@@ -84,7 +132,7 @@ class SlothStatistics extends ComponentBase
                 $hero_array['healing'] = '-';
                 $hero_array['xp'] = '-';
             }
-            if ($this->sloth->gameParticipations->count() > 0 && $gamecount > 0) {
+            if ($gamecount > 0) {
                 $hero_array['pick_popularity'] = round($hero_array['picks'] / (0.01 * $gamecount),1);
                 $hero_array['bat_popularity'] = round($hero_array['bans_against_team'] / (0.01 * $gamecount),1);
                 $hero_array['bbt_popularity'] = round($hero_array['bans_by_team'] / (0.01 * $gamecount),1);
@@ -102,6 +150,7 @@ class SlothStatistics extends ComponentBase
 
     public function onSeasonChange()
     {
+        $this->loadSloth();
         $season_id = input('season_id');
         if ($season_id == -1) {
             $this->selectedSeason = null;
