@@ -119,7 +119,7 @@ class Division extends BaseModel
             $team->score = 0;
             $team->map_score = 0;
         }
-        foreach ($this->matches as $match) {
+        foreach ($this->getMatchesWithResults() as $match) {
             if ($match->winner) {
                 $winningTeam = $teams->where('id', $match->winner->id)->first();
                 if ($winningTeam) {
@@ -170,7 +170,7 @@ class Division extends BaseModel
             $team->wins_vs = collect([]);
         }
 
-        foreach ($this->matches as $match) {
+        foreach ($this->getMatchesWithResults() as $match) {
             foreach ($match->games as $game) {
                 if ($game->winner && $teams->contains($game->winner)) {
                     $winningTeam = $teams->where('id', $game->winner->id)->first();
@@ -253,6 +253,35 @@ class Division extends BaseModel
         }
 
         return $initialSortedTeams;
+    }
+
+    /**
+     * The division's matches with everything the standings read eager loaded: the winner/loser
+     * accessors of MatchModel and Game otherwise run one query per match and per game.
+     * Only the id columns are selected, the standings don't need anything else.
+     */
+    protected function getMatchesWithResults()
+    {
+        $matches = $this->matches()
+            ->select('id', 'div_id', 'winner_id', 'is_played')
+            ->with([
+                'winner:id',
+                'teams:rikki_heroeslounge_teams.id',
+                'games:id,match_id,winner_id,team_one_id,team_two_id',
+                'games.winner:id',
+                'games.teamOne:id',
+                'games.teamTwo:id',
+            ])
+            ->get();
+
+        // Game::getLoserAttribute() falls back to $game->match->teams, reuse the loaded match
+        foreach ($matches as $match) {
+            foreach ($match->games as $game) {
+                $game->setRelation('match', $match);
+            }
+        }
+
+        return $matches;
     }
 
     public function herostatistics()
