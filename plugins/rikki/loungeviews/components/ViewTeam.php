@@ -74,7 +74,8 @@ class ViewTeam extends ComponentBase
                     'showName' => true,
                     'type' => 'team',
                     'id' => $this->team->id,
-                    'round' => null
+                    'round' => null,
+                    'lazy' => true
                 ]
             );
             $component = $this->addComponent(
@@ -93,9 +94,18 @@ class ViewTeam extends ComponentBase
                 'teamStatistics',
                 [
                     'deferredBinding'   => true,
-                    'team_id' => $this->team->id
+                    'team_id' => $this->team->id,
+                    'lazy' => true
                 ]
             );
+        }
+    }
+
+    public function onRun()
+    {
+        // Used by the roster; loaded here instead of in init() so AJAX requests skip it.
+        if ($this->team) {
+            $this->team->load('sloths.user.avatar', 'sloths.role');
         }
     }
 

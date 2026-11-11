@@ -1,0 +1,17 @@
+
+Displaying stats of 
+<form data-request="{{ __SELF__.alias }}::onSeasonChange" data-request-success="HLStatistics.initTeamTables()">
+<select name="season_id">
+  {% for season in __SELF__.participatedSeasons %}
+  <option value="{{season.id}}"{% if season.id in __SELF__.selectedSeasons %} selected="selected"{% endif %}>{{season.title}}</option>
+  {% endfor %}
+  <option value="all-time" >all time</option>
+  <option value="all-time-real-seasons" >all time, only seasons (no events)</option>
+  <option value="last-three" >last three seasons ({{__SELF__.lastThree | join(', ')}})</option>
+</select>
+<button type="submit">Update</button>
+</form>
+<br>
+<div id="teamstatistics">
+{%  partial '@stats' %}
+</div>
