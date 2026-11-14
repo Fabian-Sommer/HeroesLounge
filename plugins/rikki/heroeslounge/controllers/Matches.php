@@ -11,6 +11,8 @@ use Rikki\Heroeslounge\Models\Division;
 
 class Matches extends Controller
 {
+    use \Rikki\Heroeslounge\Classes\Traits\RestoresRelationQuery;
+
     /**
      * The class was renamed from Match ("match" is reserved since PHP 8),
      * keep its views and config files in the existing "match" folder.

@@ -8,6 +8,8 @@ use Rikki\Heroeslounge\Models\RssEntry as RssModel;
 
 class RssEntry extends Controller
 {
+    use \Rikki\Heroeslounge\Classes\Traits\RestoresRelationQuery;
+
     public $implement = ['Backend\Behaviors\ListController','Backend\Behaviors\FormController','Backend\Behaviors\RelationController'];
     public $requiredPermissions = ['indikator.content.blog'];
     public $listConfig = 'config_list.yaml';
