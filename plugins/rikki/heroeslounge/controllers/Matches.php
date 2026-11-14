@@ -51,8 +51,8 @@ class Matches extends Controller
 
     public function onRelationButtonApprove()
     {
+        $match = MatchModel::findOrFail(post('model_id'));
         if (($checkedIds = post('checked')) && is_array($checkedIds)) {
-            $match = MatchModel::findOrFail(post('model_id'));
             $checkedIds = array_unique($checkedIds);
             foreach ($checkedIds as $casterId) {
                 $match->casters()->updateExistingPivot($casterId, ['approved' => 1]);

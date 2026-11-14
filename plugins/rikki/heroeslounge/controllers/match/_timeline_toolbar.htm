@@ -1,5 +1,5 @@
 <!-- Relation Toolbar -->
-<div id="Match-update-RelationController-timeline-toolbar" class="relation-toolbar">
+<div id="Matches-update-RelationController-timeline-toolbar" class="relation-toolbar">
     <div class="toolbar-widget list-header" id="Toolbar-relationTimelineToolbar">
         <div class="control-toolbar">
 
@@ -28,13 +28,13 @@
                         <button
         class="btn btn-sm btn-secondary oc-icon-trash-o"
         onclick="$(this).data('request-data', {
-            checked: $('#Match-update-RelationController-timeline-view .control-list').listWidget('getChecked')
+            checked: $('#Matches-update-RelationController-timeline-view .control-list').listWidget('getChecked')
         })"
         disabled="disabled"
         data-request="onRelationButtonDelete"
         data-request-confirm="Are you sure?"
         data-trigger-action="enable"
-        data-trigger="#Match-update-RelationController-timeline-view .control-list input[type=checkbox]"
+        data-trigger="#Matches-update-RelationController-timeline-view .control-list input[type=checkbox]"
         data-trigger-condition="checked"
         data-stripe-load-indicator>
         Delete    </button>
@@ -43,12 +43,12 @@
                         <button
         class="btn btn-sm btn-secondary oc-icon-minus"
         onclick="$(this).data('request-data', {
-            checked: $('#Match-update-RelationController-timeline-view .control-list').listWidget('getChecked')
+            checked: $('#Matches-update-RelationController-timeline-view .control-list').listWidget('getChecked')
         })"
         disabled="disabled"
         data-request="onRelationButtonRemove"
         data-trigger-action="enable"
-        data-trigger="#Match-update-RelationController-timeline-view .control-list input[type=checkbox]"
+        data-trigger="#Matches-update-RelationController-timeline-view .control-list input[type=checkbox]"
         data-trigger-condition="checked"
         data-stripe-load-indicator>
         Remove from this match   </button>
