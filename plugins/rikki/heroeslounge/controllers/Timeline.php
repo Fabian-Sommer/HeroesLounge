@@ -6,6 +6,8 @@ use Rikki\Heroeslounge\Models\Timeline as TimelineModel;
 
 class Timeline extends Controller
 {
+    use \Rikki\Heroeslounge\Classes\Traits\RestoresRelationQuery;
+
     public $implement = ['Backend\Behaviors\ListController','Backend\Behaviors\FormController','Backend\Behaviors\RelationController'];
     public $requiredPermissions = ['rikki.heroeslounge.timeline'];
     public $formConfig = 'config_form.yaml';

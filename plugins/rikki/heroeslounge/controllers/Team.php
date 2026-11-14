@@ -16,6 +16,8 @@ use Db;
 
 class Team extends Controller
 {
+    use \Rikki\Heroeslounge\Classes\Traits\RestoresRelationQuery;
+
     public $implement = ['Backend\Behaviors\ListController','Backend\Behaviors\FormController','Backend\Behaviors\RelationController'];
     public $requiredPermissions = ['rikki.heroeslounge.team'];
     public $listConfig = 'config_list.yaml';
