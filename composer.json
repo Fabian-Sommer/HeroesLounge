@@ -6,10 +6,11 @@
     "license": "MIT",
     "require": {
         "php": ">=8.1",
-        "winter/storm": "~1.2.14",
-        "winter/wn-system-module": "~1.2.14",
-        "winter/wn-backend-module": "~1.2.14",
-        "winter/wn-cms-module": "~1.2.14",
+        "winter/storm": "1.2.15",
+        "winter/wn-system-module": "~1.2.15",
+        "winter/wn-backend-module": "~1.2.15",
+        "winter/wn-cms-module": "~1.2.15",
+        "cweagans/composer-patches": "^1.7",
         "laravel/framework": "^9.52",
         "wikimedia/composer-merge-plugin": "~2.1.0",
         "winter/wn-user-plugin": "^2.3",
@@ -59,10 +60,17 @@
             "replace": false,
             "merge-replace": false,
             "merge-dev": false
+        },
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "winter/storm": {
+                "Do not double-encode array attribute values (fixes relation pivot forms on 1.2.15)": "patches/winter-storm-attribute-double-encoding.patch"
+            }
         }
     },
     "config": {
         "allow-plugins": {
+            "cweagans/composer-patches": true,
             "composer/installers": true,
             "wikimedia/composer-merge-plugin": true
         },

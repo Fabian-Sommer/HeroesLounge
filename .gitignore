@@ -18,6 +18,7 @@
 !/composer.lock
 !/config/
 !/index.php
+!/patches/
 !/phpcs.xml
 !/phpunit.xml
 !/plugins/
